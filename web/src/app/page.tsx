@@ -22,8 +22,8 @@ export default function Home() {
     <>
       <Header />
       <Hero />
-      <SearchFilter />
       <CategoryBrowser />
+      <SearchFilter />
       <Grid />
       <Telemetry />
       <BankFinancing />
