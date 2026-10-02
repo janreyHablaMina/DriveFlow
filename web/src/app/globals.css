@@ -1,26 +1,42 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { 
+    background-color: #0a0a0e; 
+    color: #f3f4f6; 
+    overflow-x: hidden; 
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .bg-carbon {
+    background-color: #0c0c12;
+    background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 4px);
+  }
+  .skew-12 { transform: skewX(-12deg); }
+  .unskew-12 { transform: skewX(12deg); }
+  
+  .text-racing-red { color: #e10600; }
+  .bg-racing-red { background-color: #e10600; color: #ffffff; }
+  .border-racing-red { border-color: #e10600; }
+  .glow-red { box-shadow: 0 0 25px rgba(225, 6, 0, 0.4); }
+  .glow-red-sm { box-shadow: 0 0 12px rgba(225, 6, 0, 0.25); }
+}
+
+@layer components {
+  .ticker-bar { 
+    display: flex; 
+    width: 200%; 
+    animation: marqueeRun 22s linear infinite; 
+  }
+  .ticker-bar:hover { animation-play-state: paused; }
+}
+
+@keyframes marqueeRun { 
+  0% { transform: translateX(0%); } 
+  100% { transform: translateX(-50%); } 
 }
