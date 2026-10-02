@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aethel Spatial Motors — 2026 Executive Luxury Automotive Showroom</title>
+  
+  <!-- Tailwind CSS & Lucide Icons CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Curated Fonts: Cormorant Garamond (Editorial Elegance) + Plus Jakarta Sans (Clean Modern Spatial UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background-color: #07090e; color: #f8fafc; overflow-x: hidden; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-serif-luxe { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+    /* Infinite Marquee */
+    @keyframes marqueeRun { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .ticker-bar { display: flex; width: 200%; animation: marqueeRun 26s linear infinite; }
+    .ticker-bar:hover { animation-play-state: paused; }
+
+    /* Rose Gold & Champagne Accent Tokens */
+    .text-rosegold { color: #e0b084; }
+    .bg-rosegold { background-color: #e0b084; color: #07090e; }
+    .border-rosegold { border-color: rgba(224, 176, 132, 0.35); }
+    .border-rosegold-subtle { border-color: rgba(224, 176, 132, 0.18); }
+    .glow-rosegold { box-shadow: 0 0 30px rgba(224, 176, 132, 0.3); }
+
+    /* =========================================================================
+       REAL CAR CINEMATIC ENTRANCE ANIMATION KEYFRAMES
+    ========================================================================== */
+    /* 1. Real Laser Headlight Optical Flares Ignite from Pitch Darkness */
+    @keyframes opticalBeamIgnite {
+      0% { opacity: 0; transform: scaleX(0.05) scaleY(0.2); }
+      35% { opacity: 0.95; transform: scaleX(1.3) scaleY(1.1); filter: blur(4px); }
+      100% { opacity: 0.55; transform: scaleX(1.0) scaleY(1.0); filter: blur(10px); }
+    }
+    .optical-headlight-beam {
+      animation: opticalBeamIgnite 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: transform, opacity, filter;
+    }
+
+    /* 2. Real Car Drives Forward Into View with Suspension Air-Settle */
+    @keyframes realCarDriveIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.65) translateY(90px);
+        filter: blur(12px) brightness(0.25);
+      }
+      55% {
+        opacity: 0.95;
+        transform: scale(1.03) translateY(-8px);
+        filter: blur(0px) brightness(1.15);
+      }
+      75% {
+        transform: scale(0.99) translateY(4px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1.0) translateY(0);
+        filter: blur(0px) brightness(1.0);
+      }
+    }
+    .animate-real-car-entrance {
+      animation: realCarDriveIn 2.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: transform, opacity, filter;
+    }
+
+    /* 3. Staggered Studio Ambient Sweep */
+    @keyframes studioLightSweep {
+      0% { opacity: 0; transform: translateX(-100%) skewX(-20deg); }
+      50% { opacity: 0.35; }
+      100% { opacity: 0; transform: translateX(200%) skewX(-20deg); }
+    }
+    .light-sweep-effect {
+      animation: studioLightSweep 2.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    }
+
+    /* 4. Text Content Assembly */
+    @keyframes contentAssembly {
+      0% { opacity: 0; transform: translateY(32px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .hero-text-assembly {
+      animation: contentAssembly 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+      opacity: 0;
+    }
+
+    /* 360 Turntable Frame Transitions */
+    .turntable-frame {
+      transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-[#07090e] text-slate-100 antialiased selection:bg-[#e0b084] selection:text-black">
+
+  <!-- =========================================================================
+       01. HEADER / NAVIGATION (Minimalist Spatial Maison Header)
+  ========================================================================== -->
+  <header class="sticky top-0 z-50 bg-[#07090e]/95 backdrop-blur-md border-b border-rosegold-subtle px-6 lg:px-16 py-3.5 flex items-center justify-between shadow-2xl">
+    <!-- Brand Identity -->
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#e0b084] to-amber-200 flex items-center justify-center text-black font-extrabold text-sm shadow-md shadow-amber-500/20">
+        Æ
+      </div>
+      <div class="flex flex-col">
+        <span class="text-xl font-bold tracking-tight text-white leading-none">AETHEL <span class="text-rosegold font-serif-luxe italic font-normal">MOTORS</span></span>
+        <span class="text-[9px] text-slate-400 uppercase tracking-widest font-semibold mt-0.5">Executive Fleet Gallery Manila</span>
+      </div>
+    </a>
+
+    <!-- Focused Navigation Links -->
+    <nav class="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-slate-300">
+      <button onclick="triggerHeroEntrance()" class="text-rosegold hover:text-white transition flex items-center gap-1.5 font-bold">
+        <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i> Replay Real Car Entrance
+      </button>
+      <a href="#section-360-turntable" class="hover:text-rosegold transition">360° Angle Studio</a>
+      <a href="#section-fleet" class="hover:text-rosegold transition">Executive Fleet</a>
+      <a href="#section-calculator" class="hover:text-rosegold transition">Leasing Terms</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-3">
+      <a href="#section-cta" class="bg-rosegold px-5 py-2 text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-white transition text-black shadow-md">
+        Book Private Tour
+      </a>
+      <button onclick="downloadSelf()" title="Save standalone .html file" class="p-2 rounded-lg border border-rosegold-subtle hover:border-[#e0b084] text-slate-300 hover:text-rosegold transition bg-white/5">
+        <i data-lucide="download" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       02. CINEMATIC HERO (WITH REAL CAR ENTRANCE ANIMATION & OPTICAL FLARES)
+  ========================================================================== -->
+  <section id="hero-entrance-stage" class="min-h-[92vh] relative flex flex-col justify-center px-6 lg:px-16 pt-12 pb-16 border-b border-rosegold-subtle overflow-hidden bg-black">
+    
+    <!-- Optical Laser Headlight Flare Beams (Piercing the Darkness) -->
+    <div id="entrance-light-beams" class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      <!-- Left Optical Beam -->
+      <div class="optical-headlight-beam absolute top-[44%] left-[28%] w-[58vw] h-[260px] bg-gradient-to-r from-amber-200/45 via-[#e0b084]/15 to-transparent transform -rotate-[14deg] origin-left rounded-full"></div>
+      <!-- Right Optical Beam -->
+      <div class="optical-headlight-beam absolute top-[49%] left-[34%] w-[58vw] h-[260px] bg-gradient-to-r from-cyan-300/35 via-blue-300/10 to-transparent transform rotate-[10deg] origin-left rounded-full"></div>
+    </div>
+
+    <!-- Real Car Drive-in Element (Accelerates from background into sharp focus) -->
+    <div class="absolute inset-0 flex items-center justify-center z-0 pointer-events-none overflow-hidden">
+      <!-- Studio Light Sweep Streak -->
+      <div class="light-sweep-effect absolute w-48 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+      <!-- Real Executive SUV (Real Photographed Vehicle) -->
+      <div id="hero-real-car" class="animate-real-car-entrance w-[92vw] max-w-[1450px] h-[78vh] relative flex items-center justify-center">
+        <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=2600&q=95" 
+             alt="Real Executive Luxury SUV Staged" 
+             class="w-full h-full object-contain filter drop-shadow-[0_30px_70px_rgba(0,0,0,0.95)]">
+      </div>
+    </div>
+
+    <!-- Studio Darkroom Lighting Gradients -->
+    <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#07090e] via-transparent to-[#07090e]/75 z-10"></div>
+    <div class="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#07090e]/95 via-[#07090e]/55 to-transparent z-10"></div>
+
+    <!-- Hero Content (Smoothly Assembles Once the Real Car Lands) -->
+    <div class="max-w-3xl relative z-20">
+      <div class="hero-text-assembly inline-flex items-center gap-2 text-xs text-rosegold bg-black/80 border border-[#e0b084]/40 px-3.5 py-1 mb-6 rounded-full backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-[#e0b084] animate-ping"></span>
+        IN-STOCK AT BONIFACIO GLOBAL CITY GALLERY // READY FOR IMMEDIATE DELIVERY
+      </div>
+      
+      <h1 class="hero-text-assembly font-serif-luxe text-5xl sm:text-7xl lg:text-8xl font-light tracking-tight leading-[0.98] mb-6 text-white drop-shadow-2xl">
+        Presence. <br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#e0b084] via-amber-100 to-white italic">Unrivaled Refinement.</span>
+      </h1>
+      
+      <p class="hero-text-assembly text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mb-8 font-light drop-shadow">
+        The benchmark for Philippine executive travel. 3.3-liter Twin-Turbo Diesel, adaptive air suspension gliding over city pavement, reclining rear lounge suite, and guaranteed unencumbered official registration.
+      </p>
+
+      <div class="hero-text-assembly flex flex-wrap gap-4 items-center">
+        <button onclick="triggerHeroEntrance()" class="bg-rosegold px-7 py-3.5 text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-white transition flex items-center gap-2 text-black shadow-lg shadow-amber-500/20">
+          <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Replay Real Car Entrance
+        </button>
+        <a href="#section-360-turntable" class="bg-black/80 border border-white/20 text-white px-7 py-3.5 text-xs font-semibold uppercase tracking-wider rounded-lg hover:border-[#e0b084] transition backdrop-blur flex items-center gap-2">
+          <i data-lucide="orbit" class="w-4 h-4 text-rosegold"></i> Inspect 360° Real Angles
+        </a>
+      </div>
+    </div>
+
+    <!-- Practical Executive Vehicle Telemetry -->
+    <div class="hero-text-assembly relative z-20 mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl bg-black/80 border border-white/10 p-5 backdrop-blur-md rounded-xl">
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] text-slate-400 block uppercase font-bold">EXECUTIVE SEATING</span>
+        <p class="text-2xl lg:text-3xl font-bold text-rosegold">7 Seats <span class="text-xs text-white font-normal font-sans">RECLINING LOUNGE</span></p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] text-slate-400 block uppercase font-bold">HIGHWAY DIESEL RANGE</span>
+        <p class="text-2xl lg:text-3xl font-bold text-white">1,120 <span class="text-xs text-rosegold font-normal font-sans">KM PER TANK</span></p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] text-slate-400 block uppercase font-bold">BOOT CARGO CAPACITY</span>
+        <p class="text-2xl lg:text-3xl font-bold text-rosegold">1,130 <span class="text-xs text-white font-normal font-sans">LITERS LUGGAGE</span></p>
+      </div>
+      <div>
+        <span class="text-[9px] text-slate-400 block uppercase font-bold">CUSTOMS REGISTRATION</span>
+        <p class="text-2xl lg:text-3xl font-bold text-white">100% <span class="text-xs text-rosegold font-normal font-sans">BOC CLEARED</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03. SCROLLING TRUST TICKER
+  ========================================================================== -->
+  <div class="py-3.5 bg-black border-y border-rosegold-subtle overflow-hidden text-xs text-slate-400">
+    <div class="ticker-bar flex gap-12 whitespace-nowrap uppercase tracking-wider font-semibold">
+      <span>AETHEL EXECUTIVE MOTORS BGC</span> <span class="text-rosegold">✦</span>
+      <span>160-POINT CERTIFIED MECHANICAL INSPECTION</span> <span class="text-rosegold">✦</span>
+      <span>FREE 3-YEAR COMPREHENSIVE MAINTENANCE (PMS) INCLUDED</span> <span class="text-rosegold">✦</span>
+      <span>OFFICIAL LTO NCR TRANSFER AND OFFICIAL RECEIPTS (OR/CR)</span> <span class="text-rosegold">✦</span>
+      <span>100% FLOOD-FREE LIFETIME BUYBACK GUARANTEE</span> <span class="text-rosegold">✦</span>
+      <span>AETHEL EXECUTIVE MOTORS BGC</span> <span class="text-rosegold">✦</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       04. REAL CAR 360° ANGLE TURNTABLE (Interactive Multi-Perspective Real Shots)
+  ========================================================================== -->
+  <section id="section-360-turntable" class="px-6 lg:px-16 py-20 border-b border-rosegold-subtle bg-[#0a0d14]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold text-rosegold uppercase tracking-widest block mb-1">INTERACTIVE 360° VEHICLE EXAMINATION</span>
+        <h2 class="font-serif-luxe text-4xl sm:text-5xl font-light text-white">Inspect Real Vehicle Angles</h2>
+        <p class="text-xs text-slate-400 max-w-md mx-auto mt-2 font-light">
+          Real photography from multiple studio angles. Click any perspective below to inspect exterior proportions, luggage clearance, and cabin seating.
+        </p>
+      </div>
+
+      <!-- Real Car Inspection Turntable Container -->
+      <div class="bg-[#10141f] border border-rosegold-subtle rounded-3xl p-6 sm:p-8 shadow-2xl relative">
+        
+        <!-- Viewport Stage -->
+        <div class="h-[360px] sm:h-[480px] rounded-2xl overflow-hidden relative bg-black border border-white/5 flex items-center justify-center">
+          
+          <!-- Real Studio Images for each perspective -->
+          <img id="turntable-img-front" 
+               src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1600&q=95" 
+               alt="Real Car Front Angle" 
+               class="turntable-frame w-full h-full object-cover">
+          
+          <img id="turntable-img-side" 
+               src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=95" 
+               alt="Real Car Side Profile" 
+               class="turntable-frame hidden w-full h-full object-cover">
+          
+          <img id="turntable-img-interior" 
+               src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=95" 
+               alt="Real Car Interior Cabin" 
+               class="turntable-frame hidden w-full h-full object-cover">
+          
+          <img id="turntable-img-rear" 
+               src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=95" 
+               alt="Real Car Rear Cargo" 
+               class="turntable-frame hidden w-full h-full object-cover">
+
+          <!-- View Badge -->
+          <div class="absolute top-4 left-4 bg-black/80 backdrop-blur px-3.5 py-1.5 rounded-lg border border-rosegold-subtle text-xs text-slate-200 flex items-center gap-2">
+            <i data-lucide="camera" class="w-3.5 h-3.5 text-rosegold"></i>
+            <span>ANGLE: <strong id="turntable-angle-label" class="text-rosegold">Front 3/4 Exterior Stance</strong></span>
+          </div>
+
+          <!-- Price Overlay -->
+          <div class="absolute bottom-4 right-4 bg-black/85 backdrop-blur px-4 py-2 rounded-xl border border-white/10 text-right">
+            <span class="text-[9px] text-slate-400 uppercase tracking-widest block font-bold">DRIVEAWAY SRP</span>
+            <span class="text-xl font-extrabold text-white">₱5,850,000</span>
+          </div>
+        </div>
+
+        <!-- Perspective Selector Buttons -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6">
+          <button onclick="setTurntableAngle('front', 'Front 3/4 Exterior Stance')" id="btn-turn-front" class="py-3 px-4 rounded-xl bg-rosegold text-black font-bold text-xs uppercase tracking-wider transition shadow-lg">
+            Front Stance
+          </button>
+          <button onclick="setTurntableAngle('side', 'Side Profile & Ground Clearance')" id="btn-turn-side" class="py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-semibold text-xs uppercase tracking-wider transition border border-white/5">
+            Side Profile
+          </button>
+          <button onclick="setTurntableAngle('interior', 'Executive Reclining Cabin')" id="btn-turn-interior" class="py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-semibold text-xs uppercase tracking-wider transition border border-white/5">
+            Interior Lounge
+          </button>
+          <button onclick="setTurntableAngle('rear', 'Rear Power Tailgate & Luggage')" id="btn-turn-rear" class="py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-semibold text-xs uppercase tracking-wider transition border border-white/5">
+            Rear Tailgate
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       05. SMART VEHICLE SEARCH
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-12 border-b border-rosegold-subtle bg-[#07090e]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-white">Search BGC & Makati Showroom Stock</h2>
+        <span class="text-xs text-slate-400">46 Certified Vehicles Staged Today</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-5 bg-[#0e121c] border border-rosegold-subtle rounded-2xl">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Body Architecture</label>
+          <select id="search-body" class="w-full bg-[#07090e] border border-white/10 text-xs text-white p-2.5 rounded-lg outline-none focus:border-[#e0b084]">
+            <option value="all">All Vehicle Types</option>
+            <option value="suv">7-Seater Executive SUVs</option>
+            <option value="mpv">Luxury Captain-Seat MPVs</option>
+            <option value="sedan">Executive Chauffeur Sedans</option>
+            <option value="crossover">Eco Hybrid Crossovers</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Acquisition Ceiling</label>
+          <select id="search-price" class="w-full bg-[#07090e] border border-white/10 text-xs text-white p-2.5 rounded-lg outline-none focus:border-[#e0b084]">
+            <option value="99999999">No Ceiling Limit</option>
+            <option value="3000000">Under ₱3,000,000</option>
+            <option value="6000000">Under ₱6,000,000</option>
+            <option value="12000000">Under ₱12,000,000</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Fuel & Efficiency</label>
+          <select class="w-full bg-[#07090e] border border-white/10 text-xs text-white p-2.5 rounded-lg outline-none focus:border-[#e0b084]">
+            <option>Clean Turbo Diesel (High Torque)</option>
+            <option>Self-Charging Hybrid (20+ KM/L)</option>
+            <option>Pure Electric Battery (Zero Gas)</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="applySearch()" class="w-full bg-rosegold hover:bg-white text-black font-bold text-xs py-2.5 rounded-lg uppercase tracking-wider transition shadow">
+            Filter Vehicles
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       06. FEATURED EXECUTIVE VEHICLES (Real Real-World Luxury Fleet)
+  ========================================================================== -->
+  <section id="section-fleet" class="px-6 lg:px-16 py-16 border-b border-rosegold-subtle bg-[#0a0d14]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <span class="text-xs font-bold text-rosegold uppercase tracking-widest block mb-1">READY FOR THE ROAD</span>
+          <h2 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white">Curated Executive Vehicles</h2>
+        </div>
+        <span class="text-xs text-slate-400 hidden sm:inline">Guaranteed Clean Titles & Instant LTO Transfer</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Car 1: Luxury 7-Seat SUV -->
+        <div class="bg-[#10141f] border border-rosegold-subtle rounded-3xl overflow-hidden p-5 flex flex-col justify-between hover:border-[#e0b084] transition group shadow-sm">
+          <div>
+            <div class="h-56 rounded-2xl overflow-hidden relative mb-4 bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80" alt="LC300 ZX" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/85 text-[10px] font-bold text-rosegold px-2.5 py-1 rounded-full border border-rosegold-subtle">
+                7-SEAT FLAGSHIP SUV
+              </span>
+            </div>
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold block">EXECUTIVE TRAVEL</span>
+            <h3 class="font-serif-luxe text-2xl font-light text-white mt-1">2026 Land Cruiser 300 ZX</h3>
+            <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">Twin-turbo V6 diesel, rear seat entertainment theater, adaptive variable suspension.</p>
+            <p class="text-xs font-bold text-rosegold mt-3">From ₱89,400 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+            <span class="text-xl font-bold text-white">₱5,850,000</span>
+            <button onclick="requestCarDetail('Land Cruiser 300 ZX', '₱5,850,000')" class="bg-rosegold hover:bg-white text-black font-bold text-xs px-4 py-2 rounded-lg transition uppercase">Inspect</button>
+          </div>
+        </div>
+
+        <!-- Car 2: VIP Captain-Chair MPV -->
+        <div class="bg-[#10141f] border border-rosegold-subtle rounded-3xl overflow-hidden p-5 flex flex-col justify-between hover:border-[#e0b084] transition group shadow-sm">
+          <div>
+            <div class="h-56 rounded-2xl overflow-hidden relative mb-4 bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Toyota Alphard" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/85 text-[10px] font-bold text-rosegold px-2.5 py-1 rounded-full border border-rosegold-subtle">
+                VIP CAPTAIN LOUNGE
+              </span>
+            </div>
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold block">CHAUFFEUR EXCELLENCE</span>
+            <h3 class="font-serif-luxe text-2xl font-light text-white mt-1">2026 Toyota Alphard Hybrid VIP</h3>
+            <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">Dual ottoman recliners, power side shades, 21.2 KM/L city fuel economy, ultra-quiet cabin.</p>
+            <p class="text-xs font-bold text-rosegold mt-3">From ₱78,500 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+            <span class="text-xl font-bold text-white">₱5,150,000</span>
+            <button onclick="requestCarDetail('Toyota Alphard Hybrid VIP', '₱5,150,000')" class="bg-rosegold hover:bg-white text-black font-bold text-xs px-4 py-2 rounded-lg transition uppercase">Inspect</button>
+          </div>
+        </div>
+
+        <!-- Car 3: Executive Hybrid Sedan -->
+        <div class="bg-[#10141f] border border-rosegold-subtle rounded-3xl overflow-hidden p-5 flex flex-col justify-between hover:border-[#e0b084] transition group shadow-sm">
+          <div>
+            <div class="h-56 rounded-2xl overflow-hidden relative mb-4 bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80" alt="Executive Sedan" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/85 text-[10px] font-bold text-rosegold px-2.5 py-1 rounded-full border border-rosegold-subtle">
+                22.4 KM/L HYBRID
+              </span>
+            </div>
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold block">MANAGEMENT SEDAN</span>
+            <h3 class="font-serif-luxe text-2xl font-light text-white mt-1">2026 Camry Hybrid Executive</h3>
+            <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">JBL 14-speaker audio, rear armrest touchscreen controls, acoustic noise cancellation.</p>
+            <p class="text-xs font-bold text-rosegold mt-3">From ₱38,900 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+            <span class="text-xl font-bold text-white">₱2,450,000</span>
+            <button onclick="requestCarDetail('Camry Hybrid Executive', '₱2,450,000')" class="bg-rosegold hover:bg-white text-black font-bold text-xs px-4 py-2 rounded-lg transition uppercase">Inspect</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       07. LIVE AMORTIZATION CALCULATOR
+  ========================================================================== -->
+  <section id="section-calculator" class="px-6 lg:px-16 py-16 border-b border-rosegold-subtle bg-[#07090e]">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold text-rosegold uppercase tracking-widest block mb-1">FINANCIAL CLARITY</span>
+        <h2 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white">Monthly Loan Amortization Calculator</h2>
+      </div>
+
+      <div class="p-8 rounded-3xl bg-[#0e121c] border border-rosegold-subtle grid grid-cols-1 md:grid-cols-2 gap-8 items-center shadow-xl">
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Vehicle Price (PHP):</span>
+              <span id="loan-price-lbl" class="font-bold text-white font-mono">₱5,850,000</span>
+            </div>
+            <input type="range" id="loan-price" min="1500000" max="12000000" step="100000" value="5850000" oninput="runAmortizationCalc()" class="w-full accent-[#e0b084] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Down Payment (20%):</span>
+              <span id="loan-dp-lbl" class="font-bold text-rosegold font-mono">₱1,170,000</span>
+            </div>
+            <input type="range" id="loan-dp" min="15" max="50" step="5" value="20" oninput="runAmortizationCalc()" class="w-full accent-[#e0b084] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Tenure Horizon:</span>
+              <span class="font-bold text-white">48 Months</span>
+            </div>
+            <select id="loan-term" onchange="runAmortizationCalc()" class="w-full bg-[#07090e] border border-white/10 text-xs text-white p-3 rounded-xl outline-none font-semibold">
+              <option value="24">24 Months (2 Years)</option>
+              <option value="36">36 Months (3 Years)</option>
+              <option value="48" selected>48 Months (4 Years)</option>
+              <option value="60">60 Months (5 Years)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-6 bg-black/80 rounded-2xl border border-white/10 text-center">
+          <span class="text-xs text-slate-400 uppercase tracking-widest block font-semibold">Estimated Monthly Installment</span>
+          <p id="loan-monthly-out" class="font-serif-luxe text-4xl lg:text-5xl text-rosegold my-2">₱89,400 <span class="text-xs font-sans text-white font-normal">/ mo</span></p>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4 font-light">Underwritten by Tier-1 commercial Philippine auto finance desks (BPI Family Auto, BDO, Metrobank, Security Bank).</p>
+          <button onclick="requestCarDetail('Financing Pre-Approval Application', '₱5,850,000')" class="w-full bg-rosegold hover:bg-white text-black font-bold text-xs py-3 rounded-xl uppercase tracking-wider transition shadow">
+            Apply for Bank Pre-Approval
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08. TRADE-IN VALUATION ESTIMATOR
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-16 border-b border-rosegold-subtle bg-[#0a0d14]">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs font-bold text-rosegold uppercase tracking-widest block mb-1">DIRECT UPGRADE</span>
+        <h2 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white">Value Your Existing Vehicle</h2>
+        <p class="text-xs text-slate-400 max-w-md mx-auto mt-2 font-light">Apply your current car's equity directly toward your new vehicle down payment.</p>
+      </div>
+
+      <div class="p-8 rounded-3xl bg-[#10141f] border border-rosegold-subtle grid grid-cols-1 md:grid-cols-2 gap-8 items-center shadow-lg">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase mb-1">Current Vehicle Year & Model</label>
+            <input type="text" id="trade-model" placeholder="e.g. 2021 Toyota Fortuner V" class="w-full bg-[#07090e] border border-white/10 text-xs text-white p-3 rounded-xl outline-none focus:border-[#e0b084]">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase mb-1">Odometer Mileage (Kilometers)</label>
+            <select id="trade-mileage" class="w-full bg-[#07090e] border border-white/10 text-xs text-white p-3 rounded-xl outline-none focus:border-[#e0b084]">
+              <option value="1600000">Under 25,000 km (Immaculate)</option>
+              <option value="1350000" selected>25,000 – 50,000 km (Good Condition)</option>
+              <option value="1100000">50,000 – 80,000 km (Normal Wear)</option>
+            </select>
+          </div>
+          <button onclick="estimateTradeIn()" class="w-full bg-rosegold hover:bg-white text-black font-bold text-xs py-3 rounded-xl uppercase tracking-wider transition shadow">
+            Compute Trade-In Value
+          </button>
+        </div>
+
+        <div class="p-6 bg-black/80 rounded-2xl border border-white/10 text-center">
+          <span class="text-xs text-slate-400 uppercase tracking-widest block font-bold">Estimated Trade-In Equity</span>
+          <p id="trade-val-out" class="font-serif-luxe text-4xl text-rosegold my-2">₱1,350,000</p>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4 font-light">Can cover 100% of the required down payment for an executive SUV or VIP MPV.</p>
+          <button onclick="requestCarDetail('Trade-In Appraisal Schedule', '₱1,350,000 Equity')" class="w-full bg-white/10 hover:bg-white hover:text-black text-white text-xs font-bold py-2.5 rounded-xl transition uppercase">
+            Schedule In-Person Inspection
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       09. LOCATION, SHOWROOM LOUNGE & MAP
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-16 border-b border-rosegold-subtle bg-[#07090e]">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div>
+        <span class="text-xs font-bold text-rosegold uppercase tracking-widest block mb-1">VISIT OUR GALLERY</span>
+        <h2 class="font-serif-luxe text-3xl font-light text-white mb-4">Bonifacio Global City Gallery</h2>
+        <div class="space-y-2 text-xs text-slate-300 font-light">
+          <p><strong class="text-white font-medium">Showroom:</strong> 5th Avenue corner 28th Street, BGC, Taguig</p>
+          <p><strong class="text-white font-medium">Gallery Hours:</strong> Monday – Sunday: 08:30 – 19:30</p>
+          <p><strong class="text-white font-medium">Direct Line:</strong> +63 (2) 8800-AETHEL / concierge@aethel.ph</p>
+          <p><strong class="text-rosegold font-medium">Amenities:</strong> Private consultation lounges, Nespresso bar, free valet parking</p>
+        </div>
+      </div>
+
+      <div class="h-64 rounded-2xl border border-white/10 bg-[#10141f] flex items-center justify-center p-6 text-center shadow-lg">
+        <div>
+          <span class="w-3 h-3 rounded-full bg-rosegold inline-block animate-ping mb-2"></span>
+          <p class="font-bold text-base text-white">AIR-CONDITIONED SHOWROOM OPEN</p>
+          <p class="text-xs text-slate-400 mt-1">Valet Parking Entrance at 5th Avenue</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. FINAL CALL-TO-ACTION & MASTER FOOTER
+  ========================================================================== -->
+  <section id="section-cta" class="px-6 lg:px-16 py-20 bg-black text-center">
+    <div class="max-w-2xl mx-auto">
+      <span class="bg-white/10 text-rosegold text-[10px] font-bold uppercase px-3 py-1 rounded-full inline-block mb-4 border border-rosegold-subtle">
+        SCHEDULE HOME OR SHOWROOM VIEWING
+      </span>
+      <h2 class="font-serif-luxe text-4xl sm:text-5xl font-light text-white mb-4">Begin Your Executive Ownership</h2>
+      <p class="text-xs sm:text-sm text-slate-400 mb-8 max-w-md mx-auto font-light">
+        Submit your details below to coordinate a personal showroom tour or request driveway delivery to your home.
+      </p>
+      <form onsubmit="handleLead(event)" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+        <input type="text" placeholder="Your Name" required class="flex-1 bg-[#10141f] border border-white/10 p-3 rounded-xl text-xs text-white outline-none focus:border-[#e0b084]">
+        <input type="tel" placeholder="+63 Mobile Number" required class="flex-1 bg-[#10141f] border border-white/10 p-3 rounded-xl text-xs text-white outline-none focus:border-[#e0b084]">
+        <button type="submit" class="bg-rosegold text-black font-bold text-xs px-6 py-3 rounded-xl uppercase tracking-wider hover:bg-white transition whitespace-nowrap shadow-lg">
+          Schedule Tour
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="px-6 lg:px-16 py-12 bg-[#04060a] border-t border-white/10 text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <span class="text-base font-bold text-white block mb-2">AETHEL MOTORS BGC</span>
+        <p class="text-[11px] leading-relaxed text-slate-400 font-light">Premier executive automotive dealership serving Metro Manila families and corporations.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Showroom Models</h4>
+        <ul class="space-y-1 text-[11px] text-slate-400 font-light">
+          <li><a href="#section-fleet" class="hover:text-white">Land Cruiser 300 Series</a></li>
+          <li><a href="#section-fleet" class="hover:text-white">Toyota Alphard VIP MPV</a></li>
+          <li><a href="#section-fleet" class="hover:text-white">Camry Hybrid Executive</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Dealership Care</h4>
+        <ul class="space-y-1 text-[11px] text-slate-400 font-light">
+          <li><span>Inspection:</span> 160-Point Certified</li>
+          <li><span>Maintenance:</span> 3-Year Zero-Expense</li>
+          <li><span>Trade-In:</span> Guaranteed Cash Equity</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Showroom Desk</h4>
+        <p class="text-[11px] text-slate-300 font-light">5th Avenue & 28th Street, BGC, Taguig</p>
+        <p class="text-[11px] text-rosegold mt-1 font-bold">+63 (2) 8800-AETHEL</p>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto pt-6 border-t border-white/5 text-center text-[10px] text-slate-600">
+      © 2026 Aethel Executive Motors Philippines. All rights reserved. Real Car Dealership Template.
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       INTERACTION SCRIPTS
+  ========================================================================== -->
+  <script>
+    lucide.createIcons();
+
+    /* =========================================================================
+       1. REAL CAR ENTRANCE ANIMATION REPLAY CONTROLLER
+    ========================================================================== */
+    function triggerHeroEntrance() {
+      const car = document.getElementById('hero-real-car');
+      const beams = document.getElementById('entrance-light-beams');
+      const textElements = document.querySelectorAll('.hero-text-assembly');
+
+      // Scroll smoothly to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Reset CSS Animations
+      car.classList.remove('animate-real-car-entrance');
+      beams.innerHTML = '';
+      textElements.forEach(el => el.style.animation = 'none');
+
+      // Force Reflow
+      void car.offsetWidth;
+
+      // Re-trigger Light Beams
+      beams.innerHTML = `
+        <div class="optical-headlight-beam absolute top-[44%] left-[28%] w-[58vw] h-[260px] bg-gradient-to-r from-amber-200/45 via-[#e0b084]/15 to-transparent transform -rotate-[14deg] origin-left rounded-full"></div>
+        <div class="optical-headlight-beam absolute top-[49%] left-[34%] w-[58vw] h-[260px] bg-gradient-to-r from-cyan-300/35 via-blue-300/10 to-transparent transform rotate-[10deg] origin-left rounded-full"></div>
+      `;
+
+      // Re-trigger Real Car Glide In
+      car.classList.add('animate-real-car-entrance');
+
+      // Re-trigger Staggered Text Assembly
+      textElements.forEach(el => {
+        el.style.animation = 'contentAssembly 1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards';
+      });
+    }
+
+    /* =========================================================================
+       2. 360° REAL CAR TURNTABLE ANGLE CONTROLLER
+    ========================================================================== */
+    function setTurntableAngle(angleKey, label) {
+      document.getElementById('turntable-angle-label').innerText = label;
+
+      // Hide all frames
+      ['front', 'side', 'interior', 'rear'].forEach(k => {
+        document.getElementById(`turntable-img-${k}`).classList.add('hidden');
+        document.getElementById(`btn-turn-${k}`).className = 'py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-semibold text-xs uppercase tracking-wider transition border border-white/5';
+      });
+
+      // Show selected frame
+      document.getElementById(`turntable-img-${angleKey}`).classList.remove('hidden');
+      document.getElementById(`btn-turn-${angleKey}`).className = 'py-3 px-4 rounded-xl bg-rosegold text-black font-bold text-xs uppercase tracking-wider transition shadow-lg';
+    }
+
+    /* =========================================================================
+       3. AMORTIZATION & TRADE-IN ENGINES
+    ========================================================================== */
+    function runAmortizationCalc() {
+      const price = parseFloat(document.getElementById('loan-price').value);
+      const dpPct = parseFloat(document.getElementById('loan-dp').value);
+      const tenure = parseFloat(document.getElementById('loan-term').value);
+
+      const dpValue = price * (dpPct / 100);
+      const principal = price - dpValue;
+      // 4.1% preferred bank rate
+      const totalInterest = principal * 0.041 * (tenure / 12);
+      const monthly = (principal + totalInterest) / tenure;
+
+      document.getElementById('loan-price-lbl').innerText = '₱' + price.toLocaleString();
+      document.getElementById('loan-dp-lbl').innerText = `₱${dpValue.toLocaleString()} (${dpPct}%)`;
+      document.getElementById('loan-monthly-out').innerHTML = `₱${Math.round(monthly).toLocaleString()} <span class="text-xs font-sans text-white font-normal">/ mo</span>`;
+    }
+
+    function estimateTradeIn() {
+      const val = parseFloat(document.getElementById('trade-mileage').value);
+      document.getElementById('trade-val-out').innerText = '₱' + val.toLocaleString();
+      alert(`[Trade-In Valuation Calculated]\nEstimated Equity: ₱${val.toLocaleString()}\nThis value can be credited directly against your vehicle downpayment.`);
+    }
+
+    function requestCarDetail(model, price) {
+      alert(`[Aethel Motors Concierge]\n\nViewing Request for: ${model}\nPrice: ${price}\n\nA client advisor will contact you to coordinate arrival at the BGC Gallery or home driveway.`);
+    }
+
+    function applySearch() {
+      const body = document.getElementById('search-body').value;
+      const price = document.getElementById('search-price').value;
+      alert(`[Inventory Filter Applied]\nPlatform: ${body}\nPrice Limit: ₱${parseInt(price).toLocaleString()}\n\nDisplaying matching showroom allocations.`);
+    }
+
+    function handleLead(e) {
+      e.preventDefault();
+      alert("[Tour Confirmed]\nThank you! A client coordinator will telephone your number shortly.");
+    }
+
+    function downloadSelf() {
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "aethel-spatial-motors.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>

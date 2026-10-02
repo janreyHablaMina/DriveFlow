@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 Porsche 911 GT3 RS — Aerodynamic Scrollytelling Showcase</title>
+  
+  <!-- Tailwind CSS & Lucide Icons CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonts: Space Grotesk (Telemetry / Race HUD) + Inter (Technical UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background-color: #060709; color: #f1f5f9; overflow-x: hidden; font-family: 'Space Grotesk', monospace; }
+    .font-body { font-family: 'Inter', sans-serif; }
+
+    /* Infinite Marquee */
+    @keyframes marqueeRun { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .ticker-bar { display: flex; width: 200%; animation: marqueeRun 24s linear infinite; }
+    .ticker-bar:hover { animation-play-state: paused; }
+
+    /* Neon Accent Tokens */
+    .text-lime-neon { color: #ccff00; }
+    .bg-lime-neon { background-color: #ccff00; color: #060709; }
+    .border-lime-neon { border-color: rgba(204, 255, 0, 0.4); }
+    .glow-lime { box-shadow: 0 0 25px rgba(204, 255, 0, 0.3); }
+
+    /* Camera Angle Layers */
+    .camera-angle-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .camera-angle-layer.active-angle {
+      opacity: 1;
+      transform: scale(1.0);
+    }
+
+    /* Narrative Card Overlays */
+    .story-act-card {
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+      pointer-events: none;
+    }
+    .story-act-card.active-act {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .story-act-card.inactive-act {
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-[#060709] text-slate-100 antialiased selection:bg-[#ccff00] selection:text-black">
+
+  <!-- =========================================================================
+       01. HEADER / NAVIGATION (Clean, Minimal, Focused)
+  ========================================================================== -->
+  <header class="sticky top-0 z-50 bg-[#080a0e]/95 backdrop-blur-md border-b border-[#1c2230] px-6 lg:px-14 py-3.5 flex items-center justify-between shadow-2xl">
+    <!-- Brand Identity -->
+    <a href="#" class="flex items-center gap-2.5 text-lg font-bold tracking-tight text-white font-mono">
+      <span class="w-3 h-3 bg-[#ccff00] transform rotate-45 inline-block shadow-[0_0_10px_#ccff00]"></span>
+      APEX<span class="text-lime-neon">.</span>PADDOCK
+    </a>
+
+    <!-- Essential Links Only -->
+    <nav class="hidden md:flex items-center gap-8 text-xs font-mono uppercase tracking-widest text-slate-400">
+      <a href="#section-story-scroll" class="text-[#ccff00] font-bold flex items-center gap-1.5 hover:text-white transition"><i data-lucide="scan" class="w-3.5 h-3.5"></i> 3D Telemetry</a>
+      <a href="#section-featured" class="hover:text-[#ccff00] transition">Inventory</a>
+      <a href="#section-calculator" class="hover:text-[#ccff00] transition">Financing</a>
+    </nav>
+
+    <!-- Clean Actions -->
+    <div class="flex items-center gap-3 font-mono">
+      <a href="#section-cta" class="bg-lime-neon px-4 py-2 text-xs font-bold uppercase tracking-wider rounded hover:bg-white transition glow-lime">
+        Book Shakedown
+      </a>
+      <button onclick="downloadSelf()" title="Save standalone .html file" class="p-2 rounded bg-white/5 border border-white/10 hover:border-[#ccff00] text-slate-300 hover:text-[#ccff00] transition">
+        <i data-lucide="download" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       02. CINEMATIC HERO (With Real Full-Bleed Car Banner Image)
+  ========================================================================== -->
+  <section class="min-h-[92vh] relative flex flex-col justify-center px-6 lg:px-16 pt-12 pb-16 border-b border-[#1c2230] overflow-hidden">
+    <!-- Real Car Banner Image with Vignettes -->
+    <div class="absolute inset-0 w-full h-full z-0 overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=2600&q=95" 
+           alt="2026 Porsche 911 GT3 RS Weissach Package Banner" 
+           class="w-full h-full object-cover object-center filter brightness-[0.78] contrast-[1.08]">
+      
+      <!-- Directional Gradients for Text Legibility -->
+      <div class="absolute inset-0 bg-gradient-to-r from-[#060709] via-[#060709]/80 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#060709] via-transparent to-[#060709]/70"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="max-w-3xl relative z-10">
+      <div class="inline-flex items-center gap-2 text-xs text-[#ccff00] bg-black/85 border border-[#ccff00]/40 px-3.5 py-1 mb-6 rounded backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-[#ccff00] animate-ping"></span>
+        FEATURED REAL SPECIMEN: 2026 PORSCHE 911 GT3 RS (WEISSACH PACKAGE)
+      </div>
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-none mb-6 text-white drop-shadow-lg">
+        AERODYNAMICS. <br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#ccff00] via-white to-slate-400">UNRESTRICTED.</span>
+      </h1>
+      <p class="font-body text-slate-200 text-sm sm:text-base leading-relaxed max-w-xl mb-8 font-light drop-shadow">
+        Naturally aspirated 4.0-liter flat-six revving to 9,000 RPM, producing 525 horsepower, coupled with an active Drag Reduction System (DRS). Scroll down to trigger multi-camera angle cuts and real-time wind tunnel streamlines.
+      </p>
+      <div class="flex flex-wrap gap-4 items-center font-mono">
+        <a href="#section-story-scroll" class="bg-lime-neon px-7 py-3.5 text-xs font-bold uppercase tracking-wider rounded hover:bg-white transition flex items-center gap-2 glow-lime">
+          Begin 3D Scrollytelling <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce"></i>
+        </a>
+        <a href="#section-calculator" class="bg-black/75 border border-white/30 text-white px-7 py-3.5 text-xs font-semibold uppercase tracking-wider rounded hover:border-[#ccff00] transition backdrop-blur-md">
+          Calculate Amortization
+        </a>
+      </div>
+    </div>
+
+    <!-- Telemetry Baseline Indicators -->
+    <div class="relative z-10 mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl bg-black/85 border border-[#1c2230] p-5 backdrop-blur-md rounded">
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] text-slate-400 block uppercase">PEAK POWER</span>
+        <p class="text-2xl lg:text-3xl font-bold text-[#ccff00]">525 <span class="text-xs text-white">HP @ 9,000 RPM</span></p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] text-slate-400 block uppercase">TOTAL DOWNFORCE</span>
+        <p class="text-2xl lg:text-3xl font-bold text-white">860 <span class="text-xs text-[#ccff00]">KG @ 285 KPH</span></p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] text-slate-400 block uppercase">0-100 KPH ACCELERATION</span>
+        <p class="text-2xl lg:text-3xl font-bold text-[#ccff00]">3.2 <span class="text-xs text-white">SECONDS</span></p>
+      </div>
+      <div>
+        <span class="text-[9px] text-slate-400 block uppercase">NCR TITLE CLEARANCE</span>
+        <p class="text-2xl lg:text-3xl font-bold text-white">100% <span class="text-xs text-[#ccff00]">DUTIES PAID</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03. MULTI-CAMERA ANGLE SCROLLYTELLING + LIVE WIND TUNNEL
+  ========================================================================== -->
+  <section id="section-story-scroll" class="relative" style="height: 480vh;">
+    <div class="sticky top-0 h-screen w-full overflow-hidden bg-black flex items-center justify-center">
+      
+      <!-- Multi-Camera Angle Photographic Layers -->
+      <div class="absolute inset-0 w-full h-full overflow-hidden">
+        <img id="angle-1" 
+             src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=2400&q=90" 
+             alt="Porsche 911 GT3 RS Full Stance" 
+             class="camera-angle-layer active-angle">
+        
+        <img id="angle-2" 
+             src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2400&q=90" 
+             alt="Front Aero Nostrils Detail" 
+             class="camera-angle-layer">
+        
+        <img id="angle-3" 
+             src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=2400&q=90" 
+             alt="Wheel and Carbon Ceramic Brake Detail" 
+             class="camera-angle-layer">
+
+        <img id="angle-4" 
+             src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=2400&q=90" 
+             alt="Interior Carbon Bucket Seats" 
+             class="camera-angle-layer">
+
+        <img id="angle-5" 
+             src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=2400&q=90" 
+             alt="Rear Swan-Neck DRS Wing" 
+             class="camera-angle-layer">
+      </div>
+
+      <!-- Live Aerodynamic Wind Tunnel Canvas Overlay -->
+      <canvas id="wind-tunnel-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
+
+      <!-- Vignettes -->
+      <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black via-transparent to-black/60 z-10"></div>
+      <div class="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/85 via-transparent to-black/80 z-10"></div>
+
+      <!-- Live Telemetry HUD -->
+      <div class="absolute top-20 left-6 lg:left-14 z-20 pointer-events-none font-mono">
+        <div class="flex flex-wrap items-center gap-2 bg-black/80 border border-[#1c2230] p-2.5 rounded text-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#ccff00] animate-ping"></span>
+          <span class="text-slate-400">LIVE TELEMETRY:</span>
+          <span id="hud-live-rpm" class="text-[#ccff00] font-bold">2,400 RPM</span>
+          <span class="text-slate-600">|</span>
+          <span class="text-slate-400">DOWNFORCE:</span>
+          <span id="hud-live-downforce" class="text-white font-bold">140 KG</span>
+          <span class="text-slate-600">|</span>
+          <span class="text-slate-400">DRS:</span>
+          <span id="hud-live-drs" class="text-slate-400 font-bold">CLOSED</span>
+        </div>
+      </div>
+
+      <!-- Progress Track -->
+      <div class="absolute right-6 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center gap-3 pointer-events-none font-mono text-[10px]">
+        <span class="text-slate-500 uppercase tracking-widest rotate-90 origin-center mb-6">TELEMETRY</span>
+        <div class="w-1.5 h-40 bg-slate-800 rounded-full overflow-hidden relative border border-white/10">
+          <div id="scroll-hud-fill" class="w-full bg-[#ccff00] transition-all duration-150" style="height: 0%;"></div>
+        </div>
+        <span id="scroll-act-label" class="text-[#ccff00] font-bold">ACT I</span>
+      </div>
+
+      <!-- Dynamic Act Narrative Cards -->
+      <div id="card-act-1" class="story-act-card active-act absolute bottom-12 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-[#1c2230] p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-[#ccff00] uppercase tracking-widest block mb-1">ACT I // HOMOLOGATION IDENTITY</span>
+        <h3 class="text-2xl font-black text-white mb-2">2026 Porsche 911 GT3 RS</h3>
+        <p class="font-body text-xs text-slate-300 leading-relaxed font-light mb-4">
+          A motorsport weapon homologated for road use. Rather than relying on luggage space, the entire front nose houses a massive central radiator derived directly from the Le Mans-winning 911 RSR.
+        </p>
+        <div class="flex items-center gap-2 text-[11px] font-mono text-[#ccff00]">
+          <i data-lucide="mouse" class="w-4 h-4 animate-bounce"></i> Scroll down to accelerate airflow & change camera perspectives...
+        </div>
+      </div>
+
+      <div id="card-act-2" class="story-act-card inactive-act absolute top-28 right-6 lg:right-16 z-30 max-w-md bg-black/85 border border-lime-neon p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-[#ccff00] uppercase tracking-widest block mb-1">ACT II // FRONT AERO EXTRACTION</span>
+        <h3 class="text-2xl font-black text-white mb-2">Carbon Hood Extraction Nostrils</h3>
+        <p class="font-body text-xs text-slate-300 leading-relaxed font-light mb-3">
+          Camera cuts to the functional carbon-fiber extraction ducts. Air passing through the front radiator is discharged over the roof, while roof fins direct hot air outward to feed cool air into the rear engine intakes.
+        </p>
+        <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-black/60 p-2.5 rounded border border-white/10">
+          <div><span class="text-slate-500 text-[10px] block">AIRFLOW DISCHARGE:</span><p class="text-[#ccff00] font-bold">Roofline Diverters</p></div>
+          <div><span class="text-slate-500 text-[10px] block">FRONT DOWNFORCE:</span><p class="text-white font-bold">406 KG @ 285 KPH</p></div>
+        </div>
+      </div>
+
+      <div id="card-act-3" class="story-act-card inactive-act absolute bottom-14 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-lime-neon p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-[#ccff00] uppercase tracking-widest block mb-1">ACT III // ROTATIONAL INERTIA & BRAKES</span>
+        <h3 class="text-2xl font-black text-white mb-2">Forged Magnesium Wheels & PCCB</h3>
+        <p class="font-body text-xs text-slate-300 leading-relaxed font-light mb-3">
+          Camera pivots to the front-left wheel arch. Center-lock forged magnesium wheels reduce unsprung mass by 8 kg. Clamped by 410mm Porsche Ceramic Composite Brakes (PCCB) resistant to high-temperature track fade.
+        </p>
+        <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-black/60 p-2.5 rounded border border-white/10">
+          <div><span class="text-slate-500 text-[10px] block">BRAKE CALIPERS:</span><p class="text-[#ccff00] font-bold">6-Piston Monobloc</p></div>
+          <div><span class="text-slate-500 text-[10px] block">TIRE COMPOUND:</span><p class="text-white font-bold">Pilot Sport Cup 2 R</p></div>
+        </div>
+      </div>
+
+      <div id="card-act-4" class="story-act-card inactive-act absolute top-28 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-lime-neon p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-[#ccff00] uppercase tracking-widest block mb-1">ACT IV // COCKPIT ERGONOMICS</span>
+        <h3 class="text-2xl font-black text-white mb-2">Weissach Carbon Buckets & 4 Dials</h3>
+        <p class="font-body text-xs text-slate-300 leading-relaxed font-light mb-3">
+          Camera dives directly into the driver cockpit. Four individual rotary dials on the carbon steering wheel let the driver dial in Differential Lock, PTV+, and Damper Rebound/Compression in real time on corner entry.
+        </p>
+        <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-black/60 p-2.5 rounded border border-white/10">
+          <div><span class="text-slate-500 text-[10px] block">STEERING DIALS:</span><p class="text-[#ccff00] font-bold">4x Rotary Mode Select</p></div>
+          <div><span class="text-slate-500 text-[10px] block">ROLL CAGE:</span><p class="text-white font-bold">Carbon-Fiber Reinforced</p></div>
+        </div>
+      </div>
+
+      <div id="card-act-5" class="story-act-card inactive-act absolute bottom-14 right-6 lg:right-16 z-30 max-w-md bg-black/85 border border-lime-neon p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-[#ccff00] uppercase tracking-widest block mb-1">ACT V // ACTIVE HYDRAULIC DRS</span>
+        <h3 class="text-2xl font-black text-white mb-2">Active Drag Reduction Wing</h3>
+        <p class="font-body text-xs text-slate-300 leading-relaxed font-light mb-4">
+          Camera pulls back to the swan-neck rear wing towering above the roof. The active hydraulic upper element flattens out during straightaways to release drag, generating an astounding 860 kg of total downforce in braking zones.
+        </p>
+        <button onclick="inspectSupercar('2026 Porsche 911 GT3 RS Weissach', '₱18,500,000')" class="w-full bg-lime-neon text-black font-bold text-xs py-3 rounded uppercase tracking-wider transition hover:bg-white glow-lime">
+          Claim Allocation File (₱18,500,000)
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       04. SCROLLING TRUST TICKER
+  ========================================================================== -->
+  <div class="py-3.5 bg-black border-y border-[#1c2230] overflow-hidden font-mono text-xs text-slate-400">
+    <div class="ticker-bar flex gap-12 whitespace-nowrap">
+      <span>APEX PERFORMANCE MOTORWERKS NCR</span> <span class="text-[#ccff00]">///</span>
+      <span>100% DYNO BENCH CERTIFIED CRANK HORSEPOWER</span> <span class="text-[#ccff00]">///</span>
+      <span>OFFICIAL UNENCUMBERED BUREAU OF CUSTOMS REGISTRATION</span> <span class="text-[#ccff00]">///</span>
+      <span>CLARK INTERNATIONAL SPEEDWAY TRACK SHAKEDOWN</span> <span class="text-[#ccff00]">///</span>
+      <span>APEX PERFORMANCE MOTORWERKS NCR</span> <span class="text-[#ccff00]">///</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       05. SMART VEHICLE SEARCH
+  ========================================================================== -->
+  <section id="section-search" class="px-6 lg:px-14 py-12 border-b border-[#1c2230] bg-[#080a0e] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2.5">
+          <span class="w-3 h-3 bg-[#ccff00] rounded-sm"></span>
+          <h2 class="text-xl font-bold text-white uppercase">Certified Supercar Paddock Search</h2>
+        </div>
+        <span class="text-xs text-slate-500">34 Active Track & Supercar Allocations</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-5 bg-black/80 border border-[#1c2230] rounded">
+        <div>
+          <label class="block text-[10px] text-slate-400 uppercase mb-1">Supercar Platform</label>
+          <select id="paddock-platform" class="w-full bg-[#121620] border border-[#232a3b] text-xs text-white p-2.5 rounded outline-none focus:border-[#ccff00]">
+            <option value="all">All Supercar Platforms</option>
+            <option value="porsche">Porsche GT Series (GT3 RS / GT4 RS)</option>
+            <option value="bmw">BMW M Performance (M4 CSL / M3 CS)</option>
+            <option value="audi">Audi Sport Quattro (RS6 Avant Performance)</option>
+            <option value="ferrari">Ferrari Mid-Engine (296 GTB Assetto)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] text-slate-400 uppercase mb-1">Acquisition Ceiling (PHP)</label>
+          <select id="paddock-price" class="w-full bg-[#121620] border border-[#232a3b] text-xs text-white p-2.5 rounded outline-none focus:border-[#ccff00]">
+            <option value="99999999">No Ceiling Limit</option>
+            <option value="10000000">Under ₱10,000,000</option>
+            <option value="15000000">Under ₱15,000,000</option>
+            <option value="25000000">Under ₱25,000,000</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] text-slate-400 uppercase mb-1">Engine Configuration</label>
+          <select class="w-full bg-[#121620] border border-[#232a3b] text-xs text-white p-2.5 rounded outline-none focus:border-[#ccff00]">
+            <option>All Engine Formats</option>
+            <option>Naturally Aspirated Flat-6 (9,000 RPM)</option>
+            <option>Twin-Turbo V8 Bi-Turbo</option>
+            <option>Twin-Turbo Inline-6 Competition</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="executePaddockFilter()" class="w-full bg-lime-neon hover:bg-white text-black font-bold text-xs py-2.5 rounded uppercase tracking-wider transition flex items-center justify-center gap-1.5">
+            <i data-lucide="filter" class="w-4 h-4"></i> Lock Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       06. VEHICLE CATEGORY BROWSER
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#060709] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="mb-8">
+        <span class="text-xs text-[#ccff00] uppercase tracking-widest">// DISCIPLINES</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">Curated Performance Categories</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div onclick="selectCategory('Track Homologations')" class="p-5 rounded border border-[#1c2230] bg-[#0c0f16] hover:border-[#ccff00] transition cursor-pointer group">
+          <span class="text-[10px] text-slate-500">DIVISION 01</span>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#ccff00] mt-1 transition">Track Homologations</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">Lightweight carbon construction with factory titanium roll cages and active wings.</p>
+          <span class="text-xs font-bold text-[#ccff00] mt-4 block">12 Allocations Staged →</span>
+        </div>
+
+        <div onclick="selectCategory('Super Wagons & Sedans')" class="p-5 rounded border border-[#1c2230] bg-[#0c0f16] hover:border-[#ccff00] transition cursor-pointer group">
+          <span class="text-[10px] text-slate-500">DIVISION 02</span>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#ccff00] mt-1 transition">Super Wagons & Sedans</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">600+ HP practical missiles with quattro and xDrive AWD cornering grip.</p>
+          <span class="text-xs font-bold text-[#ccff00] mt-4 block">8 Allocations Staged →</span>
+        </div>
+
+        <div onclick="selectCategory('Competition SUVs')" class="p-5 rounded border border-[#1c2230] bg-[#0c0f16] hover:border-[#ccff00] transition cursor-pointer group">
+          <span class="text-[10px] text-slate-500">DIVISION 03</span>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#ccff00] mt-1 transition">Competition SUVs</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">Twin-turbo launch control with sub-3.5s acceleration and 7-passenger utility.</p>
+          <span class="text-xs font-bold text-[#ccff00] mt-4 block">9 Allocations Staged →</span>
+        </div>
+
+        <div onclick="selectCategory('Italian Exotics')" class="p-5 rounded border border-[#1c2230] bg-[#0c0f16] hover:border-[#ccff00] transition cursor-pointer group">
+          <span class="text-[10px] text-slate-500">DIVISION 04</span>
+          <h3 class="text-lg font-bold text-white group-hover:text-[#ccff00] mt-1 transition">Italian Exotics</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">Mid-engine hybrid hypercars delivering 800+ combined brake horsepower.</p>
+          <span class="text-xs font-bold text-[#ccff00] mt-4 block">5 Allocations Staged →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       07. FEATURED SUPERCARS
+  ========================================================================== -->
+  <section id="section-featured" class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#080a0e] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <span class="text-xs text-[#ccff00] uppercase tracking-widest">// SHOWROOM GRID</span>
+          <h2 class="text-3xl sm:text-4xl font-black uppercase text-white mt-1">Real Supercar Inventory</h2>
+        </div>
+        <span class="text-xs text-slate-500 hidden sm:inline">Certified Port Manila Staged</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[#0c0f16] border border-[#1c2230] rounded p-5 flex flex-col justify-between hover:border-[#ccff00] transition group">
+          <div>
+            <div class="h-56 rounded bg-slate-900 overflow-hidden mb-4 relative">
+              <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80" alt="Porsche 911 GT3 RS" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/80 text-[10px] text-[#ccff00] font-bold px-2 py-0.5 border border-[#ccff00]/40">
+                WEISSACH PACKAGE
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/90 text-xs text-white px-2.5 py-1">
+                ₱18,500,000 SRP
+              </span>
+            </div>
+            <h3 class="text-xl font-bold text-white group-hover:text-[#ccff00] transition">2026 Porsche 911 GT3 RS</h3>
+            <p class="font-body text-xs text-slate-300 mt-1 leading-relaxed">4.0L Naturally Aspirated Flat-Six, 525 HP, active DRS wing, magnesium center-locks.</p>
+            <p class="text-xs text-[#ccff00] mt-3 font-bold">From ₱294,000 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#1f2433] flex justify-between items-center">
+            <span class="text-lg font-bold text-[#ccff00]">₱18,500,000</span>
+            <button onclick="inspectSupercar('2026 Porsche 911 GT3 RS', '₱18,500,000')" class="bg-lime-neon text-black px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-white transition">Telemetry</button>
+          </div>
+        </div>
+
+        <div class="bg-[#0c0f16] border border-[#1c2230] rounded p-5 flex flex-col justify-between hover:border-[#ccff00] transition group">
+          <div>
+            <div class="h-56 rounded bg-slate-900 overflow-hidden mb-4 relative">
+              <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=800&q=80" alt="BMW M4 CSL" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/80 text-[10px] text-[#ccff00] font-bold px-2 py-0.5 border border-[#ccff00]/40">
+                1 OF 1,000 WORLDWIDE
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/90 text-xs text-white px-2.5 py-1">
+                ₱9,800,000 SRP
+              </span>
+            </div>
+            <h3 class="text-xl font-bold text-white group-hover:text-[#ccff00] transition">2026 BMW M4 CSL Competition</h3>
+            <p class="font-body text-xs text-slate-300 mt-1 leading-relaxed">3.0L Twin-Turbo Inline-6, 550 HP, carbon bucket seats, titanium exhaust.</p>
+            <p class="text-xs text-[#ccff00] mt-3 font-bold">From ₱156,000 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#1f2433] flex justify-between items-center">
+            <span class="text-lg font-bold text-[#ccff00]">₱9,800,000</span>
+            <button onclick="inspectSupercar('2026 BMW M4 CSL Competition', '₱9,800,000')" class="bg-lime-neon text-black px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-white transition">Telemetry</button>
+          </div>
+        </div>
+
+        <div class="bg-[#0c0f16] border border-[#1c2230] rounded p-5 flex flex-col justify-between hover:border-[#ccff00] transition group">
+          <div>
+            <div class="h-56 rounded bg-slate-900 overflow-hidden mb-4 relative">
+              <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80" alt="Audi RS6 Avant" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/80 text-[10px] text-[#ccff00] font-bold px-2 py-0.5 border border-[#ccff00]/40">
+                4.0L TWIN-TURBO V8
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/90 text-xs text-white px-2.5 py-1">
+                ₱11,400,000 SRP
+              </span>
+            </div>
+            <h3 class="text-xl font-bold text-white group-hover:text-[#ccff00] transition">2026 Audi RS6 Avant Performance</h3>
+            <p class="font-body text-xs text-slate-300 mt-1 leading-relaxed">630 HP, 850 Nm of torque, quattro all-wheel drive, carbon ceramic brakes.</p>
+            <p class="text-xs text-[#ccff00] mt-3 font-bold">From ₱181,000 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#1f2433] flex justify-between items-center">
+            <span class="text-lg font-bold text-[#ccff00]">₱11,400,000</span>
+            <button onclick="inspectSupercar('2026 Audi RS6 Avant Performance', '₱11,400,000')" class="bg-lime-neon text-black px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-white transition">Telemetry</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08. LIVE AMORTIZATION CALCULATOR
+  ========================================================================== -->
+  <section id="section-calculator" class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#060709] font-mono">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs text-[#ccff00] uppercase tracking-widest">// LIVE FINANCING ENGINE</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">Supercar Amortization Calculator</h2>
+      </div>
+
+      <div class="p-8 rounded bg-[#0c0f16] border border-[#1c2230] grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Supercar Price:</span>
+              <span id="calc-price-lbl" class="font-bold text-white">₱18,500,000</span>
+            </div>
+            <input type="range" id="calc-price" min="5000000" max="35000000" step="500000" value="18500000" oninput="runAmortizationEngine()" class="w-full accent-[#ccff00] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Down Payment (20%):</span>
+              <span id="calc-dp-lbl" class="font-bold text-[#ccff00]">₱3,700,000</span>
+            </div>
+            <input type="range" id="calc-dp" min="15" max="50" step="5" value="20" oninput="runAmortizationEngine()" class="w-full accent-[#ccff00] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Tenure Horizon:</span>
+              <span class="font-bold text-white">48 Months</span>
+            </div>
+            <select id="calc-tenure" onchange="runAmortizationEngine()" class="w-full bg-black border border-[#1c2230] text-xs text-white p-2.5 rounded outline-none font-bold">
+              <option value="24">24 Months (2 Years)</option>
+              <option value="36">36 Months (3 Years)</option>
+              <option value="48" selected>48 Months (4 Years)</option>
+              <option value="60">60 Months (5 Years)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-6 bg-black/80 rounded border border-[#1c2230] text-center">
+          <span class="text-xs text-slate-400 uppercase tracking-wider block">Estimated Monthly Installment</span>
+          <p id="calc-monthly-out" class="text-4xl font-black text-[#ccff00] my-2">₱294,220 <span class="text-xs text-white">/ mo</span></p>
+          <p class="font-body text-xs text-slate-400 leading-relaxed mb-4">Underwritten by Tier-1 commercial private banks (BDO Private Wealth, BPI Family, Metrobank Premier).</p>
+          <button onclick="inspectSupercar('Supercar Loan Pre-Approval', '₱18,500,000')" class="w-full bg-lime-neon text-black font-bold text-xs py-3 rounded uppercase tracking-wider hover:bg-white transition">
+            Fast-Track Credit Pre-Approval
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       09. FIND A CAR WITHIN YOUR BUDGET
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#080a0e] font-mono">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="text-xs text-[#ccff00] uppercase tracking-widest">// LIQUIDITY ALLOCATION</span>
+      <h2 class="text-3xl font-black uppercase text-white mt-1 mb-3">Target Your Monthly Performance Window</h2>
+      <p class="font-body text-xs text-slate-400 max-w-md mx-auto mb-8 font-light">Set your monthly budget to discover qualifying in-stock track allocations.</p>
+
+      <div class="p-8 bg-[#0c0f16] border border-[#1c2230] rounded">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs text-slate-400 uppercase">MONTHLY OUTLAY</span>
+          <span id="budget-val-lbl" class="text-2xl font-bold text-[#ccff00]">₱180,000 / month</span>
+        </div>
+        <input type="range" min="80000" max="400000" step="10000" value="180000" oninput="runBudgetMatcherEngine(this.value)" class="w-full accent-[#ccff00] mb-6 cursor-pointer">
+        
+        <div class="p-4 bg-black/60 border border-[#1c2230] rounded text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>
+            <span class="text-[10px] text-[#ccff00] uppercase tracking-wider block">Recommended Track Weapon</span>
+            <p id="budget-car-name" class="font-bold text-white text-base">2026 Audi RS6 Avant Performance (₱11,400,000 SRP)</p>
+            <p class="font-body text-xs text-slate-400">630 HP Twin-Turbo V8 • 850 Nm of Torque</p>
+          </div>
+          <button onclick="inspectSupercar('Budget Matched Allocation', 'Active')" class="bg-lime-neon text-black font-bold text-xs px-5 py-2.5 rounded uppercase whitespace-nowrap hover:bg-white transition">
+            Lock Model
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. NEW ARRIVALS
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#060709] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <span class="text-xs text-[#ccff00] uppercase tracking-widest">// ARRIVED THIS WEEK</span>
+          <h2 class="text-3xl font-black uppercase text-white mt-1">Fresh Port Manila Dock Arrivals</h2>
+        </div>
+        <span class="text-xs text-slate-500">Unencumbered BOC NCR Clearance</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-4 bg-[#0c0f16] border border-[#1c2230] rounded">
+          <div class="h-44 rounded overflow-hidden mb-3 bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80" alt="718 GT4 RS" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-bold text-[#ccff00] bg-[#ccff00]/10 px-2 py-0.5 rounded border border-[#ccff00]/30">CUSTOMS CLEARED</span>
+          <h3 class="font-bold text-base text-white mt-2">2026 Porsche 718 Cayman GT4 RS</h3>
+          <p class="text-sm font-bold text-[#ccff00] mt-1">₱12,500,000</p>
+        </div>
+
+        <div class="p-4 bg-[#0c0f16] border border-[#1c2230] rounded">
+          <div class="h-44 rounded overflow-hidden mb-3 bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=600&q=80" alt="M3 CS" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-bold text-[#ccff00] bg-[#ccff00]/10 px-2 py-0.5 rounded border border-[#ccff00]/30">CUSTOMS CLEARED</span>
+          <h3 class="font-bold text-base text-white mt-2">2026 BMW M3 CS Competition</h3>
+          <p class="text-sm font-bold text-[#ccff00] mt-1">₱8,900,000</p>
+        </div>
+
+        <div class="p-4 bg-[#0c0f16] border border-[#1c2230] rounded">
+          <div class="h-44 rounded overflow-hidden mb-3 bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=600&q=80" alt="Ferrari 296" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-bold text-[#ccff00] bg-[#ccff00]/10 px-2 py-0.5 rounded border border-[#ccff00]/30">CUSTOMS CLEARED</span>
+          <h3 class="font-bold text-base text-white mt-2">2026 Ferrari 296 GTB Fiorano</h3>
+          <p class="text-sm font-bold text-[#ccff00] mt-1">₱26,500,000</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       11. INTERACTIVE PAINT & LIVERY ATELIER
+  ========================================================================== -->
+  <section id="section-atelier" class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#080a0e] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-8">
+        <div>
+          <span class="text-xs text-[#ccff00] uppercase tracking-widest">// LIVERY ATELIER</span>
+          <h2 class="text-3xl font-black uppercase text-white mt-1">Weissach Package Paint Shader</h2>
+        </div>
+      </div>
+
+      <div class="p-8 rounded bg-[#0c0f16] border border-[#1c2230] grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div class="h-72 sm:h-80 rounded overflow-hidden border border-[#1c2230] relative">
+          <img id="atelier-target-img" 
+               src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80" 
+               alt="Atelier Shader" 
+               class="w-full h-full object-cover transition-all duration-500">
+          <div class="absolute bottom-3 left-3 bg-black/85 px-3 py-1 text-xs text-[#ccff00] border border-[#ccff00]/40 rounded">
+            FINISH: <span id="atelier-target-name" class="text-white">Weissach Acid Green Package</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-2xl font-bold text-white mb-2">Exposed Carbon Aero Finish</h3>
+          <p class="font-body text-xs text-slate-300 leading-relaxed mb-6 font-light">
+            Satin exposed carbon fiber weave across the central hood, roof panel, side mirrors, and active DRS swan-neck wing blade.
+          </p>
+
+          <p class="text-[11px] text-slate-400 uppercase mb-2">Choose Livery Finish:</p>
+          <div class="flex items-center gap-3 mb-6">
+            <button onclick="setAtelierShader('Weissach Acid Green Package', 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80')" class="w-8 h-8 rounded-full bg-[#ccff00] border-2 border-white shadow-lg cursor-pointer"></button>
+            <button onclick="setAtelierShader('Shark Blue PTS Heritage', 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80')" class="w-8 h-8 rounded-full bg-blue-600 border-2 border-slate-600 hover:border-white cursor-pointer"></button>
+            <button onclick="setAtelierShader('Guards Red Circuit Livery', 'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&q=80')" class="w-8 h-8 rounded-full bg-red-600 border-2 border-slate-600 hover:border-white cursor-pointer"></button>
+          </div>
+
+          <button onclick="inspectSupercar('Configured 911 GT3 RS Weissach', '₱18,500,000')" class="bg-lime-neon hover:bg-white text-black font-bold text-xs px-6 py-3 rounded uppercase tracking-wider transition">
+            Reserve This Configuration
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       12. WHY CHOOSE US
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#060709] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs text-[#ccff00] uppercase tracking-widest">// THE PADDOCK CREED</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">4 Ironclad Guarantees</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded bg-[#0c0f16] border border-[#1c2230]">
+          <i data-lucide="gauge" class="w-8 h-8 text-[#ccff00] mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">Dyno Bench Verified</h3>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Every vehicle is strapped to our 4WD chassis dynamometer to verify authentic crank horsepower.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#0c0f16] border border-[#1c2230]">
+          <i data-lucide="droplet-off" class="w-8 h-8 text-[#ccff00] mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">Zero-Flood Warranty</h3>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">100% money-back buyback guarantee protecting against any past typhoon water exposure.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#0c0f16] border border-[#1c2230]">
+          <i data-lucide="shield-check" class="w-8 h-8 text-[#ccff00] mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">Official Customs Duties</h3>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Delivered with unencumbered Bureau of Customs certificates and official LTO plates ready for transfer.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#0c0f16] border border-[#1c2230]">
+          <i data-lucide="flag" class="w-8 h-8 text-[#ccff00] mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">Clark Track Coaching</h3>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Complimentary 1-on-1 coaching session at Clark International Speedway with an FIA-licensed coach.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       13. FINANCING PROCESS PIPELINE
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#080a0e] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs text-[#ccff00] uppercase tracking-widest">// EXECUTION PIPELINE</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">4-Step Frictionless Acquisition</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded bg-[#0c0f16] border border-[#1c2230] relative">
+          <span class="font-bold text-3xl text-white/10 absolute top-4 right-4">01</span>
+          <p class="text-xs font-bold text-[#ccff00] mb-1 uppercase">STEP ONE</p>
+          <h4 class="font-bold text-base text-white mb-2">Chassis Lock</h4>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Select chassis, review 210-point dynamometer report, and hold with a refundable deposit.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#0c0f16] border border-[#1c2230] relative">
+          <span class="font-bold text-3xl text-white/10 absolute top-4 right-4">02</span>
+          <p class="text-xs font-bold text-[#ccff00] mb-1 uppercase">STEP TWO</p>
+          <h4 class="font-bold text-base text-white mb-2">Bank Sync in 120m</h4>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Automated concierge dispatches your financials to top-tier Philippine automotive banking divisions.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#0c0f16] border border-[#1c2230] relative">
+          <span class="font-bold text-3xl text-white/10 absolute top-4 right-4">03</span>
+          <p class="text-xs font-bold text-[#ccff00] mb-1 uppercase">STEP THREE</p>
+          <h4 class="font-bold text-base text-white mb-2">Track Detailing</h4>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Ceramic coating, PPF edge wrapping, fluids renewal, and wheel alignment in our cleanroom bay.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#0c0f16] border border-[#1c2230] relative">
+          <span class="font-bold text-3xl text-white/10 absolute top-4 right-4">04</span>
+          <p class="text-xs font-bold text-[#ccff00] mb-1 uppercase">STEP FOUR</p>
+          <h4 class="font-bold text-base text-white mb-2">Enclosed Delivery</h4>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Your machine arrives at your residence via enclosed transporter with keys and ceremony.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       14. PROMOTIONS / SPECIAL OFFERS
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-12 border-b border-[#1c2230] bg-[#060709] font-mono">
+    <div class="max-w-5xl mx-auto p-8 rounded bg-[#0c0f16] border border-[#ccff00]/40 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <span class="bg-lime-neon text-black text-[10px] font-bold uppercase px-2.5 py-0.5 rounded">
+          QUARTERLY PADDOCK PRIVILEGE
+        </span>
+        <h3 class="text-2xl font-black uppercase text-white mt-2">Free XPEL Ultimate Fusion PPF + 3-Year PMS</h3>
+        <p class="font-body text-xs text-slate-300 mt-1 font-light">Take delivery of any in-stock 2026 GT3 RS or M4 CSL this month and receive full-body PPF and 3 years scheduled maintenance free.</p>
+      </div>
+      <button onclick="inspectSupercar('XPEL PPF Promo Voucher', 'Included')" class="bg-lime-neon hover:bg-white text-black font-bold text-xs px-6 py-3 rounded uppercase tracking-wider transition whitespace-nowrap glow-lime">
+        Claim Voucher
+      </button>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       15. DEALER STORY & SHOWROOM NARRATIVE
+  ========================================================================== -->
+  <section id="section-story" class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#080a0e] font-mono">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div class="h-80 rounded overflow-hidden border border-[#1f2433]">
+        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80" alt="Paddock Workshop" class="w-full h-full object-cover">
+      </div>
+      <div>
+        <span class="text-xs text-[#ccff00] uppercase tracking-widest">// HERITAGE & CREED</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1 mb-4">Founded by Drivers, Built for Speed</h2>
+        <p class="font-body text-xs sm:text-sm text-slate-300 leading-relaxed mb-4 font-light">
+          Apex Motorwerks was established by GT3 championship podium finishers who grew weary of dishonest automotive sales in Southeast Asia.
+        </p>
+        <p class="font-body text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-light">
+          Our 1,800-sqm Makati facility integrates an all-wheel dynamometer pit, a climate-sealed customer lounge, and forensic diagnostic benches.
+        </p>
+        <div class="flex items-center gap-6 text-xs text-slate-400">
+          <div><p class="font-bold text-white">MAKATI WAR ROOM</p><span class="text-[10px]">Chino Roces Ave Ext</span></div>
+          <div class="w-px h-6 bg-white/20"></div>
+          <div><p class="font-bold text-[#ccff00]">CLARK PIT 14</p><span class="text-[10px]">Trackside Diagnostics</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       16. CUSTOMER TESTIMONIALS
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#060709] font-mono">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs text-[#ccff00] uppercase tracking-widest">// TESTIMONIALS</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">Endorsements from Our Drivers</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded bg-[#0e111a] border border-[#1f2433]">
+          <p class="font-body text-xs text-slate-300 leading-relaxed italic mb-4 font-light">
+            "The dyno sheet they handed me matched Clark Speedway lap expectations perfectly. Apex handles paperwork in 48 hours without the typical dealer drama."
+          </p>
+          <span class="text-xs font-bold text-white block">Atty. Rafael Tan</span>
+          <span class="text-[10px] text-[#ccff00]">Delivered 2026 Porsche 911 GT3 RS</span>
+        </div>
+
+        <div class="p-6 rounded bg-[#0e111a] border border-[#1f2433]">
+          <p class="font-body text-xs text-slate-300 leading-relaxed italic mb-4 font-light">
+            "Trading in my daily SUV for an Audi RS6 took under 3 hours. Their bank relationship secured a lower rate than my own branch offered."
+          </p>
+          <span class="text-xs font-bold text-white block">Christian Sy</span>
+          <span class="text-[10px] text-[#ccff00]">Delivered 2026 Audi RS6 Avant</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       17. FAQ ACCORDION
+  ========================================================================== -->
+  <section id="section-faq" class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#080a0e] font-mono">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs text-[#ccff00] uppercase tracking-widest">// CLARIFICATIONS</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">Frequently Examined Questions</h2>
+      </div>
+
+      <div class="space-y-3 font-body">
+        <div class="border border-[#1f2433] bg-[#0c0f16] rounded">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-[#ccff00] font-mono">
+            <span>Are homologation track models street legal in the Philippines?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-[#1f2433] leading-relaxed">
+            Yes. Every car is sold with official LTO NCR registration, BIR tax payment certificates, and passes all street safety requirements.
+          </div>
+        </div>
+
+        <div class="border border-[#1f2433] bg-[#0c0f16] rounded">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-[#ccff00] font-mono">
+            <span>Can I request a Clark International Speedway shakedown before handover?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-[#1f2433] leading-relaxed">
+            Yes. Our White-Glove Track Package includes trackside flatbed logistics to CIS with our telemetry engineers monitoring tire and brake temperatures.
+          </div>
+        </div>
+
+        <div class="border border-[#1f2433] bg-[#0c0f16] rounded">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-[#ccff00] font-mono">
+            <span>What are the financing terms available for high-performance supercars?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-[#1f2433] leading-relaxed">
+            We partner with BDO Private Bank, BPI Family, Security Bank, and RCBC, providing flexible tenure from 12 to 60 months with interest rates starting as low as 4.89% per annum.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       18. SHOWROOM LOCATION + MAP
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#1c2230] bg-[#060709] font-mono">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div>
+        <span class="text-xs text-[#ccff00] uppercase tracking-widest">// METRO MANILA BASE</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1 mb-4">Apex War Room & Dyno Bay</h2>
+        <div class="space-y-2 text-xs text-slate-300">
+          <p><strong class="text-white">Facility:</strong> 88 Chino Roces Ave Extension, Makati City, Metro Manila</p>
+          <p><strong class="text-white">Hours:</strong> Mon - Sat: 09:00 - 19:00 (Private Viewing by Appointment)</p>
+          <p><strong class="text-white">Direct Line:</strong> +63 (2) 8892-APEX / concierge@apexwerks.ph</p>
+          <p><strong class="text-[#ccff00]">Helipad Coordinates:</strong> 14.5428° N, 121.0189° E</p>
+        </div>
+      </div>
+
+      <div class="h-64 rounded bg-[#0c0f16] border border-[#1c2230] flex items-center justify-center p-6 text-center">
+        <div>
+          <span class="w-3 h-3 rounded-full bg-[#ccff00] inline-block animate-ping mb-2"></span>
+          <p class="font-bold text-base text-white">APEX WAR ROOM: MAKATI</p>
+          <p class="text-xs text-[#ccff00] mt-1">Chino Roces Corridor Radar Active</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       19. FINAL CALL-TO-ACTION & MASTER FOOTER
+  ========================================================================== -->
+  <section id="section-cta" class="px-6 lg:px-14 py-20 bg-black text-center font-mono">
+    <div class="max-w-2xl mx-auto">
+      <span class="bg-[#ccff00]/10 text-[#ccff00] text-[10px] font-bold uppercase px-3 py-1 rounded border border-[#ccff00]/30 inline-block mb-4">
+        COCKPIT RESERVATION READY
+      </span>
+      <h2 class="text-4xl sm:text-6xl font-black uppercase text-white mb-4">CLAIM YOUR ALLOCATION</h2>
+      <p class="font-body text-xs sm:text-sm text-slate-400 mb-8 max-w-md mx-auto font-light">
+        Allocations are time-sensitive. Submit your contact details below to trigger an immediate private phone briefing with our chief vehicle curator.
+      </p>
+      <form onsubmit="handleLeadSubmit(event)" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+        <input type="text" placeholder="Driver Name / Call-Sign" required class="flex-1 bg-[#0c0f16] border border-[#1c2230] p-3 rounded text-xs text-white outline-none focus:border-[#ccff00]">
+        <input type="tel" placeholder="+63 Mobile Number" required class="flex-1 bg-[#0c0f16] border border-[#1c2230] p-3 rounded text-xs text-white outline-none focus:border-[#ccff00]">
+        <button type="submit" class="bg-lime-neon text-black font-bold text-xs px-6 py-3 rounded uppercase tracking-wider hover:bg-white transition whitespace-nowrap glow-lime">
+          Dispatch Lead
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="px-6 lg:px-14 py-12 bg-[#040507] border-t border-[#1c2230] text-xs text-slate-500 font-mono">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <span class="text-base font-bold text-white block mb-2">APEX MOTORWERKS NCR</span>
+        <p class="text-[11px] leading-relaxed text-slate-400 font-body">High-performance supercar & sports vehicle franchise powered by OmniDrive 2026 SaaS.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Chassis Platforms</h4>
+        <ul class="space-y-1 text-[11px]">
+          <li><a href="#section-featured" class="hover:text-[#ccff00]">Porsche GT Line</a></li>
+          <li><a href="#section-featured" class="hover:text-[#ccff00]">BMW M Competition</a></li>
+          <li><a href="#section-featured" class="hover:text-[#ccff00]">Audi Sport Quattro</a></li>
+          <li><a href="#section-featured" class="hover:text-[#ccff00]">Ferrari Mid-Engine</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">SaaS Protocol</h4>
+        <ul class="space-y-1 text-[11px]">
+          <li><span class="text-[#ccff00]">Tenant:</span> APEX-MNL-2026</li>
+          <li><span>Rates:</span> Bangko Sentral Linked</li>
+          <li><span>Inspection:</span> 210-Point Certified</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Pit Wall</h4>
+        <p class="text-[11px] text-slate-300">88 Chino Roces Ave Ext, Makati</p>
+        <p class="text-[11px] text-[#ccff00] mt-1 font-bold">+63 (2) 8892-APEX</p>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto pt-6 border-t border-white/5 text-center text-[10px] text-slate-600">
+      © 2026 Apex Motorwerks Philippines. All rights reserved. Real Car Scrollytelling Dealership Template.
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       SCROLL-DRIVEN CAMERA CUTS + WIND-TUNNEL STREAMLINE SCRIPTS
+  ========================================================================== -->
+  <script>
+    lucide.createIcons();
+
+    /* =========================================================================
+       1. LIVE AERODYNAMIC WIND TUNNEL CANVAS
+    ========================================================================== */
+    const canvas = document.getElementById('wind-tunnel-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let scrollVelocity = 1.0;
+    let lastScrollY = window.scrollY;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 70; i++) {
+      particles.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        length: Math.random() * 80 + 30,
+        speed: Math.random() * 8 + 4,
+        opacity: Math.random() * 0.4 + 0.1
+      });
+    }
+
+    function renderWindTunnel() {
+      requestAnimationFrame(renderWindTunnel);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const currentScrollY = window.scrollY;
+      const delta = Math.abs(currentScrollY - lastScrollY);
+      scrollVelocity = THREE_Math_lerp(scrollVelocity, 1.0 + delta * 0.1, 0.1);
+      lastScrollY = currentScrollY;
+
+      ctx.lineWidth = 1.5;
+      particles.forEach(p => {
+        p.x -= p.speed * scrollVelocity;
+        if (p.x + p.length < 0) {
+          p.x = canvas.width + Math.random() * 100;
+          p.y = Math.random() * canvas.height;
+        }
+
+        const grad = ctx.createLinearGradient(p.x, p.y, p.x + p.length, p.y);
+        grad.addColorStop(0, 'rgba(204, 255, 0, 0)');
+        grad.addColorStop(0.7, `rgba(204, 255, 0, ${p.opacity})`);
+        grad.addColorStop(1, 'rgba(0, 240, 255, 0)');
+
+        ctx.strokeStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x + p.length, p.y);
+        ctx.stroke();
+      });
+    }
+    renderWindTunnel();
+
+    function THREE_Math_lerp(x, y, t) {
+      return (1 - t) * x + t * y;
+    }
+
+    /* =========================================================================
+       2. SCROLL CAMERA PERSPECTIVE CUT ENGINE
+    ========================================================================== */
+    function onRealCarStoryScroll() {
+      const section = document.getElementById('section-story-scroll');
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      const totalScrollable = section.offsetHeight - window.innerHeight;
+      let progress = -rect.top / totalScrollable;
+      progress = Math.max(0, Math.min(1, progress));
+
+      // Update HUD progress bar
+      const pct = Math.round(progress * 100);
+      document.getElementById('scroll-hud-fill').style.height = pct + '%';
+
+      // Update Live Telemetry Values
+      const rpm = Math.round(2400 + progress * 6600);
+      document.getElementById('hud-live-rpm').innerText = `${rpm.toLocaleString()} RPM`;
+
+      const downforce = Math.round(140 + progress * 720);
+      document.getElementById('hud-live-downforce').innerText = `${downforce} KG`;
+
+      const drs = progress > 0.85 ? 'ACTIVE (OPEN)' : 'CLOSED';
+      const drsEl = document.getElementById('hud-live-drs');
+      drsEl.innerText = drs;
+      drsEl.className = progress > 0.85 ? 'text-[#ccff00] font-bold' : 'text-slate-400 font-bold';
+
+      // Switch Camera Angles & Story Cards
+      updateCameraAndCards(progress);
+    }
+
+    function updateCameraAndCards(p) {
+      const a1 = document.getElementById('angle-1');
+      const a2 = document.getElementById('angle-2');
+      const a3 = document.getElementById('angle-3');
+      const a4 = document.getElementById('angle-4');
+      const a5 = document.getElementById('angle-5');
+
+      const c1 = document.getElementById('card-act-1');
+      const c2 = document.getElementById('card-act-2');
+      const c3 = document.getElementById('card-act-3');
+      const c4 = document.getElementById('card-act-4');
+      const c5 = document.getElementById('card-act-5');
+      const actLabel = document.getElementById('scroll-act-label');
+
+      [a1, a2, a3, a4, a5].forEach(a => a.className = 'camera-angle-layer');
+      [c1, c2, c3, c4, c5].forEach(c => c.className = 'story-act-card inactive-act absolute max-w-md bg-black/85 border border-lime-neon p-6 rounded-xl backdrop-blur-md');
+
+      if (p < 0.20) {
+        a1.className = 'camera-angle-layer active-angle';
+        c1.className = 'story-act-card active-act absolute bottom-12 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-[#1c2230] p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'ACT I';
+      } else if (p >= 0.20 && p < 0.45) {
+        a2.className = 'camera-angle-layer active-angle';
+        c2.className = 'story-act-card active-act absolute top-28 right-6 lg:right-16 z-30 max-w-md bg-black/85 border border-lime-neon p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'ACT II';
+      } else if (p >= 0.45 && p < 0.70) {
+        a3.className = 'camera-angle-layer active-angle';
+        c3.className = 'story-act-card active-act absolute bottom-14 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-lime-neon p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'ACT III';
+      } else if (p >= 0.70 && p < 0.88) {
+        a4.className = 'camera-angle-layer active-angle';
+        c4.className = 'story-act-card active-act absolute top-28 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-lime-neon p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'ACT IV';
+      } else {
+        a5.className = 'camera-angle-layer active-angle';
+        c5.className = 'story-act-card active-act absolute bottom-14 right-6 lg:right-16 z-30 max-w-md bg-black/85 border border-lime-neon p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'ACT V';
+      }
+    }
+
+    /* =========================================================================
+       3. INTERACTIVE CALCULATORS & FILTER ENGINES
+    ========================================================================== */
+    function runAmortizationEngine() {
+      const price = parseFloat(document.getElementById('calc-price').value);
+      const dpPct = parseFloat(document.getElementById('calc-dp').value);
+      const tenure = parseFloat(document.getElementById('calc-tenure').value);
+
+      const dpValue = price * (dpPct / 100);
+      const principal = price - dpValue;
+      // 4.2% supercar finance rate
+      const totalInterest = principal * 0.042 * (tenure / 12);
+      const monthly = (principal + totalInterest) / tenure;
+
+      document.getElementById('calc-price-lbl').innerText = '₱' + price.toLocaleString();
+      document.getElementById('calc-dp-lbl').innerText = `${dpPct}% (₱${dpValue.toLocaleString()})`;
+      document.getElementById('calc-monthly-out').innerHTML = `₱${Math.round(monthly).toLocaleString()} <span class="text-xs text-white">/ mo</span>`;
+    }
+
+    function runBudgetMatcherEngine(val) {
+      const budget = parseFloat(val);
+      document.getElementById('budget-val-lbl').innerText = '₱' + budget.toLocaleString() + ' / month';
+      
+      const carEl = document.getElementById('budget-car-name');
+      if (budget < 120000) {
+        carEl.innerText = '2026 BMW M3 CS Competition (₱8,900,000 SRP)';
+      } else if (budget < 170000) {
+        carEl.innerText = '2026 BMW M4 CSL Competition (₱9,800,000 SRP)';
+      } else if (budget < 250000) {
+        carEl.innerText = '2026 Audi RS6 Avant Performance (₱11,400,000 SRP)';
+      } else {
+        carEl.innerText = '2026 Porsche 911 GT3 RS Weissach (₱18,500,000 SRP)';
+      }
+    }
+
+    function setAtelierShader(name, imgUrl) {
+      document.getElementById('atelier-target-img').src = imgUrl;
+      document.getElementById('atelier-target-name').innerText = name;
+    }
+
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      const chevron = btn.querySelector('i');
+      content.classList.toggle('hidden');
+      if (chevron) chevron.classList.toggle('rotate-180');
+    }
+
+    function inspectSupercar(model, price) {
+      alert(`[Supercar Dossier Dispatched]\n\nChassis: ${model}\nAllocation SRP: ${price}\n\nA private vehicle curator in Chino Roces Ave, Makati will call your mobile within 15 minutes.`);
+    }
+
+    function executePaddockFilter() {
+      const platform = document.getElementById('paddock-platform').value;
+      const price = document.getElementById('paddock-price').value;
+      alert(`[Paddock Query Applied]\nPlatform: ${platform}\nPrice Limit: ₱${parseInt(price).toLocaleString()}\n\n14 Matching allocations ready for track inspection.`);
+    }
+
+    function selectCategory(category) {
+      alert(`[Division Selected: ${category}]\nDisplaying all certified allocations staged in Metro Manila.`);
+    }
+
+    function handleLeadSubmit(e) {
+      e.preventDefault();
+      alert("[Track Launch Dispatched]\nThank you. Our chief vehicle curator will telephone your terminal shortly.");
+    }
+
+    function downloadSelf() {
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "porsche-gt3rs-complete.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      window.addEventListener('scroll', onRealCarStoryScroll);
+      onRealCarStoryScroll();
+    });
+  </script>
+</body>
+</html>

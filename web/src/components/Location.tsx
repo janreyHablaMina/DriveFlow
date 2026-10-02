@@ -1,9 +1,9 @@
 'use client';
 
 export default function Location() {
-  const handleRaceLead = (e: React.FormEvent) => {
+  const handleBooking = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("[Track Launch Dispatched]\nEngine ignition sequence activated. Our race directorate will telephone you shortly.");
+    alert("[VIP Viewing Booked]\nThank you for choosing DriveFlow Motors! A dedicated client advisor will contact you within 15 minutes to confirm your private showroom viewing.");
   };
 
   return (
@@ -11,13 +11,13 @@ export default function Location() {
       <section className="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
-            <span className="text-xs font-black uppercase text-red-500 tracking-widest">// PADDOCK LOCATIONS</span>
-            <h2 className="text-3xl font-black italic uppercase mt-1 mb-4">Circuit Makati Paddock</h2>
+            <span className="text-xs font-black uppercase text-red-500 tracking-widest">// SHOWROOM LOCATION</span>
+            <h2 className="text-3xl font-black italic uppercase mt-1 mb-4">DriveFlow Motors Showroom</h2>
             <div className="space-y-2 text-xs font-mono text-slate-300">
-              <p><strong className="text-white">Main Showroom:</strong> Circuit Makati Tarmac, Makati City</p>
-              <p><strong className="text-white">Trackside Bay:</strong> Pit Bay 14, Clark International Speedway, Pampanga</p>
-              <p><strong className="text-white">Track Phone:</strong> +63 (2) 8877-RACE / dispatch@scuderia-corse.ph</p>
-              <p><strong className="text-white">Pit Hours:</strong> 09:00 - 19:00 (Tuesday - Sunday)</p>
+              <p><strong className="text-white">Flagship Showroom:</strong> Circuit Makati Tarmac, Makati City, Metro Manila</p>
+              <p><strong className="text-white">BGC Delivery Center:</strong> 5th Avenue, Bonifacio Global City, Taguig</p>
+              <p><strong className="text-white">Sales Inquiries:</strong> +63 (2) 8877-CARS (2277) / sales@driveflow.ph</p>
+              <p><strong className="text-white">Operating Hours:</strong> Monday – Saturday: 09:00 – 19:00 | Sunday: 10:00 – 17:00</p>
             </div>
           </div>
           <div className="h-64 bg-slate-900 border border-white/10 p-2">
@@ -30,23 +30,23 @@ export default function Location() {
         </div>
       </section>
 
-      <section id="section-cta" className="px-6 lg:px-16 py-20 bg-racing-red text-center relative overflow-hidden border-b-4 border-black">
-        <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1800&q=80')] bg-cover bg-center"></div>
+      <section id="section-cta" className="px-6 lg:px-16 py-20 bg-black text-center relative overflow-hidden border-b-4 border-red-600">
+        <div className="absolute inset-0 opacity-15 bg-[url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1800&q=80')] bg-cover bg-center"></div>
         <div className="relative z-10 max-w-2xl mx-auto">
           <span className="bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1 tracking-widest skew-12 inline-block mb-4">
-            <span className="unskew-12 inline-block">FORMATION LAP COMPLETE</span>
+            <span className="unskew-12 inline-block">VIP PRIVATE SHOWROOM APPOINTMENT</span>
           </span>
           <h2 className="text-4xl sm:text-6xl font-black italic uppercase text-white mb-4">
-            LIGHTS OUT. <br /><span className="text-red-600">AWAY WE GO.</span>
+            READY TO DRIVE <br /><span className="text-red-600">THE EXTRAORDINARY?</span>
           </h2>
           <p className="font-body text-xs sm:text-sm text-slate-400 mb-8 max-w-md mx-auto">
-            Allocations are limited per season. Book your private track briefing and hot lap coaching session today.
+            Experience our premium inventory in person. Reserve your dedicated automotive advisor and vehicle test drive today.
           </p>
-          <form onSubmit={handleRaceLead} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto font-body">
-            <input type="text" placeholder="Driver Name or Call-Sign" required className="flex-1 bg-[#161622] border border-white/20 p-3 text-xs text-white outline-none focus:border-red-500" />
+          <form onSubmit={handleBooking} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto font-body">
+            <input type="text" placeholder="Your Full Name" required className="flex-1 bg-[#161622] border border-white/20 p-3 text-xs text-white outline-none focus:border-red-500" />
             <input type="tel" placeholder="+63 Mobile Number" required className="flex-1 bg-[#161622] border border-white/20 p-3 text-xs text-white outline-none focus:border-red-500" />
             <button type="submit" className="bg-racing-red hover:bg-red-500 px-6 py-3 text-xs font-black uppercase tracking-wider text-white skew-12 whitespace-nowrap">
-              <span className="unskew-12 inline-block">Ignite Ignition</span>
+              <span className="unskew-12 inline-block">Book Private Viewing</span>
             </button>
           </form>
         </div>

@@ -12,16 +12,20 @@ export default function FAQ() {
 
   const faqs = [
     {
-      question: "Are homologation track models street legal in the Philippines?",
-      answer: "Yes. Every car is sold with official LTO NCR registration, BIR tax payment certificates, and passes all street safety requirements."
+      question: "Are all vehicles officially registered and road-legal in the Philippines?",
+      answer: "Yes. Every car in our inventory is sold with complete and verified LTO NCR registration, BIR tax payment certificates, and clear title documentation."
     },
     {
-      question: "Do you accept luxury SUV trade-ins towards race coupés?",
-      answer: "Yes, we provide instant trade-in appraisals within 60 minutes with trade-in values credited directly towards your track deposit."
+      question: "Do you accept vehicle trade-ins or consignments?",
+      answer: "Yes! We provide fast, complimentary 60-minute trade-in appraisals. The appraised value can be immediately credited toward the down payment of your chosen vehicle."
     },
     {
-      question: "What happens during the Clark International Speedway shakedown?",
-      answer: "Our pit crew transports your machine to CIS, sets tire pressures and wing downforce, and provides 3 hot-lap coaching sessions."
+      question: "Which banks and financing options are supported?",
+      answer: "We partner with major Philippine commercial banks including BDO, BPI, Metrobank, Security Bank, and RCBC to offer tailored payment tenures with low down payments and competitive rates."
+    },
+    {
+      question: "What is included in DriveFlow's certified vehicle warranty?",
+      answer: "Every certified vehicle comes with a 12-month comprehensive powertrain warranty (covering engine and transmission) alongside 24/7 complimentary nationwide roadside assistance."
     }
   ];
 
@@ -29,8 +33,8 @@ export default function FAQ() {
     <section id="section-faq" className="px-6 lg:px-16 py-14 border-b border-white/10 bg-[#0a0a0e]">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
-          <span className="text-xs font-black uppercase text-red-500 tracking-widest">// PIT WALL CLARIFICATIONS</span>
-          <h2 className="text-3xl font-black italic uppercase mt-1">Frequently Examined Questions</h2>
+          <span className="text-xs font-black uppercase text-red-500 tracking-widest">// COMMON QUESTIONS</span>
+          <h2 className="text-3xl font-black italic uppercase mt-1">Frequently Asked Questions</h2>
         </div>
 
         <div className="space-y-3 font-body">

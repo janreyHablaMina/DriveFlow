@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Automotive Group — Luxury & Executive Car Showroom Manila</title>
+  
+  <!-- Tailwind CSS & Lucide Icons CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonts: Plus Jakarta Sans (Clean Modern Automotive) + Cormorant Garamond (Refined Luxury Titles) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background-color: #0b0e14; color: #f1f5f9; overflow-x: hidden; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-serif-luxe { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+    /* Infinite Trust Marquee */
+    @keyframes marqueeRun { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .ticker-bar { display: flex; width: 200%; animation: marqueeRun 26s linear infinite; }
+    .ticker-bar:hover { animation-play-state: paused; }
+
+    /* Champagne & Platinum Palette */
+    .text-champagne { color: #d4b26f; }
+    .bg-champagne { background-color: #d4b26f; color: #0b0e14; }
+    .border-champagne { border-color: rgba(212, 178, 111, 0.4); }
+    .border-subtle { border-color: rgba(255, 255, 255, 0.1); }
+  </style>
+</head>
+<body class="bg-[#0b0e14] text-slate-100 antialiased selection:bg-[#d4b26f] selection:text-black">
+
+  <!-- =========================================================================
+       01. HEADER / NAVIGATION (Clean Dealership Portal)
+  ========================================================================== -->
+  <header class="sticky top-0 z-50 bg-[#0e131d]/95 backdrop-blur-md border-b border-subtle px-6 lg:px-16 py-3.5 flex items-center justify-between shadow-xl">
+    <!-- Dealership Brand Identity -->
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-[#d4b26f] to-amber-200 flex items-center justify-center text-[#0b0e14] font-black text-base shadow-md">
+        A
+      </div>
+      <div class="flex flex-col">
+        <span class="text-xl font-bold tracking-tight text-white leading-none">AURA <span class="text-champagne font-light">MOTORS</span></span>
+        <span class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold mt-0.5">Premier Automotive Group BGC</span>
+      </div>
+    </a>
+
+    <!-- Practical Dealership Navigation -->
+    <nav class="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-slate-300">
+      <a href="#section-walkaround" class="text-champagne font-bold flex items-center gap-1.5 hover:text-white transition">
+        <i data-lucide="eye" class="w-4 h-4"></i> Car Walkaround
+      </a>
+      <a href="#section-inventory" class="hover:text-champagne transition">Browse Inventory</a>
+      <a href="#section-compare" class="hover:text-champagne transition">Compare Models</a>
+      <a href="#section-tradein" class="hover:text-champagne transition">Value Your Trade-In</a>
+      <a href="#section-calculator" class="hover:text-champagne transition">Financing</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-3">
+      <a href="#section-cta" class="bg-champagne px-5 py-2 text-xs font-bold uppercase tracking-wider rounded-lg hover:bg-white transition text-black shadow-md">
+        Book Test Drive
+      </a>
+      <button onclick="downloadSelf()" title="Save standalone .html file" class="p-2 rounded-lg border border-subtle hover:border-[#d4b26f] text-slate-300 hover:text-champagne transition bg-white/5">
+        <i data-lucide="download" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       02. CINEMATIC HERO (Car Inspection Stage: Front, Side, Rear, Interior)
+  ========================================================================== -->
+  <section class="min-h-[90vh] relative px-6 lg:px-16 py-14 border-b border-subtle flex flex-col justify-center bg-gradient-to-b from-[#0b0e14] via-[#101726] to-[#0b0e14]">
+    <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <!-- Left Column: Vehicle Details & Buyer Information -->
+      <div class="lg:col-span-5">
+        <div class="inline-flex items-center gap-2 bg-[#1b2336] border border-[#d4b26f]/30 px-3.5 py-1.5 rounded-full text-xs font-bold text-champagne mb-5">
+          <span class="w-2 h-2 rounded-full bg-[#d4b26f] animate-ping"></span>
+          IN-STOCK & READY FOR IMMEDIATE NCR DELIVERY
+        </div>
+
+        <span class="text-xs uppercase tracking-[0.25em] text-slate-400 font-semibold block mb-2">2026 Executive Specification</span>
+        <h1 class="font-serif-luxe text-5xl sm:text-6xl font-light text-white leading-[1.05] mb-4">
+          Toyota Land Cruiser <br><span class="italic text-champagne">300 ZX Prestige</span>
+        </h1>
+        
+        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
+          Experience unrivaled comfort and commanding road presence. 3.3-liter V6 Twin-Turbo Diesel, 10-speed automatic, rear seat entertainment theater, and adaptive variable suspension tailored for Philippine roads.
+        </p>
+
+        <!-- Key Practical Car Specs -->
+        <div class="grid grid-cols-3 gap-3 p-4 bg-white/5 border border-subtle rounded-xl mb-6 text-center">
+          <div>
+            <span class="text-[10px] text-slate-400 block uppercase">SEATING</span>
+            <p class="text-sm font-bold text-white mt-0.5">7 Executive Seats</p>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block uppercase">FUEL EFFICIENCY</span>
+            <p class="text-sm font-bold text-champagne mt-0.5">11.8 KM/L Mixed</p>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 block uppercase">BOOT CARGO</span>
+            <p class="text-sm font-bold text-white mt-0.5">1,131 Liters</p>
+          </div>
+        </div>
+
+        <!-- Pricing & Action -->
+        <div class="flex items-center justify-between pt-2">
+          <div>
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest block">Driveaway Price</span>
+            <span class="text-3xl font-extrabold text-white">₱5,850,000</span>
+            <span class="text-xs text-champagne block font-semibold mt-0.5">From ₱89,400 / month (20% Down)</span>
+          </div>
+          <button onclick="bookCarViewing('Land Cruiser 300 ZX', '₱5,850,000')" class="bg-champagne hover:bg-white text-black font-bold text-xs px-6 py-3.5 rounded-lg uppercase tracking-wider transition shadow-lg">
+            Schedule Viewing
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Car Inspection Stage (Switch Angle & View) -->
+      <div class="lg:col-span-7">
+        <div class="bg-[#121927] border border-subtle rounded-2xl p-4 sm:p-6 shadow-2xl relative">
+          
+          <!-- Viewport Image -->
+          <div class="h-[340px] sm:h-[440px] rounded-xl overflow-hidden relative bg-black border border-white/5">
+            <img id="main-hero-car-img" 
+                 src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1600&q=90" 
+                 alt="Car Angle View" 
+                 class="w-full h-full object-cover transition-all duration-500">
+            
+            <!-- Angle Label Badge -->
+            <div class="absolute top-4 left-4 bg-black/80 backdrop-blur px-3 py-1 rounded-md border border-subtle text-xs text-slate-200 flex items-center gap-1.5">
+              <i data-lucide="camera" class="w-3.5 h-3.5 text-champagne"></i>
+              <span>VIEW: <strong id="main-angle-title" class="text-champagne">Front 3/4 Exterior Stance</strong></span>
+            </div>
+          </div>
+
+          <!-- Camera Angle Buttons (Allows real car examination) -->
+          <div class="flex items-center justify-between gap-2 mt-4 overflow-x-auto pb-1">
+            <button onclick="setHeroCarAngle('front', 'Front 3/4 Exterior Stance', 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1600&q=90')" id="angle-btn-front" class="flex-1 py-2.5 px-3 rounded-lg bg-champagne text-black font-bold text-xs uppercase tracking-wider transition whitespace-nowrap">
+              Front Angle
+            </button>
+            <button onclick="setHeroCarAngle('side', 'Side Profile & Ground Clearance', 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=90')" id="angle-btn-side" class="flex-1 py-2.5 px-3 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold text-xs uppercase tracking-wider transition whitespace-nowrap">
+              Side Profile
+            </button>
+            <button onclick="setHeroCarAngle('rear', 'Rear Cargo & Power Tailgate', 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=90')" id="angle-btn-rear" class="flex-1 py-2.5 px-3 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold text-xs uppercase tracking-wider transition whitespace-nowrap">
+              Rear Angle
+            </button>
+            <button onclick="setHeroCarAngle('interior', 'Executive Reclining Cockpit', 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1600&q=90')" id="angle-btn-interior" class="flex-1 py-2.5 px-3 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold text-xs uppercase tracking-wider transition whitespace-nowrap">
+              Inside Cabin
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03. TRUST MARQUEE (Dealership Guarantees)
+  ========================================================================== -->
+  <div class="py-3.5 bg-[#080b10] border-b border-subtle overflow-hidden text-xs uppercase tracking-wider text-slate-400 font-semibold">
+    <div class="ticker-bar flex gap-12 whitespace-nowrap">
+      <span class="text-white">AURA AUTOMOTIVE BGC</span> <span class="text-champagne">✦</span>
+      <span>160-POINT CERTIFIED PRE-OWNED INSPECTION</span> <span class="text-champagne">✦</span>
+      <span>FREE 3-YEAR SCHEDULED SERVICE & PMS</span> <span class="text-champagne">✦</span>
+      <span>LTO NCR TRANSFER & COMPREHENSIVE INSURANCE ASSISTANCE</span> <span class="text-champagne">✦</span>
+      <span>GUARANTEED 100% FLOOD-FREE LIFETIME BUYBACK</span> <span class="text-champagne">✦</span>
+      <span class="text-white">AURA AUTOMOTIVE BGC</span> <span class="text-champagne">✦</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       04. CAR WALKAROUND & FEATURE HOTSPOTS (Clickable Car Features)
+  ========================================================================== -->
+  <section id="section-walkaround" class="px-6 lg:px-16 py-16 border-b border-subtle bg-[#0e131d]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs uppercase tracking-[0.25em] text-champagne font-bold block mb-1">INTERACTIVE CAR WALKAROUND</span>
+        <h2 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white">Click Hotspots to Inspect Features</h2>
+        <p class="text-xs text-slate-400 max-w-md mx-auto mt-2">Discover why this vehicle is chosen by executives and growing families across the Philippines.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#131b2a] border border-subtle rounded-2xl p-6 sm:p-8">
+        
+        <!-- Interactive Car Photo with Clickable Pins -->
+        <div class="lg:col-span-7 relative h-72 sm:h-96 rounded-xl overflow-hidden bg-black border border-white/5">
+          <img id="walkaround-img" src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=90" alt="Hotspot Car" class="w-full h-full object-cover">
+          
+          <!-- Hotspot 1: Bi-LED Headlights -->
+          <button onclick="setFeatureHighlight(1)" class="absolute top-[48%] left-[26%] w-7 h-7 rounded-full bg-champagne text-black font-bold text-xs flex items-center justify-center shadow-lg hover:scale-125 transition">
+            1
+          </button>
+
+          <!-- Hotspot 2: Alloy Wheels & Suspension -->
+          <button onclick="setFeatureHighlight(2)" class="absolute bottom-[24%] left-[32%] w-7 h-7 rounded-full bg-champagne text-black font-bold text-xs flex items-center justify-center shadow-lg hover:scale-125 transition">
+            2
+          </button>
+
+          <!-- Hotspot 3: Panoramic Glass Sunroof -->
+          <button onclick="setFeatureHighlight(3)" class="absolute top-[28%] left-[54%] w-7 h-7 rounded-full bg-champagne text-black font-bold text-xs flex items-center justify-center shadow-lg hover:scale-125 transition">
+            3
+          </button>
+
+          <!-- Hotspot 4: Executive Reclining 2nd Row -->
+          <button onclick="setFeatureHighlight(4)" class="absolute top-[42%] right-[32%] w-7 h-7 rounded-full bg-champagne text-black font-bold text-xs flex items-center justify-center shadow-lg hover:scale-125 transition">
+            4
+          </button>
+        </div>
+
+        <!-- Dynamic Feature Highlight Card -->
+        <div class="lg:col-span-5 bg-[#0c1017] p-6 rounded-xl border border-subtle">
+          <span id="feature-tag" class="text-[10px] font-bold text-champagne uppercase tracking-widest block mb-1">FEATURE SPOTLIGHT 01</span>
+          <h3 id="feature-title" class="text-2xl font-bold text-white mb-2">Adaptive Matrix LED Headlamps</h3>
+          <p id="feature-desc" class="text-xs text-slate-300 leading-relaxed mb-6 font-light">
+            Automatic high-beam anti-glare shading detects oncoming provincial highway traffic and dims individual LED segments while illuminating roadside pedestrians.
+          </p>
+
+          <div id="feature-spec" class="p-3 bg-white/5 rounded-lg border border-subtle text-xs text-slate-300 space-y-1 mb-6">
+            <div class="flex justify-between"><span class="text-slate-400">Visibility Distance:</span><span class="font-bold text-white">450 Meters High Beam</span></div>
+            <div class="flex justify-between"><span class="text-slate-400">Safety System:</span><span class="font-bold text-champagne">Toyota Safety Sense 3.0</span></div>
+          </div>
+
+          <button onclick="bookCarViewing('Land Cruiser with Highlighted Features', '₱5,850,000')" class="w-full bg-champagne text-black font-bold text-xs py-3 rounded-lg uppercase tracking-wider hover:bg-white transition">
+            Inspect This Car in Person
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       05. SMART VEHICLE SEARCH & BODY STYLE BROWSER
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-12 border-b border-subtle bg-[#0b0e14]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-white">Filter Showroom Inventory</h2>
+        <span class="text-xs text-slate-400">48 Units Available Across Makati & BGC</span>
+      </div>
+
+      <!-- Search Inputs -->
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-5 bg-[#121927] border border-subtle rounded-xl mb-8">
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-400 uppercase mb-1">Body Architecture</label>
+          <select id="filter-body" class="w-full bg-[#0b0e14] border border-subtle text-xs text-white p-2.5 rounded-lg outline-none focus:border-[#d4b26f]">
+            <option value="all">All Vehicles (SUV, MPV, Sedan, EV)</option>
+            <option value="suv">Executive 7-Seater SUVs</option>
+            <option value="mpv">Luxury Captain Chair MPVs</option>
+            <option value="sedan">Premium Executive Sedans</option>
+            <option value="pickup">4x4 Workhorse Pickups</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-400 uppercase mb-1">Price Range</label>
+          <select id="filter-price" class="w-full bg-[#0b0e14] border border-subtle text-xs text-white p-2.5 rounded-lg outline-none focus:border-[#d4b26f]">
+            <option value="99999999">Any Budget</option>
+            <option value="2500000">Under ₱2,500,000</option>
+            <option value="4000000">Under ₱4,000,000</option>
+            <option value="7000000">Under ₱7,000,000</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-slate-400 uppercase mb-1">Powertrain</label>
+          <select class="w-full bg-[#0b0e14] border border-subtle text-xs text-white p-2.5 rounded-lg outline-none focus:border-[#d4b26f]">
+            <option>Clean Turbo Diesel (Heavy-Duty)</option>
+            <option>Self-Charging Hybrid (20+ KM/L)</option>
+            <option>Pure Electric Battery (Zero Gas)</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="applyCarSearch()" class="w-full bg-champagne hover:bg-white text-black font-bold text-xs py-2.5 rounded-lg transition uppercase tracking-wider">
+            Apply Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Body Style Selector Pills -->
+      <div class="flex items-center gap-3 overflow-x-auto pb-1">
+        <button onclick="quickFilter('all')" class="px-4 py-2 rounded-full text-xs font-bold bg-champagne text-black whitespace-nowrap">All Showroom Cars (48)</button>
+        <button onclick="quickFilter('suv')" class="px-4 py-2 rounded-full text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-300 border border-subtle whitespace-nowrap">SUVs (18)</button>
+        <button onclick="quickFilter('mpv')" class="px-4 py-2 rounded-full text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-300 border border-subtle whitespace-nowrap">Luxury MPVs (11)</button>
+        <button onclick="quickFilter('sedan')" class="px-4 py-2 rounded-full text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-300 border border-subtle whitespace-nowrap">Executive Sedans (12)</button>
+        <button onclick="quickFilter('pickup')" class="px-4 py-2 rounded-full text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-300 border border-subtle whitespace-nowrap">4x4 Pickups (7)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       06. FEATURED CARS (Realistic Real-World Dealership Inventory)
+  ========================================================================== -->
+  <section id="section-inventory" class="px-6 lg:px-16 py-16 border-b border-subtle bg-[#0e131d]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <span class="text-xs font-bold text-champagne uppercase tracking-widest block mb-1">IN STOCK NOW</span>
+          <h2 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white">Popular Showroom Allocations</h2>
+        </div>
+        <span class="text-xs text-slate-400 hidden sm:inline">Certified Pre-Owned & Brand New Imports</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Car 1: Luxury MPV -->
+        <div class="bg-[#121927] border border-subtle rounded-2xl overflow-hidden p-5 flex flex-col justify-between hover:border-[#d4b26f] transition group shadow-sm">
+          <div>
+            <div class="h-52 rounded-xl overflow-hidden relative mb-4 bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Alphard MPV" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/85 text-[10px] font-bold text-champagne px-2.5 py-1 rounded">
+                CAPTAIN CHAIR VIP
+              </span>
+            </div>
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold block">7-PASSENGER VIP</span>
+            <h3 class="text-xl font-bold text-white mt-1">2026 Toyota Alphard HEV Executive</h3>
+            <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">Ottoman reclining captain seats, ambient ceiling lighting, 21.2 KM/L hybrid savings.</p>
+            <p class="text-xs font-bold text-champagne mt-3">From ₱78,500 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+            <span class="text-xl font-bold text-white">₱5,150,000</span>
+            <button onclick="bookCarViewing('Toyota Alphard HEV Executive', '₱5,150,000')" class="bg-champagne hover:bg-white text-black font-bold text-xs px-4 py-2 rounded-lg transition">View Details</button>
+          </div>
+        </div>
+
+        <!-- Car 2: Executive Hybrid Sedan -->
+        <div class="bg-[#121927] border border-subtle rounded-2xl overflow-hidden p-5 flex flex-col justify-between hover:border-[#d4b26f] transition group shadow-sm">
+          <div>
+            <div class="h-52 rounded-xl overflow-hidden relative mb-4 bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80" alt="Camry Hybrid" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/85 text-[10px] font-bold text-champagne px-2.5 py-1 rounded">
+                22.4 KM/L HYBRID
+              </span>
+            </div>
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold block">EXECUTIVE SALOON</span>
+            <h3 class="text-xl font-bold text-white mt-1">2026 Camry Hybrid Platinum</h3>
+            <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">Chauffeured rear armrest controls, JBL 14-speaker sound system, electric rear sunshade.</p>
+            <p class="text-xs font-bold text-champagne mt-3">From ₱38,900 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+            <span class="text-xl font-bold text-white">₱2,450,000</span>
+            <button onclick="bookCarViewing('Camry Hybrid Platinum', '₱2,450,000')" class="bg-champagne hover:bg-white text-black font-bold text-xs px-4 py-2 rounded-lg transition">View Details</button>
+          </div>
+        </div>
+
+        <!-- Car 3: 4x4 Luxury Off-Roader -->
+        <div class="bg-[#121927] border border-subtle rounded-2xl overflow-hidden p-5 flex flex-col justify-between hover:border-[#d4b26f] transition group shadow-sm">
+          <div>
+            <div class="h-52 rounded-xl overflow-hidden relative mb-4 bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80" alt="Defender 110" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/85 text-[10px] font-bold text-champagne px-2.5 py-1 rounded">
+                AIR SUSPENSION 4X4
+              </span>
+            </div>
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold block">ICONIC ADVENTURE</span>
+            <h3 class="text-xl font-bold text-white mt-1">2026 Defender 110 X-Dynamic</h3>
+            <p class="text-xs text-slate-300 mt-1 font-light leading-relaxed">900mm water fording clearance, 360-degree 3D surround camera, panoramic sunroof.</p>
+            <p class="text-xs font-bold text-champagne mt-3">From ₱94,500 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex justify-between items-center">
+            <span class="text-xl font-bold text-white">₱6,200,000</span>
+            <button onclick="bookCarViewing('Defender 110 X-Dynamic', '₱6,200,000')" class="bg-champagne hover:bg-white text-black font-bold text-xs px-4 py-2 rounded-lg transition">View Details</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       07. SIDE-BY-SIDE CAR COMPARATOR (Practical Buyer Tool)
+  ========================================================================== -->
+  <section id="section-compare" class="px-6 lg:px-16 py-16 border-b border-subtle bg-[#0b0e14]">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold text-champagne uppercase tracking-widest block mb-1">DECISION ASSISTANT</span>
+        <h2 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white">Compare Two Vehicles Side-by-Side</h2>
+        <p class="text-xs text-slate-400 max-w-md mx-auto mt-2">Evaluate seating capacity, fuel efficiency, boot space, and monthly commitments.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#121927] border border-subtle rounded-2xl p-6 sm:p-8">
+        
+        <!-- Car A -->
+        <div class="p-5 rounded-xl bg-white/5 border border-white/10">
+          <span class="text-xs font-bold text-champagne uppercase">OPTION A: 7-SEAT LUXURY SUV</span>
+          <h3 class="text-xl font-bold text-white mt-1">Land Cruiser 300 ZX</h3>
+          <p class="text-lg font-bold text-slate-200 mt-2">₱5,850,000</p>
+          
+          <div class="space-y-2.5 mt-4 text-xs">
+            <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-400">Seating:</span><span class="text-white font-semibold">7 Passengers</span></div>
+            <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-400">Engine:</span><span class="text-white font-semibold">3.3L Twin-Turbo Diesel</span></div>
+            <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-400">Fuel Economy:</span><span class="text-white font-semibold">11.8 KM/L</span></div>
+            <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-400">Trunk Space:</span><span class="text-white font-semibold">1,131 Liters</span></div>
+            <div class="flex justify-between"><span class="text-slate-400">Ground Clearance:</span><span class="text-white font-semibold">235 mm</span></div>
+          </div>
+        </div>
+
+        <!-- Car B -->
+        <div class="p-5 rounded-xl bg-white/5 border border-white/10">
+          <span class="text-xs font-bold text-champagne uppercase">OPTION B: VIP LOUNGE MPV</span>
+          <h3 class="text-xl font-bold text-white mt-1">Toyota Alphard Hybrid VIP</h3>
+          <p class="text-lg font-bold text-slate-200 mt-2">₱5,150,000</p>
+          
+          <div class="space-y-2.5 mt-4 text-xs">
+            <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-400">Seating:</span><span class="text-white font-semibold">7 Passengers (Captain Chairs)</span></div>
+            <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-400">Engine:</span><span class="text-white font-semibold">2.5L Hybrid Electric</span></div>
+            <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-400">Fuel Economy:</span><span class="text-white font-semibold">21.2 KM/L (City)</span></div>
+            <div class="flex justify-between border-b border-white/5 pb-1"><span class="text-slate-400">Trunk Space:</span><span class="text-white font-semibold">920 Liters</span></div>
+            <div class="flex justify-between"><span class="text-slate-400">Ground Clearance:</span><span class="text-white font-semibold">160 mm (Low Step-in)</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08. TRADE-IN VALUATION ESTIMATOR (Real Customer Appraisal)
+  ========================================================================== -->
+  <section id="section-tradein" class="px-6 lg:px-16 py-16 border-b border-subtle bg-[#0e131d]">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs font-bold text-champagne uppercase tracking-widest block mb-1">UPGRADE YOUR FLEET</span>
+        <h2 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white">Instant Trade-In Valuation Calculator</h2>
+        <p class="text-xs text-slate-400 max-w-md mx-auto mt-2">Apply your current car's equity directly toward your new vehicle downpayment.</p>
+      </div>
+
+      <div class="p-8 rounded-2xl bg-[#131b2a] border border-subtle grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase mb-1">Your Existing Vehicle Brand & Model</label>
+            <input type="text" id="trade-model" placeholder="e.g. 2021 Toyota Fortuner V" class="w-full bg-[#0b0e14] border border-subtle text-xs text-white p-3 rounded-lg outline-none focus:border-[#d4b26f]">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 uppercase mb-1">Approximate Mileage (Kilometers)</label>
+            <select id="trade-mileage" class="w-full bg-[#0b0e14] border border-subtle text-xs text-white p-3 rounded-lg outline-none focus:border-[#d4b26f]">
+              <option value="1500000">Under 25,000 km (Like New)</option>
+              <option value="1250000" selected>25,000 – 50,000 km (Good Condition)</option>
+              <option value="1050000">50,000 – 80,000 km (Well Maintained)</option>
+            </select>
+          </div>
+          <button onclick="estimateTradeIn()" class="w-full bg-champagne hover:bg-white text-black font-bold text-xs py-3 rounded-lg uppercase tracking-wider transition">
+            Calculate Estimated Trade-In Value
+          </button>
+        </div>
+
+        <div class="p-6 bg-[#0b0e14] rounded-xl border border-subtle text-center">
+          <span class="text-xs text-slate-400 uppercase tracking-widest block">Estimated Trade-In Equity</span>
+          <p id="trade-val-out" class="text-3xl font-extrabold text-champagne my-2">₱1,250,000</p>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">Can cover up to 100% of the required down payment for an executive hybrid or SUV.</p>
+          <button onclick="bookCarViewing('Trade-in Application', '₱1,250,000 Equity')" class="w-full bg-white/10 hover:bg-white hover:text-black text-white text-xs font-bold py-2.5 rounded-lg transition uppercase">
+            Schedule In-Person Inspection
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       09. LIVE AMORTIZATION CALCULATOR
+  ========================================================================== -->
+  <section id="section-calculator" class="px-6 lg:px-16 py-16 border-b border-subtle bg-[#0b0e14]">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold text-champagne uppercase tracking-widest block mb-1">TRANSPARENT FINANCING</span>
+        <h2 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white">Monthly Loan Amortization Calculator</h2>
+      </div>
+
+      <div class="p-8 rounded-2xl bg-[#121927] border border-subtle grid grid-cols-1 md:grid-cols-2 gap-8 items-center shadow-lg">
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Vehicle Price (PHP):</span>
+              <span id="loan-price-lbl" class="font-bold text-white">₱5,850,000</span>
+            </div>
+            <input type="range" id="loan-price" min="1500000" max="10000000" step="100000" value="5850000" oninput="runDealershipCalc()" class="w-full accent-[#d4b26f] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Down Payment (20%):</span>
+              <span id="loan-dp-lbl" class="font-bold text-champagne">₱1,170,000</span>
+            </div>
+            <input type="range" id="loan-dp" min="15" max="50" step="5" value="20" oninput="runDealershipCalc()" class="w-full accent-[#d4b26f] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Financing Tenure:</span>
+              <span class="font-bold text-white">48 Months</span>
+            </div>
+            <select id="loan-term" onchange="runDealershipCalc()" class="w-full bg-[#0b0e14] border border-subtle text-xs text-white p-3 rounded-lg outline-none font-semibold">
+              <option value="24">24 Months (2 Years)</option>
+              <option value="36">36 Months (3 Years)</option>
+              <option value="48" selected>48 Months (4 Years)</option>
+              <option value="60">60 Months (5 Years)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-6 bg-[#0b0e14] rounded-xl border border-subtle text-center">
+          <span class="text-xs text-slate-400 uppercase tracking-widest block font-semibold">Estimated Monthly Payment</span>
+          <p id="loan-monthly-out" class="text-4xl font-extrabold text-champagne my-2">₱89,400 <span class="text-xs text-white">/ mo</span></p>
+          <p class="text-xs text-slate-400 leading-relaxed mb-4">Underwritten by Tier-1 Philippine automotive commercial banks (BPI Family Auto, BDO, Security Bank, Metrobank).</p>
+          <button onclick="bookCarViewing('Financing Pre-Approval', '₱5,850,000')" class="w-full bg-champagne hover:bg-white text-black font-bold text-xs py-3 rounded-lg uppercase tracking-wider transition">
+            Apply for Bank Pre-Approval
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. FIND A CAR WITHIN YOUR BUDGET (Monthly Allocation Slider)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-14 border-b border-subtle bg-[#0e131d]">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="text-xs font-bold text-champagne uppercase tracking-widest block mb-1">BUDGET OPTIMIZER</span>
+      <h2 class="font-serif-luxe text-3xl font-light text-white mb-2">Find a Car by Your Monthly Budget</h2>
+      <p class="text-xs text-slate-400 mb-6">Select your planned monthly comfort zone to see which models match.</p>
+
+      <div class="p-6 bg-[#131b2a] border border-subtle rounded-2xl">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs text-slate-400 uppercase font-semibold">MONTHLY ALLOCATION</span>
+          <span id="budget-disp" class="text-2xl font-bold text-champagne">₱45,000 / month</span>
+        </div>
+        <input type="range" min="25000" max="120000" step="2500" value="45000" oninput="runBudgetMatcher(this.value)" class="w-full accent-[#d4b26f] mb-4">
+        
+        <div class="p-4 bg-[#0b0e14] border border-white/5 rounded-xl text-left flex justify-between items-center">
+          <div>
+            <span class="text-[10px] text-champagne uppercase font-bold block">Recommended Vehicle Match</span>
+            <p id="budget-car-label" class="font-bold text-white text-base">2026 Camry Hybrid Platinum (₱2,450,000)</p>
+            <p class="text-xs text-slate-400">Requires ~₱490,000 down payment • 22.4 KM/L Fuel Economy</p>
+          </div>
+          <button onclick="bookCarViewing('Budget Matched Car', 'Active')" class="bg-champagne hover:bg-white text-black font-bold text-xs px-4 py-2 rounded-lg uppercase transition whitespace-nowrap">
+            View Match
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       11. WHY CHOOSE US (Dealership Trust Pillars)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-16 border-b border-subtle bg-[#0b0e14]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold text-champagne uppercase tracking-widest block mb-1">THE AURA PROMISE</span>
+        <h2 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white">Why Metro Manila Buys From Us</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-xl bg-[#121927] border border-subtle">
+          <i data-lucide="shield-check" class="w-8 h-8 text-champagne mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">160-Point Certified</h3>
+          <p class="text-xs text-slate-400 leading-relaxed font-light">Every vehicle passes rigorous mechanical, electronic, and chassis safety certifications.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-[#121927] border border-subtle">
+          <i data-lucide="droplet-off" class="w-8 h-8 text-champagne mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">Zero-Flood Guarantee</h3>
+          <p class="text-xs text-slate-400 leading-relaxed font-light">100% money-back buyback warranty against typhoon, flood, or monsoon water exposure.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-[#121927] border border-subtle">
+          <i data-lucide="wrench" class="w-8 h-8 text-champagne mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">3 Years Free PMS</h3>
+          <p class="text-xs text-slate-400 leading-relaxed font-light">Complete scheduled service, genuine filters, and synthetic oil changes included free.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-[#121927] border border-subtle">
+          <i data-lucide="truck" class="w-8 h-8 text-champagne mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">Home Driveway Delivery</h3>
+          <p class="text-xs text-slate-400 leading-relaxed font-light">Your vehicle arrives directly at your residence with keys and complete documentation ready.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       12. TESTIMONIALS (Real Vehicle Buyers)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-16 border-b border-subtle bg-[#0e131d]">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold text-champagne uppercase tracking-widest block mb-1">CLIENT EXPERIENCES</span>
+        <h2 class="font-serif-luxe text-3xl font-light text-white">Words from Our Vehicle Owners</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-xl bg-[#131b2a] border border-subtle">
+          <p class="text-xs text-slate-300 leading-relaxed italic mb-4 font-light">
+            "We upgraded our family SUV to a Land Cruiser 300. The trade-in appraisal took only 30 minutes, and the paperwork was handled seamlessly without multiple visits."
+          </p>
+          <span class="text-xs font-bold text-white block">Dr. Roberto and Maria Tan</span>
+          <span class="text-[11px] text-champagne">Alabang • Purchased Land Cruiser 300</span>
+        </div>
+
+        <div class="p-6 rounded-xl bg-[#131b2a] border border-subtle">
+          <p class="text-xs text-slate-300 leading-relaxed italic mb-4 font-light">
+            "The Alphard arrived at our Forbes Park residence with temporary plates and LTO registration already completed. The captain seats make daily Makati traffic a breeze."
+          </p>
+          <span class="text-xs font-bold text-white block">Atty. Carmela Sy</span>
+          <span class="text-[11px] text-champagne">Makati City • Purchased Toyota Alphard VIP</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       13. FAQ ACCORDION (Practical Buyer Questions)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-16 border-b border-subtle bg-[#0b0e14]">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs font-bold text-champagne uppercase tracking-widest block mb-1">BUYING GUIDE</span>
+        <h2 class="font-serif-luxe text-3xl font-light text-white">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="space-y-3">
+        <div class="border border-subtle bg-[#121927] rounded-xl">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-champagne">
+            <span>Are vehicles sold with official LTO registration and OR/CR ready?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-subtle leading-relaxed font-light">
+            Yes. Every unit comes with official LTO NCR registration, official receipt (OR), certificate of registration (CR), and verified customs duties clearance.
+          </div>
+        </div>
+
+        <div class="border border-subtle bg-[#121927] rounded-xl">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-champagne">
+            <span>How does the home test drive service work?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-subtle leading-relaxed font-light">
+            Our dealership concierge drives the vehicle to your home or office anywhere in Metro Manila, allowing your family to test parking and ride comfort without traveling to our showroom.
+          </div>
+        </div>
+
+        <div class="border border-subtle bg-[#121927] rounded-xl">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-champagne">
+            <span>What bank financing partners are supported?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-subtle leading-relaxed font-light">
+            We work directly with BDO, BPI Family Auto, Security Bank, Metrobank, and RCBC to secure fast approvals with preferred dealership interest rates.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       14. LOCATION, SHOWROOM LOUNGE & MAP
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-16 border-b border-subtle bg-[#0e131d]">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div>
+        <span class="text-xs font-bold text-champagne uppercase tracking-widest block mb-1">VISIT OUR SHOWROOM</span>
+        <h2 class="font-serif-luxe text-3xl font-light text-white mb-4">Bonifacio Global City Gallery</h2>
+        <div class="space-y-2 text-xs text-slate-300 font-light">
+          <p><strong class="text-white">Address:</strong> 32nd Street corner 5th Avenue, BGC, Taguig</p>
+          <p><strong class="text-white">Showroom Hours:</strong> Monday – Sunday: 08:30 – 19:30</p>
+          <p><strong class="text-white">Direct Line:</strong> +63 (2) 8800-AURA / concierge@auramotors.ph</p>
+          <p><strong class="text-champagne">Amenities:</strong> Air-conditioned VIP lounge, Nespresso bar, valet parking</p>
+        </div>
+      </div>
+
+      <div class="h-64 rounded-xl border border-subtle bg-[#131b2a] flex items-center justify-center p-6 text-center">
+        <div>
+          <span class="w-3 h-3 rounded-full bg-champagne inline-block animate-ping mb-2"></span>
+          <p class="font-bold text-base text-white">AIR-CONDITIONED SHOWROOM OPEN</p>
+          <p class="text-xs text-slate-400 mt-1">Free Valet Parking at 32nd Street Entrance</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       15. FINAL CALL-TO-ACTION (Book Test Drive)
+  ========================================================================== -->
+  <section id="section-cta" class="px-6 lg:px-16 py-20 bg-[#070a0f] text-center">
+    <div class="max-w-2xl mx-auto">
+      <span class="bg-white/10 text-champagne text-[10px] font-bold uppercase px-3 py-1 rounded-full inline-block mb-4 border border-subtle">
+        SCHEDULE YOUR VISIT
+      </span>
+      <h2 class="font-serif-luxe text-4xl sm:text-5xl font-light text-white mb-4">Experience Your Next Vehicle Today</h2>
+      <p class="text-xs sm:text-sm text-slate-300 mb-8 max-w-md mx-auto font-light">
+        Submit your contact details below to arrange a personal showroom tour or request a vehicle visit to your home.
+      </p>
+      <form onsubmit="handleCarLead(event)" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+        <input type="text" placeholder="Full Name" required class="flex-1 bg-[#121927] border border-subtle p-3 rounded-lg text-xs text-white outline-none focus:border-[#d4b26f]">
+        <input type="tel" placeholder="+63 Mobile Number" required class="flex-1 bg-[#121927] border border-subtle p-3 rounded-lg text-xs text-white outline-none focus:border-[#d4b26f]">
+        <button type="submit" class="bg-champagne text-black font-bold text-xs px-6 py-3 rounded-lg uppercase tracking-wider hover:bg-white transition whitespace-nowrap">
+          Schedule Tour
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       16. MASTER FOOTER
+  ========================================================================== -->
+  <footer class="px-6 lg:px-16 py-12 bg-black border-t border-subtle text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <span class="text-base font-bold text-white block mb-2">AURA MOTORS BGC</span>
+        <p class="text-[11px] leading-relaxed text-slate-400 font-light">Premier luxury and executive automotive dealership serving Metro Manila families and corporations.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Vehicles</h4>
+        <ul class="space-y-1 text-[11px] text-slate-400 font-light">
+          <li><a href="#section-inventory" class="hover:text-white">Executive SUVs</a></li>
+          <li><a href="#section-inventory" class="hover:text-white">Luxury MPVs & Vans</a></li>
+          <li><a href="#section-inventory" class="hover:text-white">Hybrid Sedans</a></li>
+          <li><a href="#section-inventory" class="hover:text-white">4x4 Pickups</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Dealership Care</h4>
+        <ul class="space-y-1 text-[11px] text-slate-400 font-light">
+          <li><span>Warranty:</span> 3-Year Zero-Expense</li>
+          <li><span>Inspection:</span> 160-Point Certified</li>
+          <li><span>Trade-In:</span> Guaranteed Appraisal</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Showroom Desk</h4>
+        <p class="text-[11px] text-slate-300">32nd Street & 5th Ave, BGC, Taguig</p>
+        <p class="text-[11px] text-champagne mt-1 font-bold">+63 (2) 8800-AURA</p>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto pt-6 border-t border-white/5 text-center text-[10px] text-slate-600">
+      © 2026 Aura Automotive Group Philippines. All rights reserved. Real Car Dealership Platform.
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       INTERACTION SCRIPTS
+  ========================================================================== -->
+  <script>
+    lucide.createIcons();
+
+    /* 01. Car Angle Viewer Engine */
+    function setHeroCarAngle(angleKey, title, imgUrl) {
+      document.getElementById('main-hero-car-img').src = imgUrl;
+      document.getElementById('main-angle-title').innerText = title;
+
+      // Update button highlights
+      ['front', 'side', 'rear', 'interior'].forEach(k => {
+        const btn = document.getElementById(`angle-btn-${k}`);
+        if (k === angleKey) {
+          btn.className = 'flex-1 py-2.5 px-3 rounded-lg bg-champagne text-black font-bold text-xs uppercase tracking-wider transition whitespace-nowrap';
+        } else {
+          btn.className = 'flex-1 py-2.5 px-3 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 font-semibold text-xs uppercase tracking-wider transition whitespace-nowrap';
+        }
+      });
+    }
+
+    /* 02. Feature Hotspot Walkaround */
+    const FEATURES = {
+      1: {
+        tag: "FEATURE SPOTLIGHT 01",
+        title: "Adaptive Matrix LED Headlamps",
+        desc: "Automatic high-beam anti-glare shading detects oncoming provincial highway traffic and dims individual LED segments while illuminating roadside pedestrians.",
+        spec1: "450 Meters High Beam",
+        spec2: "Toyota Safety Sense 3.0"
+      },
+      2: {
+        tag: "FEATURE SPOTLIGHT 02",
+        title: "20\" Forged Alloys & Adaptive Suspension",
+        desc: "Adaptive Variable Suspension (AVS) continuously adjusts damping rates to glide over Manila potholes and expressway expansion joints.",
+        spec1: "Adaptive Electronic Dampers",
+        spec2: "265/55 R20 All-Season"
+      },
+      3: {
+        tag: "FEATURE SPOTLIGHT 03",
+        title: "Panoramic Glass Roof with Power Shade",
+        desc: "UV-attenuated heat-rejecting dual-pane glass keeps the tropical sun from heating the cabin while providing an expansive view of the city.",
+        spec1: "99% UV Blocking Glass",
+        spec2: "One-Touch Electric Retract"
+      },
+      4: {
+        tag: "FEATURE SPOTLIGHT 04",
+        title: "Executive Reclining 2nd Row Seats",
+        desc: "Individual rear climate zones, dual rear entertainment displays, and ventilated seats with power reclining backrests.",
+        spec1: "Ventilated Cool Seats",
+        spec2: "Dual 11.6\" Displays"
+      }
+    };
+
+    function setFeatureHighlight(id) {
+      const f = FEATURES[id];
+      document.getElementById('feature-tag').innerText = f.tag;
+      document.getElementById('feature-title').innerText = f.title;
+      document.getElementById('feature-desc').innerText = f.desc;
+      document.getElementById('feature-spec').innerHTML = `
+        <div class="flex justify-between"><span class="text-slate-400">Spec Detail:</span><span class="font-bold text-white">${f.spec1}</span></div>
+        <div class="flex justify-between"><span class="text-slate-400">System Integration:</span><span class="font-bold text-champagne">${f.spec2}</span></div>
+      `;
+    }
+
+    /* 03. Loan Calculator */
+    function runDealershipCalc() {
+      const price = parseFloat(document.getElementById('loan-price').value);
+      const dpPct = parseFloat(document.getElementById('loan-dp').value);
+      const tenure = parseFloat(document.getElementById('loan-term').value);
+
+      const dpValue = price * (dpPct / 100);
+      const principal = price - dpValue;
+      // 4.1% standard bank automotive rate
+      const totalInterest = principal * 0.041 * (tenure / 12);
+      const monthly = (principal + totalInterest) / tenure;
+
+      document.getElementById('loan-price-lbl').innerText = '₱' + price.toLocaleString();
+      document.getElementById('loan-dp-lbl').innerText = `₱${dpValue.toLocaleString()} (${dpPct}%)`;
+      document.getElementById('loan-monthly-out').innerHTML = `₱${Math.round(monthly).toLocaleString()} <span class="text-xs text-white">/ mo</span>`;
+    }
+
+    /* 04. Budget Matcher */
+    function runBudgetMatcher(val) {
+      const budget = parseFloat(val);
+      document.getElementById('budget-disp').innerText = '₱' + budget.toLocaleString() + ' / month';
+      
+      const label = document.getElementById('budget-car-label');
+      if (budget < 40000) {
+        label.innerText = '2026 Camry Hybrid Platinum (₱2,450,000)';
+      } else if (budget < 70000) {
+        label.innerText = '2026 Ford Everest Titanium+ 4x4 (₱2,550,000)';
+      } else if (budget < 95000) {
+        label.innerText = '2026 Toyota Alphard Hybrid VIP (₱5,150,000)';
+      } else {
+        label.innerText = '2026 Land Cruiser 300 ZX (₱5,850,000)';
+      }
+    }
+
+    /* 05. Trade-In Value Estimator */
+    function estimateTradeIn() {
+      const mileageVal = parseFloat(document.getElementById('trade-mileage').value);
+      document.getElementById('trade-val-out').innerText = '₱' + mileageVal.toLocaleString();
+      alert(`[Trade-In Valuation Calculated]\nEstimated Equity: ₱${mileageVal.toLocaleString()}\nThis value can be credited directly against your vehicle downpayment.`);
+    }
+
+    /* 06. Interactive FAQ */
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      const chevron = btn.querySelector('i');
+      content.classList.toggle('hidden');
+      if (chevron) chevron.classList.toggle('rotate-180');
+    }
+
+    /* 07. Action Alerts */
+    function bookCarViewing(model, price) {
+      alert(`[Aura Motors Concierge]\n\nViewing Request for: ${model}\nPrice: ${price}\n\nOur client specialist at 32nd St, BGC will contact you to confirm your schedule.`);
+    }
+
+    function applyCarSearch() {
+      const body = document.getElementById('filter-body').value;
+      alert(`[Inventory Filter Applied]\nFiltering: ${body}\nDisplaying matching vehicles available at our BGC and Makati galleries.`);
+    }
+
+    function quickFilter(type) {
+      alert(`[Category Selected: ${type.toUpperCase()}]\nFiltering showroom floor.`);
+    }
+
+    function handleCarLead(e) {
+      e.preventDefault();
+      alert("[Tour Confirmed]\nThank you! A client coordinator will telephone your number shortly.");
+    }
+
+    function downloadSelf() {
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "aura-motors-dealership.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>

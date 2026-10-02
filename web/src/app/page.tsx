@@ -4,8 +4,8 @@ import SearchFilter from '@/components/SearchFilter';
 import CategoryBrowser from '@/components/CategoryBrowser';
 import Grid from '@/components/Grid';
 import Telemetry from '@/components/Telemetry';
-import FinancingCalculator from '@/components/FinancingCalculator';
-import LapMatcher from '@/components/LapMatcher';
+import BankFinancing from '@/components/BankFinancing';
+import TradeInValuation from '@/components/TradeInValuation';
 import NewArrivals from '@/components/NewArrivals';
 import Showcase from '@/components/Showcase';
 import Creed from '@/components/Creed';
@@ -26,8 +26,8 @@ export default function Home() {
       <CategoryBrowser />
       <Grid />
       <Telemetry />
-      <FinancingCalculator />
-      <LapMatcher />
+      <BankFinancing />
+      <TradeInValuation />
       <NewArrivals />
       <Showcase />
       <Creed />

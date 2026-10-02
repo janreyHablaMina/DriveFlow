@@ -16,8 +16,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Scuderia Corse Manila — 2026 Motorsport & Performance Dealership',
-  description: 'Track-certified homologation supercar dealer powered by OmniDrive 2026 SaaS.',
+  title: 'DriveFlow Motors Manila — Premier Luxury & Performance Car Dealership',
+  description: 'Metro Manila’s premier destination for authenticated luxury, sports, and executive automobiles with 200-point inspection and tailored financing.',
 };
 
 export default function RootLayout({

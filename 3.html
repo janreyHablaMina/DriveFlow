@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier Haute Voiture — Luxury Automotive Maison Manila</title>
+  
+  <!-- Tailwind CSS & Lucide Icons CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonts: Cormorant Garamond (Classical Luxury Serif), Plus Jakarta Sans (Clean Editorial Sans), Cinzel (Classical Roman) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background-color: #050a14; color: #fbf9f4; overflow-x: hidden; font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    .font-serif-luxe { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .font-roman { font-family: 'Cinzel', serif; }
+
+    /* Infinite Marquee */
+    @keyframes marqueeRun { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .ticker-bar { display: flex; width: 200%; animation: marqueeRun 28s linear infinite; }
+    .ticker-bar:hover { animation-play-state: paused; }
+
+    /* Custom Accents */
+    .text-champagne { color: #d4af37; }
+    .bg-champagne { background-color: #d4af37; color: #050a14; }
+    .border-champagne { border-color: rgba(212, 175, 55, 0.35); }
+    .border-champagne-light { border-color: rgba(212, 175, 55, 0.18); }
+  </style>
+</head>
+<body class="bg-[#050a14] text-[#fbf9f4] antialiased selection:bg-[#d4af37] selection:text-black">
+
+  <!-- =========================================================================
+       01. HEADER / NAVIGATION (Editorial Maison Masthead)
+  ========================================================================== -->
+  <nav class="sticky top-0 z-50 bg-[#050a14]/95 backdrop-blur-md border-b border-champagne-light px-8 lg:px-20 py-4 flex items-center justify-between">
+    <!-- Brand / Maison Masthead -->
+    <div class="flex items-center gap-6">
+      <a href="#" class="flex flex-col">
+        <span class="font-serif-luxe text-2xl lg:text-3xl font-bold tracking-[0.2em] text-[#d4af37]">ATELIER</span>
+        <span class="text-[9px] font-roman uppercase tracking-[0.4em] text-slate-400 -mt-1">Haute Voiture Manila</span>
+      </a>
+      <div class="hidden xl:block h-6 w-px bg-[#d4af37]/30"></div>
+      <span class="hidden xl:inline-block text-[10px] font-roman uppercase tracking-[0.3em] text-[#d4af37]/80">Volume XXVI // Reserve Salon</span>
+    </div>
+
+    <!-- Curated Links -->
+    <div class="hidden lg:flex items-center gap-8 text-[11px] font-roman uppercase tracking-[0.25em] text-slate-300">
+      <a href="#section-search" class="hover:text-[#d4af37] transition">The Ledger</a>
+      <a href="#section-salons" class="hover:text-[#d4af37] transition">Disciplines</a>
+      <a href="#section-featured" class="hover:text-[#d4af37] transition">Salon Works</a>
+      <a href="#section-atelier" class="hover:text-[#d4af37] transition">Material Atelier</a>
+      <a href="#section-calculator" class="hover:text-[#d4af37] transition">Structured Lease</a>
+      <a href="#section-story" class="hover:text-[#d4af37] transition">Chronicle</a>
+    </div>
+
+    <!-- Private Desk & Download -->
+    <div class="flex items-center gap-4">
+      <div class="text-right hidden sm:block">
+        <p class="text-[9px] font-roman uppercase tracking-widest text-[#d4af37]/70">BGC Concierge Desk</p>
+        <p class="text-xs font-serif-luxe tracking-widest text-white">+63 (2) 8800-VOIT</p>
+      </div>
+      <a href="#section-cta" class="bg-champagne px-5 py-2.5 text-[11px] font-roman font-bold uppercase tracking-[0.25em] hover:bg-white transition shadow-lg">
+        Private Viewing
+      </a>
+      <button onclick="downloadSelf()" title="Save as standalone .html file" class="p-2 border border-champagne-light hover:border-[#d4af37] text-slate-300 hover:text-[#d4af37] transition">
+        <i data-lucide="download" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =========================================================================
+       02. CINEMATIC HERO (Editorial Split Diptych)
+  ========================================================================== -->
+  <section class="min-h-[90vh] px-8 lg:px-20 py-20 border-b border-champagne-light flex flex-col justify-center relative overflow-hidden bg-gradient-to-r from-[#050a14] via-[#081224] to-[#050a14]">
+    <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Text Narrative Column -->
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-3 mb-6">
+          <span class="w-6 h-px bg-[#d4af37]"></span>
+          <span class="text-[10px] font-roman uppercase tracking-[0.35em] text-[#d4af37]">The 2026 Sovereign Commission</span>
+        </div>
+        <h1 class="font-serif-luxe text-5xl sm:text-7xl lg:text-8xl font-light text-[#fbf9f4] leading-[1.05] mb-8">
+          The Pinnacle of <br>
+          <span class="italic text-[#d4af37]">Automotive Distinction.</span>
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base font-light leading-relaxed max-w-xl mb-10">
+          For those who view movement as high art. Atelier Haute Voiture curates bespoke executive limousines, hand-finished grand tourers, and sovereign SUVs delivered under discreet private wealth concierge protocols in Bonifacio Global City.
+        </p>
+        <div class="flex flex-wrap items-center gap-5">
+          <a href="#section-featured" class="bg-champagne px-8 py-3.5 text-xs font-roman uppercase tracking-[0.25em] font-semibold hover:bg-white transition shadow-xl">
+            Inspect The Salon
+          </a>
+          <a href="#section-calculator" class="border border-champagne text-[#d4af37] px-8 py-3.5 text-xs font-roman uppercase tracking-[0.25em] hover:border-white hover:text-white transition">
+            Structured Lease Protocol
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero Visual Art Diptych -->
+      <div class="lg:col-span-5 relative">
+        <div class="p-3 border border-champagne-light bg-[#091122]/60 backdrop-blur-md relative shadow-2xl">
+          <div class="h-[460px] overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1400&q=80" alt="Maison Sovereign Specimen" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050a14] via-transparent to-transparent"></div>
+          </div>
+          <div class="p-5 text-left border-t border-champagne-light bg-[#081020]">
+            <span class="text-[9px] font-roman uppercase tracking-[0.3em] text-[#d4af37] block">Salon Specimen No. 01</span>
+            <p class="font-serif-luxe text-2xl text-white mt-1">Sovereign Grand Tourer W12</p>
+            <p class="text-xs text-slate-400 font-light mt-1">Scottish Highland semi-aniline leather in Tuscan Saddle.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03. SCROLLING BRAND OR TRUST MARQUEE (Editorial Dignity)
+  ========================================================================== -->
+  <div class="py-4 bg-[#03060c] border-b border-champagne-light overflow-hidden">
+    <div class="ticker-bar flex items-center gap-16 text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]/75 font-semibold whitespace-nowrap">
+      <span>ATELIER HAUTE VOITURE</span> <span>✦</span>
+      <span>MAYBACH • ROLLS-ROYCE • BENTLEY • ASTON MARTIN • RANGE ROVER SV</span> <span>✦</span>
+      <span>PRIVATE BANKING PARTNERSHIPS (BDO WEALTH & BPI)</span> <span>✦</span>
+      <span>DISCREET FORT BONIFACIO PRIVATE VALET</span> <span>✦</span>
+      <span>UNENCUMBERED BUREAU OF CUSTOMS PEDIGREE</span> <span>✦</span>
+      <span>ATELIER HAUTE VOITURE</span> <span>✦</span>
+      <span>MAYBACH • ROLLS-ROYCE • BENTLEY • ASTON MARTIN • RANGE ROVER SV</span> <span>✦</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       04. SMART VEHICLE SEARCH (The Curated Commission Ledger)
+  ========================================================================== -->
+  <section id="section-search" class="px-8 lg:px-20 py-16 border-b border-champagne-light bg-[#070e1c]">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Acquisition Ledger</span>
+        <h2 class="font-serif-luxe text-4xl text-white font-light mt-1">Specify Your Desired Marque</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 p-7 border border-champagne-light bg-[#091224]/80 shadow-2xl">
+        <div>
+          <label class="block text-[10px] font-roman uppercase tracking-widest text-[#d4af37] mb-2">Automotive Stature</label>
+          <select id="luxe-search-type" class="w-full bg-[#050a14] border border-champagne-light text-xs text-white p-3 outline-none focus:border-[#d4af37]">
+            <option value="all">All Distinguished Classes</option>
+            <option value="saloon">Extended Limousines</option>
+            <option value="gt">Grand Touring Coupés</option>
+            <option value="suv">High-Stature Executive SUVs</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-roman uppercase tracking-widest text-[#d4af37] mb-2">Acquisition Ceiling</label>
+          <select id="luxe-search-price" class="w-full bg-[#050a14] border border-champagne-light text-xs text-white p-3 outline-none focus:border-[#d4af37]">
+            <option value="99999999">No Ceiling Limit</option>
+            <option value="15000000">Under ₱15,000,000</option>
+            <option value="20000000">Under ₱20,000,000</option>
+            <option value="30000000">Collector POA Tier</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-roman uppercase tracking-widest text-[#d4af37] mb-2">Provenance Standard</label>
+          <select class="w-full bg-[#050a14] border border-champagne-light text-xs text-white p-3 outline-none focus:border-[#d4af37]">
+            <option>Factory New Commission</option>
+            <option>Certified Provenance Pre-Owned</option>
+            <option>Direct Crewe / Goodwood Slot</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="filterSalonLedger()" class="w-full bg-champagne py-3 text-xs font-roman uppercase tracking-[0.2em] font-bold hover:bg-white transition">Filter Ledger</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       05. VEHICLE BRAND / CATEGORY BROWSER (Les Disciplines)
+  ========================================================================== -->
+  <section id="section-salons" class="px-8 lg:px-20 py-20 border-b border-champagne-light">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-12">
+        <div>
+          <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Les Disciplines</span>
+          <h2 class="font-serif-luxe text-4xl lg:text-5xl font-light text-white mt-1">Salon Galleries</h2>
+        </div>
+        <span class="text-xs font-roman uppercase tracking-widest text-slate-400 hidden sm:inline">26 Curated Works in Residence</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div onclick="selectDiscipline('Extended Limousines')" class="border border-champagne-light p-8 hover:border-[#d4af37] transition bg-[#091224]/40 cursor-pointer group">
+          <span class="text-xs text-[#d4af37] font-roman">01 // SALON SUITE</span>
+          <h3 class="font-serif-luxe text-3xl font-light mt-3 mb-2 group-hover:text-[#d4af37] transition">Executive Saloons</h3>
+          <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">Chauffeured sanctuaries featuring reclining ottoman seating and acoustic privacy glass.</p>
+          <span class="text-xs font-roman text-[#d4af37] tracking-widest flex items-center gap-2">Explore 9 Commissions <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <div onclick="selectDiscipline('Grand Touring Coupés')" class="border border-champagne-light p-8 hover:border-[#d4af37] transition bg-[#091224]/40 cursor-pointer group">
+          <span class="text-xs text-[#d4af37] font-roman">02 // GRAND TOUR</span>
+          <h3 class="font-serif-luxe text-3xl font-light mt-3 mb-2 group-hover:text-[#d4af37] transition">Grand Touring Coupés</h3>
+          <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">Effortless twin-turbocharged power across long island journeys wrapped in supreme quietude.</p>
+          <span class="text-xs font-roman text-[#d4af37] tracking-widest flex items-center gap-2">Explore 8 Commissions <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+
+        <div onclick="selectDiscipline('High-Stature SUVs')" class="border border-champagne-light p-8 hover:border-[#d4af37] transition bg-[#091224]/40 cursor-pointer group">
+          <span class="text-xs text-[#d4af37] font-roman">03 // COMMANDING</span>
+          <h3 class="font-serif-luxe text-3xl font-light mt-3 mb-2 group-hover:text-[#d4af37] transition">High-Stature SUVs</h3>
+          <p class="text-xs text-slate-400 font-light leading-relaxed mb-6">Commanding vantage points wrapped in hand-selected hides and open-pore wooden veneers.</p>
+          <span class="text-xs font-roman text-[#d4af37] tracking-widest flex items-center gap-2">Explore 9 Commissions <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       06. FEATURED VEHICLES (The Curated Salon Portfolio)
+  ========================================================================== -->
+  <section id="section-featured" class="px-8 lg:px-20 py-24 border-b border-champagne-light">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Currently in Residence</span>
+        <h2 class="font-serif-luxe text-4xl sm:text-5xl font-light text-white mt-1">The Curated Salon Works</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Work 1 -->
+        <div class="border border-champagne-light bg-[#091224] p-6 flex flex-col justify-between group">
+          <div>
+            <div class="h-64 overflow-hidden mb-5 relative bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=900&q=80" alt="Sovereign GT" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+              <span class="absolute top-3 left-3 bg-[#050a14]/90 border border-champagne text-[9px] font-roman uppercase tracking-widest text-[#d4af37] px-2.5 py-1">2026 SPECIFICATION</span>
+            </div>
+            <span class="text-[10px] font-roman uppercase tracking-widest text-[#d4af37] block">COMMISSION NO. 01</span>
+            <h3 class="font-serif-luxe text-2xl lg:text-3xl font-light mt-1 text-white">Sovereign Grand Tourer W12</h3>
+            <p class="text-xs text-slate-300 font-light mt-2 leading-relaxed">Twin-turbo W12 powerplant, Tuscan saddle leather, and rotating three-sided instrument fascia.</p>
+            <p class="text-xs font-serif-luxe italic text-[#d4af37] mt-3">From ₱235,000 / month on 36-month private wealth lease</p>
+          </div>
+          <div class="pt-5 border-t border-champagne-light mt-6 flex justify-between items-center">
+            <span class="font-serif-luxe text-2xl text-[#d4af37]">₱14,800,000</span>
+            <button onclick="requestProvenance('Sovereign Grand Tourer W12', '₱14,800,000')" class="text-xs font-roman uppercase tracking-widest text-white hover:text-[#d4af37] transition border-b border-current pb-0.5">Inquire File</button>
+          </div>
+        </div>
+
+        <!-- Work 2 -->
+        <div class="border border-champagne-light bg-[#091224] p-6 flex flex-col justify-between group">
+          <div>
+            <div class="h-64 overflow-hidden mb-5 relative bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=900&q=80" alt="Maybach Saloon" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+              <span class="absolute top-3 left-3 bg-[#050a14]/90 border border-champagne text-[9px] font-roman uppercase tracking-widest text-[#d4af37] px-2.5 py-1">EXTENDED WHEELBASE</span>
+            </div>
+            <span class="text-[10px] font-roman uppercase tracking-widest text-[#d4af37] block">COMMISSION NO. 02</span>
+            <h3 class="font-serif-luxe text-2xl lg:text-3xl font-light mt-1 text-white">Imperial Maybach Saloon</h3>
+            <p class="text-xs text-slate-300 font-light mt-2 leading-relaxed">First-class rear ottoman suite, silver-plated champagne flutes, and dual-pane acoustic quiet glass.</p>
+            <p class="text-xs font-serif-luxe italic text-[#d4af37] mt-3">From ₱262,000 / month on 36-month private wealth lease</p>
+          </div>
+          <div class="pt-5 border-t border-champagne-light mt-6 flex justify-between items-center">
+            <span class="font-serif-luxe text-2xl text-[#d4af37]">₱16,500,000</span>
+            <button onclick="requestProvenance('Imperial Maybach Saloon', '₱16,500,000')" class="text-xs font-roman uppercase tracking-widest text-white hover:text-[#d4af37] transition border-b border-current pb-0.5">Inquire File</button>
+          </div>
+        </div>
+
+        <!-- Work 3 -->
+        <div class="border border-champagne-light bg-[#091224] p-6 flex flex-col justify-between group">
+          <div>
+            <div class="h-64 overflow-hidden mb-5 relative bg-slate-900">
+              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=900&q=80" alt="Cullinan SUV" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+              <span class="absolute top-3 left-3 bg-[#050a14]/90 border border-champagne text-[9px] font-roman uppercase tracking-widest text-[#d4af37] px-2.5 py-1">SOVEREIGN HIGH-SUV</span>
+            </div>
+            <span class="text-[10px] font-roman uppercase tracking-widest text-[#d4af37] block">COMMISSION NO. 03</span>
+            <h3 class="font-serif-luxe text-2xl lg:text-3xl font-light mt-1 text-white">Cullinan Reserve High-SUV</h3>
+            <p class="text-xs text-slate-300 font-light mt-2 leading-relaxed">6.75L V12 twin-turbo, celestial fiber-optic starlight headliner, and motorized tailgate viewing seats.</p>
+            <p class="text-xs font-serif-luxe italic text-[#d4af37] mt-3">From ₱348,000 / month on 36-month private wealth lease</p>
+          </div>
+          <div class="pt-5 border-t border-champagne-light mt-6 flex justify-between items-center">
+            <span class="font-serif-luxe text-2xl text-[#d4af37]">₱22,000,000</span>
+            <button onclick="requestProvenance('Cullinan Reserve High-SUV', '₱22,000,000')" class="text-xs font-roman uppercase tracking-widest text-white hover:text-[#d4af37] transition border-b border-current pb-0.5">Inquire File</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       07. ANIMATED STATISTICS / COUNTERS (Maison Metrics)
+  ========================================================================== -->
+  <section class="px-8 lg:px-20 py-16 bg-[#040810] border-b border-champagne-light">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <p class="font-serif-luxe text-4xl lg:text-5xl text-[#d4af37]">₱3.8B+</p>
+        <p class="text-[10px] font-roman uppercase tracking-[0.25em] text-slate-400 mt-2">Bespoke Assets Curated</p>
+      </div>
+      <div>
+        <p class="font-serif-luxe text-4xl lg:text-5xl text-white">100%</p>
+        <p class="text-[10px] font-roman uppercase tracking-[0.25em] text-slate-400 mt-2">BOC Customs Certified</p>
+      </div>
+      <div>
+        <p class="font-serif-luxe text-4xl lg:text-5xl text-[#d4af37]">1:1</p>
+        <p class="text-[10px] font-roman uppercase tracking-[0.25em] text-slate-400 mt-2">Private Wealth Concierge</p>
+      </div>
+      <div>
+        <p class="font-serif-luxe text-4xl lg:text-5xl text-white">14 Days</p>
+        <p class="text-[10px] font-roman uppercase tracking-[0.25em] text-slate-400 mt-2">Air Cargo Direct Delivery</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08. FINANCING CALCULATOR (Private Wealth Structured Lease)
+  ========================================================================== -->
+  <section id="section-calculator" class="px-8 lg:px-20 py-20 border-b border-champagne-light bg-[#070e1c]">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Capital Structuring</span>
+        <h2 class="font-serif-luxe text-4xl font-light text-white mt-1">Private Banking Structured Lease</h2>
+      </div>
+
+      <div class="p-8 border border-champagne-light bg-[#091224] grid grid-cols-1 md:grid-cols-2 gap-8 items-center shadow-2xl">
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs font-roman uppercase tracking-wider mb-1">
+              <span class="text-slate-400">Asset Valuation (PHP)</span>
+              <span id="luxe-price-lbl" class="text-[#d4af37] font-serif-luxe text-lg">₱16,500,000</span>
+            </div>
+            <input type="range" id="luxe-price" min="8000000" max="35000000" step="500000" value="16500000" oninput="runLuxeCalc()" class="w-full accent-[#d4af37]">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-roman uppercase tracking-wider mb-1">
+              <span class="text-slate-400">Capital Downpayment (30%)</span>
+              <span id="luxe-dp-lbl" class="text-white font-serif-luxe text-lg">₱4,950,000</span>
+            </div>
+            <input type="range" id="luxe-dp" min="20" max="50" step="5" value="30" oninput="runLuxeCalc()" class="w-full accent-[#d4af37]">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-roman uppercase tracking-wider mb-1">
+              <span class="text-slate-400">Structured Lease Tenure</span>
+              <span class="text-white font-serif-luxe text-base">36 Months</span>
+            </div>
+            <select id="luxe-tenure" onchange="runLuxeCalc()" class="w-full bg-[#050a14] border border-champagne-light text-xs text-white p-2.5 outline-none font-roman">
+              <option value="24">24 Months Closed-End Private Lease</option>
+              <option value="36" selected>36 Months Executive Wealth Facility</option>
+              <option value="48">48 Months Open-End Asset Facility</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-6 border border-[#d4af37]/40 bg-[#050a14] text-center">
+          <span class="text-[10px] font-roman uppercase tracking-[0.25em] text-[#d4af37]">Indicative Structured Lease</span>
+          <p id="luxe-monthly-lbl" class="font-serif-luxe text-4xl lg:text-5xl text-white my-3">₱245,600 <span class="text-xs font-sans text-slate-400">/ mo</span></p>
+          <p class="text-xs text-slate-400 font-light mb-6">Subject to private wealth credit underwriting by BDO Private Bank, UBS, or Bank of the Philippine Islands.</p>
+          <button onclick="requestProvenance('Structured Wealth Lease', '₱16,500,000')" class="w-full bg-champagne py-3 text-xs font-roman uppercase tracking-[0.2em] font-semibold hover:bg-white transition">Consult Wealth Director</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       09. FIND A CAR WITHIN YOUR BUDGET (Liquidity Allocation Matcher)
+  ========================================================================== -->
+  <section class="px-8 lg:px-20 py-20 border-b border-champagne-light">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Capital Allocation Strategy</span>
+      <h2 class="font-serif-luxe text-4xl font-light mt-1 mb-4">Allocate Liquidity to Your Fleet</h2>
+      <p class="text-xs sm:text-sm text-slate-300 font-light mb-10 max-w-xl mx-auto">Adjust your preferred monthly capital outlay to view qualifying salon works in residence.</p>
+      
+      <div class="p-8 border border-champagne-light bg-[#091224] shadow-2xl">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-roman uppercase tracking-widest text-slate-400">Target Monthly Allocation</span>
+          <span id="luxe-liquidity-val" class="font-serif-luxe text-2xl lg:text-3xl text-[#d4af37]">₱240,000 / month</span>
+        </div>
+        <input type="range" min="120000" max="450000" step="10000" value="240000" oninput="updateLiquidityMatcher(this.value)" class="w-full accent-[#d4af37] mb-6">
+        
+        <div class="p-5 border border-[#d4af37]/30 bg-[#050a14] text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>
+            <span class="text-[9px] font-roman uppercase tracking-[0.25em] text-[#d4af37] block">Qualifying Masterpiece</span>
+            <p id="luxe-matched-car" class="font-serif-luxe text-xl lg:text-2xl text-white">Sovereign Grand Tourer W12</p>
+            <p class="text-xs text-slate-400 font-light">Asset value ₱14,800,000 • Structured 36-month closed-end private lease</p>
+          </div>
+          <button onclick="requestProvenance('Matched Sovereign Specification', '₱14,800,000')" class="bg-champagne px-5 py-2.5 text-xs font-roman uppercase tracking-widest font-semibold hover:bg-white transition whitespace-nowrap">Review Provenance</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. NEW ARRIVALS (Recent Port Commissions)
+  ========================================================================== -->
+  <section class="px-8 lg:px-20 py-20 border-b border-champagne-light bg-[#070e1c]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-12">
+        <div>
+          <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Just Commissioned</span>
+          <h2 class="font-serif-luxe text-4xl font-light text-white mt-1">Recent Port Manila Arrivals</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="border border-champagne-light p-4 bg-[#050a14]">
+          <div class="h-52 overflow-hidden mb-4 bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Ghost II" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[9px] font-roman uppercase tracking-widest text-[#d4af37]">GOODWOOD COMMISION</span>
+          <h3 class="font-serif-luxe text-2xl text-white mt-1">Ghost Series II Extended</h3>
+          <p class="text-base font-serif-luxe text-[#d4af37] mt-1">₱28,500,000</p>
+        </div>
+
+        <div class="border border-champagne-light p-4 bg-[#050a14]">
+          <div class="h-52 overflow-hidden mb-4 bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="Conti Speed" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[9px] font-roman uppercase tracking-widest text-[#d4af37]">CREWE SPECIFICATION</span>
+          <h3 class="font-serif-luxe text-2xl text-white mt-1">Continental GT Speed</h3>
+          <p class="text-base font-serif-luxe text-[#d4af37] mt-1">₱17,200,000</p>
+        </div>
+
+        <div class="border border-champagne-light p-4 bg-[#050a14]">
+          <div class="h-52 overflow-hidden mb-4 bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80" alt="DBX707" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[9px] font-roman uppercase tracking-widest text-[#d4af37]">GAYDON HOMOLOGATION</span>
+          <h3 class="font-serif-luxe text-2xl text-white mt-1">DBX707 Sovereign SUV</h3>
+          <p class="text-base font-serif-luxe text-[#d4af37] mt-1">₱18,900,000</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       11. INTERACTIVE VEHICLE SHOWCASE (The Material Atelier)
+  ========================================================================== -->
+  <section id="section-atelier" class="px-8 lg:px-20 py-24 border-b border-champagne-light">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">The Material Atelier</span>
+        <h2 class="font-serif-luxe text-4xl lg:text-5xl font-light text-white mt-1 mb-6">Hand-Selected Leathers & Open-Pore Veneers</h2>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-light mb-8">
+          Every interior is commissioned according to your family crest or executive aesthetic. Choose from Scottish Highland semi-aniline hides, open-pore dark Burr walnut, and diamond-quilted contrast piping.
+        </p>
+        
+        <div class="space-y-4">
+          <div onclick="setAtelierTexture('Tuscan Saddle Semi-Aniline', 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80')" class="p-4 border border-champagne-light hover:border-[#d4af37] flex items-center justify-between cursor-pointer bg-[#091224] transition">
+            <div>
+              <h4 class="text-xs font-roman uppercase tracking-widest text-white font-semibold">Tuscan Saddle Leather</h4>
+              <p class="text-[11px] text-slate-400 font-light">Natural vegetable tanning from Florence</p>
+            </div>
+            <span class="w-6 h-6 rounded-full bg-[#8b4513] border border-white"></span>
+          </div>
+
+          <div onclick="setAtelierTexture('Linen Ivory Scandinavian Nappa', 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80')" class="p-4 border border-champagne-light hover:border-[#d4af37] flex items-center justify-between cursor-pointer bg-[#091224] transition">
+            <div>
+              <h4 class="text-xs font-roman uppercase tracking-widest text-white font-semibold">Linen Ivory Nappa</h4>
+              <p class="text-[11px] text-slate-400 font-light">Flawless untreated grain with double stitch</p>
+            </div>
+            <span class="w-6 h-6 rounded-full bg-[#f5f5dc] border border-white"></span>
+          </div>
+
+          <div onclick="setAtelierTexture('Obsidian Charcoal Hide & Dark Walnut', 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80')" class="p-4 border border-champagne-light hover:border-[#d4af37] flex items-center justify-between cursor-pointer bg-[#091224] transition">
+            <div>
+              <h4 class="text-xs font-roman uppercase tracking-widest text-white font-semibold">Obsidian Charcoal & Walnut</h4>
+              <p class="text-[11px] text-slate-400 font-light">Satin dark burl veneers with hand-beveled edges</p>
+            </div>
+            <span class="w-6 h-6 rounded-full bg-[#1e232a] border border-white"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="border border-champagne-light p-3 bg-[#091224]">
+        <div class="h-96 overflow-hidden relative">
+          <img id="atelier-leather-img" src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80" alt="Material Texture" class="w-full h-full object-cover transition-all duration-700">
+        </div>
+        <div class="p-4 border-t border-champagne-light bg-[#050a14] flex justify-between items-center text-xs">
+          <div>
+            <span class="text-[9px] font-roman text-slate-400 block uppercase">Curated Atelier Specimen</span>
+            <p id="atelier-texture-label" class="font-serif-luxe text-xl text-[#d4af37]">Tuscan Saddle Semi-Aniline</p>
+          </div>
+          <button onclick="requestProvenance('Bespoke Atelier Commission', 'POA')" class="bg-champagne px-4 py-2 text-xs font-roman uppercase tracking-widest font-semibold hover:bg-white transition">Select Swatch</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       12. WHY CHOOSE US (4 Pillars of Provenance)
+  ========================================================================== -->
+  <section class="px-8 lg:px-20 py-20 border-b border-champagne-light bg-[#070e1c]">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div class="border-t border-[#d4af37] pt-8">
+        <span class="text-xs font-roman text-[#d4af37]">PILLAR I</span>
+        <h3 class="font-serif-luxe text-3xl font-light text-white mt-1 mb-3">Unblemished Provenance</h3>
+        <p class="text-xs text-slate-300 font-light leading-relaxed">Every chassis undergoes an exhaustive forensic inspection by Swiss and German-trained master craftsmen prior to air freight consignment.</p>
+      </div>
+
+      <div class="border-t border-[#d4af37] pt-8">
+        <span class="text-xs font-roman text-[#d4af37]">PILLAR II</span>
+        <h3 class="font-serif-luxe text-3xl font-light text-white mt-1 mb-3">Absolute Confidentiality</h3>
+        <p class="text-xs text-slate-300 font-light leading-relaxed">All acquisitions are protected under strict non-disclosure agreements with discreet registration and nominee ownership options.</p>
+      </div>
+
+      <div class="border-t border-[#d4af37] pt-8">
+        <span class="text-xs font-roman text-[#d4af37]">PILLAR III</span>
+        <h3 class="font-serif-luxe text-3xl font-light text-white mt-1 mb-3">24/7 Personal Concierge</h3>
+        <p class="text-xs text-slate-300 font-light leading-relaxed">Direct mobile access to your dedicated automotive private director for maintenance, seasonal detailing, and secure island transport.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       13. FINANCING PROCESS (The 4-Tier Commission Protocol)
+  ========================================================================== -->
+  <section class="px-8 lg:px-20 py-20 border-b border-champagne-light">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">The Protocol</span>
+        <h2 class="font-serif-luxe text-4xl lg:text-5xl font-light text-white mt-1">The 4-Tier Commission Protocol</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="border border-champagne-light p-6 bg-[#091224]/50">
+          <span class="font-serif-luxe text-3xl text-[#d4af37]">I.</span>
+          <h3 class="text-xs font-roman uppercase tracking-widest text-white font-semibold mt-3 mb-2">Private Briefing</h3>
+          <p class="text-xs text-slate-300 font-light leading-relaxed">Conducted in our BGC Champagne Viewing Chamber or at your private residence.</p>
+        </div>
+
+        <div class="border border-champagne-light p-6 bg-[#091224]/50">
+          <span class="font-serif-luxe text-3xl text-[#d4af37]">II.</span>
+          <h3 class="text-xs font-roman uppercase tracking-widest text-white font-semibold mt-3 mb-2">Provenance Audit</h3>
+          <p class="text-xs text-slate-300 font-light leading-relaxed">Comprehensive historical build-sheet audit and customs tax documentation clearance.</p>
+        </div>
+
+        <div class="border border-champagne-light p-6 bg-[#091224]/50">
+          <span class="font-serif-luxe text-3xl text-[#d4af37]">III.</span>
+          <h3 class="text-xs font-roman uppercase tracking-widest text-white font-semibold mt-3 mb-2">Private Wealth Sync</h3>
+          <p class="text-xs text-slate-300 font-light leading-relaxed">Private banker coordination ensuring tax-efficient structured lease acquisition.</p>
+        </div>
+
+        <div class="border border-champagne-light p-6 bg-[#091224]/50">
+          <span class="font-serif-luxe text-3xl text-[#d4af37]">IV.</span>
+          <h3 class="text-xs font-roman uppercase tracking-widest text-white font-semibold mt-3 mb-2">Ceremonial Handover</h3>
+          <p class="text-xs text-slate-300 font-light leading-relaxed">Delivered under velvet ceremonial shroud with your personal vehicle master.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       14. PROMOTIONS / SPECIAL OFFERS (Private Patron Invitation)
+  ========================================================================== -->
+  <section class="px-8 lg:px-20 py-20 border-b border-champagne-light bg-[#070e1c]">
+    <div class="max-w-4xl mx-auto border border-[#d4af37]/40 p-10 text-center bg-[#091224] shadow-2xl">
+      <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Private Patron Privilege</span>
+      <h3 class="font-serif-luxe text-3xl sm:text-4xl font-light text-white mt-2 mb-4">Complimentary Aviation Chauffeur Induction</h3>
+      <p class="text-xs sm:text-sm text-slate-300 font-light max-w-xl mx-auto mb-8 leading-relaxed">
+        Receive one full year of complimentary private twin-engine helicopter transfers between Metro Manila and Clark International Airport upon commissioning any salon masterpiece this quarter.
+      </p>
+      <button onclick="requestProvenance('Private Aviation Privilege Invitation', 'Included')" class="bg-champagne px-8 py-3 text-xs font-roman uppercase tracking-widest font-semibold hover:bg-white transition">Accept Private Invitation</button>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       15. DEALER STORY & HERITAGE (The Chronicle)
+  ========================================================================== -->
+  <section id="section-story" class="px-8 lg:px-20 py-24 border-b border-champagne-light">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div class="h-[460px] border border-champagne-light p-3 bg-[#091224]">
+        <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80" alt="Maison Heritage" class="w-full h-full object-cover">
+      </div>
+      <div>
+        <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">The Chronicle</span>
+        <h2 class="font-serif-luxe text-4xl lg:text-5xl font-light text-white mt-1 mb-6">A Legacy of Enduring Refinement</h2>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-light mb-6">
+          Conceived in Geneva and anchored in Bonifacio Global City, Atelier Haute Voiture was established to serve Southeast Asia's most discerning families, captains of industry, and royal households.
+        </p>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-light mb-8">
+          We curate not merely automobiles, but enduring heirlooms of human engineering that transcend fleeting trends. Our 2,200-sqm sanctuary on 5th Avenue provides absolute discretion and white-glove security.
+        </p>
+        <div class="pt-6 border-t border-champagne-light flex items-center justify-between">
+          <div>
+            <p class="font-serif-luxe text-2xl italic text-[#d4af37]">The Directorate</p>
+            <p class="text-[10px] font-roman uppercase tracking-widest text-slate-400">Atelier Haute Voiture</p>
+          </div>
+          <span class="text-xs font-roman text-[#d4af37] tracking-widest">EST. 1998 // GENÈVE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       16. CUSTOMER TESTIMONIALS (Patron Reflections)
+  ========================================================================== -->
+  <section class="px-8 lg:px-20 py-20 border-b border-champagne-light bg-[#040810]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Patron Reflections</span>
+        <h2 class="font-serif-luxe text-4xl font-light text-white mt-1">Endorsements from Our Circle</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="p-8 border border-champagne-light bg-[#091224]/50">
+          <p class="font-serif-luxe text-lg italic text-[#fbf9f4] leading-relaxed mb-6">"The discretion exhibited during our fleet transition was exemplary. Atelier understands privacy as fluently as horsepower."</p>
+          <p class="text-xs font-roman uppercase tracking-widest text-[#d4af37]">Chairman E. Zobel</p>
+          <span class="text-[10px] font-roman uppercase tracking-widest text-slate-500">Forbes Park, Makati</span>
+        </div>
+
+        <div class="p-8 border border-champagne-light bg-[#091224]/50">
+          <p class="font-serif-luxe text-lg italic text-[#fbf9f4] leading-relaxed mb-6">"The bespoke leather commissioning process in their private chamber mirrored my personal experience with Savile Row tailors."</p>
+          <p class="text-xs font-roman uppercase tracking-widest text-[#d4af37]">Dr. Stephanie C.</p>
+          <span class="text-[10px] font-roman uppercase tracking-widest text-slate-500">Bonifacio Global City</span>
+        </div>
+
+        <div class="p-8 border border-champagne-light bg-[#091224]/50">
+          <p class="font-serif-luxe text-lg italic text-[#fbf9f4] leading-relaxed mb-6">"Flawless customs clearance and delivery. In an industry often clouded by false promises, Atelier remains the gold standard."</p>
+          <p class="text-xs font-roman uppercase tracking-widest text-[#d4af37]">Capt. M. Araneta</p>
+          <span class="text-[10px] font-roman uppercase tracking-widest text-slate-500">Dasmariñas Village</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       17. FAQ ACCORDION (Clarifications)
+  ========================================================================== -->
+  <section class="px-8 lg:px-20 py-20 border-b border-champagne-light">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Clarifications</span>
+        <h2 class="font-serif-luxe text-4xl font-light text-white mt-1">Frequently Examined Points</h2>
+      </div>
+
+      <div class="space-y-4">
+        <div class="border border-champagne-light bg-[#091224]">
+          <button onclick="toggleLuxeFaq(this)" class="w-full p-5 text-left text-xs font-roman uppercase tracking-widest flex justify-between items-center text-white hover:text-[#d4af37]">
+            <span>Are custom factory order slots available directly from Crewe and Goodwood?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-5 pt-0 text-xs text-slate-300 font-light leading-relaxed hidden border-t border-champagne-light">
+            Yes. We hold direct allocation quotas with Crewe, Goodwood, Gaydon, and Stuttgart for bespoke client factory commissions with tailored VIN allocations.
+          </div>
+        </div>
+
+        <div class="border border-champagne-light bg-[#091224]">
+          <button onclick="toggleLuxeFaq(this)" class="w-full p-5 text-left text-xs font-roman uppercase tracking-widest flex justify-between items-center text-white hover:text-[#d4af37]">
+            <span>What legal documentation accompanies every luxury vehicle?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-5 pt-0 text-xs text-slate-300 font-light leading-relaxed hidden border-t border-champagne-light">
+            Every vehicle is delivered with full Bureau of Customs duties payment certifications, BIR tax release clearances, LTO registration records, and a forensic mechanical provenance certificate.
+          </div>
+        </div>
+
+        <div class="border border-champagne-light bg-[#091224]">
+          <button onclick="toggleLuxeFaq(this)" class="w-full p-5 text-left text-xs font-roman uppercase tracking-widest flex justify-between items-center text-white hover:text-[#d4af37]">
+            <span>How is absolute client confidentiality preserved during registration?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-5 pt-0 text-xs text-slate-300 font-light leading-relaxed hidden border-t border-champagne-light">
+            We offer institutional holding structures, blind trust registration assistance, and discrete delivery protocols executed entirely under non-disclosure contracts.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       18. SHOWROOM LOCATION + MAP (The BGC Sanctuary)
+  ========================================================================== -->
+  <section class="px-8 lg:px-20 py-20 border-b border-champagne-light bg-[#070e1c]">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">The Sanctuary</span>
+        <h2 class="font-serif-luxe text-4xl font-light text-white mt-1 mb-4">Bonifacio Global City Salon</h2>
+        <div class="space-y-3 text-xs text-slate-300 font-light">
+          <p><strong class="text-white font-roman uppercase tracking-wider">Address:</strong> Level 18, Pacific Tower, 5th Avenue, BGC, Taguig</p>
+          <p><strong class="text-white font-roman uppercase tracking-wider">Admittance:</strong> Exclusively by prior secretarial appointment</p>
+          <p><strong class="text-white font-roman uppercase tracking-wider">Underground Valet:</strong> Secure subterranean bay with direct private lift</p>
+          <p><strong class="text-[#d4af37] font-roman uppercase tracking-wider">Direct Line:</strong> +63 (2) 8800-VOIT / secretarial@atelierhaute.ph</p>
+        </div>
+        <button onclick="requestProvenance('Salon Admittance Appointment', 'Active')" class="mt-8 bg-champagne px-8 py-3 text-xs font-roman uppercase tracking-widest font-semibold hover:bg-white transition">Schedule Private Bay Admittance</button>
+      </div>
+
+      <div class="h-80 border border-champagne-light bg-[#050a14] p-8 flex items-center justify-center text-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="relative z-10 border border-[#d4af37]/40 p-6 bg-[#091224]/80 backdrop-blur">
+          <p class="font-serif-luxe text-2xl text-[#d4af37]">The Champagne Chamber</p>
+          <p class="text-xs font-roman text-slate-400 tracking-widest mt-1">5th Avenue Security Bay Coordinates</p>
+          <p class="text-[10px] font-mono text-[#d4af37]/80 mt-2">14.5507° N, 121.0475° E</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       19. FINAL CALL-TO-ACTION (Commission Your Legacy)
+  ========================================================================== -->
+  <section id="section-cta" class="px-8 lg:px-20 py-24 bg-[#050a14] text-center">
+    <div class="max-w-2xl mx-auto">
+      <span class="text-xs font-roman uppercase tracking-[0.3em] text-[#d4af37]">Commission Your Legacy</span>
+      <h2 class="font-serif-luxe text-5xl lg:text-6xl font-light text-white mt-2 mb-6">Enter The Atelier Circle</h2>
+      <p class="text-xs sm:text-sm text-slate-300 font-light leading-relaxed mb-10 max-w-lg mx-auto">
+        Our Private Wealth Director will contact you within two hours to coordinate an exclusive salon admittance.
+      </p>
+      <form onsubmit="handleLuxeSubmit(event)" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+        <input type="text" placeholder="Full Name & Salutation" required class="flex-1 bg-[#091224] border border-champagne-light p-3.5 text-xs text-white outline-none focus:border-[#d4af37]">
+        <input type="tel" placeholder="Mobile / Private Line" required class="flex-1 bg-[#091224] border border-champagne-light p-3.5 text-xs text-white outline-none focus:border-[#d4af37]">
+        <button type="submit" class="bg-champagne px-8 py-3.5 text-xs font-roman uppercase tracking-widest font-semibold hover:bg-white transition whitespace-nowrap">Request Contact</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       20. MASTER FOOTER
+  ========================================================================== -->
+  <footer class="px-8 lg:px-20 py-16 bg-[#03060c] border-t border-champagne-light text-slate-400 text-xs">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+      <div>
+        <span class="font-serif-luxe text-2xl text-[#d4af37] block mb-2">ATELIER HAUTE VOITURE</span>
+        <p class="text-[11px] font-light leading-relaxed text-slate-500">Autonomous ultra-luxury automotive franchise framework powered by the OmniDrive 2026 SaaS Engine.</p>
+      </div>
+      <div>
+        <h4 class="font-roman text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Salon Disciplines</h4>
+        <ul class="space-y-1.5 text-[11px] font-light">
+          <li><a href="#section-featured" class="hover:text-white">Executive Saloon Suites</a></li>
+          <li><a href="#section-featured" class="hover:text-white">Grand Touring Homologations</a></li>
+          <li><a href="#section-featured" class="hover:text-white">High-Stature Sovereign SUVs</a></li>
+          <li><a href="#section-atelier" class="hover:text-white">Material Atelier Swatches</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-roman text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Private Protocols</h4>
+        <ul class="space-y-1.5 text-[11px] font-light">
+          <li><span class="text-[#d4af37]">Tenant ID:</span> ATELIER-MNL-2026</li>
+          <li><span>Private Underwriting:</span> BDO Wealth Sync</li>
+          <li><span>Security:</span> ISO 27001 Protocol</li>
+          <li><span>Air Freight:</span> Swiss Air Cargo Direct</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-roman text-white font-bold mb-3 uppercase tracking-wider text-[11px]">Secretarial Bureau</h4>
+        <p class="text-[11px] text-slate-300 font-light">Pacific Tower, 5th Avenue, BGC, Taguig</p>
+        <p class="text-[11px] text-[#d4af37] mt-1 font-serif-luxe text-sm">+63 (2) 8800-VOIT</p>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto pt-8 border-t border-white/5 text-center text-[10px] text-slate-600 font-roman">
+      © 2026 Atelier Haute Voiture Manila. All rights reserved. Ultra-luxury automotive dealership template.
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       INTERACTIVE JAVASCRIPT ENGINES
+  ========================================================================== -->
+  <script>
+    lucide.createIcons();
+
+    // 01. Private Banking Structured Lease Engine
+    function runLuxeCalc() {
+      const price = parseFloat(document.getElementById('luxe-price').value);
+      const dpPct = parseFloat(document.getElementById('luxe-dp').value);
+      const tenure = parseFloat(document.getElementById('luxe-tenure').value);
+
+      const dpAmount = price * (dpPct / 100);
+      const principal = price - dpAmount;
+      // 4.6% private wealth interest rate
+      const annualRate = 0.046;
+      const totalInterest = principal * annualRate * (tenure / 12);
+      const monthly = (principal + totalInterest) / tenure;
+
+      document.getElementById('luxe-price-lbl').innerText = '₱' + price.toLocaleString();
+      document.getElementById('luxe-dp-lbl').innerText = `₱${dpAmount.toLocaleString()} (${dpPct}%)`;
+      document.getElementById('luxe-monthly-lbl').innerHTML = `₱${Math.round(monthly).toLocaleString()} <span class="text-xs font-sans text-slate-400">/ mo</span>`;
+    }
+
+    // 02. Liquidity Allocation Matcher
+    function updateLiquidityMatcher(val) {
+      const monthly = parseFloat(val);
+      document.getElementById('luxe-liquidity-val').innerText = '₱' + monthly.toLocaleString() + ' / month';
+      
+      const carEl = document.getElementById('luxe-matched-car');
+      if (monthly < 180000) {
+        carEl.innerText = 'Bespoke Executive Saloon (₱11,500,000)';
+      } else if (monthly < 280000) {
+        carEl.innerText = 'Sovereign Grand Tourer W12 (₱14,800,000)';
+      } else if (monthly < 350000) {
+        carEl.innerText = 'Imperial Maybach Saloon (₱16,500,000)';
+      } else {
+        carEl.innerText = 'Cullinan Reserve High-SUV (₱22,000,000)';
+      }
+    }
+
+    // 03. Atelier Material Swatch Selector
+    function setAtelierTexture(name, imgUrl) {
+      document.getElementById('atelier-leather-img').src = imgUrl;
+      document.getElementById('atelier-texture-label').innerText = name;
+    }
+
+    // 04. FAQ Accordion Toggle
+    function toggleLuxeFaq(btn) {
+      const content = btn.nextElementSibling;
+      const chevron = btn.querySelector('i');
+      content.classList.toggle('hidden');
+      if (chevron) {
+        chevron.classList.toggle('rotate-180');
+      }
+    }
+
+    // 05. Action Alerts
+    function requestProvenance(model, price) {
+      alert(`[Atelier Secretarial Desk]\n\nProvenance File Requested for: ${model}\nEstimated Acquisition: ${price}\n\nOur Private Wealth Director will contact your telephone directly.`);
+    }
+
+    function selectDiscipline(discipline) {
+      alert(`[Salon Gallery Filter]\nFiltering all commissions within: ${discipline}`);
+    }
+
+    function filterSalonLedger() {
+      const type = document.getElementById('luxe-search-type').value;
+      const price = document.getElementById('luxe-search-price').value;
+      alert(`[Maison Ledger Filtered]\nStature: ${type}\nPrice Limit: ₱${parseInt(price).toLocaleString()}\n\nDisplaying matching commissions in the BGC private viewing room.`);
+    }
+
+    function handleLuxeSubmit(e) {
+      e.preventDefault();
+      alert("[Private Desk Dispatched]\nThank you. Your consultation request has been forwarded to our Directorate.");
+    }
+
+    // 06. Download Self Function
+    function downloadSelf() {
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "atelier-haute-voiture-luxury.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>

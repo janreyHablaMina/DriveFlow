@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OVERLAND EXPEDITIONS — 2026 Trail-Rated 4x4 Automotive Sanctuary</title>
+  
+  <!-- Tailwind CSS & Lucide Icons CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Curated Fonts: Montserrat (Rugged Adventure Bold) + Inter (Technical Spec UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background-color: #0b0d11; color: #f4eee3; overflow-x: hidden; font-family: 'Montserrat', sans-serif; }
+    .font-body { font-family: 'Inter', sans-serif; }
+
+    /* Infinite Marquee */
+    @keyframes marqueeRun { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .ticker-bar { display: flex; width: 200%; animation: marqueeRun 24s linear infinite; }
+    .ticker-bar:hover { animation-play-state: paused; }
+
+    /* Tactical Adventure Accent Tokens */
+    .text-burnt-orange { color: #e76f51; }
+    .bg-burnt-orange { background-color: #e76f51; color: #0b0d11; }
+    .border-burnt-orange { border-color: rgba(231, 111, 81, 0.45); }
+    .text-sand-khaki { color: #d4a373; }
+    .bg-sand-khaki { background-color: #d4a373; color: #0b0d11; }
+    .border-sand-khaki { border-color: rgba(212, 163, 115, 0.35); }
+    .glow-orange { box-shadow: 0 0 25px rgba(231, 111, 81, 0.35); }
+
+    /* Camera Angle Layers */
+    .trail-angle-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .trail-angle-layer.active-angle {
+      opacity: 1;
+      transform: scale(1.0);
+    }
+
+    /* Narrative Card Overlays */
+    .trail-story-card {
+      transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+      pointer-events: none;
+    }
+    .trail-story-card.active-act {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .trail-story-card.inactive-act {
+      opacity: 0;
+      transform: translateY(22px);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-[#0b0d11] text-[#f4eee3] antialiased selection:bg-[#e76f51] selection:text-black">
+
+  <!-- =========================================================================
+       01. HEADER / NAVIGATION (Clean, Minimal, Essential Outfitter Bar)
+  ========================================================================== -->
+  <header class="sticky top-0 z-50 bg-[#0e1117]/95 backdrop-blur-md border-b border-[#252c3a] px-6 lg:px-14 py-3.5 flex items-center justify-between shadow-2xl">
+    <!-- Brand Identity -->
+    <a href="#" class="flex items-center gap-2.5 text-lg font-black tracking-wider text-white uppercase">
+      <div class="w-8 h-8 rounded bg-burnt-orange text-black flex items-center justify-center text-xs font-black shadow-md">
+        4x4
+      </div>
+      <span>OVERLAND<span class="text-burnt-orange">.EXPEDITIONS</span></span>
+    </a>
+
+    <!-- Essential Links Only (No Clutter) -->
+    <nav class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-[#a8b3c4]">
+      <a href="#section-story-scroll" class="text-burnt-orange font-black flex items-center gap-1.5 hover:text-white transition">
+        <i data-lucide="compass" class="w-4 h-4"></i> 3D Trail Scrollytelling
+      </a>
+      <a href="#section-fleet" class="hover:text-burnt-orange transition">Trail Rigs</a>
+      <a href="#section-calculator" class="hover:text-burnt-orange transition">Outfitter Financing</a>
+    </nav>
+
+    <!-- Clean Actions -->
+    <div class="flex items-center gap-3">
+      <a href="#section-cta" class="bg-burnt-orange px-5 py-2 text-xs font-black uppercase tracking-wider rounded hover:bg-white transition glow-orange text-black">
+        Book Trail Demo
+      </a>
+      <button onclick="downloadSelf()" title="Save standalone .html file" class="p-2 rounded bg-white/5 border border-white/10 hover:border-burnt-orange text-[#a8b3c4] hover:text-burnt-orange transition">
+        <i data-lucide="download" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       02. CINEMATIC HERO (With Real Landscape Overland Banner Image)
+  ========================================================================== -->
+  <section class="min-h-[92vh] relative flex flex-col justify-center px-6 lg:px-16 pt-12 pb-16 border-b border-[#252c3a] overflow-hidden">
+    <!-- Real 4x4 Trail Rig Banner Image with Outdoor Lighting -->
+    <div class="absolute inset-0 w-full h-full z-0 overflow-hidden">
+      <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=2600&q=95" 
+           alt="Overland 4x4 Rig Landscape Banner" 
+           class="w-full h-full object-cover object-center filter brightness-[0.72] contrast-[1.05]">
+      
+      <!-- Directional Topographic Atmospheric Gradients -->
+      <div class="absolute inset-0 bg-gradient-to-r from-[#0b0d11] via-[#0b0d11]/80 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0b0d11] via-transparent to-[#0b0d11]/70"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="max-w-3xl relative z-10">
+      <div class="inline-flex items-center gap-2 text-xs font-bold text-burnt-orange bg-black/85 border border-[#e76f51]/40 px-3.5 py-1 mb-6 rounded backdrop-blur-md">
+        <span class="w-2 h-2 rounded-full bg-[#e76f51] animate-ping"></span>
+        EXPEDITION SPECIMEN: 2026 LAND CRUISER 300 GR-S OVERLAND ARMORED EDITION
+      </div>
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-none mb-6 text-white drop-shadow-xl">
+        BEYOND THE <br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#e76f51] via-[#d4a373] to-white">PAVED ROAD.</span>
+      </h1>
+      <p class="font-body text-[#d6ded5] text-sm sm:text-base leading-relaxed max-w-xl mb-8 font-light drop-shadow">
+        Heavy-duty overland pickups, reinforced 4WD expedition platforms, and custom trail rigs equipped with ARB air lockers, 850mm river-fording snorkels, and rooftop camp sanctuaries. Scroll down to initiate 3D trail scrollytelling.
+      </p>
+      <div class="flex flex-wrap gap-4 items-center">
+        <a href="#section-story-scroll" class="bg-burnt-orange px-7 py-3.5 text-xs font-black uppercase tracking-wider rounded hover:bg-white transition flex items-center gap-2 glow-orange text-black">
+          Begin 3D Trail Scrollytelling <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce"></i>
+        </a>
+        <a href="#section-calculator" class="bg-black/75 border border-white/25 text-white px-7 py-3.5 text-xs font-bold uppercase tracking-wider rounded hover:border-burnt-orange transition backdrop-blur-md">
+          Calculate Rig Outfitting
+        </a>
+      </div>
+    </div>
+
+    <!-- Live Trail Readiness Telemetry Badges -->
+    <div class="relative z-10 mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl bg-black/85 border border-[#252c3a] p-5 backdrop-blur-md rounded">
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] font-mono text-slate-400 block uppercase">WATER FORDING CLEARANCE</span>
+        <p class="text-2xl lg:text-3xl font-black text-burnt-orange">850 <span class="text-xs text-white">MM CERTIFIED</span></p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] font-mono text-slate-400 block uppercase">FRONT APPROACH ANGLE</span>
+        <p class="text-2xl lg:text-3xl font-black text-white">32.5° <span class="text-xs text-burnt-orange">ROCK SPEC</span></p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] font-mono text-slate-400 block uppercase">BACKCOUNTRY RANGE</span>
+        <p class="text-2xl lg:text-3xl font-black text-burnt-orange">1,250 <span class="text-xs text-white">KM DIESEL</span></p>
+      </div>
+      <div>
+        <span class="text-[9px] font-mono text-slate-400 block uppercase">CHASSIS ARMOR CLEARANCE</span>
+        <p class="text-2xl lg:text-3xl font-black text-white">100% <span class="text-xs text-burnt-orange">UNDERBODY SKID</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03. SCROLL-DRIVEN 3D TRAIL STORYTELLING (Multi-Angle Real 4x4 Cuts)
+  ========================================================================== -->
+  <section id="section-story-scroll" class="relative" style="height: 480vh;">
+    <!-- Sticky Full-Screen Viewport -->
+    <div class="sticky top-0 h-screen w-full overflow-hidden bg-black flex items-center justify-center">
+      
+      <!-- Multi-Angle Photographic Rig Perspectives -->
+      <div class="absolute inset-0 w-full h-full overflow-hidden">
+        <!-- Angle 1: Full Ridge Stance (High Mountain Overlook) -->
+        <img id="trail-angle-1" 
+             src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=2400&q=90" 
+             alt="Real 4x4 Rig Full Trail Stance" 
+             class="trail-angle-layer active-angle">
+        
+        <!-- Angle 2: Front Steel Bumper, Warn 12k Winch & Safari Snorkel Close-Up -->
+        <img id="trail-angle-2" 
+             src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=2400&q=90" 
+             alt="Steel Bumper, Winch, and Snorkel Detail" 
+             class="trail-angle-layer">
+        
+        <!-- Angle 3: 35-Inch All-Terrain Tires, Beadlocks & Remote Reservoir Shocks -->
+        <img id="trail-angle-3" 
+             src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=2400&q=90" 
+             alt="35 Inch All Terrain Wheel and Suspension Assembly" 
+             class="trail-angle-layer">
+
+        <!-- Angle 4: Rooftop Living Sanctuary & 270-Degree Batwing Awning -->
+        <img id="trail-angle-4" 
+             src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2400&q=90" 
+             alt="Rooftop Tent and Overland Camping Module" 
+             class="trail-angle-layer">
+
+        <!-- Angle 5: Heavy-Duty Rear Dual Spare Carrier & Recovery Ladder -->
+        <img id="trail-angle-5" 
+             src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=2400&q=90" 
+             alt="Rear Tire Carrier and Backcountry Recovery Trax" 
+             class="trail-angle-layer">
+      </div>
+
+      <!-- Live Topographic Contour & Trail Dust Canvas Overlay -->
+      <canvas id="trail-topo-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-10"></canvas>
+
+      <!-- Vignettes for Legibility -->
+      <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-black via-transparent to-black/60 z-10"></div>
+      <div class="absolute inset-0 pointer-events-none bg-gradient-to-r from-black/85 via-transparent to-black/80 z-10"></div>
+
+      <!-- Real-Time Expedition Altimeter HUD -->
+      <div class="absolute top-20 left-6 lg:left-14 z-20 pointer-events-none font-mono">
+        <div class="flex flex-wrap items-center gap-2.5 bg-black/85 border border-[#252c3a] p-2.5 rounded text-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#e76f51] animate-ping"></span>
+          <span class="text-slate-400">ELEVATION ALTIMETER:</span>
+          <span id="hud-live-altimeter" class="text-burnt-orange font-bold">+180 M</span>
+          <span class="text-slate-600">|</span>
+          <span class="text-slate-400">APPROACH ANGLE:</span>
+          <span id="hud-live-pitch" class="text-white font-bold">14° INCLINE</span>
+          <span class="text-slate-600">|</span>
+          <span class="text-slate-400">TIRE PRESSURE:</span>
+          <span id="hud-live-psi" class="text-sand-khaki font-bold">36 PSI (ROAD)</span>
+        </div>
+      </div>
+
+      <!-- Vertical Trail Waypoint Progress -->
+      <div class="absolute right-6 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center gap-3 pointer-events-none font-mono text-[10px]">
+        <span class="text-slate-500 uppercase tracking-widest rotate-90 origin-center mb-6">TRAIL ACTS</span>
+        <div class="w-1.5 h-40 bg-slate-800 rounded-full overflow-hidden relative border border-white/10">
+          <div id="trail-hud-fill" class="w-full bg-burnt-orange transition-all duration-150" style="height: 0%;"></div>
+        </div>
+        <span id="trail-act-label" class="text-burnt-orange font-bold">TRAIL I</span>
+      </div>
+
+      <!-- Dynamic Trail Story Cards (Synchronized to Real Vehicle Angles) -->
+
+      <!-- Act I: High Ridge Overlook -->
+      <div id="card-act-1" class="trail-story-card active-act absolute bottom-12 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-[#252c3a] p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-burnt-orange uppercase tracking-widest block mb-1">TRAIL I // EXPEDITION STANCE</span>
+        <h3 class="text-2xl font-black text-white mb-2">2026 LC300 GR-S Overland</h3>
+        <p class="font-body text-xs text-[#d6ded5] leading-relaxed font-light mb-4">
+          A ladder-frame backcountry fortress engineered for the most remote reaches of the Philippine archipelago. Built to cross monsoon riverbeds, navigate sand dunes, and climb high mountain trails.
+        </p>
+        <div class="flex items-center gap-2 text-[11px] font-mono text-burnt-orange">
+          <i data-lucide="mouse" class="w-4 h-4 animate-bounce"></i> Scroll down to zoom camera into armor, suspension & camp systems...
+        </div>
+      </div>
+
+      <!-- Act II: Steel Front Bumper & Winch -->
+      <div id="card-act-2" class="trail-story-card inactive-act absolute top-28 right-6 lg:right-16 z-30 max-w-md bg-black/85 border border-burnt-orange p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-burnt-orange uppercase tracking-widest block mb-1">TRAIL II // WATER FORDING & WINCH</span>
+        <h3 class="text-2xl font-black text-white mb-2">Warn 12k Winch & Sealed Snorkel</h3>
+        <p class="font-body text-xs text-[#d6ded5] leading-relaxed font-light mb-3">
+          Camera zooms into the reinforced ARB steel recovery bullbar. Fitted with a synthetic-rope Warn 12,000lb electric recovery winch and a sealed Safari snorkel ensuring cold, dry air intake up to 850mm water depth.
+        </p>
+        <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-black/60 p-2.5 rounded border border-white/10">
+          <div><span class="text-slate-400 text-[10px] block">RECOVERY RATING:</span><p class="text-burnt-orange font-bold">12,000 LB Pull</p></div>
+          <div><span class="text-slate-400 text-[10px] block">WATER DEPTH:</span><p class="text-white font-bold">850 MM Certified</p></div>
+        </div>
+      </div>
+
+      <!-- Act III: Tires, Rims & Long-Travel Shocks -->
+      <div id="card-act-3" class="trail-story-card inactive-act absolute bottom-14 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-burnt-orange p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-burnt-orange uppercase tracking-widest block mb-1">TRAIL III // ARTICULATION & BEADLOCKS</span>
+        <h3 class="text-2xl font-black text-white mb-2">35" KO3 All-Terrains & Fox 3.0 Shocks</h3>
+        <p class="font-body text-xs text-[#d6ded5] leading-relaxed font-light mb-3">
+          Camera swept low onto the front-left suspension geometry. Fox 3.0 internal bypass remote-reservoir dampers soak up high-speed corrugated gravel, while true beadlock rings prevent tire de-beading down to 12 PSI.
+        </p>
+        <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-black/60 p-2.5 rounded border border-white/10">
+          <div><span class="text-slate-400 text-[10px] block">SHOCK SPEC:</span><p class="text-burnt-orange font-bold">Fox 3.0 Live-Valve</p></div>
+          <div><span class="text-slate-400 text-[10px] block">TIRE FITMENT:</span><p class="text-white font-bold">35x12.5 R17 KO3</p></div>
+        </div>
+      </div>
+
+      <!-- Act IV: Rooftop Living Sanctuary -->
+      <div id="card-act-4" class="trail-story-card inactive-act absolute top-28 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-burnt-orange p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-burnt-orange uppercase tracking-widest block mb-1">TRAIL IV // ROOFTOP LIVING SANCTUARY</span>
+        <h3 class="text-2xl font-black text-white mb-2">Hard-Shell Camp Pod & 270° Awning</h3>
+        <p class="font-body text-xs text-[#d6ded5] leading-relaxed font-light mb-3">
+          Camera pitches up into the overland roof platform. Hydraulic gas-strut rooftop tent deploys in 45 seconds, paired with a 270-degree wraparound batwing awning and 200W monocrystalline solar panels.
+        </p>
+        <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-black/60 p-2.5 rounded border border-white/10">
+          <div><span class="text-slate-400 text-[10px] block">TENT DEPLOYMENT:</span><p class="text-burnt-orange font-bold">45 Seconds Quick</p></div>
+          <div><span class="text-slate-400 text-[10px] block">SOLAR POWER:</span><p class="text-white font-bold">200W Roof Mounted</p></div>
+        </div>
+      </div>
+
+      <!-- Act V: Rear Twin Tire Carrier & Trail Gear -->
+      <div id="card-act-5" class="trail-story-card inactive-act absolute bottom-14 right-6 lg:right-16 z-30 max-w-md bg-black/85 border border-burnt-orange p-6 rounded-xl backdrop-blur-md">
+        <span class="text-[10px] font-mono text-burnt-orange uppercase tracking-widest block mb-1">TRAIL V // REAR RECOVERY & RANGE</span>
+        <h3 class="text-2xl font-black text-white mb-2">Dual Swingout Carrier & 130L Fuel Cell</h3>
+        <p class="font-body text-xs text-[#d6ded5] leading-relaxed font-light mb-4">
+          Camera cuts to the rear dual-swingout steel bumper carrying two full-size 35" spare tires, twin 20L Jerry cans, Maxtrax recovery boards, and an extended 130-liter auxiliary long-range diesel tank.
+        </p>
+        <button onclick="inspectRig('2026 LC300 GR-S Overland Armored', '₱6,450,000')" class="w-full bg-burnt-orange text-black font-black text-xs py-3 rounded uppercase tracking-wider transition hover:bg-white glow-orange">
+          Claim Outfitted Rig (₱6,450,000)
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       04. SCROLLING TRAIL TICKER
+  ========================================================================== -->
+  <div class="py-3.5 bg-black border-y border-[#252c3a] overflow-hidden font-mono text-xs text-[#a8b3c4]">
+    <div class="ticker-bar flex gap-12 whitespace-nowrap">
+      <span>OVERLAND EXPEDITIONS PHILIPPINES</span> <span class="text-burnt-orange">///</span>
+      <span>MOUNT PINATUBO CRATER ROUTE TESTED</span> <span class="text-burnt-orange">///</span>
+      <span>850MM RIVER FORCING WARRANTY GUARANTEE</span> <span class="text-burnt-orange">///</span>
+      <span>OFF-GRID 4-SEASON OVERLAND LIVING SYSTEMS</span> <span class="text-burnt-orange">///</span>
+      <span>OVERLAND EXPEDITIONS PHILIPPINES</span> <span class="text-burnt-orange">///</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       05. SMART 4X4 TERRAIN SEARCH (Approach Angle & Diff Lock Query)
+  ========================================================================== -->
+  <section id="section-search" class="px-6 lg:px-14 py-12 border-b border-[#252c3a] bg-[#0e1117] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2.5">
+          <span class="w-3 h-3 bg-burnt-orange rounded-sm"></span>
+          <h2 class="text-xl font-black text-white uppercase">Trail-Rated 4x4 Parameter Filter</h2>
+        </div>
+        <span class="text-xs text-slate-500">32 Outfitted Backcountry Platforms</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-5 bg-black/80 border border-[#252c3a] rounded">
+        <div>
+          <label class="block text-[10px] text-slate-400 uppercase mb-1">Terrain Classification</label>
+          <select id="trail-terrain" class="w-full bg-[#151a24] border border-[#2e3748] text-xs text-white p-2.5 rounded outline-none focus:border-burnt-orange">
+            <option value="all">All Backcountry Routes</option>
+            <option value="dunes">Laoag Sand Dunes & Silt</option>
+            <option value="river">Pinatubo River Fording Beds</option>
+            <option value="rock">Cordillera Rock Crawl Pass</option>
+            <option value="overland">Island Overlanding Expedition</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] text-slate-400 uppercase mb-1">Differential Locks</label>
+          <select id="trail-diff" class="w-full bg-[#151a24] border border-[#2e3748] text-xs text-white p-2.5 rounded outline-none focus:border-burnt-orange">
+            <option value="all">Dual Front & Rear Lockers</option>
+            <option value="rear">Rear E-Locker Only</option>
+            <option value="torsen">Full-Time Torsen Center Lock</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] text-slate-400 uppercase mb-1">Budget Ceiling (PHP)</label>
+          <select id="trail-price" class="w-full bg-[#151a24] border border-[#2e3748] text-xs text-white p-2.5 rounded outline-none focus:border-burnt-orange">
+            <option value="99999999">No Ceiling Limit</option>
+            <option value="2500000">Under ₱2,500,000</option>
+            <option value="4000000">Under ₱4,000,000</option>
+            <option value="7000000">Under ₱7,000,000</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="executeTrailFilter()" class="w-full bg-burnt-orange hover:bg-white text-black font-black text-xs py-2.5 rounded uppercase tracking-wider transition flex items-center justify-center gap-1.5">
+            <i data-lucide="filter" class="w-4 h-4"></i> Lock Expedition Query
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       06. CATEGORY BROWSER (Choose Your Adventure Route)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0b0d11] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="mb-8">
+        <span class="text-xs text-burnt-orange uppercase tracking-widest">// ROUTE DISCOVERY</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">Select Your Philippine Expedition</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div onclick="selectAdventure('Laoag Sand Dunes')" class="p-5 rounded border border-[#252c3a] bg-[#121620] hover:border-burnt-orange transition cursor-pointer group">
+          <span class="text-[10px] text-slate-500">TERRAIN 01</span>
+          <h3 class="text-lg font-bold text-white group-hover:text-burnt-orange mt-1 transition">Laoag Sand Dunes</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">High-speed silt and deep dune cresting requiring 15 PSI tire deflators and sand beadlocks.</p>
+          <span class="text-xs font-bold text-burnt-orange mt-4 block">8 Rigs Tailored →</span>
+        </div>
+
+        <div onclick="selectAdventure('Pinatubo River Fording')" class="p-5 rounded border border-[#252c3a] bg-[#121620] hover:border-burnt-orange transition cursor-pointer group">
+          <span class="text-[10px] text-slate-500">TERRAIN 02</span>
+          <h3 class="text-lg font-bold text-white group-hover:text-burnt-orange mt-1 transition">River Forcing Beds</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">850mm wading depths, sealed breathers, and high air intake snorkels for lahar rivers.</p>
+          <span class="text-xs font-bold text-burnt-orange mt-4 block">11 Rigs Tailored →</span>
+        </div>
+
+        <div onclick="selectAdventure('Cordillera Rock Crawl')" class="p-5 rounded border border-[#252c3a] bg-[#121620] hover:border-burnt-orange transition cursor-pointer group">
+          <span class="text-[10px] text-slate-500">TERRAIN 03</span>
+          <h3 class="text-lg font-bold text-white group-hover:text-burnt-orange mt-1 transition">Cordillera Rock Pass</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">Steel underbody skid armor, rock sliders, and 35-inch mud terrains for sharp mountain boulders.</p>
+          <span class="text-xs font-bold text-burnt-orange mt-4 block">7 Rigs Tailored →</span>
+        </div>
+
+        <div onclick="selectAdventure('Island Overlanding')" class="p-5 rounded border border-[#252c3a] bg-[#121620] hover:border-burnt-orange transition cursor-pointer group">
+          <span class="text-[10px] text-slate-500">TERRAIN 04</span>
+          <h3 class="text-lg font-bold text-white group-hover:text-burnt-orange mt-1 transition">Island Overlanding</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">Rooftop living pods, 80L pressurized water tanks, dual auxiliary battery power systems.</p>
+          <span class="text-xs font-bold text-burnt-orange mt-4 block">6 Rigs Tailored →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       07. FEATURED TRAIL RIGS (Real 4x4 Off-Road Vehicles)
+  ========================================================================== -->
+  <section id="section-fleet" class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0e1117] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <span class="text-xs text-burnt-orange uppercase tracking-widest">// CERTIFIED EXPEDITION FLEET</span>
+          <h2 class="text-3xl sm:text-4xl font-black uppercase text-white mt-1">Outfitted Trail-Ready Rigs</h2>
+        </div>
+        <span class="text-xs text-slate-500 hidden sm:inline">Tested at Mt. Pinatubo & Sierra Madre</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Trail Rig 1 -->
+        <div class="bg-[#121620] border border-[#252c3a] rounded p-5 flex flex-col justify-between hover:border-burnt-orange transition group">
+          <div>
+            <div class="h-56 rounded bg-slate-900 overflow-hidden mb-4 relative">
+              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80" alt="LC300 Overland" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/80 text-[10px] text-burnt-orange font-bold px-2 py-0.5 border border-[#e76f51]/40">
+                ARMORED EXPEDITION SPEC
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/90 text-xs text-white px-2.5 py-1">
+                ₱6,450,000 SRP
+              </span>
+            </div>
+            <h3 class="text-xl font-bold text-white group-hover:text-burnt-orange transition">2026 LC300 GR-S Overland</h3>
+            <p class="font-body text-xs text-slate-300 mt-1 leading-relaxed">3.3L Twin-Turbo V6 Diesel, E-KDSS articulation, Warn 12k winch, Fox 3.0 bypass shocks.</p>
+            <p class="text-xs text-burnt-orange mt-3 font-bold">From ₱98,000 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#252c3a] flex justify-between items-center">
+            <span class="text-lg font-bold text-burnt-orange">₱6,450,000</span>
+            <button onclick="inspectRig('2026 LC300 GR-S Overland', '₱6,450,000')" class="bg-burnt-orange text-black px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-white transition">Telemetry</button>
+          </div>
+        </div>
+
+        <!-- Trail Rig 2 -->
+        <div class="bg-[#121620] border border-[#252c3a] rounded p-5 flex flex-col justify-between hover:border-burnt-orange transition group">
+          <div>
+            <div class="h-56 rounded bg-slate-900 overflow-hidden mb-4 relative">
+              <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80" alt="Ranger Raptor" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/80 text-[10px] text-burnt-orange font-bold px-2 py-0.5 border border-[#e76f51]/40">
+                392 HP TWIN-TURBO V6
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/90 text-xs text-white px-2.5 py-1">
+                ₱2,890,000 SRP
+              </span>
+            </div>
+            <h3 class="text-xl font-bold text-white group-hover:text-burnt-orange transition">2026 Ford Ranger Raptor V6</h3>
+            <p class="font-body text-xs text-slate-300 mt-1 leading-relaxed">3.0L Twin-Turbo EcoBoost, Fox Live-Valve internal bypass, Baja mode exhaust roar.</p>
+            <p class="text-xs text-burnt-orange mt-3 font-bold">From ₱44,200 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#252c3a] flex justify-between items-center">
+            <span class="text-lg font-bold text-burnt-orange">₱2,890,000</span>
+            <button onclick="inspectRig('2026 Ford Ranger Raptor V6', '₱2,890,000')" class="bg-burnt-orange text-black px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-white transition">Telemetry</button>
+          </div>
+        </div>
+
+        <!-- Trail Rig 3 -->
+        <div class="bg-[#121620] border border-[#252c3a] rounded p-5 flex flex-col justify-between hover:border-burnt-orange transition group">
+          <div>
+            <div class="h-56 rounded bg-slate-900 overflow-hidden mb-4 relative">
+              <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Defender Trophy" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+              <span class="absolute top-3 left-3 bg-black/80 text-[10px] text-burnt-orange font-bold px-2 py-0.5 border border-[#e76f51]/40">
+                AIR SUSPENSION 900MM
+              </span>
+              <span class="absolute bottom-3 right-3 bg-black/90 text-xs text-white px-2.5 py-1">
+                ₱5,950,000 SRP
+              </span>
+            </div>
+            <h3 class="text-xl font-bold text-white group-hover:text-burnt-orange transition">2026 Defender 110 Trophy Spec</h3>
+            <p class="font-body text-xs text-slate-300 mt-1 leading-relaxed">Adjustable air suspension yielding 291mm ground clearance, exterior gear carrier, roof tent.</p>
+            <p class="text-xs text-burnt-orange mt-3 font-bold">From ₱91,500 / month (20% Down)</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-[#252c3a] flex justify-between items-center">
+            <span class="text-lg font-bold text-burnt-orange">₱5,950,000</span>
+            <button onclick="inspectRig('2026 Defender 110 Trophy Spec', '₱5,950,000')" class="bg-burnt-orange text-black px-4 py-1.5 rounded text-xs font-bold uppercase hover:bg-white transition">Telemetry</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08. ANIMATED ALTIMETER & OFF-ROAD COUNTERS
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-14 bg-black border-b border-[#252c3a] font-mono">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div class="p-5 border-l-2 border-burnt-orange bg-[#0e1117]">
+        <p class="text-3xl lg:text-4xl font-black text-white">850 MM</p>
+        <p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Water Fording Depth</p>
+      </div>
+      <div class="p-5 border-l-2 border-burnt-orange bg-[#0e1117]">
+        <p class="text-3xl lg:text-4xl font-black text-burnt-orange">35 INCH</p>
+        <p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Max Tire Fitment</p>
+      </div>
+      <div class="p-5 border-l-2 border-burnt-orange bg-[#0e1117]">
+        <p class="text-3xl lg:text-4xl font-black text-white">1,250 KM</p>
+        <p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Diesel Backcountry Range</p>
+      </div>
+      <div class="p-5 border-l-2 border-burnt-orange bg-[#0e1117]">
+        <p class="text-3xl lg:text-4xl font-black text-burnt-orange">5 YEARS</p>
+        <p class="text-xs text-slate-400 uppercase tracking-wider mt-1">Chassis Armor Warranty</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       09. OUTFITTER FINANCING CALCULATOR (Vehicles + Camp Accessories)
+  ========================================================================== -->
+  <section id="section-calculator" class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0b0d11] font-mono">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs text-burnt-orange uppercase tracking-widest">// EXPEDITION CAPITAL TELEMETRY</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">Outfitted 4x4 Amortization Engine</h2>
+      </div>
+
+      <div class="p-8 rounded bg-[#121620] border border-[#252c3a] grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Rig + Outfitting Package (PHP):</span>
+              <span id="rig-price-lbl" class="font-bold text-white">₱6,450,000</span>
+            </div>
+            <input type="range" id="rig-price" min="2000000" max="10000000" step="150000" value="6450000" oninput="runRigCalc()" class="w-full accent-[#e76f51] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Equity Down Payment:</span>
+              <span id="rig-dp-lbl" class="font-bold text-burnt-orange">20% (₱1,290,000)</span>
+            </div>
+            <input type="range" id="rig-dp" min="15" max="50" step="5" value="20" oninput="runRigCalc()" class="w-full accent-[#e76f51] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Tenure Horizon:</span>
+              <span class="font-bold text-white">48 Months</span>
+            </div>
+            <select id="rig-term" onchange="runRigCalc()" class="w-full bg-black border border-[#252c3a] text-xs text-white p-2.5 rounded outline-none font-bold">
+              <option value="24">24 Months (2 Years)</option>
+              <option value="36">36 Months (3 Years)</option>
+              <option value="48" selected>48 Months (4 Years)</option>
+              <option value="60">60 Months (5 Years)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-6 bg-black/80 rounded border border-[#252c3a] text-center">
+          <span class="text-xs text-slate-400 uppercase tracking-wider block">Estimated Monthly Outlay</span>
+          <p id="rig-monthly-out" class="text-4xl font-black text-burnt-orange my-2">₱102,630 <span class="text-xs text-white">/ mo</span></p>
+          <p class="font-body text-xs text-slate-400 leading-relaxed mb-4">Includes full vehicle amortization, ARB bumper, Warn winch, and hard-shell rooftop tent package.</p>
+          <button onclick="inspectRig('Outfitted Rig Pre-Approval', '₱6,450,000')" class="w-full bg-burnt-orange text-black font-black text-xs py-3 rounded uppercase tracking-wider hover:bg-white transition">
+            Fast-Track 4x4 Pre-Approval
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. TRAIL BUDGET MATCHER (Interactive Slider)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0e1117] font-mono">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="text-xs text-burnt-orange uppercase tracking-widest">// BUDGET OUTLAY</span>
+      <h2 class="text-3xl font-black uppercase text-white mt-1 mb-3">Target Your Monthly Backcountry Outlay</h2>
+      <p class="font-body text-xs text-slate-400 max-w-md mx-auto mb-8 font-light">Slide your planned monthly amortization to identify matching turnkey expedition rigs.</p>
+
+      <div class="p-8 bg-[#121620] border border-[#252c3a] rounded">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs text-slate-400 uppercase">MONTHLY EXPEDITION BUDGET</span>
+          <span id="trail-budget-val" class="text-2xl font-bold text-burnt-orange">₱48,000 / month</span>
+        </div>
+        <input type="range" min="30000" max="140000" step="3000" value="48000" oninput="runTrailBudgetMatcher(this.value)" class="w-full accent-[#e76f51] mb-6 cursor-pointer">
+        
+        <div class="p-4 bg-black/60 border border-[#252c3a] rounded text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>
+            <span class="text-[10px] text-burnt-orange uppercase tracking-wider block">Recommended 4x4 Platform</span>
+            <p id="trail-budget-car" class="font-bold text-white text-base">2026 Ford Ranger Raptor V6 (₱2,890,000 SRP)</p>
+            <p class="font-body text-xs text-slate-400">Fox Live-Valve internal bypass • 392 HP Twin-Turbo</p>
+          </div>
+          <button onclick="inspectRig('Budget Matched Rig Allocation', 'Active')" class="bg-burnt-orange text-black font-black text-xs px-5 py-2.5 rounded uppercase whitespace-nowrap hover:bg-white transition">
+            Lock Rig
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       11. NEW ARRIVALS (Fresh Port Manila Dock Imports)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0b0d11] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <span class="text-xs text-burnt-orange uppercase tracking-widest">// FRESH ARRIVALS</span>
+          <h2 class="text-3xl font-black uppercase text-white mt-1">Uncrated 4x4 Dock Influx</h2>
+        </div>
+        <span class="text-xs text-slate-500">Staged in Clark Depot</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-4 bg-[#121620] border border-[#252c3a] rounded">
+          <div class="h-44 rounded overflow-hidden mb-3 bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80" alt="Hilux GR" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-bold text-burnt-orange bg-[#e76f51]/10 px-2 py-0.5 rounded border border-[#e76f51]/30">CUSTOMS CLEARED</span>
+          <h3 class="font-bold text-base text-white mt-2">2026 Hilux GR-S Trail Master</h3>
+          <p class="text-sm font-bold text-burnt-orange mt-1">₱2,250,000</p>
+        </div>
+
+        <div class="p-4 bg-[#121620] border border-[#252c3a] rounded">
+          <div class="h-44 rounded overflow-hidden mb-3 bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=600&q=80" alt="Isuzu D-Max" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-bold text-burnt-orange bg-[#e76f51]/10 px-2 py-0.5 rounded border border-[#e76f51]/30">CUSTOMS CLEARED</span>
+          <h3 class="font-bold text-base text-white mt-2">2026 D-Max V-Cross 4x4 Overland</h3>
+          <p class="text-sm font-bold text-burnt-orange mt-1">₱2,100,000</p>
+        </div>
+
+        <div class="p-4 bg-[#121620] border border-[#252c3a] rounded">
+          <div class="h-44 rounded overflow-hidden mb-3 bg-slate-900">
+            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80" alt="Jeep Rubicon" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-bold text-burnt-orange bg-[#e76f51]/10 px-2 py-0.5 rounded border border-[#e76f51]/30">CUSTOMS CLEARED</span>
+          <h3 class="font-bold text-base text-white mt-2">2026 Wrangler Rubicon 392 V8</h3>
+          <p class="text-sm font-bold text-burnt-orange mt-1">₱5,800,000</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       12. INTERACTIVE RIG OUTFITTER ATELIER (Tactical Armor Colors)
+  ========================================================================== -->
+  <section id="section-atelier" class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0e1117] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-8">
+        <div>
+          <span class="text-xs text-burnt-orange uppercase tracking-widest">// RIG OUTFITTER ATELIER</span>
+          <h2 class="text-3xl font-black uppercase text-white mt-1">Custom Armor Coating & Livery</h2>
+        </div>
+      </div>
+
+      <div class="p-8 rounded bg-[#121620] border border-[#252c3a] grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div class="h-72 sm:h-80 rounded overflow-hidden border border-[#252c3a] relative">
+          <img id="rig-atelier-img" 
+               src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80" 
+               alt="Rig Livery" 
+               class="w-full h-full object-cover transition-all duration-500">
+          <div class="absolute bottom-3 left-3 bg-black/85 px-3 py-1 text-xs text-burnt-orange border border-burnt-orange rounded">
+            ARMOR: <span id="rig-color-lbl" class="text-white">Sahara Sand Tactical Armor</span>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-2xl font-bold text-white mb-2">Line-X Scratch-Resistant Kevlar Coating</h3>
+          <p class="font-body text-xs text-slate-300 leading-relaxed mb-6 font-light">
+            Textured polyurea bedliner coating applied to the fender flares, steel bumpers, and rocker panels. Withstands direct branch strikes and boulder abrasions.
+          </p>
+
+          <p class="text-[11px] text-slate-400 uppercase mb-2">Select Exterior Protective Armor:</p>
+          <div class="flex items-center gap-3 mb-6">
+            <button onclick="setRigArmor('Sahara Sand Tactical Armor', 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80')" class="w-8 h-8 rounded-full bg-[#d4a373] border-2 border-white shadow-lg cursor-pointer"></button>
+            <button onclick="setRigArmor('Sierra Tactical Olive Drab', 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80')" class="w-8 h-8 rounded-full bg-[#4a5743] border-2 border-slate-600 hover:border-white cursor-pointer"></button>
+            <button onclick="setRigArmor('Obsidian Basalt Matte Black', 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80')" class="w-8 h-8 rounded-full bg-zinc-900 border-2 border-slate-600 hover:border-white cursor-pointer"></button>
+          </div>
+
+          <button onclick="inspectRig('Configured Overland Armor Build', '₱6,450,000')" class="bg-burnt-orange hover:bg-white text-black font-black text-xs px-6 py-3 rounded uppercase tracking-wider transition">
+            Reserve Configured Armor Rig
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       13. WHY CHOOSE US (4 Ironclad Trail Guarantees)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0b0d11] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs text-burnt-orange uppercase tracking-widest">// THE TRAIL STANDARD</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">4 Ironclad Backcountry Guarantees</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a]">
+          <i data-lucide="shield" class="w-8 h-8 text-burnt-orange mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">5-Yr Chassis Armor</h3>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Structural warranty covering full underbody steel bash plates, differential guards, and frame integrity.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a]">
+          <i data-lucide="waves" class="w-8 h-8 text-burnt-orange mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">850mm River Fording</h3>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Certified river-crossing seal on all axle breathers, alternator units, and transmission vents.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a]">
+          <i data-lucide="truck" class="w-8 h-8 text-burnt-orange mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">24/7 Trail Recovery</h3>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Dedicated heavy-duty 4x4 recovery dispatch unit on call anywhere across Central and Northern Luzon.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a]">
+          <i data-lucide="file-check" class="w-8 h-8 text-burnt-orange mb-3"></i>
+          <h3 class="font-bold text-base text-white mb-1">LTO Off-Road Legal</h3>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Every bumper, winch, and tire modification is 100% compliant with Philippine LTO vehicle modification directives.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       14. FINANCING PROCESS PIPELINE
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0e1117] font-mono">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs text-burnt-orange uppercase tracking-widest">// THE EXPEDITION PROTOCOL</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">4-Stage Outfitting Pipeline</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a] relative">
+          <span class="font-bold text-3xl text-white/10 absolute top-4 right-4">01</span>
+          <p class="text-xs font-bold text-burnt-orange mb-1 uppercase">STAGE 01</p>
+          <h4 class="font-bold text-base text-white mb-2">Terrain Audit</h4>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">We assess whether your primary terrain is sand, riverbeds, rock crawling, or cross-island touring.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a] relative">
+          <span class="font-bold text-3xl text-white/10 absolute top-4 right-4">02</span>
+          <p class="text-xs font-bold text-burnt-orange mb-1 uppercase">STAGE 02</p>
+          <h4 class="font-bold text-base text-white mb-2">Armor Outfitting</h4>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Installation of steel bumpers, synthetic winches, Fox shocks, and certified snorkel intakes.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a] relative">
+          <span class="font-bold text-3xl text-white/10 absolute top-4 right-4">03</span>
+          <p class="text-xs font-bold text-burnt-orange mb-1 uppercase">STAGE 03</p>
+          <h4 class="font-bold text-base text-white mb-2">Pinatubo Shakedown</h4>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Complimentary shakedown trial on the Mt. Pinatubo lahar canyon trail with our expedition guides.</p>
+        </div>
+
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a] relative">
+          <span class="font-bold text-3xl text-white/10 absolute top-4 right-4">04</span>
+          <p class="text-xs font-bold text-burnt-orange mb-1 uppercase">STAGE 04</p>
+          <h4 class="font-bold text-base text-white mb-2">Expedition Handover</h4>
+          <p class="font-body text-xs text-slate-400 leading-relaxed">Turnkey delivery with full tank, camping accessories initialized, and satellite SOS beacon synced.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       15. PROMOTIONS / SPECIAL OFFERS
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-12 border-b border-[#252c3a] bg-[#0b0d11] font-mono">
+    <div class="max-w-5xl mx-auto p-8 rounded bg-[#121620] border border-burnt-orange flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <span class="bg-burnt-orange text-black text-[10px] font-bold uppercase px-2.5 py-0.5 rounded">
+          EXPEDITION ACCESSORY BUNDLE
+        </span>
+        <h3 class="text-2xl font-black uppercase text-white mt-2">Free Maxtrax Boards + ARB Compressor</h3>
+        <p class="font-body text-xs text-slate-300 mt-1 font-light">Take delivery of any outfitted 4x4 rig this month and receive dual Maxtrax MKII recovery tracks and an ARB onboard air compressor free.</p>
+      </div>
+      <button onclick="inspectRig('Overland Accessory Bundle Voucher', 'Included')" class="bg-burnt-orange hover:bg-white text-black font-black text-xs px-6 py-3 rounded uppercase tracking-wider transition whitespace-nowrap glow-orange">
+        Claim Gear Bundle
+      </button>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       16. DEALER STORY / SHOWROOM (Sierra Madre Roots)
+  ========================================================================== -->
+  <section id="section-story" class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0e1117] font-mono">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div class="h-80 rounded overflow-hidden border border-[#252c3a]">
+        <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80" alt="Clark Basecamp Workshop" class="w-full h-full object-cover">
+      </div>
+      <div>
+        <span class="text-xs text-burnt-orange uppercase tracking-widest">// EXPEDITION HERITAGE</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1 mb-4">Born in the Cordilleras & Sierra Madre</h2>
+        <p class="font-body text-xs sm:text-sm text-slate-300 leading-relaxed mb-4 font-light">
+          Founded by Philippine rainforest and jungle challenge competitors who spent decades exploring uncharted trails from Dingalan to the northern tips of Cagayan.
+        </p>
+        <p class="font-body text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-light">
+          Our 2,400-sqm Clark Basecamp integrates an off-road articulation ramp, 10 heavy vehicle outfitting bays, and an outdoor overland camping gear showroom.
+        </p>
+        <div class="flex items-center gap-6 text-xs text-slate-400">
+          <div><p class="font-bold text-white">CLARK BASECAMP</p><span class="text-[10px]">Freeport Zone, Pampanga</span></div>
+          <div class="w-px h-6 bg-white/20"></div>
+          <div><p class="font-bold text-burnt-orange">PINATUBO GATE</p><span class="text-[10px]">Direct Trailhead Access</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       17. CUSTOMER TESTIMONIALS (Trail Veterans)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0b0d11] font-mono">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs text-burnt-orange uppercase tracking-widest">// TRAIL LOGS</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">Endorsements from Overlanders</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a]">
+          <p class="font-body text-xs text-slate-300 leading-relaxed italic mb-4 font-light">
+            "We took our LC300 through three consecutive river crossings in Pinatubo during monsoon season. The sealed snorkel and differential breathers kept the engine bay bone dry."
+          </p>
+          <span class="text-xs font-bold text-white block">Dr. Anton Ramos</span>
+          <span class="text-[10px] text-burnt-orange">Alabang Overlander • Delivered 2026 LC300 GR-S</span>
+        </div>
+
+        <div class="p-6 rounded bg-[#121620] border border-[#252c3a]">
+          <p class="font-body text-xs text-slate-300 leading-relaxed italic mb-4 font-light">
+            "Their outfitting team installed the rooftop tent, awning, and dual battery system with zero rattles on rough washboard roads in Dingalan Aurora. True master mechanics."
+          </p>
+          <span class="text-xs font-bold text-white block">Capt. Emilio Cruz</span>
+          <span class="text-[10px] text-burnt-orange">Angeles City • Delivered Ranger Raptor V6</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       18. FAQ ACCORDION
+  ========================================================================== -->
+  <section id="section-faq" class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0e1117] font-mono">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs text-burnt-orange uppercase tracking-widest">// CLARIFICATIONS</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1">Frequently Examined Questions</h2>
+      </div>
+
+      <div class="space-y-3 font-body">
+        <div class="border border-[#252c3a] bg-[#121620] rounded">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-burnt-orange font-mono">
+            <span>Are heavy steel bumpers and winches legal under Philippine LTO guidelines?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-[#252c3a] leading-relaxed">
+            Yes. Every bumper and winch setup we install complies with Department of Transportation (DOTr) and LTO Administrative Order AO-2018-002, fully certified with official registration annotations.
+          </div>
+        </div>
+
+        <div class="border border-[#252c3a] bg-[#121620] rounded">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-burnt-orange font-mono">
+            <span>Can outfitting accessories (tents, suspensions, winches) be included in bank financing?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-[#252c3a] leading-relaxed">
+            Yes. Through our Tier-1 banking partners (BPI Family Auto, Security Bank, BDO), we provide comprehensive auto loan packaging that rolls your vehicle and all ARB accessories into one single monthly amortization.
+          </div>
+        </div>
+
+        <div class="border border-[#252c3a] bg-[#121620] rounded">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-burnt-orange font-mono">
+            <span>What is included in the complimentary Pinatubo shakedown?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-[#252c3a] leading-relaxed">
+            Our lead expedition guides take you on a 4-hour guided lahar trail shakedown through the Crow Valley riverbeds to teach 4WD high/low gearing, diff lock engagement, and proper winch recovery techniques.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       19. SHOWROOM LOCATION + TOPO RADAR MAP
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-[#252c3a] bg-[#0b0d11] font-mono">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div>
+        <span class="text-xs text-burnt-orange uppercase tracking-widest">// EXPEDITION BASECAMP</span>
+        <h2 class="text-3xl font-black uppercase text-white mt-1 mb-4">Clark Basecamp & Trail Center</h2>
+        <div class="space-y-2 text-xs text-slate-300">
+          <p><strong class="text-white">Facility:</strong> Clark Freeport Zone Highway, Angeles City, Pampanga</p>
+          <p><strong class="text-white">Trail Access:</strong> Direct gate access to Mt. Pinatubo Lahar River Route</p>
+          <p><strong class="text-white">Basecamp Hotline:</strong> +63 (45) 880-TRAIL / basecamp@overland.ph</p>
+          <p><strong class="text-burnt-orange">GPS Coordinates:</strong> 15.1782° N, 120.5284° E</p>
+        </div>
+      </div>
+
+      <div class="h-64 rounded bg-[#121620] border border-[#252c3a] flex items-center justify-center p-6 text-center">
+        <div>
+          <span class="w-3 h-3 rounded-full bg-burnt-orange inline-block animate-ping mb-2"></span>
+          <p class="font-bold text-base text-white">CLARK TRAIL RADAR ACTIVE</p>
+          <p class="text-xs text-burnt-orange mt-1">Pinatubo Elevation Telemetry Synced</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       20. FINAL CALL-TO-ACTION & MASTER FOOTER
+  ========================================================================== -->
+  <section id="section-cta" class="px-6 lg:px-14 py-20 bg-black text-center font-mono">
+    <div class="max-w-2xl mx-auto">
+      <span class="bg-burnt-orange/10 text-burnt-orange text-[10px] font-bold uppercase px-3 py-1 rounded border border-[#e76f51]/30 inline-block mb-4">
+        EXPEDITION ALLOCATION OPEN
+      </span>
+      <h2 class="text-4xl sm:text-6xl font-black uppercase text-white mb-4">EQUIP YOUR RIG TODAY</h2>
+      <p class="font-body text-xs sm:text-sm text-slate-400 mb-8 max-w-md mx-auto font-light">
+        Custom outfitting allocations are scheduled on a first-confirmed basis. Submit your details below to schedule your Pinatubo trail consultation.
+      </p>
+      <form onsubmit="handleTrailLead(event)" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+        <input type="text" placeholder="Overlander Name / Call-Sign" required class="flex-1 bg-[#121620] border border-[#252c3a] p-3 rounded text-xs text-white outline-none focus:border-burnt-orange">
+        <input type="tel" placeholder="+63 Mobile Number" required class="flex-1 bg-[#121620] border border-[#252c3a] p-3 rounded text-xs text-white outline-none focus:border-burnt-orange">
+        <button type="submit" class="bg-burnt-orange text-black font-black text-xs px-6 py-3 rounded uppercase tracking-wider hover:bg-white transition whitespace-nowrap glow-orange">
+          Dispatch Lead
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="px-6 lg:px-14 py-12 bg-[#08090d] border-t border-[#252c3a] text-xs text-slate-500 font-mono">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <span class="text-base font-black text-white block mb-2 font-['Montserrat']">OVERLAND EXPEDITIONS</span>
+        <p class="text-[11px] leading-relaxed text-slate-400 font-body">Trail-rated 4x4 vehicle outfitter and expedition franchise powered by OmniDrive 2026 SaaS.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Platform Divisions</h4>
+        <ul class="space-y-1 text-[11px]">
+          <li><a href="#section-fleet" class="hover:text-burnt-orange">Land Cruiser GR Series</a></li>
+          <li><a href="#section-fleet" class="hover:text-burnt-orange">Ford Ranger Raptor V6</a></li>
+          <li><a href="#section-fleet" class="hover:text-burnt-orange">Defender 110 Trophy</a></li>
+          <li><a href="#section-fleet" class="hover:text-burnt-orange">Hilux GR-S Off-Road</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Outfitter Standard</h4>
+        <ul class="space-y-1 text-[11px]">
+          <li><span class="text-burnt-orange">Depot:</span> CLARK-BASECAMP-2026</li>
+          <li><span>Armor:</span> ARB Steel Spec</li>
+          <li><span>Winch:</span> Warn Synthetic 12k</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Basecamp Desk</h4>
+        <p class="text-[11px] text-slate-300">Clark Freeport Zone, Pampanga</p>
+        <p class="text-[11px] text-burnt-orange mt-1 font-bold">+63 (45) 880-TRAIL</p>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto pt-6 border-t border-white/5 text-center text-[10px] text-slate-600">
+      © 2026 Overland Expeditions Philippines. All rights reserved. 4x4 Automotive Dealership SaaS Template.
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       SCROLL-DRIVEN REAL 4X4 PERSPECTIVE CUTS + TOPO CANVAS SCRIPTS
+  ========================================================================== -->
+  <script>
+    lucide.createIcons();
+
+    /* =========================================================================
+       1. LIVE TOPOGRAPHIC CONTOUR & TRAIL DUST CANVAS
+    ========================================================================== */
+    const topoCanvas = document.getElementById('trail-topo-canvas');
+    const topoCtx = topoCanvas.getContext('2d');
+    let dustParticles = [];
+    let scrollSpeed = 1.0;
+    let lastScrollPosition = window.scrollY;
+
+    function resizeTopoCanvas() {
+      topoCanvas.width = window.innerWidth;
+      topoCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeTopoCanvas);
+    resizeTopoCanvas();
+
+    // Create Dust Particles
+    for (let i = 0; i < 60; i++) {
+      dustParticles.push({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        size: Math.random() * 3 + 1,
+        speedX: Math.random() * 2 - 1,
+        speedY: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.35 + 0.1
+      });
+    }
+
+    function renderTrailTopo() {
+      requestAnimationFrame(renderTrailTopo);
+      topoCtx.clearRect(0, 0, topoCanvas.width, topoCanvas.height);
+
+      const currentY = window.scrollY;
+      const deltaY = Math.abs(currentY - lastScrollPosition);
+      scrollSpeed = (1.0 - 0.1) * scrollSpeed + 0.1 * (1.0 + deltaY * 0.15);
+      lastScrollPosition = currentY;
+
+      // Draw Atmospheric Dust Particles
+      dustParticles.forEach(p => {
+        p.y -= p.speedY * scrollSpeed * 0.6;
+        p.x += p.speedX;
+
+        if (p.y < 0) {
+          p.y = topoCanvas.height + 10;
+          p.x = Math.random() * topoCanvas.width;
+        }
+
+        topoCtx.fillStyle = `rgba(212, 163, 115, ${p.opacity})`;
+        topoCtx.beginPath();
+        topoCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        topoCtx.fill();
+      });
+    }
+    renderTrailTopo();
+
+    /* =========================================================================
+       2. SCROLL CAMERA PERSPECTIVE CUT ENGINE (Real 4x4 Rig Storytelling)
+    ========================================================================== */
+    function onTrailStoryScroll() {
+      const section = document.getElementById('section-story-scroll');
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      const totalScrollable = section.offsetHeight - window.innerHeight;
+      let progress = -rect.top / totalScrollable;
+      progress = Math.max(0, Math.min(1, progress));
+
+      // Update HUD progress bar
+      const pct = Math.round(progress * 100);
+      document.getElementById('trail-hud-fill').style.height = pct + '%';
+
+      // Update Real-Time Altimeter HUD Values
+      const elevation = Math.round(180 + progress * 1270);
+      document.getElementById('hud-live-altimeter').innerText = `+${elevation.toLocaleString()} M`;
+
+      const pitch = Math.round(14 + progress * 18.5);
+      document.getElementById('hud-live-pitch').innerText = `${pitch}° INCLINE`;
+
+      const psi = progress > 0.40 ? '16 PSI (TRAIL DEFLATED)' : '36 PSI (ROAD)';
+      const psiEl = document.getElementById('hud-live-psi');
+      psiEl.innerText = psi;
+      psiEl.className = progress > 0.40 ? 'text-burnt-orange font-bold' : 'text-sand-khaki font-bold';
+
+      // Switch Camera Perspectives & Story Cards
+      updateTrailAnglesAndCards(progress);
+    }
+
+    function updateTrailAnglesAndCards(p) {
+      const a1 = document.getElementById('trail-angle-1');
+      const a2 = document.getElementById('trail-angle-2');
+      const a3 = document.getElementById('trail-angle-3');
+      const a4 = document.getElementById('trail-angle-4');
+      const a5 = document.getElementById('trail-angle-5');
+
+      const c1 = document.getElementById('card-act-1');
+      const c2 = document.getElementById('card-act-2');
+      const c3 = document.getElementById('card-act-3');
+      const c4 = document.getElementById('card-act-4');
+      const c5 = document.getElementById('card-act-5');
+      const actLabel = document.getElementById('trail-act-label');
+
+      // Reset layer states
+      [a1, a2, a3, a4, a5].forEach(a => a.className = 'trail-angle-layer');
+      [c1, c2, c3, c4, c5].forEach(c => c.className = 'trail-story-card inactive-act absolute max-w-md bg-black/85 border border-burnt-orange p-6 rounded-xl backdrop-blur-md');
+
+      if (p < 0.20) {
+        a1.className = 'trail-angle-layer active-angle';
+        c1.className = 'trail-story-card active-act absolute bottom-12 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-[#252c3a] p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'TRAIL I';
+      } else if (p >= 0.20 && p < 0.45) {
+        a2.className = 'trail-angle-layer active-angle';
+        c2.className = 'trail-story-card active-act absolute top-28 right-6 lg:right-16 z-30 max-w-md bg-black/85 border border-burnt-orange p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'TRAIL II';
+      } else if (p >= 0.45 && p < 0.70) {
+        a3.className = 'trail-angle-layer active-angle';
+        c3.className = 'trail-story-card active-act absolute bottom-14 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-burnt-orange p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'TRAIL III';
+      } else if (p >= 0.70 && p < 0.88) {
+        a4.className = 'trail-angle-layer active-angle';
+        c4.className = 'trail-story-card active-act absolute top-28 left-6 lg:left-14 z-30 max-w-md bg-black/85 border border-burnt-orange p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'TRAIL IV';
+      } else {
+        a5.className = 'trail-angle-layer active-angle';
+        c5.className = 'trail-story-card active-act absolute bottom-14 right-6 lg:right-16 z-30 max-w-md bg-black/85 border border-burnt-orange p-6 rounded-xl backdrop-blur-md';
+        actLabel.innerText = 'TRAIL V';
+      }
+    }
+
+    /* =========================================================================
+       3. INTERACTIVE CALCULATOR & FILTERS
+    ========================================================================== */
+    function runRigCalc() {
+      const price = parseFloat(document.getElementById('rig-price').value);
+      const dpPct = parseFloat(document.getElementById('rig-dp').value);
+      const tenure = parseFloat(document.getElementById('rig-term').value);
+
+      const dpValue = price * (dpPct / 100);
+      const principal = price - dpValue;
+      // 3.9% special outfitter commercial interest rate
+      const totalInterest = principal * 0.039 * (tenure / 12);
+      const monthly = (principal + totalInterest) / tenure;
+
+      document.getElementById('rig-price-lbl').innerText = '₱' + price.toLocaleString();
+      document.getElementById('rig-dp-lbl').innerText = `${dpPct}% (₱${dpValue.toLocaleString()})`;
+      document.getElementById('rig-monthly-out').innerHTML = `₱${Math.round(monthly).toLocaleString()} <span class="text-xs text-white">/ mo</span>`;
+    }
+
+    function runTrailBudgetMatcher(val) {
+      const budget = parseFloat(val);
+      document.getElementById('trail-budget-val').innerText = '₱' + budget.toLocaleString() + ' / month';
+      
+      const carEl = document.getElementById('trail-budget-car');
+      if (budget < 38000) {
+        carEl.innerText = '2026 D-Max V-Cross 4x4 (₱2,100,000 SRP)';
+      } else if (budget < 55000) {
+        carEl.innerText = '2026 Ford Ranger Raptor V6 (₱2,890,000 SRP)';
+      } else if (budget < 85000) {
+        carEl.innerText = '2026 Defender 110 Trophy Spec (₱5,950,000 SRP)';
+      } else {
+        carEl.innerText = '2026 LC300 GR-S Overland (₱6,450,000 SRP)';
+      }
+    }
+
+    function setRigArmor(name, imgUrl) {
+      document.getElementById('rig-atelier-img').src = imgUrl;
+      document.getElementById('rig-color-lbl').innerText = name;
+    }
+
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      const chevron = btn.querySelector('i');
+      content.classList.toggle('hidden');
+      if (chevron) chevron.classList.toggle('rotate-180');
+    }
+
+    function inspectRig(model, price) {
+      alert(`[Expedition Rig Dossier Dispatched]\n\nChassis: ${model}\nAllocation: ${price}\n\nOur expedition director at Clark Basecamp will call your mobile within 15 minutes.`);
+    }
+
+    function executeTrailFilter() {
+      const terrain = document.getElementById('trail-terrain').value;
+      const price = document.getElementById('trail-price').value;
+      alert(`[Expedition Query Synced]\nTerrain: ${terrain}\nBudget Limit: ₱${parseInt(price).toLocaleString()}\n\nDisplaying matching trail-rated rigs staged at Clark Basecamp.`);
+    }
+
+    function selectAdventure(route) {
+      alert(`[Route Selected: ${route}]\nFiltering all rigs equipped for this backcountry expedition.`);
+    }
+
+    function handleTrailLead(e) {
+      e.preventDefault();
+      alert("[Expedition Briefing Dispatched]\nThank you. Our trail coordinator will contact you shortly to arrange your Pinatubo test drive.");
+    }
+
+    function downloadSelf() {
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "overland-4x4-storytelling.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      window.addEventListener('scroll', onTrailStoryScroll);
+      onTrailStoryScroll();
+    });
+  </script>
+</body>
+</html>

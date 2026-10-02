@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metropolis Fleet Holdings — Corporate Automotive & Mobility Solutions</title>
+  
+  <!-- Tailwind CSS & Lucide Icons CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonts: Plus Jakarta Sans (Clean Enterprise Geometric) + Inter (Technical UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background-color: #f8fafc; color: #0f172a; overflow-x: hidden; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-ui { font-family: 'Inter', sans-serif; }
+
+    /* Infinite Marquee */
+    @keyframes marqueeRun { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .ticker-bar { display: flex; width: 200%; animation: marqueeRun 26s linear infinite; }
+    .ticker-bar:hover { animation-play-state: paused; }
+
+    /* Corporate Tokens */
+    .bg-cobalt { background-color: #0052ff; }
+    .text-cobalt { color: #0052ff; }
+    .border-cobalt { border-color: #0052ff; }
+    .bg-navy-corporate { background-color: #0b132b; }
+    .text-navy-corporate { color: #0b132b; }
+  </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-900 antialiased selection:bg-[#0052ff] selection:text-white">
+
+  <!-- =========================================================================
+       01. HEADER / NAVIGATION (Clean Corporate Portal Bar)
+  ========================================================================== -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 px-6 lg:px-14 py-3.5 flex items-center justify-between shadow-sm">
+    <!-- Corporate Identity -->
+    <div class="flex items-center gap-4">
+      <a href="#" class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-cobalt flex items-center justify-center text-white font-extrabold text-sm shadow-md shadow-blue-500/30">
+          M
+        </div>
+        <div class="flex flex-col">
+          <span class="text-lg font-black tracking-tight text-slate-900 leading-none">METROPOLIS</span>
+          <span class="text-[10px] font-semibold text-slate-500 tracking-wider uppercase font-ui">Fleet Holdings NCR</span>
+        </div>
+      </a>
+      <span class="hidden md:inline-flex items-center gap-1.5 text-[11px] font-semibold text-blue-700 bg-blue-50 border border-blue-200/60 px-2.5 py-0.5 rounded-full font-ui">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> ISO 9001:2026 Fleet Certified
+      </span>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-slate-600 font-ui">
+      <a href="#section-procurement" class="hover:text-cobalt transition">Procurement Search</a>
+      <a href="#section-fleet" class="hover:text-cobalt transition">Fleet Matrix</a>
+      <a href="#section-calculator" class="hover:text-cobalt transition">OPEX Calculator</a>
+      <a href="#section-telematics" class="hover:text-cobalt transition">Fleet Telematics</a>
+      <a href="#section-story" class="hover:text-cobalt transition">Corporate Footprint</a>
+      <a href="#section-faq" class="hover:text-cobalt transition">SLA FAQ</a>
+    </nav>
+
+    <!-- Client Services Desk & Actions -->
+    <div class="flex items-center gap-3 font-ui">
+      <div class="text-right hidden sm:block mr-2">
+        <p class="text-[10px] text-slate-400 uppercase tracking-widest font-semibold">Enterprise Desk</p>
+        <p class="text-xs font-bold text-slate-900">+63 (2) 8631-FLEET</p>
+      </div>
+      <a href="#section-cta" class="bg-cobalt text-white px-4 py-2 rounded-lg text-xs font-bold tracking-wide hover:bg-blue-700 transition shadow-sm flex items-center gap-1.5">
+        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Request RFP
+      </a>
+      <button onclick="downloadSelf()" title="Save as standalone .html file" class="p-2 rounded-lg border border-slate-200 hover:border-cobalt text-slate-600 hover:text-cobalt transition bg-white shadow-sm">
+        <i data-lucide="download" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       02. CINEMATIC HERO (Executive Modular Bento Hero)
+  ========================================================================== -->
+  <section class="min-h-[85vh] px-6 lg:px-14 py-16 flex flex-col justify-center border-b border-slate-200 bg-gradient-to-b from-white via-slate-50 to-[#f8fafc]">
+    <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      
+      <!-- Left Narrative Column -->
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-200/80 px-3 py-1 rounded-full text-xs font-bold text-cobalt mb-6 font-ui">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> BIR OPEX COMPLIANT LEASE STRUCTURES
+        </div>
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 tracking-tight leading-[1.05] mb-6">
+          Intelligent Fleet Mobility <br>
+          <span class="text-cobalt">for Modern Corporations.</span>
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-xl mb-8 font-ui font-normal">
+          Metropolis Fleet Holdings manages over 2,800 executive, commercial, and zero-emission vehicles across Metro Manila and Central Luzon. Delivering standardized 160-point audits, automated telematics, and guaranteed residual value buybacks.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 font-ui">
+          <a href="#section-fleet" class="bg-cobalt text-white px-7 py-3.5 rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition shadow-lg shadow-blue-500/20 flex items-center gap-2">
+            Explore 140+ Fleet Units <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#section-calculator" class="bg-white border border-slate-300 hover:border-cobalt text-slate-700 px-7 py-3.5 rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-sm">
+            Commercial Lease Engine
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Visual Widget Card -->
+      <div class="lg:col-span-5">
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xl">
+          <div class="h-72 rounded-xl overflow-hidden relative bg-slate-100 mb-4">
+            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80" alt="Executive Fleet Sedan" class="w-full h-full object-cover">
+            <div class="absolute top-3 left-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-md text-[10px] font-bold text-slate-800 font-ui shadow-sm">
+              EXECUTIVE SPECIFICATION
+            </div>
+            <div class="absolute bottom-3 right-3 bg-navy-corporate text-white px-3 py-1 rounded-md text-xs font-bold font-ui">
+              ₱2,450,000 SRP
+            </div>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between font-ui">
+            <div>
+              <p class="text-xs font-bold text-slate-900">2026 Executive Hybrid Sedan</p>
+              <p class="text-[11px] text-slate-500">Euro 6 Certified • 22.4 KM/L Fuel Economy</p>
+            </div>
+            <span class="text-xs font-bold text-cobalt bg-blue-50 px-2.5 py-1 rounded border border-blue-200/50">₱39,200/mo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Corporate SLA Benchmarks -->
+    <div class="max-w-7xl mx-auto w-full mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 font-ui">
+      <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">FLEET UNITS MANAGED</span>
+        <p class="text-3xl font-extrabold text-slate-900 mt-1">2,850+</p>
+        <p class="text-xs text-slate-500 mt-0.5">Across Top 1000 Corporations</p>
+      </div>
+      <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">UPTIME SLA RATING</span>
+        <p class="text-3xl font-extrabold text-cobalt mt-1">99.8%</p>
+        <p class="text-xs text-slate-500 mt-0.5">Guaranteed Loaner Replacement</p>
+      </div>
+      <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">INSPECTION CHECKLIST</span>
+        <p class="text-3xl font-extrabold text-slate-900 mt-1">160 PTS</p>
+        <p class="text-xs text-slate-500 mt-0.5">Certified Pre-Delivery Clearance</p>
+      </div>
+      <div class="p-5 rounded-xl bg-white border border-slate-200 shadow-sm">
+        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">RFP TURNAROUND</span>
+        <p class="text-3xl font-extrabold text-cobalt mt-1">48 HRS</p>
+        <p class="text-xs text-slate-500 mt-0.5">Custom Master Lease Contract</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03. SCROLLING MARQUEE (Accreditation & Banking Partners)
+  ========================================================================== -->
+  <div class="py-4 bg-white border-b border-slate-200 overflow-hidden font-ui">
+    <div class="ticker-bar flex items-center gap-14 text-xs font-bold uppercase tracking-wider text-slate-500 whitespace-nowrap">
+      <span class="text-slate-900">METROPOLIS FLEET SERVICES</span> <span class="text-blue-500">•</span>
+      <span>BDO CORPORATE LEASING</span> <span class="text-blue-500">•</span>
+      <span>BPI ASSET FINANCING ACCREDITED</span> <span class="text-blue-500">•</span>
+      <span>METROBANK COMMERCIAL AUTOMOTIVE DESK</span> <span class="text-blue-500">•</span>
+      <span>PETRON FLEET CARD INTEGRATED</span> <span class="text-blue-500">•</span>
+      <span>SHELL FLEET MANAGEMENT COMPLIANT</span> <span class="text-blue-500">•</span>
+      <span>ISO 9001:2026 CERTIFIED OPERATION</span> <span class="text-blue-500">•</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       04. SMART VEHICLE SEARCH (Corporate Procurement Filter)
+  ========================================================================== -->
+  <section id="section-procurement" class="px-6 lg:px-14 py-12 border-b border-slate-200 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center justify-between mb-6 font-ui">
+        <div class="flex items-center gap-2.5">
+          <span class="w-3 h-3 bg-cobalt rounded-sm"></span>
+          <h2 class="text-xl font-bold text-slate-900">Corporate Fleet Procurement Filter</h2>
+        </div>
+        <span class="text-xs text-slate-500">142 Commercial Units Synced with NCR Depots</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-5 bg-slate-50 border border-slate-200 rounded-xl font-ui">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1.5">Fleet Mobility Category</label>
+          <select id="corp-filter-type" class="w-full bg-white border border-slate-300 text-xs font-semibold text-slate-800 p-2.5 rounded-lg outline-none focus:border-cobalt">
+            <option value="all">All Fleet Classifications</option>
+            <option value="sedan">Executive Hybrid Sedans</option>
+            <option value="suv">Field Operations 4x4 SUVs</option>
+            <option value="van">Commercial Transporter Vans</option>
+            <option value="ev">Corporate Green Fleet EVs</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1.5">Monthly OPEX Ceiling (PHP)</label>
+          <select id="corp-filter-budget" class="w-full bg-white border border-slate-300 text-xs font-semibold text-slate-800 p-2.5 rounded-lg outline-none focus:border-cobalt">
+            <option value="99999999">No Ceiling Limit</option>
+            <option value="35000">Under ₱35,000 / mo</option>
+            <option value="50000">Under ₱50,000 / mo</option>
+            <option value="80000">Under ₱80,000 / mo</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1.5">Fuel & Powertrain Protocol</label>
+          <select class="w-full bg-white border border-slate-300 text-xs font-semibold text-slate-800 p-2.5 rounded-lg outline-none focus:border-cobalt">
+            <option>All Powertrains</option>
+            <option>Self-Charging Hybrid (Euro 6)</option>
+            <option>Turbo Diesel (Heavy Commercial)</option>
+            <option>Pure Electric (Zero Emission)</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="executeCorpSearch()" class="w-full bg-cobalt hover:bg-blue-700 text-white font-bold text-xs py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow-sm">
+            <i data-lucide="filter" class="w-4 h-4"></i> Query Fleet Database
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       05. CATEGORY BROWSER (Corporate Mobility Divisions)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-[#f8fafc]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-8 font-ui">
+        <div>
+          <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// FLEET DIVISIONS</span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Enterprise Mobility Architecture</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 font-ui">
+        <div onclick="filterDivision('Executive Mobility')" class="p-6 rounded-xl bg-white border border-slate-200 hover:border-cobalt transition cursor-pointer shadow-sm group">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 text-cobalt flex items-center justify-center font-bold mb-4 group-hover:bg-cobalt group-hover:text-white transition">
+            <i data-lucide="briefcase" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-bold text-base text-slate-900">Executive Mobility</h3>
+          <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">Chauffeured and management hybrid sedans with refined interior comfort.</p>
+          <span class="text-xs font-bold text-cobalt mt-4 block">48 Active Units →</span>
+        </div>
+
+        <div onclick="filterDivision('Field Operations 4x4')" class="p-6 rounded-xl bg-white border border-slate-200 hover:border-cobalt transition cursor-pointer shadow-sm group">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 text-cobalt flex items-center justify-center font-bold mb-4 group-hover:bg-cobalt group-hover:text-white transition">
+            <i data-lucide="truck" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-bold text-base text-slate-900">Field Operations 4x4</h3>
+          <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">Heavy-duty turbo diesel pickups and SUVs engineered for rugged site inspection.</p>
+          <span class="text-xs font-bold text-cobalt mt-4 block">36 Active Units →</span>
+        </div>
+
+        <div onclick="filterDivision('VIP Executive Transport')" class="p-6 rounded-xl bg-white border border-slate-200 hover:border-cobalt transition cursor-pointer shadow-sm group">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 text-cobalt flex items-center justify-center font-bold mb-4 group-hover:bg-cobalt group-hover:text-white transition">
+            <i data-lucide="users" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-bold text-base text-slate-900">VIP Transporters</h3>
+          <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">High-capacity executive vans featuring captain chairs and mobile office desks.</p>
+          <span class="text-xs font-bold text-cobalt mt-4 block">28 Active Units →</span>
+        </div>
+
+        <div onclick="filterDivision('Corporate Green Fleet')" class="p-6 rounded-xl bg-white border border-slate-200 hover:border-cobalt transition cursor-pointer shadow-sm group">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 text-cobalt flex items-center justify-center font-bold mb-4 group-hover:bg-cobalt group-hover:text-white transition">
+            <i data-lucide="zap" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-bold text-base text-slate-900">Green Fleet EVs</h3>
+          <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">Zero-emission corporate fleets with depot charging infrastructure deployment.</p>
+          <span class="text-xs font-bold text-cobalt mt-4 block">30 Active Units →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       06. FEATURED VEHICLES (Structured Corporate Fleet Matrix)
+  ========================================================================== -->
+  <section id="section-fleet" class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4 font-ui">
+        <div>
+          <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// CERTIFIED FLEET INVENTORY</span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Featured Corporate Allocations</h2>
+        </div>
+        <span class="text-xs text-slate-500 font-semibold">Staged in Ortigas and Pasig Central Logistics Depots</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-ui">
+        <!-- Fleet Unit 1 -->
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-cobalt transition shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="h-52 bg-slate-100 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80" alt="Executive Sedan" class="w-full h-full object-cover">
+              <span class="absolute top-3 left-3 bg-white/95 px-2.5 py-0.5 rounded text-[10px] font-bold text-slate-800 shadow-sm">
+                HYBRID 22.4 KM/L
+              </span>
+              <span class="absolute bottom-3 right-3 bg-navy-corporate text-white px-2.5 py-1 rounded text-xs font-bold">
+                ₱2,450,000 SRP
+              </span>
+            </div>
+            <div class="p-5">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">EXECUTIVE DIVISION</span>
+              <h3 class="font-bold text-lg text-slate-900 mt-1">2026 Executive Hybrid Sedan</h3>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Euro 6 Certified, active lane-keep telemetry, premium acoustic suppression.</p>
+              
+              <div class="grid grid-cols-3 gap-2 my-4 pt-3 border-t border-slate-100 text-center text-xs">
+                <div><span class="text-[10px] text-slate-400 block">TAX WRITE-OFF</span><p class="font-bold text-slate-800">100% OPEX</p></div>
+                <div><span class="text-[10px] text-slate-400 block">WARRANTY</span><p class="font-bold text-slate-800">5-YR PMS</p></div>
+                <div><span class="text-[10px] text-slate-400 block">SEATS</span><p class="font-bold text-slate-800">5 Adult</p></div>
+              </div>
+
+              <p class="text-xs font-bold text-cobalt">From ₱39,200 / month (36-Mo Master Lease)</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="requestFleetQuote('Executive Hybrid Sedan', '₱2,450,000')" class="w-full py-2.5 bg-slate-50 hover:bg-cobalt hover:text-white border border-slate-200 text-slate-700 font-bold text-xs rounded-lg transition uppercase tracking-wider">
+              Request Fleet Specification
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Unit 2 -->
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-cobalt transition shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="h-52 bg-slate-100 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80" alt="Fleet SUV" class="w-full h-full object-cover">
+              <span class="absolute top-3 left-3 bg-white/95 px-2.5 py-0.5 rounded text-[10px] font-bold text-slate-800 shadow-sm">
+                4x4 DIESEL WORKHORSE
+              </span>
+              <span class="absolute bottom-3 right-3 bg-navy-corporate text-white px-2.5 py-1 rounded text-xs font-bold">
+                ₱2,890,000 SRP
+              </span>
+            </div>
+            <div class="p-5">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">OPERATIONS DIVISION</span>
+              <h3 class="font-bold text-lg text-slate-900 mt-1">2026 Turbo Diesel 4x4 Fleet SUV</h3>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Reinforced commercial suspension, 7-passenger capacity, heavy payload rating.</p>
+              
+              <div class="grid grid-cols-3 gap-2 my-4 pt-3 border-t border-slate-100 text-center text-xs">
+                <div><span class="text-[10px] text-slate-400 block">TAX WRITE-OFF</span><p class="font-bold text-slate-800">100% OPEX</p></div>
+                <div><span class="text-[10px] text-slate-400 block">WARRANTY</span><p class="font-bold text-slate-800">5-YR PMS</p></div>
+                <div><span class="text-[10px] text-slate-400 block">SEATS</span><p class="font-bold text-slate-800">7 Adult</p></div>
+              </div>
+
+              <p class="text-xs font-bold text-cobalt">From ₱46,500 / month (36-Mo Master Lease)</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="requestFleetQuote('Turbo Diesel 4x4 Fleet SUV', '₱2,890,000')" class="w-full py-2.5 bg-slate-50 hover:bg-cobalt hover:text-white border border-slate-200 text-slate-700 font-bold text-xs rounded-lg transition uppercase tracking-wider">
+              Request Fleet Specification
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Unit 3 -->
+        <div class="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-cobalt transition shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="h-52 bg-slate-100 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80" alt="VIP Transporter" class="w-full h-full object-cover">
+              <span class="absolute top-3 left-3 bg-white/95 px-2.5 py-0.5 rounded text-[10px] font-bold text-slate-800 shadow-sm">
+                MOBILE BOARDROOM
+              </span>
+              <span class="absolute bottom-3 right-3 bg-navy-corporate text-white px-2.5 py-1 rounded text-xs font-bold">
+                ₱3,650,000 SRP
+              </span>
+            </div>
+            <div class="p-5">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">VIP MANAGEMENT</span>
+              <h3 class="font-bold text-lg text-slate-900 mt-1">2026 Corporate VIP Transporter</h3>
+              <p class="text-xs text-slate-500 mt-1 leading-relaxed">Dual captain chairs, onboard Wi-Fi hotspot router, acoustic privacy partition.</p>
+              
+              <div class="grid grid-cols-3 gap-2 my-4 pt-3 border-t border-slate-100 text-center text-xs">
+                <div><span class="text-[10px] text-slate-400 block">TAX WRITE-OFF</span><p class="font-bold text-slate-800">100% OPEX</p></div>
+                <div><span class="text-[10px] text-slate-400 block">WARRANTY</span><p class="font-bold text-slate-800">5-YR PMS</p></div>
+                <div><span class="text-[10px] text-slate-400 block">SEATS</span><p class="font-bold text-slate-800">8 VIP</p></div>
+              </div>
+
+              <p class="text-xs font-bold text-cobalt">From ₱58,400 / month (36-Mo Master Lease)</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <button onclick="requestFleetQuote('Corporate VIP Transporter', '₱3,650,000')" class="w-full py-2.5 bg-slate-50 hover:bg-cobalt hover:text-white border border-slate-200 text-slate-700 font-bold text-xs rounded-lg transition uppercase tracking-wider">
+              Request Fleet Specification
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       07. ANIMATED TELEMETRY STATS / COUNTERS
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-14 bg-navy-corporate text-white border-b border-slate-800 font-ui">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <p class="text-4xl font-extrabold text-blue-400">₱4.2B</p>
+        <p class="text-xs uppercase tracking-wider text-slate-300 mt-1 font-semibold">Active Commercial Portfolio</p>
+      </div>
+      <div>
+        <p class="text-4xl font-extrabold text-white">99.8%</p>
+        <p class="text-xs uppercase tracking-wider text-slate-300 mt-1 font-semibold">Fleet Availability SLA</p>
+      </div>
+      <div>
+        <p class="text-4xl font-extrabold text-blue-400">160 PTS</p>
+        <p class="text-xs uppercase tracking-wider text-slate-300 mt-1 font-semibold">Standardized Audit Protocol</p>
+      </div>
+      <div>
+        <p class="text-4xl font-extrabold text-white">2 HRS</p>
+        <p class="text-xs uppercase tracking-wider text-slate-300 mt-1 font-semibold">Rapid Emergency Dispatch</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08. FINANCING CALCULATOR (Commercial Lease & BIR Tax Depreciation)
+  ========================================================================== -->
+  <section id="section-calculator" class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-white font-ui">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// FINANCIAL ARCHITECTURE</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Commercial Lease & Tax Depreciation Engine</h2>
+      </div>
+
+      <div class="p-8 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-8 items-center shadow-sm">
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-500">Fleet Unit Value (PHP)</span>
+              <span id="corp-calc-price-lbl" class="font-bold text-slate-900">₱2,450,000</span>
+            </div>
+            <input type="range" id="corp-calc-price" min="1500000" max="8000000" step="100000" value="2450000" oninput="runCorpCalc()" class="w-full accent-blue-600">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-500">Corporate Equity Deposit (20%)</span>
+              <span id="corp-calc-dp-lbl" class="font-bold text-cobalt">₱490,000</span>
+            </div>
+            <input type="range" id="corp-calc-dp" min="15" max="40" step="5" value="20" oninput="runCorpCalc()" class="w-full accent-blue-600">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-500">Master Lease Contract Horizon</span>
+              <span class="font-bold text-slate-900">36 Months (3 Years)</span>
+            </div>
+            <select id="corp-calc-term" onchange="runCorpCalc()" class="w-full bg-white border border-slate-300 text-xs font-semibold p-2.5 rounded-lg outline-none">
+              <option value="24">24 Months Closed-End Operating Lease</option>
+              <option value="36" selected>36 Months Master Commercial Facility</option>
+              <option value="48">48 Months Extended Fleet Facility</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-6 bg-white rounded-xl border border-slate-200 shadow-sm text-center">
+          <span class="text-xs text-slate-400 uppercase font-semibold block">Monthly Commercial OPEX Outlay</span>
+          <p id="corp-calc-monthly-out" class="text-4xl font-extrabold text-cobalt my-2">₱39,200 <span class="text-xs font-normal text-slate-500">/ mo / unit</span></p>
+          <div class="p-3 bg-blue-50 rounded-lg text-left text-xs text-slate-600 mb-4 border border-blue-100">
+            <p class="font-bold text-cobalt">BIR OPEX Invoicing Compliant:</p>
+            <p class="text-[11px] mt-0.5">Lease payments qualify as 100% tax-deductible operating expenses under National Internal Revenue Code Section 34.</p>
+          </div>
+          <button onclick="requestFleetQuote('Commercial Master Lease Calculation', '₱2,450,000')" class="w-full bg-cobalt hover:bg-blue-700 text-white font-bold text-xs py-2.5 rounded-lg transition uppercase tracking-wider">
+            Generate Formal Corporate RFP
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       09. FIND A CAR WITHIN YOUR BUDGET (Corporate Budget Optimizer)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-[#f8fafc] font-ui">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// OPEX ALLOCATION TARGETING</span>
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-3">Corporate Monthly Budget Optimizer</h2>
+      <p class="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto mb-8">Specify your target operating expenditure per vehicle unit to identify qualifying fleet models.</p>
+
+      <div class="p-6 sm:p-8 bg-white border border-slate-200 rounded-2xl shadow-sm">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-bold text-slate-500 uppercase">MONTHLY ALLOCATION PER VEHICLE</span>
+          <span id="corp-budget-val" class="text-2xl font-extrabold text-cobalt">₱45,000 / month</span>
+        </div>
+        <input type="range" min="25000" max="85000" step="2500" value="45000" oninput="runCorpBudgetMatcher(this.value)" class="w-full accent-blue-600 mb-6">
+        
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>
+            <span class="text-[10px] font-bold text-cobalt uppercase tracking-wider block">Recommended Corporate Platform</span>
+            <p id="corp-budget-car" class="font-bold text-slate-900 text-base">2026 Executive Hybrid Sedan (₱2,450,000 SRP)</p>
+            <p class="text-xs text-slate-500">Includes comprehensive insurance, telematics, and scheduled PMS coverage.</p>
+          </div>
+          <button onclick="requestFleetQuote('Budget Matched Fleet Spec', 'Active')" class="bg-cobalt hover:bg-blue-700 text-white font-bold text-xs px-5 py-2.5 rounded-lg whitespace-nowrap transition">
+            Select Model
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. NEW ARRIVALS (Fresh Commercial Fleet Imports)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-white font-ui">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// INCOMING ALLOCATIONS</span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Fresh Port Arrivals Available for Staging</h2>
+        </div>
+        <span class="text-xs text-slate-400 font-semibold">Immediate Turnkey Deployment</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-cobalt transition">
+          <div class="h-44 rounded-lg overflow-hidden mb-3 bg-slate-200">
+            <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=600&q=80" alt="Fleet Transporter" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">CUSTOMS CLEARED</span>
+          <h3 class="font-bold text-base text-slate-900 mt-2">2026 Fleet Transporter Cargo Van</h3>
+          <p class="text-sm font-bold text-cobalt mt-1">₱2,100,000 SRP</p>
+        </div>
+
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-cobalt transition">
+          <div class="h-44 rounded-lg overflow-hidden mb-3 bg-slate-200">
+            <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=600&q=80" alt="Executive Crossover" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">CUSTOMS CLEARED</span>
+          <h3 class="font-bold text-base text-slate-900 mt-2">2026 Executive Hybrid Crossover</h3>
+          <p class="text-sm font-bold text-cobalt mt-1">₱1,950,000 SRP</p>
+        </div>
+
+        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 hover:border-cobalt transition">
+          <div class="h-44 rounded-lg overflow-hidden mb-3 bg-slate-200">
+            <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80" alt="4x4 Double Cab" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">CUSTOMS CLEARED</span>
+          <h3 class="font-bold text-base text-slate-900 mt-2">2026 4x4 Workhorse Double-Cab</h3>
+          <p class="text-sm font-bold text-cobalt mt-1">₱1,780,000 SRP</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       11. INTERACTIVE SHOWCASE (Enterprise Fleet Telematics)
+  ========================================================================== -->
+  <section id="section-telematics" class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-[#f8fafc] font-ui">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div class="h-80 sm:h-96 rounded-2xl overflow-hidden border border-slate-200 shadow-md relative bg-white">
+        <img id="telematics-img" src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80" alt="Fleet Telematics" class="w-full h-full object-cover">
+        <div class="absolute bottom-4 left-4 bg-white/95 backdrop-blur px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm text-xs">
+          MODE: <span id="telematics-mode-label" class="font-bold text-cobalt">Live Telematics GPS & OBD-II</span>
+        </div>
+      </div>
+
+      <div>
+        <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// REAL-TIME DATA SUITE</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-4">Enterprise Telematics Integrated with Your ERP</h2>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">
+          Every Metropolis vehicle comes provisioned with automated GPS telemetry, fuel consumption logging, and scheduled maintenance alerts linked directly to your corporate fleet dashboard or SAP/Oracle systems.
+        </p>
+
+        <div class="space-y-3 mb-6">
+          <div onclick="setTelematicsView('Live Telematics GPS & OBD-II', 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80')" class="p-3.5 rounded-xl border border-slate-200 bg-white hover:border-cobalt transition cursor-pointer flex items-center justify-between shadow-sm">
+            <div>
+              <p class="font-bold text-xs text-slate-900">GPS Geo-Fencing & Fuel Analytics</p>
+              <p class="text-[11px] text-slate-500">Real-time driver route optimization and idling audit</p>
+            </div>
+            <i data-lucide="radio" class="w-4 h-4 text-cobalt"></i>
+          </div>
+
+          <div onclick="setTelematicsView('Cabin Air & Driver Fatigue Monitor', 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80')" class="p-3.5 rounded-xl border border-slate-200 bg-white hover:border-cobalt transition cursor-pointer flex items-center justify-between shadow-sm">
+            <div>
+              <p class="font-bold text-xs text-slate-900">Driver Safety & Collision Avoidance</p>
+              <p class="text-[11px] text-slate-500">AI fatigue detection and automatic emergency braking telemetry</p>
+            </div>
+            <i data-lucide="shield" class="w-4 h-4 text-cobalt"></i>
+          </div>
+        </div>
+
+        <button onclick="requestFleetQuote('Enterprise Telematics Pilot', 'Active')" class="bg-cobalt hover:bg-blue-700 text-white font-bold text-xs px-6 py-3 rounded-lg transition uppercase tracking-wider">
+          Request Telematics Platform Demo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       12. WHY CHOOSE US (4 Corporate Governance Pillars)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-white font-ui">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// ENTERPRISE GOVERNANCE</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">The Metropolis SLA Commitment</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200">
+          <i data-lucide="file-check-2" class="w-8 h-8 text-cobalt mb-3"></i>
+          <h3 class="font-bold text-sm text-slate-900 mb-1">BIR OPEX Invoicing</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Tax-efficient lease structures qualifying for direct commercial operating expense deductions.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200">
+          <i data-lucide="repeat" class="w-8 h-8 text-cobalt mb-3"></i>
+          <h3 class="font-bold text-sm text-slate-900 mb-1">Guaranteed Loaner Replacement</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Same-category replacement vehicle dispatched within 2 hours if any unit undergoes scheduled service.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200">
+          <i data-lucide="badge-percent" class="w-8 h-8 text-cobalt mb-3"></i>
+          <h3 class="font-bold text-sm text-slate-900 mb-1">Predetermined Buyback</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Contractual residual buyback guarantee at 36 or 48-month contract milestones, removing balance sheet risk.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200">
+          <i data-lucide="wrench" class="w-8 h-8 text-cobalt mb-3"></i>
+          <h3 class="font-bold text-sm text-slate-900 mb-1">Turnkey Preventative Care</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">All routine maintenance, genuine parts, synthetic lubricants, and tire rotations covered under one invoice.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       13. FINANCING PROCESS (4-Step Corporate Procurement Pipeline)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-[#f8fafc] font-ui">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// PROCUREMENT PROTOCOL</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">4-Step Enterprise Fleet Pipeline</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="p-6 rounded-xl bg-white border border-slate-200 shadow-sm relative">
+          <span class="font-extrabold text-3xl text-blue-200 absolute top-4 right-4">01</span>
+          <p class="text-xs font-bold text-cobalt mb-1 uppercase">STEP ONE</p>
+          <h4 class="font-bold text-base text-slate-900 mb-2">Fleet Mobility Audit</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">Our mobility analysts audit your corporate mileage, fuel expenditure, and duty cycles.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-white border border-slate-200 shadow-sm relative">
+          <span class="font-extrabold text-3xl text-blue-200 absolute top-4 right-4">02</span>
+          <p class="text-xs font-bold text-cobalt mb-1 uppercase">STEP TWO</p>
+          <h4 class="font-bold text-base text-slate-900 mb-2">Master Lease Agreement</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">Custom commercial facility drafted with flexible term horizons and predetermined residual values.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-white border border-slate-200 shadow-sm relative">
+          <span class="font-extrabold text-3xl text-blue-200 absolute top-4 right-4">03</span>
+          <p class="text-xs font-bold text-cobalt mb-1 uppercase">STEP THREE</p>
+          <h4 class="font-bold text-base text-slate-900 mb-2">160-Point Staging</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">Forensic electrical and mechanical testing, corporate livery wrapping, and telematics provisioning.</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-white border border-slate-200 shadow-sm relative">
+          <span class="font-extrabold text-3xl text-blue-200 absolute top-4 right-4">04</span>
+          <p class="text-xs font-bold text-cobalt mb-1 uppercase">STEP FOUR</p>
+          <h4 class="font-bold text-base text-slate-900 mb-2">Office Turnkey Delivery</h4>
+          <p class="text-xs text-slate-500 leading-relaxed">Vehicles delivered directly to your headquarters with keys, driver handbooks, and fleet cards ready.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       14. PROMOTIONS / SPECIAL OFFERS
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-12 border-b border-slate-200 bg-white font-ui">
+    <div class="max-w-5xl mx-auto p-8 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <span class="bg-cobalt text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded">Q4 ENTERPRISE INCENTIVE</span>
+        <h3 class="text-2xl font-bold text-slate-900 mt-2">Corporate Fleet Transition Rebate</h3>
+        <p class="text-xs text-slate-600 mt-1">Enroll 5 or more commercial fleet units this quarter and receive ₱100,000 in complimentary Petron Fleet Fuel Vouchers.</p>
+      </div>
+      <button onclick="requestFleetQuote('Quarterly Fuel Rebate Program', 'Enrolled')" class="bg-cobalt hover:bg-blue-700 text-white font-bold text-xs px-6 py-3 rounded-lg uppercase tracking-wider transition whitespace-nowrap shadow-sm">
+        Enroll Fleet Units
+      </button>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       15. DEALER STORY & SHOWROOM (Corporate Heritage)
+  ========================================================================== -->
+  <section id="section-story" class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-[#f8fafc] font-ui">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div class="h-80 rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-white">
+        <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80" alt="Metropolis Headquarters" class="w-full h-full object-cover">
+      </div>
+      <div>
+        <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// ENTERPRISE HERITAGE</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-4">Serving Philippine Industry Since 2012</h2>
+        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+          Metropolis Fleet Holdings manages commercial fleet infrastructure for business process outsourcing conglomerates, manufacturing giants, and commercial banking institutions across Ortigas, Makati CBD, and BGC.
+        </p>
+        <p class="text-xs text-slate-600 leading-relaxed mb-6">
+          Our dedicated 3,500-sqm central depot in Pasig City integrates 14 service bays, an automated carwash tunnel, and rapid-response parts inventories.
+        </p>
+        <div class="flex items-center gap-6 text-xs text-slate-700">
+          <div><p class="font-bold text-slate-900">ORTIGAS LOGISTICS HUB</p><span class="text-[11px] text-slate-500">Central Service Depot</span></div>
+          <div class="w-px h-6 bg-slate-300"></div>
+          <div><p class="font-bold text-cobalt">140+ UNITS</p><span class="text-[11px] text-slate-500">Staged & Turnkey Ready</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       16. CUSTOMER TESTIMONIALS (Procurement Executives)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-white font-ui">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// ENTERPRISE REFERENCES</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Endorsements from Corporate Clients</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200 shadow-sm">
+          <p class="text-xs text-slate-600 leading-relaxed italic mb-4">
+            "Metropolis supplied 18 executive hybrid sedans for our directors with complete registration and telematics integration in under 5 business days. Their loaner replacement response is unmatched."
+          </p>
+          <span class="text-xs font-bold text-slate-900 block">VP of Procurement & Real Estate</span>
+          <span class="text-[11px] text-cobalt font-semibold">Tier-1 Multinational Business Group</span>
+        </div>
+
+        <div class="p-6 rounded-xl bg-slate-50 border border-slate-200 shadow-sm">
+          <p class="text-xs text-slate-600 leading-relaxed italic mb-4">
+            "Their BIR OPEX invoicing streamlined our annual asset audits. Moving from CAPEX purchasing to their structured master lease reduced our annual fleet depreciation overhead by 22%."
+          </p>
+          <span class="text-xs font-bold text-slate-900 block">Director of Finance & Operations</span>
+          <span class="text-[11px] text-cobalt font-semibold">IT & BPO Services Enterprise NCR</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       17. FAQ ACCORDION (Commercial Procurement Questions)
+  ========================================================================== -->
+  <section id="section-faq" class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-[#f8fafc] font-ui">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// CORPORATE CLARIFICATIONS</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1">Frequently Examined Procurement Points</h2>
+      </div>
+
+      <div class="space-y-3">
+        <div class="border border-slate-200 bg-white rounded-xl shadow-sm">
+          <button onclick="toggleCorpFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-slate-900 hover:text-cobalt">
+            <span>Are monthly lease payments completely tax-deductible as OPEX?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-500 hidden border-t border-slate-100 leading-relaxed">
+            Yes. Our operating lease structures are classified under National Internal Revenue Code Section 34, allowing payments to be booked entirely as legitimate operational expenditures without creating balance sheet liabilities.
+          </div>
+        </div>
+
+        <div class="border border-slate-200 bg-white rounded-xl shadow-sm">
+          <button onclick="toggleCorpFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-slate-900 hover:text-cobalt">
+            <span>What happens when an employee vehicle requires unscheduled maintenance?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-500 hidden border-t border-slate-100 leading-relaxed">
+            Our SLA ensures that a same-tier replacement vehicle is delivered directly to the driver's office or home within 2 hours anywhere within Metro Manila and Clark, ensuring zero operational downtime.
+          </div>
+        </div>
+
+        <div class="border border-slate-200 bg-white rounded-xl shadow-sm">
+          <button onclick="toggleCorpFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-slate-900 hover:text-cobalt">
+            <span>Can our existing corporate fleet be traded in against new lease contracts?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-500 hidden border-t border-slate-100 leading-relaxed">
+            Yes. We offer commercial trade-in and sale-and-leaseback solutions. We appraise your existing vehicles and apply the liquidation equity directly toward your new fleet equity deposit.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       18. SHOWROOM LOCATION + MAP (Ortigas Fleet Hub)
+  ========================================================================== -->
+  <section class="px-6 lg:px-14 py-16 border-b border-slate-200 bg-white font-ui">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div>
+        <span class="text-xs font-bold text-cobalt uppercase tracking-wider">// HEADQUARTERS & DEPOT</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mt-1 mb-4">Ortigas Central Fleet Depot</h2>
+        <div class="space-y-2 text-xs text-slate-600">
+          <p><strong class="text-slate-900">Commercial Office:</strong> 24 Ortigas Center Avenue, Pasig City</p>
+          <p><strong class="text-slate-900">Logistics Depot:</strong> C-5 Industrial Park Service Ramp, Pasig</p>
+          <p><strong class="text-slate-900">Direct Desk:</strong> +63 (2) 8631-FLEET / enterprise@metropolisfleet.ph</p>
+          <p><strong class="text-cobalt">Business Hours:</strong> Monday – Saturday: 08:00 – 18:00</p>
+        </div>
+      </div>
+
+      <div class="h-64 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-center p-6 text-center shadow-sm">
+        <div>
+          <span class="w-3 h-3 rounded-full bg-cobalt inline-block animate-ping mb-2"></span>
+          <p class="font-bold text-base text-slate-900">120 PARKING STAGING SLOTS ACTIVE</p>
+          <p class="text-xs text-slate-500 mt-1">Ortigas Corridor Central Logistics Center</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       19. FINAL CALL-TO-ACTION (Enterprise RFP Generation)
+  ========================================================================== -->
+  <section id="section-cta" class="px-6 lg:px-14 py-20 bg-navy-corporate text-white text-center font-ui">
+    <div class="max-w-2xl mx-auto">
+      <span class="bg-blue-600 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full inline-block mb-4">
+        SCHEDULE PROCUREMENT BRIEFING
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-extrabold mb-4">Upgrade Your Corporate Mobility Today</h2>
+      <p class="text-xs sm:text-sm text-slate-300 mb-8 max-w-md mx-auto">
+        Speak with an enterprise fleet advisor for custom lease amortization models, tax write-off estimates, and volume pricing.
+      </p>
+      <form onsubmit="handleCorpLead(event)" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+        <input type="text" placeholder="Company Name & Executive Name" required class="flex-1 bg-slate-900 border border-slate-700 p-3 rounded-lg text-xs text-white outline-none focus:border-cobalt">
+        <input type="tel" placeholder="+63 Direct Line / Mobile" required class="flex-1 bg-slate-900 border border-slate-700 p-3 rounded-lg text-xs text-white outline-none focus:border-cobalt">
+        <button type="submit" class="bg-cobalt hover:bg-blue-700 text-white font-bold text-xs px-6 py-3 rounded-lg uppercase tracking-wider transition whitespace-nowrap">
+          Submit RFP Request
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       20. MASTER FOOTER
+  ========================================================================== -->
+  <footer class="px-6 lg:px-14 py-12 bg-slate-900 text-slate-400 text-xs font-ui">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <span class="text-base font-bold text-white block mb-2 font-['Plus_Jakarta_Sans']">METROPOLIS FLEET HOLDINGS</span>
+        <p class="text-[11px] leading-relaxed text-slate-400">Enterprise mobility fleet management franchise platform powered by OmniDrive 2026 SaaS.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Fleet Divisions</h4>
+        <ul class="space-y-1 text-[11px]">
+          <li><a href="#section-fleet" class="hover:text-white">Executive Hybrid Sedans</a></li>
+          <li><a href="#section-fleet" class="hover:text-white">Field Operations 4x4 SUVs</a></li>
+          <li><a href="#section-fleet" class="hover:text-white">VIP Transporter Vans</a></li>
+          <li><a href="#section-fleet" class="hover:text-white">Corporate Green Fleet EVs</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">SaaS Protocol</h4>
+        <ul class="space-y-1 text-[11px]">
+          <li><span class="text-blue-400">Tenant:</span> METROPOLIS-NCR-2026</li>
+          <li><span>Compliance:</span> ISO 9001:2026 Certified</li>
+          <li><span>Tax Engine:</span> BIR Section 34 OPEX</li>
+          <li><span>Data Sync:</span> Encrypted Fleet OBD-II</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px]">Central Logistics</h4>
+        <p class="text-[11px] text-slate-300">24 Ortigas Center Avenue, Pasig City</p>
+        <p class="text-[11px] text-blue-400 mt-1 font-bold">+63 (2) 8631-FLEET</p>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto pt-6 border-t border-slate-800 text-center text-[10px] text-slate-500">
+      © 2026 Metropolis Fleet Holdings Corporation. All rights reserved. Enterprise Fleet Dealership Template.
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       INTERACTIVE JAVASCRIPT ENGINES
+  ========================================================================== -->
+  <script>
+    lucide.createIcons();
+
+    // 01. Commercial Lease Calculator Engine
+    function runCorpCalc() {
+      const price = parseFloat(document.getElementById('corp-calc-price').value);
+      const dpPct = parseFloat(document.getElementById('corp-calc-dp').value);
+      const tenure = parseFloat(document.getElementById('corp-calc-term').value);
+
+      const dpValue = price * (dpPct / 100);
+      const principal = price - dpValue;
+      // 3.8% corporate fleet commercial lease rate
+      const totalInterest = principal * 0.038 * (tenure / 12);
+      const monthly = (principal + totalInterest) / tenure;
+
+      document.getElementById('corp-calc-price-lbl').innerText = '₱' + price.toLocaleString();
+      document.getElementById('corp-calc-dp-lbl').innerText = `₱${dpValue.toLocaleString()} (${dpPct}%)`;
+      document.getElementById('corp-calc-monthly-out').innerHTML = `₱${Math.round(monthly).toLocaleString()} <span class="text-xs font-normal text-slate-500">/ mo / unit</span>`;
+    }
+
+    // 02. Corporate Budget Optimizer Slider
+    function runCorpBudgetMatcher(val) {
+      const budget = parseFloat(val);
+      document.getElementById('corp-budget-val').innerText = '₱' + budget.toLocaleString() + ' / month';
+      
+      const carEl = document.getElementById('corp-budget-car');
+      if (budget < 35000) {
+        carEl.innerText = '2026 4x4 Workhorse Double-Cab (₱1,780,000 SRP)';
+      } else if (budget < 50000) {
+        carEl.innerText = '2026 Executive Hybrid Sedan (₱2,450,000 SRP)';
+      } else if (budget < 65000) {
+        carEl.innerText = '2026 Turbo Diesel 4x4 Fleet SUV (₱2,890,000 SRP)';
+      } else {
+        carEl.innerText = '2026 Corporate VIP Transporter (₱3,650,000 SRP)';
+      }
+    }
+
+    // 03. Telematics Showcase Switcher
+    function setTelematicsView(modeName, imgUrl) {
+      document.getElementById('telematics-img').src = imgUrl;
+      document.getElementById('telematics-mode-label').innerText = modeName;
+    }
+
+    // 04. FAQ Accordion Toggle
+    function toggleCorpFaq(btn) {
+      const content = btn.nextElementSibling;
+      const chevron = btn.querySelector('i');
+      content.classList.toggle('hidden');
+      if (chevron) chevron.classList.toggle('rotate-180');
+    }
+
+    // 05. Action Alerts
+    function requestFleetQuote(model, price) {
+      alert(`[Metropolis Enterprise Desk]\n\nFleet Specification Request: ${model}\nAsset SRP Benchmark: ${price}\n\nA formal proposal with BIR OPEX tax depreciation schedules has been routed to your corporate email.`);
+    }
+
+    function executeCorpSearch() {
+      const type = document.getElementById('corp-filter-type').value;
+      const budget = document.getElementById('corp-filter-budget').value;
+      alert(`[Procurement Query Active]\nCategory: ${type}\nMonthly Ceiling: ₱${parseInt(budget).toLocaleString()}\n\n18 qualifying fleet allocations ready for immediate staging.`);
+    }
+
+    function filterDivision(name) {
+      alert(`[Division Selected: ${name}]\nDisplaying all commercial units staged in Pasig & Ortigas.`);
+    }
+
+    function handleCorpLead(e) {
+      e.preventDefault();
+      alert("[RFP Initiated]\nThank you. Our Senior Enterprise Fleet Director will telephone your executive desk within 2 business hours.");
+    }
+
+    // 06. Download Self As File
+    function downloadSelf() {
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "metropolis-corporate-fleet.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>

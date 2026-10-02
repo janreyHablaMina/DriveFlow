@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scuderia Corse Manila — 2026 Motorsport & Performance Dealership</title>
+  
+  <!-- Tailwind CSS & Lucide Icons CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Fonts: Montserrat (Bold Speed Italic) + Inter (Clean Technical) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:ital,wght@0,500;0,700;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background-color: #0a0a0e; color: #f3f4f6; overflow-x: hidden; font-family: 'Montserrat', sans-serif; }
+    .font-body { font-family: 'Inter', sans-serif; }
+
+    /* Carbon Texture Effect */
+    .bg-carbon {
+      background-color: #0c0c12;
+      background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 4px);
+    }
+
+    /* 12-Degree Motorsport Skew Utility */
+    .skew-12 { transform: skewX(-12deg); }
+    .unskew-12 { transform: skewX(12deg); }
+
+    /* Infinite Marquee Animation */
+    @keyframes marqueeRun { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .ticker-bar { display: flex; width: 200%; animation: marqueeRun 22s linear infinite; }
+    .ticker-bar:hover { animation-play-state: paused; }
+
+    /* Racing Red Accents */
+    .text-racing-red { color: #e10600; }
+    .bg-racing-red { background-color: #e10600; color: #ffffff; }
+    .border-racing-red { border-color: #e10600; }
+    .glow-red { box-shadow: 0 0 25px rgba(225, 6, 0, 0.4); }
+    .glow-red-sm { box-shadow: 0 0 12px rgba(225, 6, 0, 0.25); }
+  </style>
+</head>
+<body class="bg-[#0a0a0e] text-slate-100 antialiased selection:bg-[#e10600] selection:text-white">
+
+  <!-- =========================================================================
+       01. HEADER / NAVIGATION (Pit Wall Bar with 12° Skewed Accents)
+  ========================================================================== -->
+  <nav class="sticky top-0 z-50 bg-[#0e0e14]/95 backdrop-blur-md border-b border-red-600/30 px-6 lg:px-12 py-3 flex items-center justify-between shadow-2xl">
+    <!-- Brand Identity with Skewed Badge -->
+    <div class="flex items-center gap-3">
+      <div class="bg-racing-red px-3.5 py-1 font-black italic tracking-tighter text-xl text-white skew-12 shadow-[0_0_15px_rgba(225,6,0,0.5)]">
+        <span class="unskew-12 inline-block">SCUDERIA</span>
+      </div>
+      <span class="font-extrabold tracking-widest text-xs uppercase text-slate-300 hidden sm:inline-block">
+        CORSE <span class="text-red-500 font-light">MANILA</span>
+      </span>
+    </div>
+
+    <!-- Pit Wall Navigation -->
+    <div class="hidden lg:flex items-center gap-6 text-xs font-black uppercase tracking-wider text-slate-300">
+      <a href="#section-grid" class="hover:text-red-500 transition">Starting Grid</a>
+      <a href="#section-search" class="hover:text-red-500 transition">Pit Telemetry Search</a>
+      <a href="#section-calculator" class="hover:text-red-500 transition">Sprint Financing</a>
+      <a href="#section-showcase" class="hover:text-red-500 transition">Aero Tunnel</a>
+      <a href="#section-story" class="hover:text-red-500 transition">Paddock Creed</a>
+      <a href="#section-faq" class="hover:text-red-500 transition">Track FAQ</a>
+    </div>
+
+    <!-- Actions / Hotline -->
+    <div class="flex items-center gap-3">
+      <div class="text-right hidden sm:block font-mono mr-2">
+        <p class="text-[9px] text-slate-500 uppercase tracking-widest">PIT WALL HOTLINE</p>
+        <p class="text-xs font-bold text-red-500">+63 (2) 8877-RACE</p>
+      </div>
+      <a href="#section-cta" class="bg-racing-red px-4 py-2 text-xs font-black uppercase tracking-wider skew-12 hover:bg-white hover:text-black transition glow-red-sm inline-block">
+        <span class="unskew-12 inline-block">Book Hot Lap</span>
+      </a>
+      <button onclick="downloadSelf()" title="Save as standalone file" class="px-2.5 py-2 rounded bg-white/5 border border-white/10 hover:border-red-500 text-slate-300 hover:text-red-500 transition">
+        <i data-lucide="download" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =========================================================================
+       02. CINEMATIC HERO (Angled Starting Grid Staging)
+  ========================================================================== -->
+  <section class="min-h-[88vh] relative flex flex-col justify-center px-6 lg:px-16 pt-12 pb-20 border-b border-red-600/30 overflow-hidden bg-gradient-to-r from-black via-[#12121a] to-black">
+    <!-- Racing Background Photography -->
+    <div class="absolute right-0 top-0 w-full lg:w-2/3 h-full opacity-35 lg:opacity-55 pointer-events-none bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1800&q=80');">
+      <div class="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 max-w-3xl">
+      <div class="inline-block bg-racing-red text-white text-[11px] font-black uppercase px-3 py-1 tracking-widest skew-12 mb-6">
+        <span class="unskew-12 inline-block flex items-center gap-2">
+          <i data-lucide="flag" class="w-3.5 h-3.5 fill-current"></i> STARTING GRID 2026 // HOMOLOGATION SPECIALS
+        </span>
+      </div>
+      
+      <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black italic tracking-tighter uppercase leading-[0.92] mb-6">
+        BRED FOR SPEED. <br>
+        <span class="text-racing-red">STREET LEGAL.</span>
+      </h1>
+      
+      <p class="font-body text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl mb-8 font-normal">
+        Direct factory imports of GT championship homologations, high-downforce coupés, and aerodynamic track weapons. Every allocation includes certified dyno crank horsepower sheets and Clark International Speedway shakedowns.
+      </p>
+
+      <div class="flex flex-wrap gap-4 items-center">
+        <a href="#section-grid" class="bg-racing-red px-8 py-3.5 text-xs font-black uppercase tracking-widest skew-12 hover:bg-white hover:text-black transition glow-red inline-block">
+          <span class="unskew-12 inline-block flex items-center gap-2">
+            Inspect The Grid (32 Cars) <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </span>
+        </a>
+        <a href="#section-calculator" class="bg-black/60 border border-white/20 hover:border-red-500 text-white px-7 py-3.5 text-xs font-black uppercase tracking-widest skew-12 transition inline-block">
+          <span class="unskew-12 inline-block">15-Min Pit Finance</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Pit Telemetry Sector Times -->
+    <div class="relative z-10 mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl bg-black/80 border border-red-600/30 p-5 backdrop-blur-md">
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] font-mono text-slate-500 block uppercase">CLARK SPEEDWAY LAP</span>
+        <p class="text-2xl lg:text-3xl font-black text-red-500">1:54.2 <span class="text-xs text-white">RECORD</span></p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] font-mono text-slate-500 block uppercase">AVERAGE PADDOCK OUTPUT</span>
+        <p class="text-2xl lg:text-3xl font-black text-white">740 <span class="text-xs text-red-500">BHP</span></p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <span class="text-[9px] font-mono text-slate-500 block uppercase">PIT WALL CREDIT CHECK</span>
+        <p class="text-2xl lg:text-3xl font-black text-red-500">15 <span class="text-xs text-white">MINUTES</span></p>
+      </div>
+      <div>
+        <span class="text-[9px] font-mono text-slate-500 block uppercase">SPEEDWAY PIT BAYS</span>
+        <p class="text-2xl lg:text-3xl font-black text-white">28 <span class="text-xs text-red-500">CIS/BRC</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03. SCROLLING MARQUEE (Checkered Racing Ribbon)
+  ========================================================================== -->
+  <div class="py-3 bg-racing-red text-black font-black italic text-xs tracking-widest uppercase overflow-hidden shadow-lg">
+    <div class="ticker-bar flex items-center gap-12 whitespace-nowrap">
+      <span>SCUDERIA CORSE PERFORMANCE MANILA</span> <span>///</span>
+      <span>100% DYNO BENCH CERTIFIED CRANK HORSEPOWER</span> <span>///</span>
+      <span>FIA-LICENSED TRACK COACHING AT CLARK SPEEDWAY</span> <span>///</span>
+      <span>15-MINUTE FAST PIT FINANCING APPROVAL</span> <span>///</span>
+      <span>ZERO FLOOD ACCIDENT BUYBACK WARRANTY</span> <span>///</span>
+      <span>SCUDERIA CORSE PERFORMANCE MANILA</span> <span>///</span>
+      <span>100% DYNO BENCH CERTIFIED CRANK HORSEPOWER</span> <span>///</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       04. SMART VEHICLE SEARCH (Pit Wall Parameter Query)
+  ========================================================================== -->
+  <section id="section-search" class="px-6 lg:px-16 py-12 border-b border-white/10 bg-[#0e0e14]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-black italic uppercase tracking-wider text-red-500 flex items-center gap-2">
+          <i data-lucide="gauge" class="w-5 h-5"></i> Pit Wall Vehicle Filter
+        </h2>
+        <span class="font-mono text-xs text-slate-500">GRID SYNC: 32 ACTIVE HIGH-SPEED PLATFORMS</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-5 bg-black/80 border-l-4 border-red-600 border-t border-r border-b border-white/10">
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Motorsport Chassis Class</label>
+          <select id="race-class" class="w-full bg-[#161620] border border-white/10 text-xs font-bold p-2.5 text-white outline-none focus:border-red-500">
+            <option value="all">All Racing Divisions</option>
+            <option value="gt3">GT3 Homologations</option>
+            <option value="cupsport">Trackday Coupés</option>
+            <option value="suv">Competition SUVs</option>
+            <option value="ev">Formula Torque EVs</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Max Capital Outlay (PHP)</label>
+          <select id="race-price" class="w-full bg-[#161620] border border-white/10 text-xs font-bold p-2.5 text-white outline-none focus:border-red-500">
+            <option value="99999999">No Ceiling Limit</option>
+            <option value="5000000">Under ₱5,000,000</option>
+            <option value="8000000">Under ₱8,000,000</option>
+            <option value="12000000">Under ₱12,000,000</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Horsepower Bracket</label>
+          <select class="w-full bg-[#161620] border border-white/10 text-xs font-bold p-2.5 text-white outline-none focus:border-red-500">
+            <option>All Output Tiers</option>
+            <option>500+ BHP Clubsport</option>
+            <option>700+ BHP Extreme Output</option>
+            <option>Sub-3.0s 0-100 KPH</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="executePitSearch()" class="w-full bg-racing-red hover:bg-red-500 py-2.5 text-xs font-black uppercase tracking-wider text-white transition skew-12">
+            <span class="unskew-12 inline-block flex items-center justify-center gap-1.5">
+              <i data-lucide="zap" class="w-3.5 h-3.5 fill-current"></i> Filter Paddock
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       05. CATEGORY BROWSER (Paddock Grid Divisions)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-8">
+        <div>
+          <span class="text-xs font-black text-red-500 uppercase tracking-widest">// RACING CATEGORIES</span>
+          <h2 class="text-3xl font-black italic uppercase mt-1">Paddock Grid Divisions</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div onclick="selectRaceClass('GT3 Homologations')" class="p-5 bg-black/60 border border-white/10 hover:border-red-600 transition cursor-pointer group">
+          <span class="text-red-500 font-black text-xs">CLASS A //</span>
+          <h3 class="font-black text-lg uppercase mt-1 group-hover:text-red-500 transition">GT3 Coupés</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">Sequential shifters, aerodynamic downforce wings.</p>
+          <span class="text-xs font-black text-red-500 mt-4 block">12 Units Active →</span>
+        </div>
+        <div onclick="selectRaceClass('Super Sedans')" class="p-5 bg-black/60 border border-white/10 hover:border-red-600 transition cursor-pointer group">
+          <span class="text-red-500 font-black text-xs">CLASS B //</span>
+          <h3 class="font-black text-lg uppercase mt-1 group-hover:text-red-500 transition">Super Sedans</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">600+ HP practical circuit road weapons.</p>
+          <span class="text-xs font-black text-red-500 mt-4 block">9 Units Active →</span>
+        </div>
+        <div onclick="selectRaceClass('Competition SUVs')" class="p-5 bg-black/60 border border-white/10 hover:border-red-600 transition cursor-pointer group">
+          <span class="text-red-500 font-black text-xs">CLASS C //</span>
+          <h3 class="font-black text-lg uppercase mt-1 group-hover:text-red-500 transition">Racing SUVs</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">Twin-turbo launch control with carbon ceramic brakes.</p>
+          <span class="text-xs font-black text-red-500 mt-4 block">7 Units Active →</span>
+        </div>
+        <div onclick="selectRaceClass('Formula EV')" class="p-5 bg-black/60 border border-white/10 hover:border-red-600 transition cursor-pointer group">
+          <span class="text-red-500 font-black text-xs">CLASS D //</span>
+          <h3 class="font-black text-lg uppercase mt-1 group-hover:text-red-500 transition">Formula EV</h3>
+          <p class="font-body text-xs text-slate-400 mt-1">Instant torque vectoring and sub-2.8s launches.</p>
+          <span class="text-xs font-black text-red-500 mt-4 block">4 Units Active →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       06. FEATURED VEHICLES (Starting Grid Pole Positions P1, P2, P3)
+  ========================================================================== -->
+  <section id="section-grid" class="px-6 lg:px-16 py-16 border-b border-white/10">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-8">
+        <div>
+          <span class="text-xs font-black uppercase text-red-500">// THE STARTING GRID</span>
+          <h2 class="text-4xl font-black italic uppercase mt-1">Pole Position Allocations</h2>
+        </div>
+        <span class="text-xs font-mono text-slate-500 hidden sm:inline">Official LTO Registered Race Weapons</span>
+      </div>
+
+      <!-- P1 Hero Pole Position Container -->
+      <div class="bg-black/80 border-2 border-red-600 p-6 mb-8 relative overflow-hidden">
+        <span class="bg-red-600 text-white font-black text-xs px-4 py-1 uppercase skew-12 absolute top-4 left-4 shadow-lg">
+          <span class="unskew-12 inline-block">P1 // POLE POSITION ALLOCATION</span>
+        </span>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mt-6">
+          <div class="h-64 sm:h-80 bg-slate-900 overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=900&q=80" alt="P1 Car" class="w-full h-full object-cover">
+            <span class="absolute bottom-3 right-3 bg-black/90 text-xs font-mono text-red-500 font-bold px-2 py-1">680 CRANK HP</span>
+          </div>
+          <div>
+            <span class="text-xs font-mono text-slate-400 uppercase">2026 HOMOLOGATION SPEC</span>
+            <h3 class="text-3xl font-black italic uppercase text-white mt-1">Scuderia M4 CSL Track Weapon</h3>
+            <p class="font-body text-xs text-slate-300 mt-2 leading-relaxed">
+              Lightweight carbon autoclave hood, ceramic brake rotors, Michelin Pilot Sport Cup 2 R rubber, and Akrapovič valved titanium exhaust with launch telemetry.
+            </p>
+            <div class="grid grid-cols-3 gap-2 my-5 text-center font-mono border-y border-white/10 py-3">
+              <div><span class="text-[10px] text-slate-500">0-100 KPH</span><p class="text-sm font-bold text-white">2.9s</p></div>
+              <div><span class="text-[10px] text-slate-500">CIS LAP TIME</span><p class="text-sm font-bold text-red-500">1:54.2</p></div>
+              <div><span class="text-[10px] text-slate-500">TRANSMISSION</span><p class="text-sm font-bold text-white">7-DCT</p></div>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-[10px] font-mono text-slate-500 uppercase block">Outright Acquisition</span>
+                <span class="text-3xl font-black text-red-500">₱5,800,000</span>
+              </div>
+              <button onclick="claimPitPass('2026 Scuderia M4 CSL', '₱5,800,000')" class="bg-red-600 hover:bg-red-500 text-white font-black text-xs px-6 py-3 uppercase skew-12 transition glow-red-sm">
+                <span class="unskew-12 inline-block">Claim P1 Pass</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P2 & P3 Grid Slots -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- P2 Slot -->
+        <div class="bg-black/60 border border-white/15 p-5 relative group hover:border-red-600 transition">
+          <span class="text-xs font-black text-red-500 uppercase tracking-widest block mb-2">P2 ALLOCATION // 525 HP</span>
+          <div class="h-56 bg-slate-900 overflow-hidden mb-4">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="P2" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          </div>
+          <h4 class="font-black text-xl text-white uppercase">GT3 RS Clubsport Spec</h4>
+          <p class="font-body text-xs text-slate-400 mt-1">Naturally aspirated 4.0L flat-six, 9,000 RPM screamer with swan-neck aero wing.</p>
+          <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+            <span class="text-2xl font-black text-red-500">₱9,200,000</span>
+            <button onclick="claimPitPass('GT3 RS Clubsport Spec', '₱9,200,000')" class="bg-white/10 hover:bg-red-600 px-4 py-2 text-xs font-black uppercase transition">Pit Pass</button>
+          </div>
+        </div>
+
+        <!-- P3 Slot -->
+        <div class="bg-black/60 border border-white/15 p-5 relative group hover:border-red-600 transition">
+          <span class="text-xs font-black text-red-500 uppercase tracking-widest block mb-2">P3 ALLOCATION // 700 HP</span>
+          <div class="h-56 bg-slate-900 overflow-hidden mb-4">
+            <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80" alt="P3" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          </div>
+          <h4 class="font-black text-xl text-white uppercase">RS6 V8 Competition Avant</h4>
+          <p class="font-body text-xs text-slate-400 mt-1">Twin-turbo all-wheel drive launch control master with sport differential.</p>
+          <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+            <span class="text-2xl font-black text-red-500">₱7,600,000</span>
+            <button onclick="claimPitPass('RS6 V8 Competition Avant', '₱7,600,000')" class="bg-white/10 hover:bg-red-600 px-4 py-2 text-xs font-black uppercase transition">Pit Pass</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       07. ANIMATED TELEMETRY COUNTERS (Speed Traps & Lap Records)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-12 bg-black border-b border-white/10">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div class="p-4 border-b-2 border-red-600 bg-[#121218]">
+        <p class="text-4xl font-black text-red-500">1:54.2</p>
+        <p class="text-xs font-bold text-slate-400 uppercase mt-1">Clark Speedway Lap Record</p>
+      </div>
+      <div class="p-4 border-b-2 border-red-600 bg-[#121218]">
+        <p class="text-4xl font-black text-white">332 KPH</p>
+        <p class="text-xs font-bold text-slate-400 uppercase mt-1">SCTEX Speed Trap Record</p>
+      </div>
+      <div class="p-4 border-b-2 border-red-600 bg-[#121218]">
+        <p class="text-4xl font-black text-red-500">1.42 G</p>
+        <p class="text-xs font-bold text-slate-400 uppercase mt-1">Peak Lateral Cornering</p>
+      </div>
+      <div class="p-4 border-b-2 border-red-600 bg-[#121218]">
+        <p class="text-4xl font-black text-white">31.2 M</p>
+        <p class="text-xs font-bold text-slate-400 uppercase mt-1">100-0 KPH Stopping Distance</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08. FINANCING CALCULATOR (Pit Wall 15-Minute Sprint Engine)
+  ========================================================================== -->
+  <section id="section-calculator" class="px-6 lg:px-16 py-16 border-b border-white/10 bg-[#0e0e14]">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs font-black text-red-500 uppercase tracking-widest">// PIT STOP TELEMETRY</span>
+        <h2 class="text-3xl font-black italic uppercase mt-1">Pit Wall Financing Sprint</h2>
+      </div>
+
+      <div class="p-6 sm:p-8 bg-black/90 border border-white/10 rounded grid grid-cols-1 md:grid-cols-2 gap-8 items-center shadow-2xl">
+        <div class="space-y-4 font-mono">
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">SRP Price:</span>
+              <span id="pit-price-lbl" class="text-white font-bold">₱5,800,000</span>
+            </div>
+            <input type="range" id="pit-price" min="2000000" max="15000000" step="200000" value="5800000" oninput="runPitCalc()" class="w-full accent-red-600">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Capital Down:</span>
+              <span id="pit-dp-lbl" class="text-red-500 font-bold">20% (₱1,160,000)</span>
+            </div>
+            <input type="range" id="pit-dp" min="15" max="60" step="5" value="20" oninput="runPitCalc()" class="w-full accent-red-600">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-400">Sprint Tenure:</span>
+              <span id="pit-term-lbl" class="text-white font-bold">48 Months</span>
+            </div>
+            <select id="pit-term" onchange="runPitCalc()" class="w-full bg-[#181822] border border-white/15 text-xs text-white p-2.5 outline-none font-bold">
+              <option value="24">24 Months Sprint (2.9% Rate)</option>
+              <option value="36">36 Months Sprint (3.4% Rate)</option>
+              <option value="48" selected>48 Months Standard (4.1% Rate)</option>
+              <option value="60">60 Months Extended (4.8% Rate)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-6 bg-[#161622] border-l-4 border-red-600 text-center">
+          <span class="text-xs font-mono text-slate-400 uppercase tracking-wider">Estimated Monthly Lap Amortization</span>
+          <p id="pit-monthly-lbl" class="text-4xl font-black text-red-500 my-2">₱112,410<span class="text-xs text-white"> / mo</span></p>
+          <p class="font-body text-xs text-slate-400 mb-4">Underwritten by Tier-1 Philippine automotive finance desks in 15 minutes flat.</p>
+          <button onclick="claimPitPass('Pit Wall Fast Loan', '₱5,800,000')" class="w-full bg-racing-red hover:bg-red-500 py-3 text-xs font-black uppercase text-white skew-12 transition">
+            <span class="unskew-12 inline-block">Pre-Qualify in 15 Minutes</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       09. FIND A CAR WITHIN YOUR BUDGET (Lap Outlay Matcher)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="text-xs font-black uppercase text-red-500 tracking-widest">// ALGORITHMIC TELEMETRY</span>
+      <h2 class="text-3xl font-black italic uppercase mt-1 mb-4">Target Your Monthly Pit Window</h2>
+      <p class="font-body text-xs text-slate-400 mb-6">Select your planned monthly amortization to identify available track platforms instantly.</p>
+      
+      <div class="p-6 bg-black/80 border border-red-600/40 rounded">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-mono text-slate-400 uppercase">MONTHLY LAP BUDGET</span>
+          <span id="budget-lap-val" class="text-2xl font-black text-red-500">₱85,000 / month</span>
+        </div>
+        <input type="range" min="40000" max="200000" step="5000" value="85000" oninput="runBudgetLapMatcher(this.value)" class="w-full accent-red-600 mb-4">
+        <div class="p-4 bg-[#14141c] border border-white/10 text-left flex justify-between items-center">
+          <div>
+            <span class="text-[10px] font-mono text-red-500 block uppercase">Matched Track Weapon</span>
+            <p id="budget-lap-car" class="font-black text-white text-base">2026 Scuderia M4 CSL (₱5,800,000)</p>
+          </div>
+          <button onclick="claimPitPass('Matched Lap Allocation', '₱5,800,000')" class="bg-red-600 hover:bg-red-500 text-white font-black text-xs px-4 py-2 uppercase skew-12">
+            <span class="unskew-12 inline-block">Lock Car</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. NEW ARRIVALS (Hot Off Manila Port Tarmac)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-14 border-b border-white/10 bg-[#0a0a0e]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-black uppercase italic">Hot Off Manila Port Tarmac</h2>
+        <span class="text-xs font-mono text-red-500">Customs Cleared This Week</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-4 bg-black/60 border border-white/10 hover:border-red-600 transition">
+          <div class="h-44 bg-slate-800 mb-3 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=700&q=80" alt="New 1" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-mono bg-red-600/20 text-red-500 px-2 py-0.5 border border-red-600/40">PORT MANILA CLEARED</span>
+          <h3 class="font-black text-sm text-white mt-2">2026 Corse 718 GT4 RS</h3>
+          <p class="text-sm text-red-500 font-black mt-1">₱6,400,000</p>
+        </div>
+
+        <div class="p-4 bg-black/60 border border-white/10 hover:border-red-600 transition">
+          <div class="h-44 bg-slate-800 mb-3 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=700&q=80" alt="New 2" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-mono bg-red-600/20 text-red-500 px-2 py-0.5 border border-red-600/40">PORT MANILA CLEARED</span>
+          <h3 class="font-black text-sm text-white mt-2">2026 Corvette Z06 5.5L V8</h3>
+          <p class="text-sm text-red-500 font-black mt-1">₱8,900,000</p>
+        </div>
+
+        <div class="p-4 bg-black/60 border border-white/10 hover:border-red-600 transition">
+          <div class="h-44 bg-slate-800 mb-3 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=700&q=80" alt="New 3" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[10px] font-mono bg-red-600/20 text-red-500 px-2 py-0.5 border border-red-600/40">PORT MANILA CLEARED</span>
+          <h3 class="font-black text-sm text-white mt-2">2026 Alfa Quadrifoglio Racing</h3>
+          <p class="text-sm text-red-500 font-black mt-1">₱4,950,000</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       11. INTERACTIVE VEHICLE SHOWCASE (Aero Tunnel & Livery Configurator)
+  ========================================================================== -->
+  <section id="section-showcase" class="px-6 lg:px-16 py-16 border-b border-white/10 bg-carbon">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <div class="h-80 bg-slate-900 border border-red-600/40 overflow-hidden relative">
+        <img id="showcase-img" src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&q=80" alt="Showcase Car" class="w-full h-full object-cover transition-all duration-500">
+        <div class="absolute bottom-3 left-3 bg-black/90 px-3 py-1 text-xs font-black text-red-500 border border-red-600/50">
+          LIVERY: <span id="showcase-livery-lbl" class="text-white">Rosso Corsa Racing Red</span>
+        </div>
+      </div>
+
+      <div>
+        <span class="text-xs font-black uppercase text-red-500 tracking-widest">// AERO TUNNEL RIG</span>
+        <h2 class="text-3xl font-black italic uppercase mt-1 mb-4">Dual Swan-Neck Downforce Pack</h2>
+        <p class="font-body text-xs text-slate-300 leading-relaxed mb-6">
+          Generating 400kg of functional downforce at 200 KPH. Carbon ceramic brake rotors with six-piston monobloc racing calipers and titanium hub center-locks.
+        </p>
+
+        <p class="text-[11px] font-bold text-slate-400 uppercase mb-2">Select Circuit Livery:</p>
+        <div class="flex items-center gap-3 mb-6">
+          <button onclick="setLivery('Rosso Corsa Racing Red', 'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&q=80')" class="w-8 h-8 rounded-full bg-red-600 border-2 border-white shadow-lg cursor-pointer"></button>
+          <button onclick="setLivery('Nardo Stealth Grey', 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80')" class="w-8 h-8 rounded-full bg-slate-400 border-2 border-slate-600 hover:border-white cursor-pointer"></button>
+          <button onclick="setLivery('Obsidian Black Carbon', 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1200&q=80')" class="w-8 h-8 rounded-full bg-zinc-900 border-2 border-slate-500 hover:border-white cursor-pointer"></button>
+        </div>
+
+        <button onclick="claimPitPass('Configured Homologation Special', '₱5,800,000')" class="bg-racing-red hover:bg-red-500 px-6 py-3 text-xs font-black uppercase tracking-wider text-white skew-12 inline-block">
+          <span class="unskew-12 inline-block">Reserve Configured Spec</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       12. WHY CHOOSE US (The Scuderia Track Creed)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-14 border-b border-white/10 bg-[#0a0a0e]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-black text-red-500 uppercase tracking-widest">// THE CREED</span>
+        <h2 class="text-3xl font-black italic uppercase mt-1">4 Ironclad Racing Standards</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="p-5 border-l-4 border-red-600 bg-black/60">
+          <h4 class="font-black text-sm uppercase text-white">100% Dyno Verified</h4>
+          <p class="font-body text-xs text-slate-400 mt-1">Real crank horsepower documented on certified dynamometer sheets.</p>
+        </div>
+        <div class="p-5 border-l-4 border-red-600 bg-black/60">
+          <h4 class="font-black text-sm uppercase text-white">Track Mentorship</h4>
+          <p class="font-body text-xs text-slate-400 mt-1">Complimentary 1-on-1 coaching at Clark Speedway by championship drivers.</p>
+        </div>
+        <div class="p-5 border-l-4 border-red-600 bg-black/60">
+          <h4 class="font-black text-sm uppercase text-white">Zero Flood History</h4>
+          <p class="font-body text-xs text-slate-400 mt-1">100% buyback guarantee against typhoon monsoon flood water incursion.</p>
+        </div>
+        <div class="p-5 border-l-4 border-red-600 bg-black/60">
+          <h4 class="font-black text-sm uppercase text-white">24/7 Pit Flatbed</h4>
+          <p class="font-body text-xs text-slate-400 mt-1">Dedicated low-clearance transporter recovery anywhere in Luzon.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       13. FINANCING PROCESS (The 4-Stage Pit Stop Sprint)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-black text-red-500 uppercase tracking-widest">// PROTOCOL</span>
+        <h2 class="text-3xl font-black italic uppercase mt-1">The 4-Stage Pit Stop Sprint</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-center">
+        <div class="p-5 bg-black/70 border border-white/10">
+          <p class="text-red-500 font-black text-2xl mb-1">STAGE 1</p>
+          <h4 class="font-black text-xs uppercase text-white">Chassis Telemetry</h4>
+          <p class="font-body text-[11px] text-slate-400 mt-1">Pick your chassis and review the full Clark Speedway lap telemetry file.</p>
+        </div>
+        <div class="p-5 bg-black/70 border border-white/10">
+          <p class="text-red-500 font-black text-2xl mb-1">STAGE 2</p>
+          <h4 class="font-black text-xs uppercase text-white">15-Min Pit Credit</h4>
+          <p class="font-body text-[11px] text-slate-400 mt-1">Fast-tracked bank pre-approval with preferential commercial auto rates.</p>
+        </div>
+        <div class="p-5 bg-black/70 border border-white/10">
+          <p class="text-red-500 font-black text-2xl mb-1">STAGE 3</p>
+          <h4 class="font-black text-xs uppercase text-white">Clark Shakedown</h4>
+          <p class="font-body text-[11px] text-slate-400 mt-1">Trackside trial run with tire temperature and brake pad calibration.</p>
+        </div>
+        <div class="p-5 bg-black/70 border border-white/10">
+          <p class="text-red-500 font-black text-2xl mb-1">STAGE 4</p>
+          <h4 class="font-black text-xs uppercase text-white">Chequered Flag</h4>
+          <p class="font-body text-[11px] text-slate-400 mt-1">Doorstep flatbed haul with full documentation and ceremonial keys.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       14. PROMOTIONS / SPECIAL OFFERS
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-12 bg-racing-red text-black border-b border-white/10">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+      <div>
+        <span class="bg-black text-white text-[10px] font-black uppercase px-2 py-0.5 skew-12 inline-block mb-1">
+          <span class="unskew-12 inline-block">LIMITED QUARTERLY TRACK PACK</span>
+        </span>
+        <h3 class="text-2xl sm:text-3xl font-black italic uppercase">FREE SET OF MICHELIN PILOT SPORT CUP 2 TIRES</h3>
+        <p class="text-xs font-bold mt-1">Included with every pole position sports coupé purchase booked before end of month.</p>
+      </div>
+      <button onclick="claimPitPass('Free Michelin Cup 2 Pack', 'Included')" class="bg-black text-white hover:bg-white hover:text-black px-8 py-3 text-xs font-black uppercase tracking-wider transition whitespace-nowrap skew-12">
+        <span class="unskew-12 inline-block">Claim Track Rubber</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       15. DEALER STORY / SHOWROOM (Paddock Heritage)
+  ========================================================================== -->
+  <section id="section-story" class="px-6 lg:px-16 py-16 border-b border-white/10 bg-[#0a0a0e]">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      <div class="h-80 bg-slate-900 border border-red-600/40 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80" alt="Paddock Garage" class="w-full h-full object-cover">
+      </div>
+      <div>
+        <span class="text-xs font-black uppercase text-red-500 tracking-widest">// PADDOCK ROOTS</span>
+        <h2 class="text-3xl font-black italic uppercase mt-1 mb-4">Born in the Pit Lanes of Asia</h2>
+        <p class="font-body text-xs text-slate-300 leading-relaxed mb-4">
+          Founded in 2017 by Philippine national touring car and formula champions, Scuderia Corse Manila was built to eliminate boring, dishonest dealership experiences.
+        </p>
+        <p class="font-body text-xs text-slate-400 leading-relaxed mb-6">
+          We speak throttle response, apex trail-braking, and mechanical honesty. Our Circuit Makati facility and Clark Speedway Bay 14 ensure your machine stays in race-ready form.
+        </p>
+        <span class="font-black text-lg text-white">THE RACE DIRECTORATE // SCUDERIA CORSE</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       16. CUSTOMER TESTIMONIALS (Driver Logbooks)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs font-black uppercase text-red-500 tracking-widest">// DRIVER LOGBOOKS</span>
+        <h2 class="text-3xl font-black italic uppercase mt-1">Verified Track Day Drivers</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 bg-black/70 border border-white/15">
+          <p class="font-body text-xs text-slate-300 italic mb-3">
+            "They dialed in my M4 suspension for Clark Speedway before I even took delivery. Their driver coach trimmed 2.4 seconds off my personal best on day one."
+          </p>
+          <span class="text-xs font-black text-red-500 block">- Kevin Tan, Manila</span>
+          <span class="text-[10px] text-slate-500 font-mono">Delivered 2026 Scuderia M4 CSL</span>
+        </div>
+
+        <div class="p-6 bg-black/70 border border-white/15">
+          <p class="font-body text-xs text-slate-300 italic mb-3">
+            "Fastest financing approval I have ever had in the Philippines. From trade-in inspection to keys in hand took exactly 48 hours."
+          </p>
+          <span class="text-xs font-black text-red-500 block">- Derrick Sy, Greenhills</span>
+          <span class="text-[10px] text-slate-500 font-mono">Delivered 2026 GT3 RS Clubsport</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       17. FAQ ACCORDION (Pit Wall Inquiries)
+  ========================================================================== -->
+  <section id="section-faq" class="px-6 lg:px-16 py-14 border-b border-white/10 bg-[#0a0a0e]">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs font-black uppercase text-red-500 tracking-widest">// PIT WALL CLARIFICATIONS</span>
+        <h2 class="text-3xl font-black italic uppercase mt-1">Frequently Examined Questions</h2>
+      </div>
+
+      <div class="space-y-3 font-body">
+        <div class="border border-white/15 bg-black/60 rounded">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-red-500">
+            <span>Are homologation track models street legal in the Philippines?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-white/10">
+            Yes. Every car is sold with official LTO NCR registration, BIR tax payment certificates, and passes all street safety requirements.
+          </div>
+        </div>
+
+        <div class="border border-white/15 bg-black/60 rounded">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-red-500">
+            <span>Do you accept luxury SUV trade-ins towards race coupés?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-white/10">
+            Yes, we provide instant trade-in appraisals within 60 minutes with trade-in values credited directly towards your track deposit.
+          </div>
+        </div>
+
+        <div class="border border-white/15 bg-black/60 rounded">
+          <button onclick="toggleFaq(this)" class="w-full p-4 text-left text-xs font-bold uppercase flex justify-between items-center text-white hover:text-red-500">
+            <span>What happens during the Clark International Speedway shakedown?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-400 hidden border-t border-white/10">
+            Our pit crew transports your machine to CIS, sets tire pressures and wing downforce, and provides 3 hot-lap coaching sessions.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       18. SHOWROOM LOCATION + MAP (Circuit Makati Paddock & Clark Bay 14)
+  ========================================================================== -->
+  <section class="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div>
+        <span class="text-xs font-black uppercase text-red-500 tracking-widest">// PADDOCK LOCATIONS</span>
+        <h2 class="text-3xl font-black italic uppercase mt-1 mb-4">Circuit Makati Paddock</h2>
+        <div class="space-y-2 text-xs font-mono text-slate-300">
+          <p><strong class="text-white">Main Showroom:</strong> Circuit Makati Tarmac, Makati City</p>
+          <p><strong class="text-white">Trackside Bay:</strong> Pit Bay 14, Clark International Speedway, Pampanga</p>
+          <p><strong class="text-white">Track Phone:</strong> +63 (2) 8877-RACE / dispatch@scuderiacorse.ph</p>
+          <p><strong class="text-red-500">GPS Pit Coordinates:</strong> 14.5768° N, 121.0186° E</p>
+        </div>
+      </div>
+
+      <div class="h-64 border border-red-600/40 bg-black/80 flex items-center justify-center p-6 text-center">
+        <div>
+          <span class="w-3 h-3 rounded-full bg-red-600 inline-block animate-ping mb-2"></span>
+          <p class="font-black text-lg text-white">CLARK SPEEDWAY PIT 14 ON-CALL</p>
+          <p class="text-xs font-mono text-red-500 mt-1">Telemetry Diagnostics Station Ready</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       19. FINAL CALL-TO-ACTION (Lights Out. Away We Go.)
+  ========================================================================== -->
+  <section id="section-cta" class="px-6 lg:px-16 py-20 bg-black text-center">
+    <div class="max-w-2xl mx-auto">
+      <span class="bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1 tracking-widest skew-12 inline-block mb-4">
+        <span class="unskew-12 inline-block">FORMATION LAP COMPLETE</span>
+      </span>
+      <h2 class="text-4xl sm:text-6xl font-black italic uppercase text-white mb-4">
+        LIGHTS OUT. <br><span class="text-red-600">AWAY WE GO.</span>
+      </h2>
+      <p class="font-body text-xs sm:text-sm text-slate-400 mb-8 max-w-md mx-auto">
+        Allocations are limited per season. Book your private track briefing and hot lap coaching session today.
+      </p>
+      <form onsubmit="handleRaceLead(event)" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto font-body">
+        <input type="text" placeholder="Driver Name or Call-Sign" required class="flex-1 bg-[#161622] border border-white/20 p-3 text-xs text-white outline-none focus:border-red-500">
+        <input type="tel" placeholder="+63 Mobile Number" required class="flex-1 bg-[#161622] border border-white/20 p-3 text-xs text-white outline-none focus:border-red-500">
+        <button type="submit" class="bg-racing-red hover:bg-red-500 px-6 py-3 text-xs font-black uppercase tracking-wider text-white skew-12 whitespace-nowrap">
+          <span class="unskew-12 inline-block">Ignite Ignition</span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       20. MASTER FOOTER
+  ========================================================================== -->
+  <footer class="px-6 lg:px-16 py-10 bg-[#07070a] border-t border-red-600/30 text-xs text-slate-500 font-body">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 font-mono">
+      <div>
+        <span class="text-lg font-black text-white block mb-2 font-['Montserrat']">SCUDERIA CORSE</span>
+        <p class="text-[11px] text-slate-400">Track-certified homologation supercar dealer powered by OmniDrive 2026 SaaS.</p>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-2">Grid Divisions</h4>
+        <ul class="space-y-1 text-[11px]">
+          <li><a href="#section-grid" class="hover:text-red-500">GT3 Homologations</a></li>
+          <li><a href="#section-grid" class="hover:text-red-500">Clubsport Racers</a></li>
+          <li><a href="#section-grid" class="hover:text-red-500">Competition SUVs</a></li>
+          <li><a href="#section-grid" class="hover:text-red-500">Formula EV Torque</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-2">Paddock System</h4>
+        <ul class="space-y-1 text-[11px]">
+          <li><span class="text-red-500">Paddock:</span> SCUDERIA-MNL-2026</li>
+          <li><span>Lap Sync:</span> Clark International Speedway</li>
+          <li><span>Telemetry:</span> Active 100Hz</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-white font-bold mb-2">Pit Wall</h4>
+        <p class="text-[11px] text-slate-400">Circuit Makati Tarmac, Makati City</p>
+        <p class="text-[11px] text-red-500 mt-1">+63 (2) 8877-RACE</p>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto pt-6 border-t border-white/5 text-center text-[10px] text-slate-600">
+      © 2026 Scuderia Corse Manila. All rights reserved. Motorsport Dealership SaaS Prototype.
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       INTERACTIVE JAVASCRIPT ENGINES
+  ========================================================================== -->
+  <script>
+    lucide.createIcons();
+
+    // 01. 15-Minute Pit Stop Sprint Calculator
+    function runPitCalc() {
+      const price = parseFloat(document.getElementById('pit-price').value);
+      const dpPct = parseFloat(document.getElementById('pit-dp').value);
+      const tenure = parseFloat(document.getElementById('pit-term').value);
+
+      const dpValue = price * (dpPct / 100);
+      const principal = price - dpValue;
+      // 3.9% track financing add-on
+      const totalInterest = principal * 0.039 * (tenure / 12);
+      const monthly = (principal + totalInterest) / tenure;
+
+      document.getElementById('pit-price-lbl').innerText = '₱' + price.toLocaleString();
+      document.getElementById('pit-dp-lbl').innerText = `${dpPct}% (₱${dpValue.toLocaleString()})`;
+      document.getElementById('pit-term-lbl').innerText = `${tenure} Months`;
+      document.getElementById('pit-monthly-lbl').innerHTML = `₱${Math.round(monthly).toLocaleString()}<span class="text-xs text-white"> / mo</span>`;
+    }
+
+    // 02. Lap Outlay Budget Matcher
+    function runBudgetLapMatcher(val) {
+      const budget = parseFloat(val);
+      document.getElementById('budget-lap-val').innerText = '₱' + budget.toLocaleString() + ' / month';
+      
+      const carEl = document.getElementById('budget-lap-car');
+      if (budget < 70000) {
+        carEl.innerText = '2026 Alfa Quadrifoglio Racing (₱4,950,000)';
+      } else if (budget < 110000) {
+        carEl.innerText = '2026 Scuderia M4 CSL (₱5,800,000)';
+      } else if (budget < 150000) {
+        carEl.innerText = '2026 RS6 V8 Competition Avant (₱7,600,000)';
+      } else {
+        carEl.innerText = '2026 GT3 RS Clubsport Spec (₱9,200,000)';
+      }
+    }
+
+    // 03. Livery / Aero Tunnel Switcher
+    function setLivery(name, imgUrl) {
+      document.getElementById('showcase-img').src = imgUrl;
+      document.getElementById('showcase-livery-lbl').innerText = name;
+    }
+
+    // 04. FAQ Accordion Toggle
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      const chevron = btn.querySelector('i');
+      content.classList.toggle('hidden');
+      if (chevron) chevron.classList.toggle('rotate-180');
+    }
+
+    // 05. Action Alerts
+    function claimPitPass(car, price) {
+      alert(`[Scuderia Pit Pass Locked]\n\nChassis: ${car}\nTarget Outlay: ${price}\n\nOur race telemetry pit crew will call your mobile within 15 minutes.`);
+    }
+
+    function executePitSearch() {
+      const raceClass = document.getElementById('race-class').value;
+      const price = document.getElementById('race-price').value;
+      alert(`[Pit Wall Filter Applied]\nClass: ${raceClass}\nPrice Cap: ₱${parseInt(price).toLocaleString()}\n\nDisplaying matching pole position allocations.`);
+    }
+
+    function selectRaceClass(category) {
+      alert(`[Paddock Division Selected: ${category}]\nDisplaying all qualifying machines staged in Clark & Makati.`);
+    }
+
+    function handleRaceLead(e) {
+      e.preventDefault();
+      alert("[Track Launch Dispatched]\nEngine ignition sequence activated. Our race directorate will telephone you shortly.");
+    }
+
+    // 06. Download Self As File
+    function downloadSelf() {
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "scuderia-corse-motorsport.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>

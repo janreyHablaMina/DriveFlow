@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revue Automobile — 2026 European Editorial Automotive Maison</title>
+  
+  <!-- Tailwind CSS & Lucide Icons CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Curated Fonts: Cinzel (Classical Roman Editorial Display) + Inter (Clean Swiss Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background-color: #faf9f6; color: #121316; overflow-x: hidden; font-family: 'Cinzel', serif; }
+    .font-sans-body { font-family: 'Inter', sans-serif; }
+
+    /* Infinite Marquee */
+    @keyframes marqueeRun { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    .ticker-bar { display: flex; width: 200%; animation: marqueeRun 28s linear infinite; }
+    .ticker-bar:hover { animation-play-state: paused; }
+
+    /* Bordeaux Burgundy & Graphite Tokens */
+    .text-burgundy { color: #6b1d2f; }
+    .bg-burgundy { background-color: #6b1d2f; color: #faf9f6; }
+    .border-burgundy { border-color: rgba(107, 29, 47, 0.35); }
+    .bg-graphite { background-color: #121316; }
+
+    /* Carousel Slide Transitions */
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(1.03);
+    }
+    .hero-slide.active-slide {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body class="bg-[#faf9f6] text-[#121316] antialiased selection:bg-[#6b1d2f] selection:text-white">
+
+  <!-- =========================================================================
+       01. HEADER / NAVIGATION (Clean Swiss Editorial Masthead)
+  ========================================================================== -->
+  <header class="sticky top-0 z-50 bg-[#faf9f6]/95 backdrop-blur-md border-b border-black/10 px-6 lg:px-16 py-4 flex items-center justify-between shadow-sm">
+    <!-- Brand Identity -->
+    <a href="#" class="flex flex-col">
+      <span class="text-xl lg:text-2xl font-black tracking-[0.22em] text-[#121316]">REVUE <span class="text-burgundy italic font-normal">AUTOMOBILE</span></span>
+      <span class="text-[9px] font-sans-body uppercase tracking-[0.35em] text-slate-500 font-semibold -mt-0.5">Édition Manila & Genève</span>
+    </a>
+
+    <!-- Focused Navigation Links -->
+    <nav class="hidden md:flex items-center gap-8 text-xs uppercase tracking-[0.25em] text-slate-600 font-semibold font-sans-body">
+      <a href="#section-hero-slider" class="text-burgundy font-bold transition hover:text-black">Cover Story</a>
+      <a href="#section-portfolio" class="hover:text-black transition">Selected Plates</a>
+      <a href="#section-calculator" class="hover:text-black transition">Lease Terms</a>
+      <a href="#section-atelier" class="hover:text-black transition">The Atelier</a>
+    </nav>
+
+    <!-- Clean Actions -->
+    <div class="flex items-center gap-4 font-sans-body">
+      <a href="#section-cta" class="bg-burgundy px-5 py-2.5 text-xs font-bold uppercase tracking-[0.2em] rounded-none hover:bg-black transition shadow-sm">
+        Commission Chassis
+      </a>
+      <button onclick="downloadSelf()" title="Save standalone .html file" class="p-2 border border-black/15 hover:border-black text-slate-700 hover:text-black transition bg-white shadow-sm">
+        <i data-lucide="download" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       02. CINEMATIC HERO / MULTI-SLIDE CAROUSEL BANNER
+  ========================================================================== -->
+  <section id="section-hero-slider" class="relative min-h-[92vh] flex items-center overflow-hidden border-b border-black/10 bg-black">
+    
+    <!-- SLIDE 01: The Grand Berlinetta -->
+    <div id="slide-0" class="hero-slide active-slide">
+      <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=2600&q=95" 
+           alt="The Grand Berlinetta" 
+           class="w-full h-full object-cover filter brightness-[0.75] contrast-[1.08]">
+      <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent"></div>
+      
+      <div class="absolute inset-0 flex flex-col justify-center px-6 lg:px-20 max-w-4xl text-white">
+        <span class="text-xs uppercase tracking-[0.4em] text-amber-200/90 font-sans-body font-semibold mb-3">COVER STORY // PLATE 01</span>
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight leading-[1.05] mb-4">
+          The Grand Berlinetta. <br>
+          <span class="italic text-slate-300 font-normal">Pure Form Follows Velocity.</span>
+        </h1>
+        <p class="font-sans-body text-slate-300 text-xs sm:text-sm leading-relaxed max-w-lg mb-8 font-light">
+          An architectural study in sculpted carbon surfaces and dry-sump twin-turbocharged V8 performance. Homologated for the discerning grand tourer.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 font-sans-body">
+          <button onclick="inspectEdition('The Grand Berlinetta', '₱16,800,000')" class="bg-burgundy px-7 py-3 text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white hover:text-black transition shadow-lg">
+            Review Acquisition File
+          </button>
+          <span class="text-sm font-bold font-mono tracking-widest text-amber-200">₱16,800,000 SRP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 02: The Alpine Shooting Brake -->
+    <div id="slide-1" class="hero-slide">
+      <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2600&q=95" 
+           alt="The Alpine High-Velocity Estate" 
+           class="w-full h-full object-cover filter brightness-[0.72] contrast-[1.08]">
+      <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent"></div>
+      
+      <div class="absolute inset-0 flex flex-col justify-center px-6 lg:px-20 max-w-4xl text-white">
+        <span class="text-xs uppercase tracking-[0.4em] text-amber-200/90 font-sans-body font-semibold mb-3">COVER STORY // PLATE 02</span>
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight leading-[1.05] mb-4">
+          The Alpine Estate. <br>
+          <span class="italic text-slate-300 font-normal">Four Seats. Infinite Horizon.</span>
+        </h1>
+        <p class="font-sans-body text-slate-300 text-xs sm:text-sm leading-relaxed max-w-lg mb-8 font-light">
+          Long-distance autobahn comfort with all-wheel torque vectoring. Accommodates weekend luggage across mountain passes with zero mechanical compromise.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 font-sans-body">
+          <button onclick="inspectEdition('The Alpine Estate', '₱13,500,000')" class="bg-burgundy px-7 py-3 text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white hover:text-black transition shadow-lg">
+            Review Acquisition File
+          </button>
+          <span class="text-sm font-bold font-mono tracking-widest text-amber-200">₱13,500,000 SRP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 03: The Open-Air Spider -->
+    <div id="slide-2" class="hero-slide">
+      <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=2600&q=95" 
+           alt="The Open-Air Spider" 
+           class="w-full h-full object-cover filter brightness-[0.70] contrast-[1.1]">
+      <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent"></div>
+      
+      <div class="absolute inset-0 flex flex-col justify-center px-6 lg:px-20 max-w-4xl text-white">
+        <span class="text-xs uppercase tracking-[0.4em] text-amber-200/90 font-sans-body font-semibold mb-3">COVER STORY // PLATE 03</span>
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-light tracking-tight leading-[1.05] mb-4">
+          The Spider Homologation. <br>
+          <span class="italic text-slate-300 font-normal">Acoustic Symphony at 9,000 RPM.</span>
+        </h1>
+        <p class="font-sans-body text-slate-300 text-xs sm:text-sm leading-relaxed max-w-lg mb-8 font-light">
+          Naturally aspirated power delivery unencumbered by a fixed roof. Features lightweight magnesium forged wheels and active rear aerodynamic air diffusers.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 font-sans-body">
+          <button onclick="inspectEdition('The Spider Homologation', '₱21,200,000')" class="bg-burgundy px-7 py-3 text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white hover:text-black transition shadow-lg">
+            Review Acquisition File
+          </button>
+          <span class="text-sm font-bold font-mono tracking-widest text-amber-200">₱21,200,000 SRP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slider Navigation Arrows -->
+    <div class="absolute bottom-8 right-6 lg:right-20 z-30 flex items-center gap-3 font-sans-body">
+      <button onclick="prevSlide()" class="w-11 h-11 border border-white/20 bg-black/60 hover:bg-white hover:text-black text-white flex items-center justify-center transition backdrop-blur shadow-md">
+        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+      </button>
+      <div class="px-3 text-xs font-mono tracking-widest text-white/80">
+        <span id="current-slide-num" class="text-amber-200 font-bold">01</span> / 03
+      </div>
+      <button onclick="nextSlide()" class="w-11 h-11 border border-white/20 bg-black/60 hover:bg-white hover:text-black text-white flex items-center justify-center transition backdrop-blur shadow-md">
+        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Slider Indicator Dots -->
+    <div class="absolute bottom-8 left-6 lg:left-20 z-30 flex items-center gap-2">
+      <button onclick="goToSlide(0)" id="dot-0" class="w-8 h-1 bg-burgundy transition-all duration-300"></button>
+      <button onclick="goToSlide(1)" id="dot-1" class="w-8 h-1 bg-white/30 transition-all duration-300"></button>
+      <button onclick="goToSlide(2)" id="dot-2" class="w-8 h-1 bg-white/30 transition-all duration-300"></button>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03. SCROLLING MARQUEE (Editorial Journal Ticker)
+  ========================================================================== -->
+  <div class="py-3 bg-graphite text-[#faf9f6] border-b border-black/10 overflow-hidden font-sans-body text-xs uppercase tracking-[0.25em]">
+    <div class="ticker-bar flex items-center gap-14 whitespace-nowrap">
+      <span>REVUE AUTOMOBILE JOURNAL DE RECORD</span> <span class="text-burgundy">✦</span>
+      <span>CERTIFIED FACTORY PEDIGREE & HISTORICAL AUDIT</span> <span class="text-burgundy">✦</span>
+      <span>GENÈVE • ZÜRICH • METRO MANILA BUREAU</span> <span class="text-burgundy">✦</span>
+      <span>DISCREET PRIVATE SALE ADVISORY & TITLING</span> <span class="text-burgundy">✦</span>
+      <span>REVUE AUTOMOBILE JOURNAL DE RECORD</span> <span class="text-burgundy">✦</span>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       04. SMART VEHICLE SEARCH (The Curated Acquisition Index)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-14 border-b border-black/10 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex items-center justify-between mb-6 font-sans-body">
+        <h2 class="text-xs uppercase tracking-[0.3em] font-bold text-slate-600">The Acquisition Ledger Index</h2>
+        <span class="text-[11px] text-slate-400">Database: 28 Authenticated European Chassis</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 p-6 border border-black/10 bg-[#faf9f6] font-sans-body">
+        <div>
+          <label class="block text-[10px] uppercase tracking-widest text-slate-500 mb-1.5 font-bold">Chassis Discipline</label>
+          <select id="editorial-search-type" class="w-full bg-white border border-black/15 text-xs text-slate-800 p-3 outline-none focus:border-burgundy">
+            <option value="all">All Architectural Formats</option>
+            <option value="gt">Grand Berlinettas</option>
+            <option value="wagon">High-Velocity Estates</option>
+            <option value="spider">Open-Air Spiders</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] uppercase tracking-widest text-slate-500 mb-1.5 font-bold">Acquisition Ceiling</label>
+          <select id="editorial-search-price" class="w-full bg-white border border-black/15 text-xs text-slate-800 p-3 outline-none focus:border-burgundy">
+            <option value="99999999">No Ceiling Limit</option>
+            <option value="12000000">Under ₱12,000,000</option>
+            <option value="18000000">Under ₱18,000,000</option>
+            <option value="25000000">Under ₱25,000,000</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] uppercase tracking-widest text-slate-500 mb-1.5 font-bold">Engine Heritage</label>
+          <select class="w-full bg-white border border-black/15 text-xs text-slate-800 p-3 outline-none focus:border-burgundy">
+            <option>All Engine Configurations</option>
+            <option>Naturally Aspirated Flat-Six (9K RPM)</option>
+            <option>Twin-Turbo Bi-Turbo V8</option>
+            <option>Naturally Aspirated V10 Symphony</option>
+          </select>
+        </div>
+        <div class="flex items-end">
+          <button onclick="filterEditorialLedger()" class="w-full bg-graphite hover:bg-burgundy text-white font-bold text-xs py-3 uppercase tracking-[0.2em] transition">
+            Filter Ledger
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       05. CATEGORY BROWSER (Editorial Portfolio Spread)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-16 border-b border-black/10 bg-[#faf9f6]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-10">
+        <div>
+          <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-sans-body font-bold block mb-1">LES DISCIPLINES</span>
+          <h2 class="text-3xl lg:text-4xl font-light text-slate-900">Curated Architecture Types</h2>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 font-sans-body">
+        <div onclick="selectDiscipline('Grand Berlinettas')" class="p-8 border border-black/10 bg-white hover:border-burgundy transition cursor-pointer group shadow-sm">
+          <span class="text-[10px] font-mono uppercase text-slate-400 block mb-2 font-bold">PORTFOLIO I</span>
+          <h3 class="font-serif-title text-2xl font-light text-slate-900 group-hover:text-burgundy transition">Grand Berlinettas</h3>
+          <p class="text-xs text-slate-500 font-light mt-2 leading-relaxed">Front-mid mounted engine architecture prioritizing aerodynamic balance and long-distance grand touring.</p>
+          <span class="text-xs font-bold text-burgundy mt-6 block uppercase tracking-wider">12 Specimens Staged →</span>
+        </div>
+
+        <div onclick="selectDiscipline('High-Velocity Estates')" class="p-8 border border-black/10 bg-white hover:border-burgundy transition cursor-pointer group shadow-sm">
+          <span class="text-[10px] font-mono uppercase text-slate-400 block mb-2 font-bold">PORTFOLIO II</span>
+          <h3 class="font-serif-title text-2xl font-light text-slate-900 group-hover:text-burgundy transition">Shooting Brakes & Estates</h3>
+          <p class="text-xs text-slate-500 font-light mt-2 leading-relaxed">Unrestricted performance paired with purposeful cargo utility for transcontinental alpine journeys.</p>
+          <span class="text-xs font-bold text-burgundy mt-6 block uppercase tracking-wider">9 Specimens Staged →</span>
+        </div>
+
+        <div onclick="selectDiscipline('Open-Air Spiders')" class="p-8 border border-black/10 bg-white hover:border-burgundy transition cursor-pointer group shadow-sm">
+          <span class="text-[10px] font-mono uppercase text-slate-400 block mb-2 font-bold">PORTFOLIO III</span>
+          <h3 class="font-serif-title text-2xl font-light text-slate-900 group-hover:text-burgundy transition">Open-Air Spiders</h3>
+          <p class="text-xs text-slate-500 font-light mt-2 leading-relaxed">Direct acoustic immersion without a fixed canopy, coupled to ultra-lightweight carbon chassis bathtubs.</p>
+          <span class="text-xs font-bold text-burgundy mt-6 block uppercase tracking-wider">7 Specimens Staged →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       06. FEATURED VEHICLES (Editorial Magazine Plates I, II, III)
+  ========================================================================== -->
+  <section id="section-portfolio" class="px-6 lg:px-20 py-20 border-b border-black/10 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-end mb-12">
+        <div>
+          <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-sans-body font-bold block mb-1">IN RESIDENCE</span>
+          <h2 class="text-3xl lg:text-4xl font-light text-slate-900">Featured Portfolio Plates</h2>
+        </div>
+        <span class="text-xs font-sans-body text-slate-400 uppercase tracking-widest hidden sm:inline">Certified Unencumbered Titles</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Plate I -->
+        <div class="border border-black/10 bg-[#faf9f6] p-6 group flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="h-64 overflow-hidden mb-5 bg-slate-200 border border-black/10">
+              <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=900&q=80" alt="Berlinetta V8" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <span class="text-[10px] uppercase tracking-widest text-burgundy font-sans-body font-bold block mb-1">PLATE NO. 01</span>
+            <h3 class="text-2xl font-light text-slate-900">Berlinetta V8 Stradale</h3>
+            <p class="font-sans-body text-xs text-slate-500 font-light mt-2 leading-relaxed">Twin-turbo dry-sump 3.9L V8, semi-aniline saddle leather, titanium exhaust.</p>
+            <p class="font-sans-body text-xs font-bold text-burgundy mt-4">From ₱268,000 / month (36-Month Structured Lease)</p>
+          </div>
+          <div class="pt-5 border-t border-black/10 mt-6 flex justify-between items-center font-sans-body">
+            <span class="font-mono text-lg font-bold text-slate-900">₱16,800,000</span>
+            <button onclick="inspectEdition('Berlinetta V8 Stradale', '₱16,800,000')" class="text-xs uppercase tracking-widest text-slate-900 hover:text-burgundy font-bold border-b border-current pb-0.5 transition">Acquire Plate</button>
+          </div>
+        </div>
+
+        <!-- Plate II -->
+        <div class="border border-black/10 bg-[#faf9f6] p-6 group flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="h-64 overflow-hidden mb-5 bg-slate-200 border border-black/10">
+              <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=900&q=80" alt="Estate V8" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <span class="text-[10px] uppercase tracking-widest text-burgundy font-sans-body font-bold block mb-1">PLATE NO. 02</span>
+            <h3 class="text-2xl font-light text-slate-900">Geneva Alpine Estate V8</h3>
+            <p class="font-sans-body text-xs text-slate-500 font-light mt-2 leading-relaxed">630 HP twin-scroll, permanent quattro AWD, rear executive bench in open-pore dark walnut.</p>
+            <p class="font-sans-body text-xs font-bold text-burgundy mt-4">From ₱215,000 / month (36-Month Structured Lease)</p>
+          </div>
+          <div class="pt-5 border-t border-black/10 mt-6 flex justify-between items-center font-sans-body">
+            <span class="font-mono text-lg font-bold text-slate-900">₱13,500,000</span>
+            <button onclick="inspectEdition('Geneva Alpine Estate V8', '₱13,500,000')" class="text-xs uppercase tracking-widest text-slate-900 hover:text-burgundy font-bold border-b border-current pb-0.5 transition">Acquire Plate</button>
+          </div>
+        </div>
+
+        <!-- Plate III -->
+        <div class="border border-black/10 bg-[#faf9f6] p-6 group flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="h-64 overflow-hidden mb-5 bg-slate-200 border border-black/10">
+              <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80" alt="Spider V10" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            </div>
+            <span class="text-[10px] uppercase tracking-widest text-burgundy font-sans-body font-bold block mb-1">PLATE NO. 03</span>
+            <h3 class="text-2xl font-light text-slate-900">Stuttgart Spider Homologation</h3>
+            <p class="font-sans-body text-xs text-slate-500 font-light mt-2 leading-relaxed">Naturally aspirated 4.0L flat-six, lightweight titanium roll cage, Weissach aero pack.</p>
+            <p class="font-sans-body text-xs font-bold text-burgundy mt-4">From ₱338,000 / month (36-Month Structured Lease)</p>
+          </div>
+          <div class="pt-5 border-t border-black/10 mt-6 flex justify-between items-center font-sans-body">
+            <span class="font-mono text-lg font-bold text-slate-900">₱21,200,000</span>
+            <button onclick="inspectEdition('Stuttgart Spider Homologation', '₱21,200,000')" class="text-xs uppercase tracking-widest text-slate-900 hover:text-burgundy font-bold border-b border-current pb-0.5 transition">Acquire Plate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       07. ANIMATED TELEMETRY COUNTERS (Editorial Journal Indices)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-14 bg-graphite text-[#faf9f6] border-b border-black/10 font-sans-body">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div class="border-r border-white/10 pr-4">
+        <p class="text-3xl lg:text-4xl font-extrabold text-white">48</p>
+        <p class="text-[10px] uppercase tracking-[0.25em] text-slate-400 mt-1">ÉDITIONS PUBLISHED</p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <p class="text-3xl lg:text-4xl font-extrabold text-amber-200">100%</p>
+        <p class="text-[10px] uppercase tracking-[0.25em] text-slate-400 mt-1">SWISS PROVENANCE AUDIT</p>
+      </div>
+      <div class="border-r border-white/10 pr-4">
+        <p class="text-3xl lg:text-4xl font-extrabold text-white">1:1</p>
+        <p class="text-[10px] uppercase tracking-[0.25em] text-slate-400 mt-1">CURATOR CONCIERGE</p>
+      </div>
+      <div>
+        <p class="text-3xl lg:text-4xl font-extrabold text-amber-200">0%</p>
+        <p class="text-[10px] uppercase tracking-[0.25em] text-slate-400 mt-1">COMMERCIAL COMPROMISE</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08. FINANCING CALCULATOR (Structured Capital Amortization)
+  ========================================================================== -->
+  <section id="section-calculator" class="px-6 lg:px-20 py-16 border-b border-black/10 bg-[#faf9f6]">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-sans-body font-bold">TERMS OF COMMISSION</span>
+        <h2 class="text-3xl lg:text-4xl font-light text-slate-900 mt-1">Structured Capital Amortization</h2>
+      </div>
+
+      <div class="p-8 border border-black/10 bg-white grid grid-cols-1 md:grid-cols-2 gap-8 items-center shadow-sm font-sans-body">
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-500">Asset Valuation (PHP)</span>
+              <span id="editorial-calc-price-lbl" class="font-bold text-slate-900 font-mono">₱16,800,000</span>
+            </div>
+            <input type="range" id="editorial-calc-price" min="8000000" max="30000000" step="500000" value="16800000" oninput="runEditorialCalc()" class="w-full accent-[#6b1d2f] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-500">Capital Equity Deposit (25%)</span>
+              <span id="editorial-calc-dp-lbl" class="font-bold text-burgundy font-mono">₱4,200,000</span>
+            </div>
+            <input type="range" id="editorial-calc-dp" min="15" max="50" step="5" value="25" oninput="runEditorialCalc()" class="w-full accent-[#6b1d2f] cursor-pointer">
+          </div>
+          <div>
+            <div class="flex justify-between text-xs font-semibold mb-1">
+              <span class="text-slate-500">Lease Horizon</span>
+              <span class="font-bold text-slate-900">36 Months</span>
+            </div>
+            <select id="editorial-calc-term" onchange="runEditorialCalc()" class="w-full bg-[#faf9f6] border border-black/15 text-xs text-slate-800 p-2.5 outline-none font-bold">
+              <option value="24">24 Months Closed-End Facility</option>
+              <option value="36" selected>36 Months Executive Wealth Lease</option>
+              <option value="48">48 Months Extended Facility</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="p-6 bg-graphite text-white border border-black text-center">
+          <span class="text-xs uppercase tracking-widest text-slate-400 font-bold block mb-1">Monthly Structured Lease Outlay</span>
+          <p id="editorial-calc-monthly-out" class="text-4xl font-extrabold text-amber-200 my-2 font-mono">₱268,800 <span class="text-xs font-normal text-slate-300">/ mo</span></p>
+          <p class="text-xs text-slate-300 font-light leading-relaxed mb-6">Subject to private wealth credit underwriting by BDO Private Bank, UBS, or Bank of the Philippine Islands.</p>
+          <button onclick="inspectEdition('Structured Lease Proposal', '₱16,800,000')" class="w-full bg-burgundy hover:bg-white hover:text-black text-white font-bold text-xs py-3 uppercase tracking-[0.2em] transition">
+            Request Formal Terms
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       09. FIND A CAR WITHIN YOUR BUDGET (Liquidity Allocation Index)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-16 border-b border-black/10 bg-white font-sans-body">
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-bold block mb-1">LIQUIDITY TARGET</span>
+      <h2 class="font-serif-title text-3xl font-light text-slate-900 mt-1 mb-3">Allocate Capital to Your Fleet</h2>
+      <p class="text-xs text-slate-500 max-w-md mx-auto mb-8 font-light">Slide your preferred monthly commitment to review qualifying portfolio plates.</p>
+
+      <div class="p-8 bg-[#faf9f6] border border-black/10 shadow-sm">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Target Monthly Outlay</span>
+          <span id="editorial-budget-val" class="font-mono text-2xl font-bold text-burgundy">₱220,000 / month</span>
+        </div>
+        <input type="range" min="120000" max="450000" step="10000" value="220000" oninput="runEditorialBudgetMatcher(this.value)" class="w-full accent-[#6b1d2f] mb-6 cursor-pointer">
+        
+        <div class="p-5 bg-white border border-black/10 text-left flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div>
+            <span class="text-[10px] font-bold text-burgundy uppercase tracking-widest block">Qualifying Portfolio Plate</span>
+            <p id="editorial-budget-car" class="font-serif-title text-xl text-slate-900 font-light">Geneva Alpine Estate V8 (₱13,500,000 SRP)</p>
+            <p class="text-xs text-slate-500 font-light">630 HP permanent quattro • 36-month closed-end private lease</p>
+          </div>
+          <button onclick="inspectEdition('Budget Matched Plate Reservation', 'Active')" class="bg-graphite hover:bg-burgundy text-white font-bold text-xs px-6 py-2.5 uppercase tracking-wider transition whitespace-nowrap">
+            Inquire Plate
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. NEW ARRIVALS (Recent Port Acquisitions)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-16 border-b border-black/10 bg-[#faf9f6]">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-sans-body font-bold block mb-1">DERNIÈRE ARRIVÉE</span>
+          <h2 class="text-3xl font-light text-slate-900">Recent Port Manila Commissions</h2>
+        </div>
+        <span class="text-xs font-sans-body text-slate-400">Authenticated Customs Release</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-sans-body">
+        <div class="p-4 bg-white border border-black/10 hover:border-burgundy transition shadow-sm">
+          <div class="h-48 overflow-hidden mb-3 bg-slate-200 border border-black/10">
+            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80" alt="Ghost II" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[9px] uppercase tracking-widest text-burgundy font-bold">ZÜRICH PROTOCOL</span>
+          <h3 class="font-serif-title text-xl font-light text-slate-900 mt-1">Lucerne Sovereign Saloon</h3>
+          <p class="text-sm font-bold font-mono text-slate-900 mt-1">₱24,500,000</p>
+        </div>
+
+        <div class="p-4 bg-white border border-black/10 hover:border-burgundy transition shadow-sm">
+          <div class="h-48 overflow-hidden mb-3 bg-slate-200 border border-black/10">
+            <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80" alt="DBX707" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[9px] uppercase tracking-widest text-burgundy font-bold">ALPINE TOURER</span>
+          <h3 class="font-serif-title text-xl font-light text-slate-900 mt-1">St. Moritz High-Velocity SUV</h3>
+          <p class="text-sm font-bold font-mono text-slate-900 mt-1">₱18,200,000</p>
+        </div>
+
+        <div class="p-4 bg-white border border-black/10 hover:border-burgundy transition shadow-sm">
+          <div class="h-48 overflow-hidden mb-3 bg-slate-200 border border-black/10">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="718 GT4" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[9px] uppercase tracking-widest text-burgundy font-bold">WEISSACH CHASSIS</span>
+          <h3 class="font-serif-title text-xl font-light text-slate-900 mt-1">Basel Clubsport Coupé</h3>
+          <p class="text-sm font-bold font-mono text-slate-900 mt-1">₱14,900,000</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       11. INTERACTIVE VEHICLE SHOWCASE (The Commissioning Atelier)
+  ========================================================================== -->
+  <section id="section-atelier" class="px-6 lg:px-20 py-20 border-b border-black/10 bg-white">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center font-sans-body">
+      <div class="border border-black/10 p-3 bg-[#faf9f6] shadow-sm">
+        <div class="h-80 sm:h-96 overflow-hidden relative border border-black/10">
+          <img id="atelier-leather-img" src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80" alt="Material Atelier" class="w-full h-full object-cover transition-all duration-700">
+        </div>
+        <div class="p-4 bg-white border-t border-black/10 flex justify-between items-center text-xs">
+          <div>
+            <span class="text-[9px] uppercase tracking-widest text-slate-400 block font-bold">Curated Texture Specimen</span>
+            <p id="atelier-texture-label" class="font-serif-title text-xl text-burgundy font-light">Tuscan Saddle Semi-Aniline</p>
+          </div>
+          <button onclick="inspectEdition('Bespoke Interior Commission', 'Custom POA')" class="bg-graphite text-white px-5 py-2 text-xs uppercase tracking-widest font-semibold hover:bg-burgundy transition">
+            Specify Swatch
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-bold block mb-2">L'ATELIER MATÉRIAUX</span>
+        <h2 class="font-serif-title text-3xl sm:text-4xl font-light text-slate-900 mb-6">Hand-Selected European Hides & Open-Pore Veneers</h2>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-light mb-8">
+          Every interior is tailored in accordance with classical continental aesthetics. Select from untreated Scandinavian nappa, open-pore Bavarian dark walnut, and bespoke contrast stitching.
+        </p>
+
+        <div class="space-y-3">
+          <div onclick="setAtelierTexture('Tuscan Saddle Semi-Aniline', 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80')" class="p-4 border border-black/10 hover:border-burgundy flex items-center justify-between cursor-pointer bg-[#faf9f6] transition">
+            <div>
+              <h4 class="text-xs uppercase tracking-widest text-slate-900 font-bold">Tuscan Saddle Leather</h4>
+              <p class="text-[11px] text-slate-500 font-light">Vegetable-tanned hides from Florence</p>
+            </div>
+            <span class="w-6 h-6 rounded-full bg-[#8b4513] border border-white shadow"></span>
+          </div>
+
+          <div onclick="setAtelierTexture('Linen Ivory Scandinavian Nappa', 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80')" class="p-4 border border-black/10 hover:border-burgundy flex items-center justify-between cursor-pointer bg-[#faf9f6] transition">
+            <div>
+              <h4 class="text-xs uppercase tracking-widest text-slate-900 font-bold">Linen Ivory Nappa</h4>
+              <p class="text-[11px] text-slate-500 font-light">Flawless untreated grain with double needle stitch</p>
+            </div>
+            <span class="w-6 h-6 rounded-full bg-[#f5f5dc] border border-slate-300 shadow"></span>
+          </div>
+
+          <div onclick="setAtelierTexture('Obsidian Charcoal Hide & Dark Walnut', 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80')" class="p-4 border border-black/10 hover:border-burgundy flex items-center justify-between cursor-pointer bg-[#faf9f6] transition">
+            <div>
+              <h4 class="text-xs uppercase tracking-widest text-slate-900 font-bold">Obsidian Charcoal & Walnut</h4>
+              <p class="text-[11px] text-slate-500 font-light">Satin dark burl veneers with hand-beveled edges</p>
+            </div>
+            <span class="w-6 h-6 rounded-full bg-[#1e232a] border border-white shadow"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       12. WHY CHOOSE US (4 Pillars of Curatorial Rigor)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-20 border-b border-black/10 bg-[#faf9f6]">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 font-sans-body">
+      <div class="border-t-2 border-burgundy pt-6">
+        <span class="text-xs uppercase tracking-widest text-burgundy font-bold block mb-1">PILLAR I</span>
+        <h3 class="font-serif-title text-2xl font-light text-slate-900 mb-2">Unblemished Provenance</h3>
+        <p class="text-xs text-slate-600 font-light leading-relaxed">Every chassis undergoes an exhaustive historical audit and forensic mechanical inspection prior to consignment.</p>
+      </div>
+
+      <div class="border-t-2 border-burgundy pt-6">
+        <span class="text-xs uppercase tracking-widest text-burgundy font-bold block mb-1">PILLAR II</span>
+        <h3 class="font-serif-title text-2xl font-light text-slate-900 mb-2">Absolute Confidentiality</h3>
+        <p class="text-xs text-slate-600 font-light leading-relaxed">Transactions are protected under Swiss-standard non-disclosure agreements with discreet titling arrangements.</p>
+      </div>
+
+      <div class="border-t-2 border-burgundy pt-6">
+        <span class="text-xs uppercase tracking-widest text-burgundy font-bold block mb-1">PILLAR III</span>
+        <h3 class="font-serif-title text-2xl font-light text-slate-900 mb-2">Private Aviation Delivery</h3>
+        <p class="text-xs text-slate-600 font-light leading-relaxed">Complimentary enclosed flatbed and helicopter airport transfers coordinated by our concierge desk.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       13. FINANCING PROCESS (The 4-Stage Protocol)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-16 border-b border-black/10 bg-white">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-12">
+        <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-sans-body font-bold block mb-1">LE PROTOCOLE</span>
+        <h2 class="text-3xl font-light text-slate-900">4-Stage Commission Journey</h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 font-sans-body">
+        <div class="p-6 border border-black/10 bg-[#faf9f6]">
+          <span class="font-serif-title text-3xl text-burgundy">I.</span>
+          <h4 class="font-bold text-xs uppercase tracking-wider text-slate-900 mt-2 mb-1">Private Briefing</h4>
+          <p class="text-xs text-slate-500 font-light leading-relaxed">Conducted in our Legaspi Village chamber or at your private residence.</p>
+        </div>
+        <div class="p-6 border border-black/10 bg-[#faf9f6]">
+          <span class="font-serif-title text-3xl text-burgundy">II.</span>
+          <h4 class="font-bold text-xs uppercase tracking-wider text-slate-900 mt-2 mb-1">Provenance Audit</h4>
+          <p class="text-xs text-slate-500 font-light leading-relaxed">Comprehensive review of factory build-sheets and customs clearance documents.</p>
+        </div>
+        <div class="p-6 border border-black/10 bg-[#faf9f6]">
+          <span class="font-serif-title text-3xl text-burgundy">III.</span>
+          <h4 class="font-bold text-xs uppercase tracking-wider text-slate-900 mt-2 mb-1">Structured Lease</h4>
+          <p class="text-xs text-slate-500 font-light leading-relaxed">Private banker coordination ensuring tax-efficient asset allocation.</p>
+        </div>
+        <div class="p-6 border border-black/10 bg-[#faf9f6]">
+          <span class="font-serif-title text-3xl text-burgundy">IV.</span>
+          <h4 class="font-bold text-xs uppercase tracking-wider text-slate-900 mt-2 mb-1">Ceremonial Delivery</h4>
+          <p class="text-xs text-slate-500 font-light leading-relaxed">White-glove handover under velvet shroud with your personal vehicle master.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       14. PROMOTIONS / SPECIAL OFFERS
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-14 border-b border-black/10 bg-burgundy text-[#faf9f6]">
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left font-sans-body">
+      <div>
+        <span class="bg-black text-amber-200 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1">ÉDITION PRIVILÈGE</span>
+        <h3 class="font-serif-title text-2xl sm:text-3xl font-light mt-2 text-white">Complimentary Aviation Chauffeur Induction</h3>
+        <p class="text-xs text-slate-300 mt-1 font-light">Receive one year of complimentary helicopter transfers between Clark and Metro Manila with any plate acquisition.</p>
+      </div>
+      <button onclick="inspectEdition('Aviation Chauffeur Privilege', 'Enrolled')" class="bg-white text-black hover:bg-black hover:text-white px-7 py-3 text-xs uppercase tracking-[0.2em] font-bold transition whitespace-nowrap shadow-lg">
+        Accept Invitation
+      </button>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       15. DEALER STORY & SHOWROOM (Chronicle of the Maison)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-20 border-b border-black/10 bg-white">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="h-80 overflow-hidden border border-black/10 bg-slate-200">
+        <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80" alt="Maison Chronicle" class="w-full h-full object-cover">
+      </div>
+      <div>
+        <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-sans-body font-bold block mb-1">LA CHRONIQUE</span>
+        <h2 class="text-3xl lg:text-4xl font-light text-slate-900 mb-4">An Independent Perspective on Mobility</h2>
+        <p class="font-sans-body text-xs sm:text-sm text-slate-600 leading-relaxed mb-4 font-light">
+          Founded as an architectural and automotive journal in Geneva and anchored in Legaspi Village, Makati, Revue Automobile curates rare European machines without aggressive dealer rhetoric.
+        </p>
+        <p class="font-sans-body text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 font-light">
+          We treat the motorcar as a sculpture deserving contemplation, proper mechanical preservation, and clear provenance records.
+        </p>
+        <span class="text-xs uppercase tracking-widest text-burgundy font-sans-body font-bold">THE DIRECTORATE // REVUE AUTOMOBILE</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       16. CUSTOMER TESTIMONIALS
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-16 border-b border-black/10 bg-[#faf9f6]">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-sans-body font-bold block mb-1">LES TÉMOIGNAGES</span>
+        <h2 class="text-3xl font-light text-slate-900">Reflections from Our Patrons</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 font-sans-body">
+        <div class="p-6 bg-white border border-black/10 shadow-sm">
+          <p class="text-xs text-slate-600 italic leading-relaxed mb-4 font-light">
+            "The discretion exhibited during our fleet transition was exemplary. Revue Automobile understands privacy as fluently as horsepower."
+          </p>
+          <span class="text-xs font-bold text-slate-900 block font-serif-title">Chairman E. Zobel</span>
+          <span class="text-[10px] text-burgundy uppercase tracking-wider">Forbes Park, Makati</span>
+        </div>
+
+        <div class="p-6 bg-white border border-black/10 shadow-sm">
+          <p class="text-xs text-slate-600 italic leading-relaxed mb-4 font-light">
+            "Their Swiss mechanical audit matched the car's condition to the letter. A truly civilized and transparent acquisition experience."
+          </p>
+          <span class="text-xs font-bold text-slate-900 block font-serif-title">Dr. Stephanie C.</span>
+          <span class="text-[10px] text-burgundy uppercase tracking-wider">Bonifacio Global City</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       17. FAQ ACCORDION (Clarifications)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-16 border-b border-black/10 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-8">
+        <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-sans-body font-bold block mb-1">CLARIFICATIONS</span>
+        <h2 class="text-3xl font-light text-slate-900">Frequently Examined Points</h2>
+      </div>
+
+      <div class="space-y-3 font-sans-body">
+        <div class="border border-black/10 bg-[#faf9f6]">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left text-xs font-bold uppercase tracking-wider flex justify-between items-center text-slate-900 hover:text-burgundy">
+            <span>Are factory allocation slots available for direct commission?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-600 hidden border-t border-black/10 leading-relaxed font-light">
+            Yes. We hold direct allocation quotas with Crewe, Goodwood, and Stuttgart for bespoke client factory commissions.
+          </div>
+        </div>
+
+        <div class="border border-black/10 bg-[#faf9f6]">
+          <button onclick="toggleAccordion(this)" class="w-full p-4 text-left text-xs font-bold uppercase tracking-wider flex justify-between items-center text-slate-900 hover:text-burgundy">
+            <span>What legal provenance certificates accompany every vehicle?</span>
+            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>
+          </button>
+          <div class="p-4 pt-0 text-xs text-slate-600 hidden border-t border-black/10 leading-relaxed font-light">
+            Every vehicle is delivered with full Bureau of Customs duties payment certifications, BIR tax release clearances, and official LTO registration records.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       18. SHOWROOM LOCATION + MAP (Legaspi Village Private Chamber)
+  ========================================================================== -->
+  <section class="px-6 lg:px-20 py-16 border-b border-black/10 bg-[#faf9f6]">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center font-sans-body">
+      <div>
+        <span class="text-xs uppercase tracking-[0.3em] text-burgundy font-bold block mb-1">LE BUREAU</span>
+        <h2 class="font-serif-title text-3xl font-light text-slate-900 mb-4">Legaspi Village Private Gallery</h2>
+        <div class="space-y-2 text-xs text-slate-600 font-light">
+          <p><strong class="text-slate-900">Chamber Address:</strong> C. Palanca Street, Legaspi Village, Makati</p>
+          <p><strong class="text-slate-900">Access:</strong> Exclusively by prior secretarial appointment</p>
+          <p><strong class="text-slate-900">Direct Telephone:</strong> +63 (2) 8812-REVUE / bureau@revueauto.ph</p>
+          <p><strong class="text-burgundy">Coordinates:</strong> 14.5532° N, 121.0175° E</p>
+        </div>
+      </div>
+
+      <div class="h-64 border border-black/10 bg-white flex items-center justify-center p-6 text-center shadow-sm">
+        <div>
+          <span class="w-2.5 h-2.5 rounded-full bg-burgundy inline-block animate-ping mb-2"></span>
+          <p class="font-serif-title text-lg text-slate-900 font-bold">PRIVATE VIEWING CHAMBER</p>
+          <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-mono">Legaspi Village Valet Access</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       19. FINAL CALL-TO-ACTION (Commission Your Portfolio)
+  ========================================================================== -->
+  <section id="section-cta" class="px-6 lg:px-20 py-20 bg-graphite text-[#faf9f6] text-center font-sans-body">
+    <div class="max-w-xl mx-auto">
+      <span class="text-xs uppercase tracking-[0.3em] text-amber-200 font-bold block mb-2">COMMISSION YOUR CHASSIS</span>
+      <h2 class="font-serif-title text-3xl sm:text-5xl font-light text-white mb-4">Enter The Directorate Circle</h2>
+      <p class="text-xs sm:text-sm text-slate-400 mb-8 font-light">
+        Our Private Wealth Director will contact you within two hours to coordinate an exclusive gallery appointment.
+      </p>
+      <form onsubmit="handleEditorialLead(event)" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+        <input type="text" placeholder="Full Name & Salutation" required class="flex-1 bg-black/60 border border-white/20 p-3 text-xs text-white outline-none focus:border-amber-200">
+        <input type="tel" placeholder="+63 Private Line" required class="flex-1 bg-black/60 border border-white/20 p-3 text-xs text-white outline-none focus:border-amber-200">
+        <button type="submit" class="bg-burgundy text-white hover:bg-white hover:text-black font-bold text-xs px-6 py-3 uppercase tracking-[0.2em] transition whitespace-nowrap shadow-lg">
+          Request Call
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       20. MASTER FOOTER
+  ========================================================================== -->
+  <footer class="px-6 lg:px-20 py-12 bg-black text-slate-500 text-xs font-sans-body">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+      <div>
+        <span class="font-serif-title text-lg text-white block mb-2 font-bold">REVUE AUTOMOBILE</span>
+        <p class="text-[11px] leading-relaxed text-slate-500 font-light">European editorial automotive franchise framework powered by OmniDrive 2026 SaaS.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px] tracking-wider">Portfolio Plates</h4>
+        <ul class="space-y-1 text-[11px] font-light">
+          <li><a href="#section-portfolio" class="hover:text-white">Berlinetta Stradale V8</a></li>
+          <li><a href="#section-portfolio" class="hover:text-white">Alpine Shooting Brakes</a></li>
+          <li><a href="#section-portfolio" class="hover:text-white">Spider Homologations</a></li>
+          <li><a href="#section-atelier" class="hover:text-white">L'Atelier Matériaux</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px] tracking-wider">Protocol Standards</h4>
+        <ul class="space-y-1 text-[11px] font-light">
+          <li><span class="text-amber-200">Bureau:</span> REVUE-MANILA-2026</li>
+          <li><span>Audit:</span> Swiss Provenance Check</li>
+          <li><span>Discretion:</span> Strict Non-Disclosure</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-white mb-2 uppercase text-[11px] tracking-wider">Direct Bureau</h4>
+        <p class="text-[11px] text-slate-400">Legaspi Village, Makati City</p>
+        <p class="text-[11px] text-amber-200 mt-1 font-mono">+63 (2) 8812-REVUE</p>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto pt-6 border-t border-white/10 text-center text-[10px] text-slate-600">
+      © 2026 Revue Automobile Manila & Genève. All rights reserved. European Editorial Dealership Template.
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       HERO CAROUSEL & INTERACTIVE ENGINES JAVASCRIPT
+  ========================================================================== -->
+  <script>
+    lucide.createIcons();
+
+    /* =========================================================================
+       1. HERO SLIDER BANNER CAROUSEL ENGINE
+    ========================================================================== */
+    let currentSlide = 0;
+    const totalSlides = 3;
+    let autoSlideInterval;
+
+    function showSlide(index) {
+      currentSlide = (index + totalSlides) % totalSlides;
+
+      // Update slide visibility
+      for (let i = 0; i < totalSlides; i++) {
+        const slide = document.getElementById(`slide-${i}`);
+        const dot = document.getElementById(`dot-${i}`);
+        
+        if (i === currentSlide) {
+          slide.classList.add('active-slide');
+          dot.className = 'w-8 h-1 bg-burgundy transition-all duration-300';
+        } else {
+          slide.classList.remove('active-slide');
+          dot.className = 'w-8 h-1 bg-white/30 transition-all duration-300';
+        }
+      }
+
+      // Update slide number indicator
+      document.getElementById('current-slide-num').innerText = `0${currentSlide + 1}`;
+    }
+
+    function nextSlide() {
+      showSlide(currentSlide + 1);
+      resetAutoSlide();
+    }
+
+    function prevSlide() {
+      showSlide(currentSlide - 1);
+      resetAutoSlide();
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+      resetAutoSlide();
+    }
+
+    function resetAutoSlide() {
+      clearInterval(autoSlideInterval);
+      autoSlideInterval = setInterval(() => {
+        showSlide(currentSlide + 1);
+      }, 7000);
+    }
+    resetAutoSlide();
+
+    /* =========================================================================
+       2. CALCULATORS & INTERACTION ENGINES
+    ========================================================================== */
+    function runEditorialCalc() {
+      const price = parseFloat(document.getElementById('editorial-calc-price').value);
+      const dpPct = parseFloat(document.getElementById('editorial-calc-dp').value);
+      const tenure = parseFloat(document.getElementById('editorial-calc-term').value);
+
+      const dpValue = price * (dpPct / 100);
+      const principal = price - dpValue;
+      // 4.6% private wealth interest rate
+      const totalInterest = principal * 0.046 * (tenure / 12);
+      const monthly = (principal + totalInterest) / tenure;
+
+      document.getElementById('editorial-calc-price-lbl').innerText = '₱' + price.toLocaleString();
+      document.getElementById('editorial-calc-dp-lbl').innerText = `₱${dpValue.toLocaleString()} (${dpPct}%)`;
+      document.getElementById('editorial-calc-monthly-out').innerHTML = `₱${Math.round(monthly).toLocaleString()} <span class="text-xs font-normal text-slate-300">/ mo</span>`;
+    }
+
+    function runEditorialBudgetMatcher(val) {
+      const budget = parseFloat(val);
+      document.getElementById('editorial-budget-val').innerText = '₱' + budget.toLocaleString() + ' / month';
+      
+      const carEl = document.getElementById('editorial-budget-car');
+      if (budget < 220000) {
+        carEl.innerText = 'Basel Clubsport Coupé (₱14,900,000 SRP)';
+      } else if (budget < 300000) {
+        carEl.innerText = 'Berlinetta V8 Stradale (₱16,800,000 SRP)';
+      } else {
+        carEl.innerText = 'Stuttgart Spider Homologation (₱21,200,000 SRP)';
+      }
+    }
+
+    function setAtelierTexture(name, imgUrl) {
+      document.getElementById('atelier-leather-img').src = imgUrl;
+      document.getElementById('atelier-texture-label').innerText = name;
+    }
+
+    function toggleAccordion(btn) {
+      const content = btn.nextElementSibling;
+      const chevron = btn.querySelector('i');
+      content.classList.toggle('hidden');
+      if (chevron) chevron.classList.toggle('rotate-180');
+    }
+
+    function inspectEdition(model, price) {
+      alert(`[Revue Automobile Secretariat]\n\nAcquisition Dossier Requested: ${model}\nValuation: ${price}\n\nA Private Wealth Director will contact your telephone directly.`);
+    }
+
+    function filterEditorialLedger() {
+      const type = document.getElementById('editorial-search-type').value;
+      const price = document.getElementById('editorial-search-price').value;
+      alert(`[Acquisition Ledger Filtered]\nDiscipline: ${type}\nPrice Ceiling: ₱${parseInt(price).toLocaleString()}\n\nDisplaying matching portfolio plates in the Makati gallery.`);
+    }
+
+    function selectDiscipline(discipline) {
+      alert(`[Discipline Selected: ${discipline}]\nDisplaying all qualifying portfolio plates.`);
+    }
+
+    function handleEditorialLead(e) {
+      e.preventDefault();
+      alert("[Commission Request Dispatched]\nThank you. Your consultation has been routed to our Legaspi Village gallery director.");
+    }
+
+    // Download Standalone .html File
+    function downloadSelf() {
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "revue-automobile-editorial.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    }
+  </script>
+</body>
+</html>
