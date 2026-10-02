@@ -8,8 +8,6 @@ import BankFinancing from '@/components/BankFinancing';
 import TradeInValuation from '@/components/TradeInValuation';
 import NewArrivals from '@/components/NewArrivals';
 import Showcase from '@/components/Showcase';
-import Creed from '@/components/Creed';
-import FinancingProcess from '@/components/FinancingProcess';
 import Promotions from '@/components/Promotions';
 import Story from '@/components/Story';
 import Testimonials from '@/components/Testimonials';
@@ -30,8 +28,6 @@ export default function Home() {
       <TradeInValuation />
       <NewArrivals />
       <Showcase />
-      <Creed />
-      <FinancingProcess />
       <Promotions />
       <Story />
       <Testimonials />
