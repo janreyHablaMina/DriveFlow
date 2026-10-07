@@ -77,17 +77,17 @@ export const StaffTab: React.FC<StaffTabProps> = ({
   const getRoleBadge = (role: UserRole) => {
     switch (role) {
       case 'Owner':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">Owner / Super</span>;
+        return <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">Owner / Super</span>;
       case 'Administrator':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-red-500/15 text-red-400 border border-red-500/30">Administrator</span>;
+        return <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold bg-red-500/15 text-red-400 border border-red-500/30">Administrator</span>;
       case 'Financing Officer':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Financing Officer</span>;
+        return <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Financing Officer</span>;
       case 'Accountant':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">Accountant</span>;
+        return <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">Accountant</span>;
       case 'Manager':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-slate-700 text-slate-200 border border-slate-600">General Manager</span>;
+        return <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold bg-slate-700 text-slate-200 border border-slate-600">General Manager</span>;
       case 'Sales Agent':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-slate-800 text-slate-300">Sales Agent</span>;
+        return <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold bg-slate-800 text-slate-300">Sales Agent</span>;
     }
   };
 
@@ -109,7 +109,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
 
         <button
           onClick={() => setIsInviteModalOpen(true)}
-          className="px-3.5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm shadow-red-950/40"
+          className="px-3.5 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm shadow-red-950/40"
         >
           <Plus className="w-4 h-4" />
           Invite Staff Member
@@ -117,7 +117,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
       </div>
 
       {/* Permissions Matrix Overview */}
-      <div className="p-4 rounded-xl bg-[#121624] border border-slate-800 space-y-3">
+      <div className="p-4 rounded-none bg-[#121624] border border-slate-800 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
             <Lock className="w-3.5 h-3.5 text-red-500" />
@@ -177,7 +177,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
       </div>
 
       {/* Staff Directory Table */}
-      <div className="bg-[#121624] border border-slate-800 rounded-xl overflow-hidden">
+      <div className="bg-[#121624] border border-slate-800 rounded-none overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-900/90 text-[10px] font-mono text-slate-400 uppercase tracking-wider border-b border-slate-800">
@@ -199,7 +199,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
                       <img
                         src={member.avatar}
                         alt={member.name}
-                        className="w-8 h-8 rounded-full object-cover border border-slate-700 shrink-0"
+                        className="w-8 h-8 rounded-none object-cover border border-slate-700 shrink-0"
                       />
                       <div>
                         <span className="font-bold text-white block">{member.name}</span>
@@ -223,7 +223,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
                   <td className="py-3 px-3">
                     <button
                       onClick={() => onToggleStatus(member.id)}
-                      className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition cursor-pointer ${
+                      className={`px-2 py-0.5 rounded-none text-[10px] font-mono font-bold transition cursor-pointer ${
                         member.active
                           ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                           : 'bg-red-500/20 text-red-400 border border-red-500/30'
@@ -240,7 +240,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
                   <td className="py-3 px-4 text-right">
                     <button
                       onClick={() => onToggleStatus(member.id)}
-                      className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs"
+                      className="px-2.5 py-1 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs cursor-pointer font-medium"
                     >
                       {member.active ? 'Deactivate' : 'Reactivate'}
                     </button>
@@ -257,14 +257,14 @@ export const StaffTab: React.FC<StaffTabProps> = ({
         <div className="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <form
             onSubmit={handleInvite}
-            className="bg-[#121624] border border-slate-700 rounded-xl max-w-md w-full p-6 space-y-4 text-xs"
+            className="bg-[#121624] border border-slate-700 rounded-none max-w-md w-full p-6 space-y-4 text-xs"
           >
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 className="text-base font-bold text-white">Invite Dealership Staff</h3>
               <button
                 type="button"
                 onClick={() => setIsInviteModalOpen(false)}
-                className="p-1 text-slate-400 hover:text-white"
+                className="p-1 text-slate-400 hover:text-white rounded-none cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -279,7 +279,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
                   placeholder="e.g. Marc Santos"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                 />
               </div>
 
@@ -291,7 +291,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
                   placeholder="staff@apexmotors.ph"
                   value={formEmail}
                   onChange={(e) => setFormEmail(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                 />
               </div>
 
@@ -303,7 +303,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
                   placeholder="+63 917 000 0000"
                   value={formPhone}
                   onChange={(e) => setFormPhone(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
                 />
               </div>
 
@@ -313,7 +313,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
                   <select
                     value={formRole}
                     onChange={(e) => setFormRole(e.target.value as UserRole)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                   >
                     <option value="Sales Agent">Sales Agent</option>
                     <option value="Financing Officer">Financing Officer</option>
@@ -327,7 +327,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
                   <select
                     value={formBranchId}
                     onChange={(e) => setFormBranchId(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                   >
                     {branches.map((b) => (
                       <option key={b.id} value={b.id}>
@@ -343,13 +343,13 @@ export const StaffTab: React.FC<StaffTabProps> = ({
               <button
                 type="button"
                 onClick={() => setIsInviteModalOpen(false)}
-                className="px-4 py-2 rounded bg-slate-800 text-slate-300"
+                className="px-4 py-2 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer font-medium"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40"
+                className="px-4 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40 cursor-pointer"
               >
                 Send Invitation
               </button>

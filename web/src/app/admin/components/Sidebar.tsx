@@ -161,7 +161,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex items-center justify-between p-4 border-b border-slate-800/80 h-16 shrink-0">
             {!collapsed ? (
               <div className="flex items-center gap-2.5">
-                <div className="bg-red-600 text-white font-black text-xs px-2.5 py-1 rounded-sm tracking-wider uppercase shadow-md shadow-red-950/50 flex items-center gap-1.5">
+                <div className="bg-red-600 text-white font-black text-xs px-2.5 py-1 rounded-none tracking-wider uppercase shadow-md shadow-red-950/50 flex items-center gap-1.5">
                   <Sparkles className="w-3 h-3 text-red-200" />
                   DRIVEFLOW
                 </div>
@@ -175,7 +175,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
               </div>
             ) : (
-              <div className="mx-auto bg-red-600 text-white font-black text-xs p-1.5 rounded-sm">
+              <div className="mx-auto bg-red-600 text-white font-black text-xs p-1.5 rounded-none">
                 DF
               </div>
             )}
@@ -184,7 +184,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               onClick={() => setCollapsed(!collapsed)}
               title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
-              className="hidden lg:flex p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800/60 transition"
+              className="hidden lg:flex p-1.5 rounded-none text-slate-400 hover:text-white hover:bg-slate-800/60 transition"
             >
               {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
             </button>
@@ -222,7 +222,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         title={collapsed ? item.label : undefined}
                         className={`w-full flex items-center ${
                           collapsed ? 'justify-center px-0 py-2' : 'justify-between px-3 py-2'
-                        } rounded-md text-xs font-semibold tracking-wide transition-colors cursor-pointer group ${
+                        } rounded-none text-xs font-semibold tracking-wide transition-colors cursor-pointer group ${
                           isActive
                             ? 'bg-[#e10600] text-white shadow-[0_0_20px_rgba(225,6,0,0.35)]'
                             : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
@@ -239,7 +239,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                         {!collapsed && item.badge !== undefined && item.badge > 0 && (
                           <span
-                            className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold border ${
+                            className={`text-[10px] font-mono px-1.5 py-0.2 rounded-none font-bold border ${
                               item.badgeColor || 'bg-slate-800 text-slate-300 border-slate-700'
                             }`}
                           >
@@ -248,7 +248,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         )}
 
                         {collapsed && item.badge !== undefined && item.badge > 0 && (
-                          <span className="absolute top-1.5 right-2 w-2 h-2 rounded-full bg-red-500 ring-2 ring-slate-900" />
+                          <span className="absolute top-1.5 right-2 w-2 h-2 rounded-none bg-red-500 ring-2 ring-slate-900" />
                         )}
                       </button>
                     );
@@ -266,7 +266,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <Link
                 href="/"
                 target="_blank"
-                className="w-full flex items-center justify-between px-3 py-2 rounded-md text-xs text-slate-400 hover:text-white bg-slate-800/40 hover:bg-slate-800/80 border border-slate-700/60 transition"
+                className="w-full flex items-center justify-between px-3 py-2 rounded-none text-xs text-slate-400 hover:text-white bg-slate-800/40 hover:bg-slate-800/80 border border-slate-700/60 transition"
               >
                 <span className="flex items-center gap-2">
                   <ExternalLink className="w-3.5 h-3.5 text-red-500" />
@@ -287,7 +287,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               href="/"
               target="_blank"
               title="View Public Website"
-              className="flex justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800/60"
+              className="flex justify-center p-2 rounded-none text-slate-400 hover:text-white hover:bg-slate-800/60"
             >
               <ExternalLink className="w-4 h-4 text-red-500" />
             </Link>

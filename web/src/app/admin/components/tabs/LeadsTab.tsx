@@ -109,7 +109,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
 
         <button
           onClick={() => setIsAddLeadModalOpen(true)}
-          className="px-3.5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm shadow-red-950/40"
+          className="px-3.5 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm shadow-red-950/40"
         >
           <Plus className="w-4 h-4" />
           Create New Lead
@@ -117,7 +117,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#121624] p-3.5 rounded-xl border border-slate-800">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#121624] p-3.5 rounded-none border border-slate-800">
         <div className="relative">
           <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400" />
           <input
@@ -125,7 +125,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search prospect name, car interest, phone..."
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-none pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
           />
         </div>
 
@@ -133,7 +133,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
           <select
             value={sourceFilter}
             onChange={(e) => setSourceFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-none px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Lead Sources</option>
             <option value="Website Calculator">Website Financing Calculator</option>
@@ -147,7 +147,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
           <select
             value={branchFilter}
             onChange={(e) => setBranchFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-none px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Branches</option>
             {branches.map((b) => (
@@ -166,14 +166,14 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
           return (
             <div
               key={stage}
-              className="bg-[#121624] border border-slate-800 rounded-xl p-3 flex flex-col justify-between min-h-[480px]"
+              className="bg-[#121624] border border-slate-800 rounded-none p-3 flex flex-col justify-between min-h-[480px]"
             >
               <div>
                 {/* Column Header */}
                 <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
                   <div className="flex items-center gap-1.5">
                     <span
-                      className={`w-2 h-2 rounded-full ${
+                      className={`w-2 h-2 rounded-none ${
                         stage === 'Converted'
                           ? 'bg-emerald-400'
                           : stage === 'Lost'
@@ -187,7 +187,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                     />
                     <span className="font-bold text-xs text-white">{stage}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-slate-400 bg-slate-900 px-1.5 py-0.5 rounded">
+                  <span className="text-[10px] font-mono text-slate-400 bg-slate-900 px-1.5 py-0.5 rounded-none">
                     {stageLeads.length}
                   </span>
                 </div>
@@ -197,11 +197,11 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                   {stageLeads.map((lead) => (
                     <div
                       key={lead.id}
-                      className="p-3 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition space-y-2 text-xs"
+                      className="p-3 rounded-none bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition space-y-2 text-xs"
                     >
                       <div className="flex items-start justify-between gap-1">
                         <span className="font-bold text-white text-xs">{lead.name}</span>
-                        <span className="text-[9px] font-mono text-red-400 bg-red-500/10 px-1 py-0.2 rounded border border-red-500/20 shrink-0">
+                        <span className="text-[9px] font-mono text-red-400 bg-red-500/10 px-1 py-0.2 rounded-none border border-red-500/20 shrink-0">
                           {lead.source}
                         </span>
                       </div>
@@ -223,7 +223,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                       {stage !== 'Converted' && stage !== 'Lost' && (
                         <button
                           onClick={() => advanceStage(lead.id, lead.stage)}
-                          className="w-full mt-1.5 py-1 rounded bg-slate-800 hover:bg-[#e10600] hover:text-white text-slate-300 text-[10px] font-semibold flex items-center justify-center gap-1 transition"
+                          className="w-full mt-1.5 py-1 rounded-none bg-slate-800 hover:bg-[#e10600] hover:text-white text-slate-300 text-[10px] font-semibold flex items-center justify-center gap-1 transition cursor-pointer"
                         >
                           <span>Move Forward</span>
                           <ChevronRight className="w-3 h-3" />
@@ -243,14 +243,14 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
         <div className="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <form
             onSubmit={handleCreateLead}
-            className="bg-[#121624] border border-slate-700 rounded-xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto space-y-4 text-xs"
+            className="bg-[#121624] border border-slate-700 rounded-none max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto space-y-4 text-xs"
           >
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 className="text-base font-bold text-white">Capture New Inquiring Lead</h3>
               <button
                 type="button"
                 onClick={() => setIsAddLeadModalOpen(false)}
-                className="p-1 text-slate-400 hover:text-white"
+                className="p-1 text-slate-400 hover:text-white rounded-none cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -265,7 +265,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                   placeholder="e.g. Gov. Juan Carlos Romualdez"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                 />
               </div>
 
@@ -278,7 +278,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                     placeholder="+63 917 000 0000"
                     value={formPhone}
                     onChange={(e) => setFormPhone(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
                   />
                 </div>
                 <div>
@@ -289,7 +289,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                     placeholder="prospect@mail.ph"
                     value={formEmail}
                     onChange={(e) => setFormEmail(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                   />
                 </div>
               </div>
@@ -302,7 +302,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                     required
                     value={formVehicle}
                     onChange={(e) => setFormVehicle(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                   />
                 </div>
                 <div>
@@ -312,7 +312,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                     required
                     value={formBudget}
                     onChange={(e) => setFormBudget(Number(e.target.value))}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
                   />
                 </div>
               </div>
@@ -323,7 +323,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                   <select
                     value={formSource}
                     onChange={(e) => setFormSource(e.target.value as Lead['source'])}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                   >
                     <option value="Website Calculator">Website Calculator</option>
                     <option value="Facebook Ads">Facebook Ads</option>
@@ -337,7 +337,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                   <select
                     value={formAgent}
                     onChange={(e) => setFormAgent(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                   >
                     {staff.map((s) => (
                       <option key={s.id} value={s.name}>
@@ -354,7 +354,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                   value={formNotes}
                   onChange={(e) => setFormNotes(e.target.value)}
                   placeholder="e.g. Inquired about low down payment terms and delivery timing."
-                  className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white h-16 text-xs"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white h-16 text-xs"
                 />
               </div>
             </div>
@@ -363,13 +363,13 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
               <button
                 type="button"
                 onClick={() => setIsAddLeadModalOpen(false)}
-                className="px-4 py-2 rounded bg-slate-800 text-slate-300"
+                className="px-4 py-2 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer font-medium"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40"
+                className="px-4 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40 cursor-pointer"
               >
                 Save Lead
               </button>

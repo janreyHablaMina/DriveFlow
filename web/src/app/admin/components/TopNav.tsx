@@ -111,7 +111,7 @@ export const TopNav: React.FC<TopNavProps> = ({
       <div className="flex items-center gap-3">
         <button
           onClick={() => setMobileOpen(true)}
-          className="lg:hidden p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800/70"
+          className="lg:hidden p-2 rounded-none text-slate-400 hover:text-white hover:bg-slate-800/70"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -120,7 +120,7 @@ export const TopNav: React.FC<TopNavProps> = ({
         <div className="relative" ref={branchRef}>
           <button
             onClick={() => setBranchDropdownOpen(!branchDropdownOpen)}
-            className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-xs font-medium text-slate-200 transition cursor-pointer"
+            className="flex items-center gap-2.5 px-3 py-1.5 rounded-none bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-xs font-medium text-slate-200 transition cursor-pointer"
           >
             <Building2 className="w-4 h-4 text-red-500 shrink-0" />
             <div className="text-left hidden sm:block">
@@ -138,7 +138,7 @@ export const TopNav: React.FC<TopNavProps> = ({
           </button>
 
           {branchDropdownOpen && (
-            <div className="absolute left-0 mt-2 w-72 bg-[#121624] border border-slate-700 rounded-lg shadow-2xl py-2 z-50">
+            <div className="absolute left-0 mt-2 w-72 bg-[#121624] border border-slate-700 rounded-none shadow-2xl py-2 z-50">
               <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
                 Select Dealership Context
               </div>
@@ -172,7 +172,7 @@ export const TopNav: React.FC<TopNavProps> = ({
                     <div className="font-semibold flex items-center gap-1.5">
                       {b.name}
                       {b.isHeadquarters && (
-                        <span className="text-[9px] font-mono bg-red-500/20 text-red-300 border border-red-500/30 px-1.5 py-0.2 rounded-sm">
+                        <span className="text-[9px] font-mono bg-red-500/20 text-red-300 border border-red-500/30 px-1.5 py-0.2 rounded-none">
                           HQ
                         </span>
                       )}
@@ -196,7 +196,7 @@ export const TopNav: React.FC<TopNavProps> = ({
             value={searchQuery}
             onChange={(e) => onGlobalSearch(e.target.value)}
             placeholder="Search fleet, VIN, customer, or loan app #..."
-            className="w-full bg-[#121624] border border-slate-800 focus:border-red-500 rounded-lg pl-9 pr-9 py-2 text-xs text-white placeholder-slate-500 focus:outline-hidden transition"
+            className="w-full bg-[#121624] border border-slate-800 focus:border-red-500 rounded-none pl-9 pr-9 py-2 text-xs text-white placeholder-slate-500 focus:outline-hidden transition"
           />
           {searchQuery && (
             <button
@@ -216,7 +216,7 @@ export const TopNav: React.FC<TopNavProps> = ({
         <div className="relative" ref={quickActionRef}>
           <button
             onClick={() => setQuickActionOpen(!quickActionOpen)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold shadow-sm shadow-red-950/40 transition cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold shadow-sm shadow-red-950/40 transition cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span className="hidden sm:inline">New Action</span>
@@ -224,7 +224,7 @@ export const TopNav: React.FC<TopNavProps> = ({
           </button>
 
           {quickActionOpen && (
-            <div className="absolute right-0 mt-2 w-56 bg-[#121624] border border-slate-700 rounded-lg shadow-2xl py-2 z-50">
+            <div className="absolute right-0 mt-2 w-56 bg-[#121624] border border-slate-700 rounded-none shadow-2xl py-2 z-50">
               <div className="px-3 py-1 border-b border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
                 Instant Operations
               </div>
@@ -286,18 +286,18 @@ export const TopNav: React.FC<TopNavProps> = ({
         <div className="relative" ref={notifRef}>
           <button
             onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className="relative p-2 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-slate-300 hover:text-white transition cursor-pointer"
+            className="relative p-2 rounded-none bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-slate-300 hover:text-white transition cursor-pointer"
           >
             <Bell className="w-4 h-4" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-red-600 text-white font-mono text-[10px] font-bold flex items-center justify-center border-2 border-[#0e111a]">
+              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-none bg-red-600 text-white font-mono text-[10px] font-bold flex items-center justify-center border-2 border-[#0e111a]">
                 {unreadCount}
               </span>
             )}
           </button>
 
           {notificationsOpen && (
-            <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#121624] border border-slate-700 rounded-lg shadow-2xl py-2 z-50">
+            <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#121624] border border-slate-700 rounded-none shadow-2xl py-2 z-50">
               <div className="px-4 py-2 border-b border-slate-800 flex items-center justify-between">
                 <div>
                   <h4 className="text-xs font-bold text-white uppercase tracking-wider">Notifications</h4>
@@ -306,14 +306,14 @@ export const TopNav: React.FC<TopNavProps> = ({
                 {unreadCount > 0 && (
                   <button
                     onClick={onMarkAllNotificationsRead}
-                    className="text-[11px] text-red-400 hover:text-red-300 font-medium"
+                    className="text-[11px] text-red-400 hover:text-red-300 font-medium cursor-pointer"
                   >
                     Mark all read
                   </button>
                 )}
               </div>
 
-              <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/60">
+              <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/60 custom-scrollbar">
                 {notifications.map((n) => (
                   <div
                     key={n.id}
@@ -352,9 +352,9 @@ export const TopNav: React.FC<TopNavProps> = ({
         <div className="relative" ref={profileRef}>
           <button
             onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-            className="flex items-center gap-2.5 p-1 sm:px-2.5 sm:py-1 rounded-lg bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 transition cursor-pointer"
+            className="flex items-center gap-2.5 p-1 sm:px-2.5 sm:py-1 rounded-none bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 transition cursor-pointer"
           >
-            <div className="w-7 h-7 rounded-md bg-red-600/20 text-red-400 border border-red-500/30 font-black text-xs flex items-center justify-center">
+            <div className="w-7 h-7 rounded-none bg-red-600/20 text-red-400 border border-red-500/30 font-black text-xs flex items-center justify-center">
               JM
             </div>
             <div className="text-left hidden lg:block">
@@ -369,7 +369,7 @@ export const TopNav: React.FC<TopNavProps> = ({
           </button>
 
           {profileDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-64 bg-[#121624] border border-slate-700 rounded-lg shadow-2xl py-2 z-50">
+            <div className="absolute right-0 mt-2 w-64 bg-[#121624] border border-slate-700 rounded-none shadow-2xl py-2 z-50">
               <div className="px-4 py-2.5 border-b border-slate-800">
                 <div className="font-bold text-xs text-white">Janrey Mina</div>
                 <div className="text-[11px] text-slate-400">janrey@apexmotors.ph</div>
@@ -392,7 +392,7 @@ export const TopNav: React.FC<TopNavProps> = ({
                         setCurrentRole(role);
                         setProfileDropdownOpen(false);
                       }}
-                      className={`text-left px-2 py-1 rounded text-[11px] font-medium transition cursor-pointer ${
+                      className={`text-left px-2 py-1 rounded-none text-[11px] font-medium transition cursor-pointer ${
                         currentRole === role
                           ? 'bg-[#e10600] text-white font-bold shadow-sm'
                           : 'text-slate-300 hover:bg-slate-800 hover:text-white'
@@ -410,7 +410,7 @@ export const TopNav: React.FC<TopNavProps> = ({
                     onQuickAction('go-settings');
                     setProfileDropdownOpen(false);
                   }}
-                  className="w-full text-left px-3 py-1.5 text-xs text-slate-300 hover:text-white hover:bg-slate-800 rounded flex items-center gap-2"
+                  className="w-full text-left px-3 py-1.5 text-xs text-slate-300 hover:text-white hover:bg-slate-800 rounded-none flex items-center gap-2"
                 >
                   <Settings className="w-3.5 h-3.5" />
                   Dealership Settings
@@ -420,7 +420,7 @@ export const TopNav: React.FC<TopNavProps> = ({
                     onQuickAction('sign-out');
                     setProfileDropdownOpen(false);
                   }}
-                  className="w-full text-left px-3 py-1.5 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded flex items-center gap-2"
+                  className="w-full text-left px-3 py-1.5 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-none flex items-center gap-2"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   Sign Out

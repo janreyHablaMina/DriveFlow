@@ -53,7 +53,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
     <div className="space-y-6">
       {/* Export Toast */}
       {exportToast && (
-        <div className="fixed bottom-6 right-6 z-60 bg-[#121624] border border-[#e10600]/80 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs font-semibold flex items-center gap-2">
+        <div className="fixed bottom-6 right-6 z-60 bg-[#121624] border border-[#e10600]/80 text-white px-4 py-2.5 rounded-none shadow-2xl text-xs font-semibold flex items-center gap-2">
           <Download className="w-4 h-4 text-red-500" />
           {exportToast}
         </div>
@@ -64,7 +64,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
             <span>Executive Reports & Dealership Analytics</span>
-            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-sm">
+            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-none">
               Audited Metrics
             </span>
           </h1>
@@ -77,7 +77,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
-            className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-hidden"
+            className="bg-slate-900 border border-slate-700 rounded-none px-3 py-1.5 text-xs text-white focus:outline-hidden"
           >
             <option value="last-30">Last 30 Days</option>
             <option value="q3-2026">Q3 2026 (Jul - Sep)</option>
@@ -87,14 +87,14 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
 
           <button
             onClick={() => handleExport('CSV', 'ExecutiveSummary')}
-            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition"
+            className="px-3 py-1.5 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
             Export CSV
           </button>
           <button
             onClick={() => handleExport('PDF', 'FinancialPortfolio')}
-            className="px-3 py-1.5 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition shadow-sm shadow-red-950/40"
+            className="px-3 py-1.5 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition shadow-sm shadow-red-950/40 cursor-pointer"
           >
             <Download className="w-3.5 h-3.5" />
             Export PDF
@@ -104,7 +104,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
 
       {/* High-Level Financial Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-4 rounded-xl bg-[#121624] border border-slate-800">
+        <div className="p-4 rounded-none bg-[#121624] border border-slate-800">
           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Closed Deal Volume</span>
           <div className="text-2xl font-black font-mono text-white mt-1">
             {currencySymbol}{(totalRevenue / 1000000).toFixed(2)}M
@@ -114,7 +114,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
           </span>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#121624] border border-slate-800">
+        <div className="p-4 rounded-none bg-[#121624] border border-slate-800">
           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Downpayment & Collections</span>
           <div className="text-2xl font-black font-mono text-emerald-400 mt-1">
             {currencySymbol}{(totalCollections / 1000000).toFixed(2)}M
@@ -124,7 +124,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
           </span>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#121624] border border-slate-800">
+        <div className="p-4 rounded-none bg-[#121624] border border-slate-800">
           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Financing Approval Rate</span>
           <div className="text-2xl font-black font-mono text-red-500 mt-1">
             {approvalRate}%
@@ -134,7 +134,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
           </span>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#121624] border border-slate-800">
+        <div className="p-4 rounded-none bg-[#121624] border border-slate-800">
           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Lead-to-Sale Conversion</span>
           <div className="text-2xl font-black font-mono text-purple-400 mt-1">
             {leadConversionRate}%
@@ -149,7 +149,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Collections Aging Report */}
-        <div className="p-5 rounded-xl bg-[#121624] border border-slate-800 space-y-4">
+        <div className="p-5 rounded-none bg-[#121624] border border-slate-800 space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-sm font-bold text-white tracking-wide">Receivables Aging & Recovery Analysis</h3>
@@ -157,7 +157,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
             </div>
             <button
               onClick={() => handleExport('CSV', 'ReceivablesAging')}
-              className="text-xs text-red-400 hover:text-red-300 hover:underline flex items-center gap-1 transition"
+              className="text-xs text-red-400 hover:text-red-300 hover:underline flex items-center gap-1 transition cursor-pointer"
             >
               <Download className="w-3 h-3" />
               CSV
@@ -171,13 +171,13 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
               { label: '31 - 60 Days Past Due', amount: '₱420,000', pct: '3%', status: 'Reminded', color: 'bg-orange-500' },
               { label: '60+ Days (Legal Demand)', amount: '₱180,000', pct: '1%', status: 'Legal Notice', color: 'bg-red-500' },
             ].map((row) => (
-              <div key={row.label} className="p-3 rounded-lg bg-slate-900 border border-slate-800/80 space-y-1.5">
+              <div key={row.label} className="p-3 rounded-none bg-slate-900 border border-slate-800/80 space-y-1.5">
                 <div className="flex items-center justify-between">
                   <span className="font-sans font-semibold text-white">{row.label}</span>
                   <span className="font-bold text-white">{row.amount} ({row.pct})</span>
                 </div>
-                <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
-                  <div style={{ width: row.pct }} className={`h-full ${row.color} rounded-full`} />
+                <div className="h-1.5 w-full bg-slate-800 rounded-none overflow-hidden">
+                  <div style={{ width: row.pct }} className={`h-full ${row.color} rounded-none`} />
                 </div>
               </div>
             ))}
@@ -185,7 +185,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
         </div>
 
         {/* Sales Consultant Leaderboard */}
-        <div className="p-5 rounded-xl bg-[#121624] border border-slate-800 space-y-4">
+        <div className="p-5 rounded-none bg-[#121624] border border-slate-800 space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-sm font-bold text-white tracking-wide">Sales Consultant Performance Leaderboard</h3>
@@ -193,7 +193,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
             </div>
             <button
               onClick={() => handleExport('PDF', 'StaffSalesCommission')}
-              className="text-xs text-red-400 hover:text-red-300 hover:underline flex items-center gap-1 transition"
+              className="text-xs text-red-400 hover:text-red-300 hover:underline flex items-center gap-1 transition cursor-pointer"
             >
               <Download className="w-3 h-3" />
               PDF
@@ -204,10 +204,10 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
             {staff.slice(0, 4).map((member, idx) => (
               <div
                 key={member.id}
-                className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between"
+                className="p-3 rounded-none bg-slate-900 border border-slate-800 flex items-center justify-between"
               >
                 <div className="flex items-center gap-3">
-                  <span className="w-5 h-5 rounded-full bg-slate-800 font-mono text-[10px] font-bold text-slate-300 flex items-center justify-center">
+                  <span className="w-5 h-5 rounded-none bg-slate-800 font-mono text-[10px] font-bold text-slate-300 flex items-center justify-center">
                     {idx + 1}
                   </span>
                   <div>

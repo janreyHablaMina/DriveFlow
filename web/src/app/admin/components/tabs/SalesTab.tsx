@@ -114,7 +114,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
             setPaySaleId(sales[0]?.id || '');
             setIsRecordPayOpen(true);
           }}
-          className="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm"
+          className="px-3.5 py-2 rounded-none bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm"
         >
           <Plus className="w-4 h-4" />
           Record Client Payment
@@ -122,7 +122,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#121624] p-3.5 rounded-xl border border-slate-800">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#121624] p-3.5 rounded-none border border-slate-800">
         <div className="relative">
           <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400" />
           <input
@@ -130,7 +130,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by sale #, buyer, vehicle or VIN..."
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-none pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
           />
         </div>
 
@@ -138,7 +138,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-none px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Account Statuses</option>
             <option value="Active / Current">Active / Current</option>
@@ -152,7 +152,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
           <select
             value={financingTypeFilter}
             onChange={(e) => setFinancingTypeFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-none px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Financing Structures</option>
             <option value="In-House Financing">In-House Dealership Financing</option>
@@ -163,7 +163,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
       </div>
 
       {/* Sales Contracts Table */}
-      <div className="bg-[#121624] border border-slate-800 rounded-xl overflow-hidden">
+      <div className="bg-[#121624] border border-slate-800 rounded-none overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-900/90 text-[10px] font-mono text-slate-400 uppercase tracking-wider border-b border-slate-800">
@@ -210,7 +210,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
 
                   <td className="py-3 px-3">
                     <span
-                      className={`px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold border ${
+                      className={`px-2 py-0.5 rounded-none text-[10px] font-mono font-bold border ${
                         sale.status === 'Active / Current'
                           ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
                           : sale.status === 'Overdue'
@@ -225,7 +225,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                   <td className="py-3 px-4 text-right">
                     <button
                       onClick={() => setSelectedSale(sale)}
-                      className="px-2.5 py-1 rounded bg-slate-800 hover:bg-[#e10600] hover:text-white text-slate-300 text-xs font-semibold transition"
+                      className="px-2.5 py-1 rounded-none bg-slate-800 hover:bg-[#e10600] hover:text-white text-slate-300 text-xs font-semibold transition cursor-pointer"
                     >
                       Ledger & ORs
                     </button>
@@ -240,7 +240,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
       {/* Sale Detail & Amortization Modal */}
       {selectedSale && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <div className="bg-[#121624] border border-slate-700 rounded-xl max-w-3xl w-full p-6 max-h-[92vh] overflow-y-auto space-y-5 text-xs">
+          <div className="bg-[#121624] border border-slate-700 rounded-none max-w-3xl w-full p-6 max-h-[92vh] overflow-y-auto space-y-5 text-xs">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div>
                 <h3 className="text-lg font-bold text-white">{selectedSale.saleNumber} — Account Ledger</h3>
@@ -250,14 +250,14 @@ export const SalesTab: React.FC<SalesTabProps> = ({
               </div>
               <button
                 onClick={() => setSelectedSale(null)}
-                className="p-1 text-slate-400 hover:text-white"
+                className="p-1 text-slate-400 hover:text-white cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Balances Card */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-xl bg-slate-900 border border-slate-800 font-mono">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 rounded-none bg-slate-900 border border-slate-800 font-mono">
               <div>
                 <span className="text-slate-500 text-[10px] uppercase block">Contract Value</span>
                 <span className="text-white font-bold">{currencySymbol}{selectedSale.salePrice.toLocaleString()}</span>
@@ -287,7 +287,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                     setPaySaleId(selectedSale.id);
                     setIsRecordPayOpen(true);
                   }}
-                  className="text-xs text-emerald-400 hover:underline flex items-center gap-1"
+                  className="text-xs text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   Post New Payment
@@ -298,18 +298,18 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                 {selectedSale.paymentHistory.map((tx) => (
                   <div
                     key={tx.id}
-                    className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between text-xs"
+                    className="p-3 rounded-none bg-slate-900 border border-slate-800 flex items-center justify-between text-xs"
                   >
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-white">{tx.orNumber}</span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-sm bg-red-500/10 text-red-400 border border-red-500/20">
+                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-none bg-red-500/10 text-red-400 border border-red-500/20">
                           {tx.type}
                         </span>
                         {tx.isVerifiedGateway ? (
-                          <span className="text-[9px] font-mono bg-emerald-500/20 text-emerald-300 px-1 rounded">Gateway Verified</span>
+                          <span className="text-[9px] font-mono bg-emerald-500/20 text-emerald-300 px-1 rounded-none">Gateway Verified</span>
                         ) : (
-                          <span className="text-[9px] font-mono bg-amber-500/20 text-amber-300 px-1 rounded">Cashier Logged</span>
+                          <span className="text-[9px] font-mono bg-amber-500/20 text-amber-300 px-1 rounded-none">Cashier Logged</span>
                         )}
                       </div>
                       <div className="text-[11px] text-slate-400 mt-0.5">
@@ -323,7 +323,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                       </span>
                       <button
                         onClick={() => setActiveReceiptTx(tx)}
-                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs flex items-center gap-1"
+                        className="px-2.5 py-1 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs flex items-center gap-1 cursor-pointer"
                       >
                         <Printer className="w-3 h-3" />
                         Print OR
@@ -339,7 +339,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
               <h4 className="font-bold text-white uppercase text-[10px] tracking-wider font-mono mb-2">
                 Installment Amortization Schedule
               </h4>
-              <div className="border border-slate-800 rounded-lg overflow-hidden">
+              <div className="border border-slate-800 rounded-none overflow-hidden">
                 <table className="w-full text-left text-xs">
                   <thead className="bg-slate-900 text-[10px] font-mono text-slate-400 uppercase">
                     <tr>
@@ -361,7 +361,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                         <td className="py-2 px-3 text-slate-400">{currencySymbol}{row.interest.toLocaleString()}</td>
                         <td className="py-2 px-3 text-right">
                           <span
-                            className={`px-1.5 py-0.2 rounded text-[10px] font-bold ${
+                            className={`px-1.5 py-0.2 rounded-none text-[10px] font-bold ${
                               row.status === 'Paid'
                                 ? 'bg-emerald-500/20 text-emerald-400'
                                 : row.status === 'Overdue'
@@ -382,7 +382,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
             <div className="flex justify-end pt-3 border-t border-slate-800">
               <button
                 onClick={() => setSelectedSale(null)}
-                className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold"
+                className="px-4 py-2 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold cursor-pointer"
               >
                 Close Ledger
               </button>
@@ -396,14 +396,14 @@ export const SalesTab: React.FC<SalesTabProps> = ({
         <div className="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <form
             onSubmit={handlePostPayment}
-            className="bg-[#121624] border border-slate-700 rounded-xl max-w-md w-full p-6 space-y-4 text-xs"
+            className="bg-[#121624] border border-slate-700 rounded-none max-w-md w-full p-6 space-y-4 text-xs"
           >
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 className="text-base font-bold text-white">Record Client Payment / Issue OR</h3>
               <button
                 type="button"
                 onClick={() => setIsRecordPayOpen(false)}
-                className="p-1 text-slate-400 hover:text-white"
+                className="p-1 text-slate-400 hover:text-white cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -414,7 +414,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
               <select
                 value={paySaleId}
                 onChange={(e) => setPaySaleId(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
               >
                 {sales.map((s) => (
                   <option key={s.id} value={s.id}>
@@ -432,7 +432,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                   required
                   value={payAmount}
                   onChange={(e) => setPayAmount(Number(e.target.value))}
-                  className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
                 />
               </div>
               <div>
@@ -440,7 +440,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                 <select
                   value={payType}
                   onChange={(e) => setPayType(e.target.value as PaymentTransaction['type'])}
-                  className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                 >
                   <option value="Monthly Amortization">Monthly Amortization</option>
                   <option value="Down Payment Equity">Down Payment Equity</option>
@@ -455,7 +455,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
               <select
                 value={payMethod}
                 onChange={(e) => setPayMethod(e.target.value as PaymentTransaction['method'])}
-                className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
               >
                 <option value="PDC Check Clearing (BPI)">PDC Check Clearing (BPI)</option>
                 <option value="Bank Wire (BDO)">Bank Wire (BDO)</option>
@@ -472,11 +472,11 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                 required
                 value={payRef}
                 onChange={(e) => setPayRef(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
               />
             </div>
 
-            <div className="p-3 rounded bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+            <div className="p-3 rounded-none bg-slate-900/80 border border-slate-800 flex items-center justify-between">
               <div>
                 <span className="font-semibold text-white block">External Payment Gateway Verified</span>
                 <span className="text-[10px] text-slate-400">Distinguishes verified bank wires from manual dealership cashier logs</span>
@@ -485,7 +485,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                 type="checkbox"
                 checked={isGatewayVerified}
                 onChange={(e) => setIsGatewayVerified(e.target.checked)}
-                className="w-4 h-4 accent-red-600 rounded"
+                className="w-4 h-4 accent-red-600 rounded-none"
               />
             </div>
 
@@ -493,13 +493,13 @@ export const SalesTab: React.FC<SalesTabProps> = ({
               <button
                 type="button"
                 onClick={() => setIsRecordPayOpen(false)}
-                className="px-4 py-2 rounded bg-slate-800 text-slate-300"
+                className="px-4 py-2 rounded-none bg-slate-800 text-slate-300 cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold"
+                className="px-4 py-2 rounded-none bg-emerald-600 hover:bg-emerald-500 text-white font-bold cursor-pointer"
               >
                 Generate OR & Post
               </button>
@@ -511,7 +511,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
       {/* Printable Official Receipt (OR) Modal */}
       {activeReceiptTx && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-xs z-60 flex items-center justify-center p-4">
-          <div className="bg-white text-slate-900 rounded-xl max-w-lg w-full p-8 max-h-[92vh] overflow-y-auto space-y-5 text-xs shadow-2xl">
+          <div className="bg-white text-slate-900 rounded-none max-w-lg w-full p-8 max-h-[92vh] overflow-y-auto space-y-5 text-xs shadow-2xl">
             {/* Printable Header */}
             <div className="text-center border-b pb-4 border-slate-300 space-y-1">
               <div className="font-black text-xl tracking-wider uppercase text-slate-950">
@@ -523,7 +523,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
               <div className="text-[10px] font-mono text-slate-500">
                 TIN: 009-841-209-000-VAT • SEC Reg: CS2023-091842
               </div>
-              <div className="inline-block mt-2 px-3 py-1 bg-slate-100 rounded text-xs font-bold uppercase tracking-widest border border-slate-300">
+              <div className="inline-block mt-2 px-3 py-1 bg-slate-100 rounded-none text-xs font-bold uppercase tracking-widest border border-slate-300">
                 OFFICIAL RECEIPT
               </div>
             </div>
@@ -565,7 +565,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
             </div>
 
             {/* Total Paid Amount */}
-            <div className="p-3.5 bg-slate-100 rounded-lg border border-slate-300 text-center space-y-1">
+            <div className="p-3.5 bg-slate-100 rounded-none border border-slate-300 text-center space-y-1">
               <span className="text-[10px] font-mono uppercase text-slate-500">Total Amount Cleared</span>
               <div className="text-2xl font-black font-mono text-emerald-700">
                 {currencySymbol}{activeReceiptTx.amount.toLocaleString()}
@@ -591,14 +591,14 @@ export const SalesTab: React.FC<SalesTabProps> = ({
             <div className="flex justify-between items-center pt-4 border-t border-slate-200 no-print">
               <button
                 onClick={printReceipt}
-                className="px-4 py-2 rounded-lg bg-slate-900 text-white font-bold flex items-center gap-1.5 hover:bg-slate-800"
+                className="px-4 py-2 rounded-none bg-slate-900 text-white font-bold flex items-center gap-1.5 hover:bg-slate-800 cursor-pointer"
               >
                 <Printer className="w-4 h-4" />
                 Print Official Receipt
               </button>
               <button
                 onClick={() => setActiveReceiptTx(null)}
-                className="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold"
+                className="px-4 py-2 rounded-none bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold cursor-pointer"
               >
                 Close
               </button>

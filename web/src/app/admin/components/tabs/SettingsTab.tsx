@@ -99,7 +99,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
     <div className="space-y-6">
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-6 right-6 z-60 bg-[#121624] border border-emerald-500 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs font-semibold flex items-center gap-2">
+        <div className="fixed bottom-6 right-6 z-60 bg-[#121624] border border-emerald-500 text-white px-4 py-2.5 rounded-none shadow-2xl text-xs font-semibold flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           {toast}
         </div>
@@ -133,7 +133,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+              className={`px-3 py-1.5 rounded-none text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
                 activeTab === tab.id
                   ? 'bg-[#e10600] text-white shadow-[0_0_20px_rgba(225,6,0,0.35)]'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800'
@@ -150,7 +150,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
       {activeTab === 'financing' && (
         <form
           onSubmit={handleSaveFinancingSettings}
-          className="bg-[#121624] border border-slate-800 rounded-xl p-6 space-y-5 text-xs max-w-3xl"
+          className="bg-[#121624] border border-slate-800 rounded-none p-6 space-y-5 text-xs max-w-3xl"
         >
           <div className="border-b border-slate-800 pb-3">
             <h3 className="text-base font-bold text-white">Financing Calculation Assumptions</h3>
@@ -168,7 +168,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                 required
                 value={baseInterest}
                 onChange={(e) => setBaseInterest(Number(e.target.value))}
-                className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
               />
               <span className="text-[10px] text-slate-500 mt-1 block">Applied when in-house financing is selected</span>
             </div>
@@ -180,7 +180,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                 required
                 value={minDp}
                 onChange={(e) => setMinDp(Number(e.target.value))}
-                className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
               />
               <span className="text-[10px] text-slate-500 mt-1 block">Minimum equity required before loan submission</span>
             </div>
@@ -190,7 +190,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
               <select
                 value={maxTerm}
                 onChange={(e) => setMaxTerm(Number(e.target.value))}
-                className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
               >
                 <option value={36}>36 Months (3 Years)</option>
                 <option value={48}>48 Months (4 Years)</option>
@@ -207,7 +207,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                 required
                 value={chattelRate}
                 onChange={(e) => setChattelRate(Number(e.target.value))}
-                className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
               />
               <span className="text-[10px] text-slate-500 mt-1 block">Standard Registry of Deeds encumbrance fee</span>
             </div>
@@ -221,14 +221,14 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
               {banks.map((b) => (
                 <div
                   key={b.code}
-                  className="p-3 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between"
+                  className="p-3 rounded-none bg-slate-900 border border-slate-800 flex items-center justify-between"
                 >
                   <span className="font-semibold text-white">{b.name}</span>
                   <input
                     type="checkbox"
                     checked={b.enabled}
                     onChange={() => toggleBank(b.code)}
-                    className="w-4 h-4 accent-red-600 rounded cursor-pointer"
+                    className="w-4 h-4 accent-red-600 rounded-none cursor-pointer"
                   />
                 </div>
               ))}
@@ -238,7 +238,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
           <div className="pt-3 border-t border-slate-800 flex justify-end">
             <button
               type="submit"
-              className="px-5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white font-bold flex items-center gap-1.5 transition shadow-sm shadow-red-950/40"
+              className="px-5 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white font-bold flex items-center gap-1.5 transition shadow-sm shadow-red-950/40 cursor-pointer"
             >
               <Save className="w-4 h-4" />
               Save Financing Parameters
@@ -254,7 +254,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
             <h3 className="text-base font-bold text-white">Dealership Branch Locations</h3>
             <button
               onClick={() => setIsAddBranchOpen(true)}
-              className="px-3.5 py-1.5 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1 transition shadow-sm shadow-red-950/40"
+              className="px-3.5 py-1.5 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1 transition shadow-sm shadow-red-950/40 cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
               Add Branch
@@ -265,21 +265,21 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
             {branches.map((b) => (
               <div
                 key={b.id}
-                className="p-4 rounded-xl bg-[#121624] border border-slate-800 space-y-2.5 text-xs"
+                className="p-4 rounded-none bg-[#121624] border border-slate-800 space-y-2.5 text-xs"
               >
                 <div className="flex items-start justify-between">
                   <div>
                     <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
                       {b.name}
                       {b.isHeadquarters && (
-                        <span className="text-[9px] font-mono bg-red-500/10 text-red-400 border border-red-500/20 px-1 rounded">
+                        <span className="text-[9px] font-mono bg-red-500/10 text-red-400 border border-red-500/20 px-1 rounded-none">
                           HQ
                         </span>
                       )}
                     </h4>
                     <span className="text-[10px] font-mono text-slate-400">Code: {b.code}</span>
                   </div>
-                  <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-800 font-mono text-slate-300 text-[10px]">
+                  <span className="px-2 py-0.5 rounded-none bg-slate-900 border border-slate-800 font-mono text-slate-300 text-[10px]">
                     {b.activeInventoryCount} Active Cars
                   </span>
                 </div>
@@ -297,7 +297,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
 
       {/* SECTION 3: GENERAL & ENTITY */}
       {activeTab === 'general' && (
-        <div className="bg-[#121624] border border-slate-800 rounded-xl p-6 space-y-4 text-xs max-w-2xl">
+        <div className="bg-[#121624] border border-slate-800 rounded-none p-6 space-y-4 text-xs max-w-2xl">
           <h3 className="text-base font-bold text-white">Dealership Corporate Profile</h3>
 
           <div className="space-y-3">
@@ -307,7 +307,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                 type="text"
                 disabled
                 value={settings.dealershipName}
-                className="w-full bg-slate-900/60 border border-slate-800 rounded p-2 text-white"
+                className="w-full bg-slate-900/60 border border-slate-800 rounded-none p-2 text-white"
               />
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -317,7 +317,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                   type="text"
                   disabled
                   value={settings.taxIdentificationNumber}
-                  className="w-full bg-slate-900/60 border border-slate-800 rounded p-2 text-white font-mono"
+                  className="w-full bg-slate-900/60 border border-slate-800 rounded-none p-2 text-white font-mono"
                 />
               </div>
               <div>
@@ -326,7 +326,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                   type="text"
                   disabled
                   value={settings.secRegistration}
-                  className="w-full bg-slate-900/60 border border-slate-800 rounded p-2 text-white font-mono"
+                  className="w-full bg-slate-900/60 border border-slate-800 rounded-none p-2 text-white font-mono"
                 />
               </div>
             </div>
@@ -337,7 +337,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                   type="text"
                   disabled
                   value="PHP (₱ Philippine Peso)"
-                  className="w-full bg-slate-900/60 border border-slate-800 rounded p-2 text-white"
+                  className="w-full bg-slate-900/60 border border-slate-800 rounded-none p-2 text-white"
                 />
               </div>
               <div>
@@ -346,7 +346,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                   type="text"
                   disabled
                   value={settings.timezone}
-                  className="w-full bg-slate-900/60 border border-slate-800 rounded p-2 text-white"
+                  className="w-full bg-slate-900/60 border border-slate-800 rounded-none p-2 text-white"
                 />
               </div>
             </div>
@@ -356,7 +356,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
 
       {/* SECTION 4: AUDIT LOG */}
       {activeTab === 'audit' && (
-        <div className="bg-[#121624] border border-slate-800 rounded-xl overflow-hidden text-xs">
+        <div className="bg-[#121624] border border-slate-800 rounded-none overflow-hidden text-xs">
           <div className="p-4 border-b border-slate-800 flex items-center justify-between">
             <h3 className="font-bold text-white text-sm">Real-time Immutable Audit Trail</h3>
             <span className="text-[10px] font-mono text-slate-400">SHA-256 Verified Records</span>
@@ -396,14 +396,14 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
         <div className="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <form
             onSubmit={handleCreateBranch}
-            className="bg-[#121624] border border-slate-700 rounded-xl max-w-md w-full p-6 space-y-4 text-xs"
+            className="bg-[#121624] border border-slate-700 rounded-none max-w-md w-full p-6 space-y-4 text-xs"
           >
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <h3 className="text-base font-bold text-white">Add Dealership Branch</h3>
               <button
                 type="button"
                 onClick={() => setIsAddBranchOpen(false)}
-                className="p-1 text-slate-400 hover:text-white"
+                className="p-1 text-slate-400 hover:text-white rounded-none cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -418,7 +418,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                   placeholder="e.g. Davao Luxury Pavilion"
                   value={bName}
                   onChange={(e) => setBName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                 />
               </div>
 
@@ -431,7 +431,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                     placeholder="DVO-05"
                     value={bCode}
                     onChange={(e) => setBCode(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
                   />
                 </div>
                 <div>
@@ -442,7 +442,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                     placeholder="+63 (82) 222-1900"
                     value={bPhone}
                     onChange={(e) => setBPhone(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white font-mono"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
                   />
                 </div>
               </div>
@@ -455,7 +455,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                   placeholder="Lanang Business Park"
                   value={bAddress}
                   onChange={(e) => setBAddress(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                 />
               </div>
 
@@ -468,7 +468,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                     placeholder="Davao City"
                     value={bCity}
                     onChange={(e) => setBCity(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                   />
                 </div>
                 <div>
@@ -479,7 +479,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                     placeholder="davao@apexmotors.ph"
                     value={bEmail}
                     onChange={(e) => setBEmail(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white"
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                   />
                 </div>
               </div>
@@ -489,13 +489,13 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
               <button
                 type="button"
                 onClick={() => setIsAddBranchOpen(false)}
-                className="px-4 py-2 rounded bg-slate-800 text-slate-300"
+                className="px-4 py-2 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer font-medium"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40"
+                className="px-4 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40 cursor-pointer"
               >
                 Register Branch
               </button>

@@ -492,7 +492,7 @@ export default function DealershipAdminDashboard() {
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-70 bg-[#121624] border-l-4 border-l-[#e10600] border border-slate-700 text-white px-5 py-3.5 rounded-lg shadow-2xl text-xs font-semibold flex items-center gap-3">
+        <div className="fixed bottom-6 right-6 z-70 bg-[#121624] border-l-4 border-l-[#e10600] border border-slate-700 text-white px-5 py-3.5 rounded-none shadow-2xl text-xs font-semibold flex items-center gap-3">
           <CheckCircle2 className="w-4 h-4 text-red-500 shrink-0" />
           <span>{toastMessage}</span>
         </div>
