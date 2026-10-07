@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Car,
   Search,
@@ -18,6 +18,8 @@ import {
   Shield,
   Layers,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   X,
   Sparkles,
   Archive,
@@ -81,6 +83,37 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
       return matchesSearch && matchesStatus && matchesCategory;
     });
   }, [vehicles, search, statusFilter, categoryFilter]);
+
+  // Pagination State (Default 10 items per page)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  // Reset to first page when filtering or page size changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, statusFilter, categoryFilter, pageSize]);
+
+  const totalItems = filteredVehicles.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+
+  const paginatedVehicles = useMemo(() => {
+    const safePage = Math.min(Math.max(1, currentPage), totalPages);
+    const start = (safePage - 1) * pageSize;
+    return filteredVehicles.slice(start, start + pageSize);
+  }, [filteredVehicles, currentPage, totalPages, pageSize]);
+
+  const getPageNumbers = () => {
+    if (totalPages <= 7) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    if (currentPage <= 4) {
+      return [1, 2, 3, 4, 5, '...', totalPages];
+    }
+    if (currentPage >= totalPages - 3) {
+      return [1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    }
+    return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+  };
 
   const handleCreateVehicle = (e: React.FormEvent) => {
     e.preventDefault();
@@ -230,7 +263,6 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
               <thead className="bg-slate-900/90 text-[10px] font-mono text-slate-400 uppercase tracking-wider border-b border-slate-800">
                 <tr>
                   <th className="py-3 px-4">Vehicle Details</th>
-                  <th className="py-3 px-3">Stock & VIN</th>
                   <th className="py-3 px-3">Selling Price</th>
                   <th className="py-3 px-3">Min DP / Est Monthly</th>
                   <th className="py-3 px-3">Status</th>
@@ -239,7 +271,15 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60 text-slate-300">
-                {filteredVehicles.map((vehicle) => {
+                {filteredVehicles.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="py-12 text-center text-slate-500">
+                      <Car className="w-8 h-8 mx-auto mb-2 opacity-30" />
+                      <span className="font-mono text-xs">No vehicles match your active search or filter criteria.</span>
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedVehicles.map((vehicle) => {
                   return (
                     <tr key={vehicle.id} className="hover:bg-slate-800/40 transition">
                       <td className="py-3 px-4">
@@ -263,11 +303,6 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
                             </div>
                           </div>
                         </div>
-                      </td>
-
-                      <td className="py-3 px-3 font-mono text-[11px]">
-                        <span className="text-white block">{vehicle.stockNumber}</span>
-                        <span className="text-slate-500 text-[10px]">{vehicle.vin}</span>
                       </td>
 
                       <td className="py-3 px-3 font-mono font-bold text-white">
@@ -330,7 +365,7 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
                       </td>
                     </tr>
                   );
-                })}
+                }))}
               </tbody>
             </table>
           </div>
@@ -338,77 +373,174 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
       ) : (
         /* Grid View */
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredVehicles.map((vehicle) => {
-            return (
-              <div
-                key={vehicle.id}
-                className="rounded-none bg-[#121624] border border-slate-800 overflow-hidden flex flex-col justify-between hover:border-slate-700 transition"
-              >
-                <div>
-                  <div className="relative h-44 w-full">
-                    <img
-                      src={vehicle.images[0]}
-                      alt={vehicle.name}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-                      {getStatusBadge(vehicle.status)}
-                      {vehicle.isFeatured && (
-                        <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold bg-red-600 text-white">
-                          Featured
-                        </span>
-                      )}
+          {filteredVehicles.length === 0 ? (
+            <div className="col-span-full py-12 text-center text-slate-500 bg-[#121624] border border-slate-800 p-8">
+              <Car className="w-8 h-8 mx-auto mb-2 opacity-30" />
+              <span className="font-mono text-xs">No vehicles match your active search or filter criteria.</span>
+            </div>
+          ) : (
+            paginatedVehicles.map((vehicle) => {
+              return (
+                <div
+                  key={vehicle.id}
+                  className="rounded-none bg-[#121624] border border-slate-800 overflow-hidden flex flex-col justify-between hover:border-slate-700 transition"
+                >
+                  <div>
+                    <div className="relative h-44 w-full">
+                      <img
+                        src={vehicle.images[0]}
+                        alt={vehicle.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                        {getStatusBadge(vehicle.status)}
+                        {vehicle.isFeatured && (
+                          <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold bg-red-600 text-white">
+                            Featured
+                          </span>
+                        )}
+                      </div>
+                      <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-none bg-black/80 font-mono text-white text-xs font-bold">
+                        {currencySymbol}{vehicle.priceNumeric.toLocaleString()}
+                      </div>
                     </div>
-                    <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-none bg-black/80 font-mono text-white text-xs font-bold">
-                      {currencySymbol}{vehicle.priceNumeric.toLocaleString()}
+
+                    <div className="p-4 space-y-2.5">
+                      <div>
+                        <h4 className="font-bold text-white text-sm line-clamp-1">{vehicle.name}</h4>
+                        <p className="text-[11px] text-slate-400 mt-0.5">
+                          {vehicle.category.toUpperCase()} • {vehicle.mileage} • {vehicle.fuel}
+                        </p>
+                      </div>
+
+                      <div className="p-2.5 rounded-none bg-slate-900/80 border border-slate-800 text-[11px] grid grid-cols-2 gap-2">
+                        <div>
+                          <span className="text-slate-400 block">Est Monthly:</span>
+                          <span className="text-red-500 font-mono font-bold">{currencySymbol}{vehicle.monthlyEstimate.toLocaleString()}/mo</span>
+                        </div>
+                        <div>
+                          <span className="text-slate-400 block">Stock No:</span>
+                          <span className="text-white font-mono">{vehicle.stockNumber}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="p-4 space-y-2.5">
-                    <div>
-                      <h4 className="font-bold text-white text-sm line-clamp-1">{vehicle.name}</h4>
-                      <p className="text-[11px] text-slate-400 mt-0.5">
-                        {vehicle.category.toUpperCase()} • {vehicle.mileage} • {vehicle.fuel}
-                      </p>
-                    </div>
-
-                    <div className="p-2.5 rounded-none bg-slate-900/80 border border-slate-800 text-[11px] grid grid-cols-2 gap-2">
-                      <div>
-                        <span className="text-slate-400 block">Est Monthly:</span>
-                        <span className="text-red-500 font-mono font-bold">{currencySymbol}{vehicle.monthlyEstimate.toLocaleString()}/mo</span>
-                      </div>
-                      <div>
-                        <span className="text-slate-400 block">Stock No:</span>
-                        <span className="text-white font-mono">{vehicle.stockNumber}</span>
-                      </div>
+                  <div className="p-3 border-t border-slate-800/80 bg-slate-900/40 flex items-center justify-between text-xs">
+                    <span className="text-[11px] text-slate-400">
+                      {vehicle.isPublicListing ? 'Visible on Website' : 'Hidden from Website'}
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => setSelectedVehicle(vehicle)}
+                        className="px-2.5 py-1 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs cursor-pointer"
+                      >
+                        Details
+                      </button>
+                      <button
+                        onClick={() => setEditingVehicle(vehicle)}
+                        className="p-1 rounded-none text-slate-400 hover:text-red-400 cursor-pointer"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
                 </div>
-
-                <div className="p-3 border-t border-slate-800/80 bg-slate-900/40 flex items-center justify-between text-xs">
-                  <span className="text-[11px] text-slate-400">
-                    {vehicle.isPublicListing ? 'Visible on Website' : 'Hidden from Website'}
-                  </span>
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      onClick={() => setSelectedVehicle(vehicle)}
-                      className="px-2.5 py-1 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs cursor-pointer"
-                    >
-                      Details
-                    </button>
-                    <button
-                      onClick={() => setEditingVehicle(vehicle)}
-                      className="p-1 rounded-none text-slate-400 hover:text-red-400 cursor-pointer"
-                    >
-                      <Edit2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       )}
+
+      {/* Pagination Bar */}
+      <div className="bg-[#121624] border border-slate-800 p-3.5 rounded-none flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div className="flex flex-wrap items-center gap-3 text-slate-400">
+          <span>
+            Showing{' '}
+            <strong className="text-white font-mono">
+              {totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1}
+            </strong>
+            –
+            <strong className="text-white font-mono">
+              {Math.min(currentPage * pageSize, totalItems)}
+            </strong>{' '}
+            of <strong className="text-white font-mono">{totalItems}</strong> units
+          </span>
+
+          <div className="flex items-center gap-1.5 border-l border-slate-800 pl-3">
+            <span className="text-[11px] text-slate-400">Display:</span>
+            <select
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+              className="bg-slate-900 border border-slate-700 rounded-none px-2 py-1 text-xs text-white focus:outline-hidden focus:border-red-500 font-mono cursor-pointer"
+            >
+              <option value={10}>10 per page</option>
+              <option value={20}>20 per page</option>
+              <option value={50}>50 per page</option>
+            </select>
+          </div>
+        </div>
+
+        {totalPages > 1 && (
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage <= 1}
+              className={`px-2.5 py-1.5 rounded-none border border-slate-800 text-xs font-medium flex items-center gap-1 transition ${
+                currentPage <= 1
+                  ? 'bg-slate-900/40 text-slate-600 border-slate-800/40 cursor-not-allowed'
+                  : 'bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer'
+              }`}
+              title="Previous Page"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Prev</span>
+            </button>
+
+            {getPageNumbers().map((item, idx) => {
+              if (item === '...') {
+                return (
+                  <span
+                    key={`ellipsis-${idx}`}
+                    className="px-2 py-1 text-slate-600 font-mono text-xs select-none"
+                  >
+                    ...
+                  </span>
+                );
+              }
+              const pageNum = item as number;
+              const isActive = currentPage === pageNum;
+              return (
+                <button
+                  key={pageNum}
+                  onClick={() => setCurrentPage(pageNum)}
+                  className={`min-w-8 h-7 px-2 font-mono text-xs rounded-none border transition cursor-pointer ${
+                    isActive
+                      ? 'bg-[#e10600] border-[#e10600] text-white font-bold shadow-xs'
+                      : 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              );
+            })}
+
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage >= totalPages}
+              className={`px-2.5 py-1.5 rounded-none border border-slate-800 text-xs font-medium flex items-center gap-1 transition ${
+                currentPage >= totalPages
+                  ? 'bg-slate-900/40 text-slate-600 border-slate-800/40 cursor-not-allowed'
+                  : 'bg-slate-900 text-slate-300 hover:bg-slate-800 hover:text-white cursor-pointer'
+              }`}
+              title="Next Page"
+            >
+              <span className="hidden sm:inline">Next</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Vehicle Details Modal */}
       {selectedVehicle && (
