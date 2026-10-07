@@ -109,7 +109,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
 
         <button
           onClick={() => setIsAddLeadModalOpen(true)}
-          className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm"
+          className="px-3.5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm shadow-red-950/40"
         >
           <Plus className="w-4 h-4" />
           Create New Lead
@@ -125,7 +125,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search prospect name, car interest, phone..."
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
           />
         </div>
 
@@ -133,7 +133,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
           <select
             value={sourceFilter}
             onChange={(e) => setSourceFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Lead Sources</option>
             <option value="Website Calculator">Website Financing Calculator</option>
@@ -147,7 +147,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
           <select
             value={branchFilter}
             onChange={(e) => setBranchFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Branches</option>
             {branches.map((b) => (
@@ -180,7 +180,9 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                           ? 'bg-slate-500'
                           : stage === 'Negotiation'
                           ? 'bg-purple-400'
-                          : 'bg-blue-400'
+                          : stage === 'New Lead'
+                          ? 'bg-red-500'
+                          : 'bg-amber-400'
                       }`}
                     />
                     <span className="font-bold text-xs text-white">{stage}</span>
@@ -199,7 +201,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                     >
                       <div className="flex items-start justify-between gap-1">
                         <span className="font-bold text-white text-xs">{lead.name}</span>
-                        <span className="text-[9px] font-mono text-blue-400 bg-blue-500/10 px-1 py-0.2 rounded border border-blue-500/20 shrink-0">
+                        <span className="text-[9px] font-mono text-red-400 bg-red-500/10 px-1 py-0.2 rounded border border-red-500/20 shrink-0">
                           {lead.source}
                         </span>
                       </div>
@@ -221,7 +223,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                       {stage !== 'Converted' && stage !== 'Lost' && (
                         <button
                           onClick={() => advanceStage(lead.id, lead.stage)}
-                          className="w-full mt-1.5 py-1 rounded bg-slate-800 hover:bg-blue-600 hover:text-white text-slate-300 text-[10px] font-semibold flex items-center justify-center gap-1 transition"
+                          className="w-full mt-1.5 py-1 rounded bg-slate-800 hover:bg-[#e10600] hover:text-white text-slate-300 text-[10px] font-semibold flex items-center justify-center gap-1 transition"
                         >
                           <span>Move Forward</span>
                           <ChevronRight className="w-3 h-3" />
@@ -367,7 +369,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold"
+                className="px-4 py-2 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40"
               >
                 Save Lead
               </button>

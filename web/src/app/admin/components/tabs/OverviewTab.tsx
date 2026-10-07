@@ -76,7 +76,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2.5">
             <span>Dealership Executive Overview</span>
-            <span className="text-[10px] font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2 py-0.5 rounded-sm">
+            <span className="text-[10px] font-mono bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded-sm">
               Live Telemetry
             </span>
           </h1>
@@ -87,7 +87,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setActiveTab('financing')}
-            className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm shadow-blue-900/30"
+            className="px-3 py-1.5 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm shadow-red-950/40"
           >
             <FileSpreadsheet className="w-3.5 h-3.5" />
             Review Applications ({pendingApps.length})
@@ -96,7 +96,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
             onClick={() => setActiveTab('inventory')}
             className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
           >
-            <Car className="w-3.5 h-3.5 text-blue-400" />
+            <Car className="w-3.5 h-3.5 text-red-500" />
             Manage Fleet
           </button>
         </div>
@@ -111,7 +111,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
         >
           <div className="flex items-center justify-between text-slate-400 text-xs mb-2">
             <span className="font-semibold uppercase tracking-wider text-[11px]">Fleet Inventory</span>
-            <Car className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform" />
+            <Car className="w-4 h-4 text-red-500 group-hover:scale-110 transition-transform" />
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-black text-white">{vehicles.length}</span>
@@ -149,7 +149,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
         >
           <div className="flex items-center justify-between text-slate-400 text-xs mb-2">
             <span className="font-semibold uppercase tracking-wider text-[11px]">Revenue Recorded</span>
-            <TrendingUp className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform" />
+            <TrendingUp className="w-4 h-4 text-red-500 group-hover:scale-110 transition-transform" />
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-black text-white">
@@ -174,11 +174,11 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-black text-white">{customers.length}</span>
-            <span className="text-xs text-blue-400 font-medium">Tier 1 Majority</span>
+            <span className="text-xs text-red-400 font-medium">Tier 1 Majority</span>
           </div>
           <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
             <span>{upcomingAppointments.length} Booked Meetings</span>
-            <span className="text-blue-400 flex items-center">
+            <span className="text-red-400 flex items-center">
               View CRM <ArrowUpRight className="w-3 h-3 ml-0.5" />
             </span>
           </div>
@@ -239,11 +239,11 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
                   style={{ height: bar.height }}
                   className={`w-full max-w-[42px] rounded-t-md transition-all group-hover:brightness-125 ${
                     bar.current
-                      ? 'bg-gradient-to-t from-blue-700 to-blue-500 shadow-lg shadow-blue-900/40'
+                      ? 'bg-gradient-to-t from-red-700 to-red-500 shadow-lg shadow-red-900/40'
                       : 'bg-slate-700/70 hover:bg-slate-600'
                   }`}
                 />
-                <span className={`text-[11px] font-mono ${bar.current ? 'text-blue-400 font-bold' : 'text-slate-400'}`}>
+                <span className={`text-[11px] font-mono ${bar.current ? 'text-red-400 font-bold' : 'text-slate-400'}`}>
                   {bar.month}
                 </span>
               </div>
@@ -253,7 +253,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           <div className="mt-3 flex items-center justify-between text-[11px] text-slate-400">
             <div className="flex items-center gap-4">
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-xs bg-blue-500" /> Current Quarter
+                <span className="w-2.5 h-2.5 rounded-xs bg-red-600" /> Current Quarter
               </span>
               <span className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-xs bg-slate-700" /> Historical Performance
@@ -305,7 +305,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
 
           <button
             onClick={() => setActiveTab('financing')}
-            className="w-full mt-4 py-2 text-xs font-semibold text-blue-400 hover:text-white hover:bg-slate-800/80 rounded-lg border border-slate-700/60 transition"
+            className="w-full mt-4 py-2 text-xs font-semibold text-red-400 hover:text-white hover:bg-slate-800/80 rounded-lg border border-slate-700/60 transition"
           >
             Open Loan Processing Pipeline →
           </button>
@@ -319,12 +319,12 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
         <div className="p-5 rounded-xl bg-[#121624] border border-slate-800">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-bold text-white tracking-wide flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-blue-400" />
+              <Calendar className="w-4 h-4 text-red-500" />
               Upcoming Test Drives & Unit Handovers
             </h3>
             <button
               onClick={() => setActiveTab('appointments')}
-              className="text-xs text-blue-400 hover:underline"
+              className="text-xs text-red-400 hover:underline"
             >
               View Calendar
             </button>
@@ -339,7 +339,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-white">{apt.customerName}</span>
-                    <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-sm bg-blue-500/10 text-blue-300 border border-blue-500/20">
+                    <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-sm bg-red-500/10 text-red-300 border border-red-500/20">
                       {apt.appointmentType}
                     </span>
                   </div>

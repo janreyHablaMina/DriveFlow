@@ -130,7 +130,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by sale #, buyer, vehicle or VIN..."
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
           />
         </div>
 
@@ -138,7 +138,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Account Statuses</option>
             <option value="Active / Current">Active / Current</option>
@@ -152,7 +152,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
           <select
             value={financingTypeFilter}
             onChange={(e) => setFinancingTypeFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Financing Structures</option>
             <option value="In-House Financing">In-House Dealership Financing</option>
@@ -204,7 +204,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                     {currencySymbol}{sale.remainingBalance.toLocaleString()}
                   </td>
 
-                  <td className="py-3 px-3 font-mono text-blue-400 font-bold text-[11px]">
+                  <td className="py-3 px-3 font-mono text-red-500 font-bold text-[11px]">
                     {currencySymbol}{sale.monthlyAmortization.toLocaleString()} / mo
                   </td>
 
@@ -215,7 +215,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                           ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
                           : sale.status === 'Overdue'
                           ? 'bg-red-500/10 text-red-400 border-red-500/30 animate-pulse'
-                          : 'bg-blue-500/10 text-blue-400 border-blue-500/30'
+                          : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
                       }`}
                     >
                       {sale.status}
@@ -225,7 +225,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                   <td className="py-3 px-4 text-right">
                     <button
                       onClick={() => setSelectedSale(sale)}
-                      className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-blue-400 text-xs font-semibold"
+                      className="px-2.5 py-1 rounded bg-slate-800 hover:bg-[#e10600] hover:text-white text-slate-300 text-xs font-semibold transition"
                     >
                       Ledger & ORs
                     </button>
@@ -272,7 +272,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
               </div>
               <div>
                 <span className="text-slate-500 text-[10px] uppercase block">Remaining Balance</span>
-                <span className="text-blue-400 font-bold">{currencySymbol}{selectedSale.remainingBalance.toLocaleString()}</span>
+                <span className="text-white font-bold">{currencySymbol}{selectedSale.remainingBalance.toLocaleString()}</span>
               </div>
             </div>
 
@@ -303,7 +303,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-white">{tx.orNumber}</span>
-                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-sm bg-blue-500/10 text-blue-300 border border-blue-500/20">
+                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-sm bg-red-500/10 text-red-400 border border-red-500/20">
                           {tx.type}
                         </span>
                         {tx.isVerifiedGateway ? (
@@ -356,7 +356,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                       <tr key={row.installmentNumber} className="hover:bg-slate-800/40">
                         <td className="py-2 px-3 text-slate-400">{row.installmentNumber}</td>
                         <td className="py-2 px-3 text-white">{row.dueDate}</td>
-                        <td className="py-2 px-3 font-bold text-blue-400">{currencySymbol}{row.amount.toLocaleString()}</td>
+                        <td className="py-2 px-3 font-bold text-red-400">{currencySymbol}{row.amount.toLocaleString()}</td>
                         <td className="py-2 px-3 text-slate-300">{currencySymbol}{row.principal.toLocaleString()}</td>
                         <td className="py-2 px-3 text-slate-400">{currencySymbol}{row.interest.toLocaleString()}</td>
                         <td className="py-2 px-3 text-right">
@@ -485,7 +485,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                 type="checkbox"
                 checked={isGatewayVerified}
                 onChange={(e) => setIsGatewayVerified(e.target.checked)}
-                className="w-4 h-4 accent-blue-600 rounded"
+                className="w-4 h-4 accent-red-600 rounded"
               />
             </div>
 

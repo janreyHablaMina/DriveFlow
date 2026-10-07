@@ -82,8 +82,8 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({
     <div className="space-y-5">
       {/* Download Alert Toast */}
       {downloadToast && (
-        <div className="fixed bottom-6 right-6 z-60 bg-[#121624] border border-blue-500 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs font-semibold flex items-center gap-2">
-          <Download className="w-4 h-4 text-blue-400" />
+        <div className="fixed bottom-6 right-6 z-60 bg-[#121624] border border-[#e10600]/80 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs font-semibold flex items-center gap-2">
+          <Download className="w-4 h-4 text-red-500" />
           {downloadToast}
         </div>
       )}
@@ -117,7 +117,7 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search document file or client name..."
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
           />
         </div>
 
@@ -125,7 +125,7 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Verification Statuses</option>
             <option value="Verified">Verified & Approved</option>
@@ -138,7 +138,7 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Document Types</option>
             <option value="Government ID / Passport">Government ID / Passport</option>
@@ -170,7 +170,7 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({
                 <tr key={doc.id} className="hover:bg-slate-800/40 transition">
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2.5">
-                      <FileText className="w-4 h-4 text-blue-400 shrink-0" />
+                      <FileText className="w-4 h-4 text-red-500 shrink-0" />
                       <div>
                         <span className="font-semibold text-white block">{doc.fileName}</span>
                         <span className="text-[10px] text-slate-500 font-mono">Uploaded: {doc.uploadedDate}</span>
@@ -210,7 +210,7 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({
                       </button>
                       <button
                         onClick={() => handleDownload(doc)}
-                        className="p-1.5 rounded hover:bg-slate-800 text-slate-400 hover:text-blue-400"
+                        className="p-1.5 rounded hover:bg-slate-800 text-slate-400 hover:text-red-400"
                         title="Encrypted Download"
                       >
                         <Download className="w-3.5 h-3.5" />
@@ -283,7 +283,7 @@ export const DocumentsTab: React.FC<DocumentsTabProps> = ({
             <div className="flex justify-between items-center pt-3 border-t border-slate-800">
               <button
                 onClick={() => handleDownload(previewDoc)}
-                className="px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white font-semibold flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-semibold flex items-center gap-1.5 transition shadow-sm shadow-red-950/40"
               >
                 <Download className="w-3.5 h-3.5" />
                 Download Decrypted Copy

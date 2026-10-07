@@ -224,7 +224,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                           collapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'
                         } rounded-md text-xs font-semibold tracking-wide transition-colors cursor-pointer group ${
                           isActive
-                            ? 'bg-blue-600 text-white shadow-sm shadow-blue-900/40'
+                            ? 'bg-[#e10600] text-white shadow-[0_0_20px_rgba(225,6,0,0.35)]'
                             : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
                         }`}
                       >
@@ -269,7 +269,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 className="w-full flex items-center justify-between px-3 py-2 rounded-md text-xs text-slate-400 hover:text-white bg-slate-800/40 hover:bg-slate-800/80 border border-slate-700/60 transition"
               >
                 <span className="flex items-center gap-2">
-                  <ExternalLink className="w-3.5 h-3.5 text-blue-400" />
+                  <ExternalLink className="w-3.5 h-3.5 text-red-500" />
                   View Public Website
                 </span>
                 <span className="text-[10px] font-mono text-slate-500">Live</span>
@@ -289,7 +289,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               title="View Public Website"
               className="flex justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800/60"
             >
-              <ExternalLink className="w-4 h-4 text-blue-400" />
+              <ExternalLink className="w-4 h-4 text-red-500" />
             </Link>
           )}
         </div>

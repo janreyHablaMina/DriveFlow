@@ -79,15 +79,15 @@ export const StaffTab: React.FC<StaffTabProps> = ({
       case 'Owner':
         return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">Owner / Super</span>;
       case 'Administrator':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-blue-500/15 text-blue-400 border border-blue-500/30">Administrator</span>;
+        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-red-500/15 text-red-400 border border-red-500/30">Administrator</span>;
       case 'Financing Officer':
         return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Financing Officer</span>;
       case 'Accountant':
         return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">Accountant</span>;
       case 'Manager':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-sky-500/15 text-sky-400 border border-sky-500/30">General Manager</span>;
+        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-slate-700 text-slate-200 border border-slate-600">General Manager</span>;
       case 'Sales Agent':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-slate-700 text-slate-300">Sales Agent</span>;
+        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-slate-800 text-slate-300">Sales Agent</span>;
     }
   };
 
@@ -109,7 +109,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
 
         <button
           onClick={() => setIsInviteModalOpen(true)}
-          className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm"
+          className="px-3.5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm shadow-red-950/40"
         >
           <Plus className="w-4 h-4" />
           Invite Staff Member
@@ -120,7 +120,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
       <div className="p-4 rounded-xl bg-[#121624] border border-slate-800 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono flex items-center gap-2">
-            <Lock className="w-3.5 h-3.5 text-blue-400" />
+            <Lock className="w-3.5 h-3.5 text-red-500" />
             Active Role-Based Permissions Policy Matrix
           </h3>
           <span className="text-[10px] font-mono text-slate-400">Multi-Tenant Isolation Enforced</span>
@@ -349,7 +349,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold"
+                className="px-4 py-2 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40"
               >
                 Send Invitation
               </button>

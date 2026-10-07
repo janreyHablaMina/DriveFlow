@@ -53,8 +53,8 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
     <div className="space-y-6">
       {/* Export Toast */}
       {exportToast && (
-        <div className="fixed bottom-6 right-6 z-60 bg-[#121624] border border-blue-500 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs font-semibold flex items-center gap-2">
-          <Download className="w-4 h-4 text-blue-400" />
+        <div className="fixed bottom-6 right-6 z-60 bg-[#121624] border border-[#e10600]/80 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs font-semibold flex items-center gap-2">
+          <Download className="w-4 h-4 text-red-500" />
           {exportToast}
         </div>
       )}
@@ -94,7 +94,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
           </button>
           <button
             onClick={() => handleExport('PDF', 'FinancialPortfolio')}
-            className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition"
+            className="px-3 py-1.5 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition shadow-sm shadow-red-950/40"
           >
             <Download className="w-3.5 h-3.5" />
             Export PDF
@@ -126,7 +126,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
 
         <div className="p-4 rounded-xl bg-[#121624] border border-slate-800">
           <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">Financing Approval Rate</span>
-          <div className="text-2xl font-black font-mono text-blue-400 mt-1">
+          <div className="text-2xl font-black font-mono text-red-500 mt-1">
             {approvalRate}%
           </div>
           <span className="text-[11px] text-slate-400 mt-1 block">
@@ -157,7 +157,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
             </div>
             <button
               onClick={() => handleExport('CSV', 'ReceivablesAging')}
-              className="text-xs text-blue-400 hover:underline flex items-center gap-1"
+              className="text-xs text-red-400 hover:text-red-300 hover:underline flex items-center gap-1 transition"
             >
               <Download className="w-3 h-3" />
               CSV
@@ -193,7 +193,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
             </div>
             <button
               onClick={() => handleExport('PDF', 'StaffSalesCommission')}
-              className="text-xs text-blue-400 hover:underline flex items-center gap-1"
+              className="text-xs text-red-400 hover:text-red-300 hover:underline flex items-center gap-1 transition"
             >
               <Download className="w-3 h-3" />
               PDF

@@ -488,12 +488,12 @@ export default function DealershipAdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090b10] text-slate-100 flex font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-[#090b10] text-slate-100 flex font-sans selection:bg-[#e10600] selection:text-white">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-70 bg-[#121624] border-l-4 border-l-blue-500 border border-slate-700 text-white px-5 py-3.5 rounded-lg shadow-2xl text-xs font-semibold flex items-center gap-3">
-          <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0" />
+        <div className="fixed bottom-6 right-6 z-70 bg-[#121624] border-l-4 border-l-[#e10600] border border-slate-700 text-white px-5 py-3.5 rounded-lg shadow-2xl text-xs font-semibold flex items-center gap-3">
+          <CheckCircle2 className="w-4 h-4 text-red-500 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -551,7 +551,7 @@ export default function DealershipAdminDashboard() {
           {selectedBranchId !== 'all' && (
             <>
               <ChevronRight className="w-3 h-3 text-slate-600" />
-              <span className="text-blue-400 font-mono text-[10px]">
+              <span className="text-red-500 font-mono text-[10px]">
                 {branches.find((b) => b.id === selectedBranchId)?.name}
               </span>
             </>

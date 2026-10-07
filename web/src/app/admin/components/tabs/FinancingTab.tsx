@@ -153,7 +153,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
       case 'Approved':
         return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Approved</span>;
       case 'Under Review':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-blue-500/15 text-blue-400 border border-blue-500/30">Under Review</span>;
+        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">Under Review</span>;
       case 'Assessment':
         return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">CI Assessment</span>;
       case 'Documents Required':
@@ -187,7 +187,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
 
         <button
           onClick={() => setIsNewAppModalOpen(true)}
-          className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto"
+          className="px-3.5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm shadow-red-950/40"
         >
           <Plus className="w-4 h-4" />
           New Loan Application
@@ -196,7 +196,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
 
       {/* Underwriting Disclaimer Banner */}
       <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 text-xs flex items-center gap-3">
-        <HelpCircle className="w-4 h-4 text-blue-400 shrink-0" />
+        <HelpCircle className="w-4 h-4 text-red-500 shrink-0" />
         <span>
           <strong className="text-slate-200">Compliance Notice:</strong> Installment estimates are indicative until final bank underwriting approval and promissory note execution by the authorized financing officer.
         </span>
@@ -217,7 +217,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
             onClick={() => setActiveStatusTab(tab.id)}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ${
               activeStatusTab === tab.id
-                ? 'bg-blue-600 text-white shadow-sm'
+                ? 'bg-[#e10600] text-white shadow-sm'
                 : 'text-slate-400 hover:text-white hover:bg-slate-800'
             }`}
           >
@@ -235,7 +235,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by loan app #, applicant name, or vehicle..."
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
           />
         </div>
 
@@ -243,7 +243,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
           <select
             value={channelFilter}
             onChange={(e) => setChannelFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Financing Channels</option>
             <option value="BDO Unibank Auto Loan">BDO Unibank Auto Loan</option>
@@ -304,7 +304,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
                     <div className="text-slate-400 text-[10px]">{app.termMonths} Months @ {app.interestRatePa}% p.a.</div>
                   </td>
 
-                  <td className="py-3 px-3 font-mono text-blue-400 font-bold text-[11px]">
+                  <td className="py-3 px-3 font-mono text-red-500 font-bold text-[11px]">
                     {currencySymbol}{app.monthlyAmortization.toLocaleString()} / mo
                   </td>
 
@@ -319,7 +319,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
                   <td className="py-3 px-4 text-right">
                     <button
                       onClick={() => setSelectedApp(app)}
-                      className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-blue-400 text-xs font-semibold"
+                      className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-red-400 hover:text-white text-xs font-semibold"
                     >
                       Review
                     </button>
@@ -369,7 +369,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
               </div>
               <div>
                 <span className="text-slate-500 text-[10px] uppercase block">Monthly Amortization</span>
-                <span className="text-blue-400 font-bold text-sm">
+                <span className="text-red-500 font-bold text-sm">
                   {currencySymbol}{selectedApp.monthlyAmortization.toLocaleString()}
                 </span>
               </div>
@@ -584,7 +584,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
               </button>
               <button
                 onClick={handleRequestDoc}
-                className="px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold"
+                className="px-3 py-1.5 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-bold"
               >
                 Send Request
               </button>
@@ -741,7 +741,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold"
+                className="px-4 py-2 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-bold"
               >
                 Submit Application
               </button>

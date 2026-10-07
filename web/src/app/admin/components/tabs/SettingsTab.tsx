@@ -135,7 +135,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-blue-600 text-white shadow-sm'
+                  ? 'bg-[#e10600] text-white shadow-[0_0_20px_rgba(225,6,0,0.35)]'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
@@ -228,7 +228,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                     type="checkbox"
                     checked={b.enabled}
                     onChange={() => toggleBank(b.code)}
-                    className="w-4 h-4 accent-blue-600 rounded cursor-pointer"
+                    className="w-4 h-4 accent-red-600 rounded cursor-pointer"
                   />
                 </div>
               ))}
@@ -238,7 +238,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
           <div className="pt-3 border-t border-slate-800 flex justify-end">
             <button
               type="submit"
-              className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold flex items-center gap-1.5"
+              className="px-5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white font-bold flex items-center gap-1.5 transition shadow-sm shadow-red-950/40"
             >
               <Save className="w-4 h-4" />
               Save Financing Parameters
@@ -254,7 +254,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
             <h3 className="text-base font-bold text-white">Dealership Branch Locations</h3>
             <button
               onClick={() => setIsAddBranchOpen(true)}
-              className="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1"
+              className="px-3.5 py-1.5 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1 transition shadow-sm shadow-red-950/40"
             >
               <Plus className="w-3.5 h-3.5" />
               Add Branch
@@ -272,7 +272,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                     <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
                       {b.name}
                       {b.isHeadquarters && (
-                        <span className="text-[9px] font-mono bg-blue-500/20 text-blue-300 border border-blue-500/30 px-1 rounded">
+                        <span className="text-[9px] font-mono bg-red-500/10 text-red-400 border border-red-500/20 px-1 rounded">
                           HQ
                         </span>
                       )}
@@ -495,7 +495,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold"
+                className="px-4 py-2 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40"
               >
                 Register Branch
               </button>

@@ -80,7 +80,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
             <span>Website CMS & Theme Customizer</span>
-            <span className="text-xs font-mono text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-sm">
+            <span className="text-xs font-mono text-red-400 bg-red-500/10 px-2 py-0.5 rounded-sm border border-red-500/20">
               10 Themes Available
             </span>
           </h1>
@@ -93,7 +93,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
           href="/"
           target="_blank"
           rel="noopener noreferrer"
-          className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition self-start sm:self-auto shadow-sm"
+          className="px-3.5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition self-start sm:self-auto shadow-sm shadow-red-950/40"
         >
           <ExternalLink className="w-3.5 h-3.5" />
           Preview Live Website
@@ -115,7 +115,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
               onClick={() => setActiveSection(tab.id as typeof activeSection)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
                 activeSection === tab.id
-                  ? 'bg-blue-600 text-white shadow-sm'
+                  ? 'bg-[#e10600] text-white shadow-[0_0_20px_rgba(225,6,0,0.35)]'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
@@ -145,7 +145,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
                   key={theme.id}
                   className={`rounded-xl bg-[#121624] border transition flex flex-col justify-between overflow-hidden group ${
                     isActive
-                      ? 'border-blue-500 shadow-lg shadow-blue-950/40'
+                      ? 'border-[#e10600] shadow-lg shadow-red-950/40'
                       : 'border-slate-800 hover:border-slate-700'
                   }`}
                 >
@@ -161,7 +161,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
                           {theme.badgeText}
                         </span>
                         {isActive && (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-blue-600 text-white flex items-center gap-1">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#e10600] text-white flex items-center gap-1 shadow-sm">
                             <Check className="w-3 h-3" />
                             Active
                           </span>
@@ -175,7 +175,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
 
                     <div className="p-4 space-y-2 text-xs">
                       <h4 className="font-bold text-white text-sm">{theme.name}</h4>
-                      <p className="text-[11px] text-blue-400 font-medium">{theme.tagline}</p>
+                      <p className="text-[11px] text-red-400 font-medium">{theme.tagline}</p>
                       <p className="text-slate-400 text-[11px] line-clamp-2">{theme.styleDescription}</p>
                       <div className="pt-2 border-t border-slate-800 text-[10px] font-mono text-slate-400">
                         Target: <span className="text-slate-300">{theme.targetAudience}</span>
@@ -193,7 +193,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
                     </button>
 
                     {isActive ? (
-                      <span className="text-[11px] font-mono font-bold text-blue-400 px-3 py-1.5">
+                      <span className="text-[11px] font-mono font-bold text-red-500 px-3 py-1.5">
                         Current Theme
                       </span>
                     ) : (
@@ -202,7 +202,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
                           onApplyTheme(theme.id);
                           triggerToast(`Activated "${theme.name}" theme for public showroom!`);
                         }}
-                        className="px-3 py-1.5 rounded bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition shadow-sm"
+                        className="px-3 py-1.5 rounded bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-bold transition shadow-sm shadow-red-950/40"
                       >
                         Apply Theme
                       </button>
@@ -284,7 +284,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
           <div className="pt-3 border-t border-slate-800 flex justify-end">
             <button
               type="submit"
-              className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold flex items-center gap-1.5"
+              className="px-5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white font-bold flex items-center gap-1.5 transition shadow-sm shadow-red-950/40"
             >
               <Save className="w-4 h-4" />
               Save Brand Changes
@@ -304,7 +304,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
                 type="checkbox"
                 checked={bannerEnabled}
                 onChange={(e) => setBannerEnabled(e.target.checked)}
-                className="w-4 h-4 accent-blue-600 rounded"
+                className="w-4 h-4 accent-red-600 rounded"
               />
             </label>
           </div>
@@ -342,7 +342,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
           <div className="pt-3 border-t border-slate-800 flex justify-end">
             <button
               onClick={() => triggerToast('Promotional announcement updated!')}
-              className="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold flex items-center gap-1.5"
+              className="px-5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white font-bold flex items-center gap-1.5 transition shadow-sm shadow-red-950/40"
             >
               <Save className="w-4 h-4" />
               Publish Banner
@@ -415,7 +415,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div>
                 <h3 className="text-base font-bold text-white">{previewTheme.name}</h3>
-                <span className="text-blue-400 text-xs font-mono">{previewTheme.tagline}</span>
+                <span className="text-red-400 text-xs font-mono">{previewTheme.tagline}</span>
               </div>
               <button
                 onClick={() => setPreviewTheme(null)}
@@ -447,7 +447,7 @@ export const WebsiteTab: React.FC<WebsiteTabProps> = ({
                   setPreviewTheme(null);
                   triggerToast(`Theme switched to "${previewTheme.name}"`);
                 }}
-                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold"
+                className="px-4 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40"
               >
                 Activate This Theme
               </button>

@@ -145,7 +145,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto"
+          className="px-3.5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm shadow-red-950/40"
         >
           <Plus className="w-4 h-4" />
           Add Customer Record
@@ -161,7 +161,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search client name, phone, email, employer..."
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
           />
         </div>
 
@@ -169,7 +169,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
           <select
             value={creditFilter}
             onChange={(e) => setCreditFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Credit Tiers</option>
             <option value="Tier 1">Tier 1 - Excellent (750+)</option>
@@ -182,7 +182,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
           <select
             value={branchFilter}
             onChange={(e) => setBranchFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Branches</option>
             {branches.map((b) => (
@@ -243,7 +243,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                         cust.creditTier.includes('Tier 1')
                           ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
                           : cust.creditTier.includes('Tier 2')
-                          ? 'bg-blue-500/10 text-blue-400 border-blue-500/30'
+                          ? 'bg-slate-800 text-slate-300 border-slate-700'
                           : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
                       }`}
                     >
@@ -265,7 +265,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                         setSelectedCustomer(cust);
                         setActiveDossierTab('overview');
                       }}
-                      className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-blue-400 text-xs font-semibold"
+                      className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-red-400 hover:text-white text-xs font-semibold"
                     >
                       View Dossier
                     </button>
@@ -304,7 +304,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                   onClick={() => setActiveDossierTab(tabKey)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition ${
                     activeDossierTab === tabKey
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-[#e10600] text-white shadow-sm'
                       : 'text-slate-400 hover:text-white hover:bg-slate-800'
                   }`}
                 >
@@ -342,12 +342,12 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                 </div>
 
                 {selectedCustomer.interestedVehicleName && (
-                  <div className="p-3.5 rounded-xl bg-blue-950/30 border border-blue-500/30 flex items-center justify-between">
+                  <div className="p-3.5 rounded-xl bg-red-950/20 border border-red-500/30 flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] font-mono text-blue-400 uppercase tracking-wider block">Interested Vehicle</span>
+                      <span className="text-[10px] font-mono text-red-400 uppercase tracking-wider block">Interested Vehicle</span>
                       <span className="font-bold text-white text-sm">{selectedCustomer.interestedVehicleName}</span>
                     </div>
-                    <span className="text-xs font-semibold text-blue-300 bg-blue-500/20 px-2 py-1 rounded">Active Inquiry</span>
+                    <span className="text-xs font-semibold text-red-300 bg-red-500/20 px-2 py-1 rounded">Active Inquiry</span>
                   </div>
                 )}
               </div>
@@ -370,7 +370,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                         </div>
                         <div className="grid grid-cols-3 gap-2 text-[11px] text-slate-400 pt-2 border-t border-slate-800">
                           <div>Loan Amount: <strong className="text-white">{currencySymbol}{app.loanAmount.toLocaleString()}</strong></div>
-                          <div>Amortization: <strong className="text-blue-400">{currencySymbol}{app.monthlyAmortization.toLocaleString()}/mo</strong></div>
+                          <div>Amortization: <strong className="text-red-500 font-mono">{currencySymbol}{app.monthlyAmortization.toLocaleString()}/mo</strong></div>
                           <div>Bank: <strong className="text-white">{app.financingChannel}</strong></div>
                         </div>
                       </div>
@@ -414,7 +414,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold flex items-center gap-1.5"
+                    className="px-4 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white font-semibold flex items-center gap-1.5"
                   >
                     <Send className="w-3.5 h-3.5" />
                     Post
@@ -592,7 +592,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold"
+                className="px-4 py-2 rounded bg-[#e10600] hover:bg-[#c00500] text-white font-bold"
               >
                 Create Profile
               </button>

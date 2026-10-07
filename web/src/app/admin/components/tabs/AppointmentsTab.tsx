@@ -106,7 +106,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
       case 'Pending':
         return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">Pending</span>;
       case 'Completed':
-        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-blue-500/15 text-blue-400 border border-blue-500/30">Completed</span>;
+        return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Completed</span>;
       case 'Cancelled':
         return <span className="px-2 py-0.5 rounded-sm text-[10px] font-mono font-bold bg-red-500/15 text-red-400 border border-red-500/30">Cancelled</span>;
       case 'No-show':
@@ -134,13 +134,13 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
           <div className="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5">
             <button
               onClick={() => setViewMode('list')}
-              className={`px-3 py-1 text-xs font-semibold rounded-md ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1 text-xs font-semibold rounded-md transition ${viewMode === 'list' ? 'bg-[#e10600] text-white shadow-sm shadow-red-950/40' : 'text-slate-400 hover:text-white'}`}
             >
               List View
             </button>
             <button
               onClick={() => setViewMode('calendar')}
-              className={`px-3 py-1 text-xs font-semibold rounded-md ${viewMode === 'calendar' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1 text-xs font-semibold rounded-md transition ${viewMode === 'calendar' ? 'bg-[#e10600] text-white shadow-sm shadow-red-950/40' : 'text-slate-400 hover:text-white'}`}
             >
               Calendar Schedule
             </button>
@@ -148,7 +148,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
 
           <button
             onClick={() => setIsBookModalOpen(true)}
-            className="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm"
+            className="px-3.5 py-2 rounded-lg bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm shadow-red-950/40"
           >
             <Plus className="w-4 h-4" />
             Book Test Drive / Meeting
@@ -165,7 +165,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search customer, vehicle or consultant..."
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
           />
         </div>
 
@@ -173,7 +173,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Booking Statuses</option>
             <option value="Confirmed">Confirmed</option>
@@ -187,7 +187,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-blue-500"
+            className="w-full bg-slate-900 border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Appointment Types</option>
             <option value="Showroom Test Drive">Showroom Test Drive</option>
@@ -235,7 +235,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
 
                     <td className="py-3 px-3 font-mono text-[11px]">
                       <span className="text-white font-bold block">{apt.date}</span>
-                      <span className="text-blue-400 text-[10px]">{apt.timeSlot}</span>
+                      <span className="text-red-400 text-[10px]">{apt.timeSlot}</span>
                     </td>
 
                     <td className="py-3 px-3 text-[11px] text-slate-200">
@@ -259,7 +259,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
                         {apt.status === 'Confirmed' && (
                           <button
                             onClick={() => onUpdateStatus(apt.id, 'Completed')}
-                            className="px-2 py-1 rounded bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 text-[11px] font-semibold"
+                            className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-semibold"
                           >
                             Complete
                           </button>
@@ -286,7 +286,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
         <div className="bg-[#121624] border border-slate-800 rounded-xl p-5 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-800">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <CalendarCheck className="w-4 h-4 text-blue-400" />
+              <CalendarCheck className="w-4 h-4 text-red-500" />
               Schedule Grid: October 15 – October 21, 2026
             </h3>
             <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
@@ -319,7 +319,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
                           {getStatusBadge(apt.status)}
                         </div>
                         <div className="text-slate-400 text-[10px]">{apt.timeSlot}</div>
-                        <div className="text-blue-400 text-[10px] truncate">{apt.vehicleName}</div>
+                        <div className="text-slate-300 font-medium text-[10px] truncate">{apt.vehicleName}</div>
                         <div className="text-slate-500 text-[10px]">Staff: {apt.assignedStaff}</div>
                       </div>
                     ))
@@ -490,10 +490,10 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
               <button
                 type="submit"
                 disabled={conflictDetected}
-                className={`px-4 py-2 rounded font-bold ${
+                className={`px-4 py-2 rounded font-bold transition shadow-sm ${
                   conflictDetected
                     ? 'bg-slate-700 text-slate-400 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-500 text-white'
+                    : 'bg-[#e10600] hover:bg-[#c00500] text-white shadow-red-950/40'
                 }`}
               >
                 Confirm Booking
