@@ -18,11 +18,10 @@ import {
   ChevronRight,
   CheckCircle2,
 } from 'lucide-react';
-import { Lead, LeadStage, DealershipBranch, StaffMember } from '../../types';
+import { Lead, LeadStage, StaffMember } from '../../types';
 
 interface LeadsTabProps {
   leads: Lead[];
-  branches: DealershipBranch[];
   staff: StaffMember[];
   onAddLead: (lead: Omit<Lead, 'id' | 'createdDate' | 'lastActivity'>) => void;
   onUpdateLeadStage: (id: string, stage: LeadStage) => void;
@@ -33,14 +32,12 @@ const STAGES: LeadStage[] = ['New Lead', 'Contacted', 'Interested', 'Negotiation
 
 export const LeadsTab: React.FC<LeadsTabProps> = ({
   leads,
-  branches,
   staff,
   onAddLead,
   onUpdateLeadStage,
   currencySymbol,
 }) => {
   const [search, setSearch] = useState('');
-  const [branchFilter, setBranchFilter] = useState('all');
   const [sourceFilter, setSourceFilter] = useState('all');
 
   // Modals
@@ -52,7 +49,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
   const [formBudget, setFormBudget] = useState(2500000);
   const [formSource, setFormSource] = useState<Lead['source']>('Website Calculator');
   const [formAgent, setFormAgent] = useState('Janrey Mina');
-  const [formBranchId, setFormBranchId] = useState(branches[0]?.id || 'bgc');
+  const [formBranchId, setFormBranchId] = useState('main');
   const [formNotes, setFormNotes] = useState('');
 
   const filteredLeads = useMemo(() => {
@@ -61,11 +58,10 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
         lead.name.toLowerCase().includes(search.toLowerCase()) ||
         lead.interestedVehicle.toLowerCase().includes(search.toLowerCase()) ||
         lead.phone.includes(search);
-      const matchBranch = branchFilter === 'all' || lead.branchId === branchFilter;
       const matchSource = sourceFilter === 'all' || lead.source === sourceFilter;
-      return matchSearch && matchBranch && matchSource;
+      return matchSearch && matchSource;
     });
-  }, [leads, search, branchFilter, sourceFilter]);
+  }, [leads, search, sourceFilter]);
 
   const handleCreateLead = (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,7 +113,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#121624] p-3.5 rounded-none border border-slate-800">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#121624] p-3.5 rounded-none border border-slate-800">
         <div className="relative">
           <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400" />
           <input
@@ -140,21 +136,6 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
             <option value="Facebook Ads">Facebook & Meta Ads</option>
             <option value="Walk-In Showroom">Walk-In Showroom</option>
             <option value="Referral">VIP Client Referral</option>
-          </select>
-        </div>
-
-        <div>
-          <select
-            value={branchFilter}
-            onChange={(e) => setBranchFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-none px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
-          >
-            <option value="all">All Branches</option>
-            {branches.map((b) => (
-              <option key={b.id} value={b.id}>
-                {b.name}
-              </option>
-            ))}
           </select>
         </div>
       </div>

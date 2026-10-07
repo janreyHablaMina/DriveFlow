@@ -212,7 +212,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
                   </span>
                   <div>
                     <span className="font-bold text-white block">{member.name}</span>
-                    <span className="text-[10px] text-slate-400">{member.role} • {member.branchName.split(' ')[0]}</span>
+                    <span className="text-[10px] text-slate-400">{member.role}</span>
                   </div>
                 </div>
 

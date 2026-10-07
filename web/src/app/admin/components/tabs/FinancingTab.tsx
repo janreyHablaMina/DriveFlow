@@ -20,11 +20,10 @@ import {
   Send,
   HelpCircle,
 } from 'lucide-react';
-import { FinancingApplication, FinancingStatus, DealershipBranch, AdminVehicle } from '../../types';
+import { FinancingApplication, FinancingStatus, AdminVehicle } from '../../types';
 
 interface FinancingTabProps {
   applications: FinancingApplication[];
-  branches: DealershipBranch[];
   vehicles: AdminVehicle[];
   onApproveApplication: (id: string, notes: string) => void;
   onRejectApplication: (id: string, reason: string) => void;
@@ -35,7 +34,6 @@ interface FinancingTabProps {
 
 export const FinancingTab: React.FC<FinancingTabProps> = ({
   applications,
-  branches,
   vehicles,
   onApproveApplication,
   onRejectApplication,
@@ -70,7 +68,7 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
   const [formDpPct, setFormDpPct] = useState(20);
   const [formTerm, setFormTerm] = useState(48);
   const [formChannel, setFormChannel] = useState<FinancingApplication['financingChannel']>('BDO Unibank Auto Loan');
-  const [formBranchId, setFormBranchId] = useState(branches[0]?.id || 'bgc');
+  const [formBranchId, setFormBranchId] = useState('main');
 
   const selectedVehicleObj = vehicles.find((v) => v.id === formVehicleId) || vehicles[0];
 

@@ -17,11 +17,10 @@ import {
   X,
   CalendarCheck,
 } from 'lucide-react';
-import { Appointment, AppointmentStatus, AppointmentType, DealershipBranch, AdminVehicle, StaffMember } from '../../types';
+import { Appointment, AppointmentStatus, AppointmentType, AdminVehicle, StaffMember } from '../../types';
 
 interface AppointmentsTabProps {
   appointments: Appointment[];
-  branches: DealershipBranch[];
   vehicles: AdminVehicle[];
   staff: StaffMember[];
   onAddAppointment: (apt: Omit<Appointment, 'id' | 'createdDate'>) => void;
@@ -30,7 +29,6 @@ interface AppointmentsTabProps {
 
 export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
   appointments,
-  branches,
   vehicles,
   staff,
   onAddAppointment,
@@ -51,7 +49,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
   const [formDate, setFormDate] = useState('2026-10-18');
   const [formSlot, setFormSlot] = useState('02:00 PM - 03:00 PM');
   const [formStaff, setFormStaff] = useState(staff[0]?.name || 'Janrey Mina');
-  const [formBranchId, setFormBranchId] = useState(branches[0]?.id || 'bgc');
+  const [formBranchId, setFormBranchId] = useState('main');
   const [formNotes, setFormNotes] = useState('');
 
   // Conflict Checking

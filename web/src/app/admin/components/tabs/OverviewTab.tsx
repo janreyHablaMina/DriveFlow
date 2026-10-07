@@ -81,7 +81,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
             </span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Real-time multi-branch inventory, loan underwriting pipeline, and payment collection tracking.
+            Real-time dealership fleet inventory, loan underwriting pipeline, and payment collection tracking.
           </p>
         </div>
         <div className="flex items-center gap-2">

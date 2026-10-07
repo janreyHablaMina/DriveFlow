@@ -20,15 +20,12 @@ import {
   ChevronDown,
   X,
   Sparkles,
-  Building2,
-  Check,
   Archive,
 } from 'lucide-react';
-import { AdminVehicle, VehicleStatus, DealershipBranch } from '../../types';
+import { AdminVehicle, VehicleStatus } from '../../types';
 
 interface InventoryTabProps {
   vehicles: AdminVehicle[];
-  branches: DealershipBranch[];
   onAddVehicle: (vehicle: Omit<AdminVehicle, 'id' | 'addedDate'>) => void;
   onUpdateVehicle: (vehicle: AdminVehicle) => void;
   onDeleteVehicle: (id: string) => void;
@@ -37,7 +34,6 @@ interface InventoryTabProps {
 
 export const InventoryTab: React.FC<InventoryTabProps> = ({
   vehicles,
-  branches,
   onAddVehicle,
   onUpdateVehicle,
   onDeleteVehicle,
@@ -47,7 +43,6 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
-  const [branchFilter, setBranchFilter] = useState<string>('all');
 
   // Modals
   const [selectedVehicle, setSelectedVehicle] = useState<AdminVehicle | null>(null);
@@ -70,7 +65,7 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
   const [formColor, setFormColor] = useState('Pearl White');
   const [formVin, setFormVin] = useState('DFV-NEW-9981');
   const [formStock, setFormStock] = useState('STK-2026-99');
-  const [formBranchId, setFormBranchId] = useState(branches[0]?.id || 'bgc');
+  const [formBranchId, setFormBranchId] = useState('main');
   const [formStatus, setFormStatus] = useState<VehicleStatus>('Available');
   const [formImages, setFormImages] = useState<string>('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80');
 
@@ -83,10 +78,9 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
         v.stockNumber.toLowerCase().includes(search.toLowerCase());
       const matchesStatus = statusFilter === 'all' || v.status === statusFilter;
       const matchesCategory = categoryFilter === 'all' || v.category === categoryFilter;
-      const matchesBranch = branchFilter === 'all' || v.branchId === branchFilter;
-      return matchesSearch && matchesStatus && matchesCategory && matchesBranch;
+      return matchesSearch && matchesStatus && matchesCategory;
     });
-  }, [vehicles, search, statusFilter, categoryFilter, branchFilter]);
+  }, [vehicles, search, statusFilter, categoryFilter]);
 
   const handleCreateVehicle = (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,7 +143,7 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
             </span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Manage stock catalog, pricing, financing down payments, branch allocations, and public marketplace listing status.
+            Manage stock catalog, pricing, financing down payments, and public marketplace listing status.
           </p>
         </div>
 
@@ -182,7 +176,7 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 bg-[#121624] p-3.5 rounded-none border border-slate-800">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#121624] p-3.5 rounded-none border border-slate-800">
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400" />
@@ -226,22 +220,6 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
             <option value="premium">Premium Exotics</option>
           </select>
         </div>
-
-        {/* Branch Filter */}
-        <div>
-          <select
-            value={branchFilter}
-            onChange={(e) => setBranchFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-none px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
-          >
-            <option value="all">All Dealership Branches</option>
-            {branches.map((b) => (
-              <option key={b.id} value={b.id}>
-                {b.name}
-              </option>
-            ))}
-          </select>
-        </div>
       </div>
 
       {/* Main Content: Table or Grid */}
@@ -253,7 +231,6 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
                 <tr>
                   <th className="py-3 px-4">Vehicle Details</th>
                   <th className="py-3 px-3">Stock & VIN</th>
-                  <th className="py-3 px-3">Branch</th>
                   <th className="py-3 px-3">Selling Price</th>
                   <th className="py-3 px-3">Min DP / Est Monthly</th>
                   <th className="py-3 px-3">Status</th>
@@ -263,7 +240,6 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
               </thead>
               <tbody className="divide-y divide-slate-800/60 text-slate-300">
                 {filteredVehicles.map((vehicle) => {
-                  const branch = branches.find((b) => b.id === vehicle.branchId);
                   return (
                     <tr key={vehicle.id} className="hover:bg-slate-800/40 transition">
                       <td className="py-3 px-4">
@@ -292,10 +268,6 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
                       <td className="py-3 px-3 font-mono text-[11px]">
                         <span className="text-white block">{vehicle.stockNumber}</span>
                         <span className="text-slate-500 text-[10px]">{vehicle.vin}</span>
-                      </td>
-
-                      <td className="py-3 px-3 text-slate-300">
-                        <span className="text-[11px] block">{branch?.name || vehicle.branchId}</span>
                       </td>
 
                       <td className="py-3 px-3 font-mono font-bold text-white">
@@ -367,7 +339,6 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
         /* Grid View */
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredVehicles.map((vehicle) => {
-            const branch = branches.find((b) => b.id === vehicle.branchId);
             return (
               <div
                 key={vehicle.id}
@@ -397,7 +368,7 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
                     <div>
                       <h4 className="font-bold text-white text-sm line-clamp-1">{vehicle.name}</h4>
                       <p className="text-[11px] text-slate-400 mt-0.5">
-                        {branch?.name} • {vehicle.mileage} • {vehicle.fuel}
+                        {vehicle.category.toUpperCase()} • {vehicle.mileage} • {vehicle.fuel}
                       </p>
                     </div>
 
@@ -613,21 +584,7 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({
                   className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
                 />
               </div>
-              <div>
-                <label className="text-slate-400 block mb-1">Branch</label>
-                <select
-                  value={formBranchId}
-                  onChange={(e) => setFormBranchId(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
-                >
-                  {branches.map((b) => (
-                    <option key={b.id} value={b.id}>
-                      {b.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
+              <div className="col-span-2">
                 <label className="text-slate-400 block mb-1">Initial Status</label>
                 <select
                   value={formStatus}

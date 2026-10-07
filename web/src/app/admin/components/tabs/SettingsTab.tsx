@@ -3,39 +3,32 @@
 import React, { useState } from 'react';
 import {
   Settings,
-  Building2,
   Percent,
   Bell,
   ShieldAlert,
   Clock,
   Save,
-  Plus,
   CheckCircle2,
   Globe,
   Sliders,
   DollarSign,
-  X,
 } from 'lucide-react';
-import { DealershipSettings, DealershipBranch, AuditLogItem } from '../../types';
+import { DealershipSettings, AuditLogItem } from '../../types';
 
 interface SettingsTabProps {
   settings: DealershipSettings;
-  branches: DealershipBranch[];
   auditLogs: AuditLogItem[];
   onUpdateSettings: (settings: DealershipSettings) => void;
-  onAddBranch: (branch: DealershipBranch) => void;
   currencySymbol: string;
 }
 
 export const SettingsTab: React.FC<SettingsTabProps> = ({
   settings,
-  branches,
   auditLogs,
   onUpdateSettings,
-  onAddBranch,
   currencySymbol,
 }) => {
-  const [activeTab, setActiveTab] = useState<'financing' | 'branches' | 'general' | 'audit'>('financing');
+  const [activeTab, setActiveTab] = useState<'financing' | 'general' | 'audit'>('financing');
   const [toast, setToast] = useState<string | null>(null);
 
   // Financing Assumptions
@@ -44,15 +37,6 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
   const [maxTerm, setMaxTerm] = useState(settings.maxLoanTermMonths);
   const [chattelRate, setChattelRate] = useState(settings.chattelMortgageRate);
   const [banks, setBanks] = useState(settings.partnerBanks);
-
-  // New Branch Modal
-  const [isAddBranchOpen, setIsAddBranchOpen] = useState(false);
-  const [bName, setBName] = useState('');
-  const [bCode, setBCode] = useState('');
-  const [bAddress, setBAddress] = useState('');
-  const [bCity, setBCity] = useState('');
-  const [bPhone, setBPhone] = useState('');
-  const [bEmail, setBEmail] = useState('');
 
   const triggerToast = (msg: string) => {
     setToast(msg);
@@ -78,23 +62,6 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
     );
   };
 
-  const handleCreateBranch = (e: React.FormEvent) => {
-    e.preventDefault();
-    onAddBranch({
-      id: `br-${Date.now()}`,
-      name: bName,
-      code: bCode.toUpperCase(),
-      address: bAddress,
-      city: bCity,
-      phone: bPhone,
-      email: bEmail,
-      isHeadquarters: false,
-      activeInventoryCount: 0,
-    });
-    setIsAddBranchOpen(false);
-    triggerToast(`Added branch: ${bName}`);
-  };
-
   return (
     <div className="space-y-6">
       {/* Toast */}
@@ -115,7 +82,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
             </span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Configure dealership loan calculation formulas, branch networks, bank integrations, and view immutable audit trails.
+            Configure dealership loan calculation formulas, bank integrations, and view immutable audit trails.
           </p>
         </div>
       </div>
@@ -124,7 +91,6 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
       <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
         {[
           { id: 'financing', label: 'Financing & Interest Rates', icon: Percent },
-          { id: 'branches', label: 'Multi-Branch Network', icon: Building2 },
           { id: 'general', label: 'Dealership Entity & Tax Details', icon: Settings },
           { id: 'audit', label: 'Immutable Audit Log', icon: Clock },
         ].map((tab) => {
@@ -247,55 +213,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
         </form>
       )}
 
-      {/* SECTION 2: BRANCH NETWORK */}
-      {activeTab === 'branches' && (
-        <div className="space-y-4 max-w-4xl">
-          <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-white">Dealership Branch Locations</h3>
-            <button
-              onClick={() => setIsAddBranchOpen(true)}
-              className="px-3.5 py-1.5 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1 transition shadow-sm shadow-red-950/40 cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              Add Branch
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {branches.map((b) => (
-              <div
-                key={b.id}
-                className="p-4 rounded-none bg-[#121624] border border-slate-800 space-y-2.5 text-xs"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h4 className="font-bold text-white text-sm flex items-center gap-1.5">
-                      {b.name}
-                      {b.isHeadquarters && (
-                        <span className="text-[9px] font-mono bg-red-500/10 text-red-400 border border-red-500/20 px-1 rounded-none">
-                          HQ
-                        </span>
-                      )}
-                    </h4>
-                    <span className="text-[10px] font-mono text-slate-400">Code: {b.code}</span>
-                  </div>
-                  <span className="px-2 py-0.5 rounded-none bg-slate-900 border border-slate-800 font-mono text-slate-300 text-[10px]">
-                    {b.activeInventoryCount} Active Cars
-                  </span>
-                </div>
-
-                <div className="text-slate-300 space-y-0.5 text-[11px]">
-                  <div>{b.address}</div>
-                  <div className="text-slate-400">{b.city}</div>
-                  <div className="font-mono text-slate-400 pt-1">{b.phone} • {b.email}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* SECTION 3: GENERAL & ENTITY */}
+      {/* SECTION 2: GENERAL & ENTITY */}
       {activeTab === 'general' && (
         <div className="bg-[#121624] border border-slate-800 rounded-none p-6 space-y-4 text-xs max-w-2xl">
           <h3 className="text-base font-bold text-white">Dealership Corporate Profile</h3>
@@ -354,7 +272,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
         </div>
       )}
 
-      {/* SECTION 4: AUDIT LOG */}
+      {/* SECTION 3: AUDIT LOG */}
       {activeTab === 'audit' && (
         <div className="bg-[#121624] border border-slate-800 rounded-none overflow-hidden text-xs">
           <div className="p-4 border-b border-slate-800 flex items-center justify-between">
@@ -369,7 +287,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                 <th className="py-3 px-3">Actor & Role</th>
                 <th className="py-3 px-3">Action Description</th>
                 <th className="py-3 px-3">Affected Entity</th>
-                <th className="py-3 px-3">Branch & IP Address</th>
+                <th className="py-3 px-3">IP Address</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800 text-slate-300">
@@ -382,7 +300,7 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
                   <td className="py-3 px-3 text-slate-200">{log.action}</td>
                   <td className="py-3 px-3 text-slate-400 text-[11px]">{log.target}</td>
                   <td className="py-3 px-3 text-[10px] font-mono text-slate-500">
-                    {log.branchName} • {log.ipAddress}
+                    {log.ipAddress}
                   </td>
                 </tr>
               ))}
@@ -390,120 +308,8 @@ export const SettingsTab: React.FC<SettingsTabProps> = ({
           </table>
         </div>
       )}
-
-      {/* Add Branch Modal */}
-      {isAddBranchOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-          <form
-            onSubmit={handleCreateBranch}
-            className="bg-[#121624] border border-slate-700 rounded-none max-w-md w-full p-6 space-y-4 text-xs"
-          >
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-white">Add Dealership Branch</h3>
-              <button
-                type="button"
-                onClick={() => setIsAddBranchOpen(false)}
-                className="p-1 text-slate-400 hover:text-white rounded-none cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <label className="text-slate-400 block mb-1">Branch Name</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Davao Luxury Pavilion"
-                  value={bName}
-                  onChange={(e) => setBName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-slate-400 block mb-1">Branch Code</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="DVO-05"
-                    value={bCode}
-                    onChange={(e) => setBCode(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-400 block mb-1">Phone</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="+63 (82) 222-1900"
-                    value={bPhone}
-                    onChange={(e) => setBPhone(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white font-mono"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-slate-400 block mb-1">Street Address</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="Lanang Business Park"
-                  value={bAddress}
-                  onChange={(e) => setBAddress(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-slate-400 block mb-1">City / Region</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Davao City"
-                    value={bCity}
-                    onChange={(e) => setBCity(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-400 block mb-1">Email</label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="davao@apexmotors.ph"
-                    value={bEmail}
-                    onChange={(e) => setBEmail(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex justify-end gap-2 pt-3 border-t border-slate-800">
-              <button
-                type="button"
-                onClick={() => setIsAddBranchOpen(false)}
-                className="px-4 py-2 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-300 cursor-pointer font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white font-bold transition shadow-sm shadow-red-950/40 cursor-pointer"
-              >
-                Register Branch
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
     </div>
   );
 };
+
 

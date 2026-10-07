@@ -26,12 +26,10 @@ import {
   Appointment,
   SaleRecord,
   CustomerNote,
-  DealershipBranch,
 } from '../../types';
 
 interface CustomersTabProps {
   customers: Customer[];
-  branches: DealershipBranch[];
   applications: FinancingApplication[];
   appointments: Appointment[];
   sales: SaleRecord[];
@@ -42,7 +40,6 @@ interface CustomersTabProps {
 
 export const CustomersTab: React.FC<CustomersTabProps> = ({
   customers,
-  branches,
   applications,
   appointments,
   sales,
@@ -52,7 +49,6 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
 }) => {
   const [search, setSearch] = useState('');
   const [creditFilter, setCreditFilter] = useState('all');
-  const [branchFilter, setBranchFilter] = useState('all');
 
   // Selected customer for dossier view
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
@@ -69,7 +65,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
   const [formEmployer, setFormEmployer] = useState('');
   const [formIncome, setFormIncome] = useState(300000);
   const [formCreditTier, setFormCreditTier] = useState<Customer['creditTier']>('Tier 1 - Excellent (750+)');
-  const [formBranchId, setFormBranchId] = useState(branches[0]?.id || 'bgc');
+  const [formBranchId, setFormBranchId] = useState('main');
   const [formAgent, setFormAgent] = useState('Janrey Mina');
 
   const filteredCustomers = useMemo(() => {
@@ -80,10 +76,9 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
         c.phone.includes(search) ||
         c.employer.toLowerCase().includes(search.toLowerCase());
       const matchCredit = creditFilter === 'all' || c.creditTier.includes(creditFilter);
-      const matchBranch = branchFilter === 'all' || c.branchId === branchFilter;
-      return matchSearch && matchCredit && matchBranch;
+      return matchSearch && matchCredit;
     });
-  }, [customers, search, creditFilter, branchFilter]);
+  }, [customers, search, creditFilter]);
 
   const handleCreateCustomer = (e: React.FormEvent) => {
     e.preventDefault();
@@ -153,7 +148,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
       </div>
 
       {/* Filter Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-[#121624] p-3.5 rounded-none border border-slate-800">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-[#121624] p-3.5 rounded-none border border-slate-800">
         <div className="relative">
           <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-slate-400" />
           <input
@@ -175,21 +170,6 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
             <option value="Tier 1">Tier 1 - Excellent (750+)</option>
             <option value="Tier 2">Tier 2 - Good (680-749)</option>
             <option value="Tier 3">Tier 3 - Fair (600-679)</option>
-          </select>
-        </div>
-
-        <div>
-          <select
-            value={branchFilter}
-            onChange={(e) => setBranchFilter(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700/60 rounded-none px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
-          >
-            <option value="all">All Branches</option>
-            {branches.map((b) => (
-              <option key={b.id} value={b.id}>
-                {b.name}
-              </option>
-            ))}
           </select>
         </div>
       </div>
@@ -551,34 +531,18 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-slate-400 block mb-1">Credit Tier Assessment</label>
-                  <select
-                    value={formCreditTier}
-                    onChange={(e) => setFormCreditTier(e.target.value as Customer['creditTier'])}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
-                  >
-                    <option value="Tier 1 - Excellent (750+)">Tier 1 - Excellent (750+)</option>
-                    <option value="Tier 2 - Good (680-749)">Tier 2 - Good (680-749)</option>
-                    <option value="Tier 3 - Fair (600-679)">Tier 3 - Fair (600-679)</option>
-                    <option value="Under Review">Under Review</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-slate-400 block mb-1">Assigned Branch</label>
-                  <select
-                    value={formBranchId}
-                    onChange={(e) => setFormBranchId(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
-                  >
-                    {branches.map((b) => (
-                      <option key={b.id} value={b.id}>
-                        {b.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div>
+                <label className="text-slate-400 block mb-1">Credit Tier Assessment</label>
+                <select
+                  value={formCreditTier}
+                  onChange={(e) => setFormCreditTier(e.target.value as Customer['creditTier'])}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
+                >
+                  <option value="Tier 1 - Excellent (750+)">Tier 1 - Excellent (750+)</option>
+                  <option value="Tier 2 - Good (680-749)">Tier 2 - Good (680-749)</option>
+                  <option value="Tier 3 - Fair (600-679)">Tier 3 - Fair (600-679)</option>
+                  <option value="Under Review">Under Review</option>
+                </select>
               </div>
             </div>
 

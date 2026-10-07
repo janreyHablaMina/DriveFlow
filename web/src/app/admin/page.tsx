@@ -18,7 +18,6 @@ import {
   DealershipSettings,
 } from './types';
 import {
-  INITIAL_BRANCHES,
   INITIAL_VEHICLES,
   INITIAL_CUSTOMERS,
   INITIAL_APPLICATIONS,
@@ -55,7 +54,6 @@ export default function DealershipAdminDashboard() {
   const [activeTab, setActiveTab] = useState<AdminTab>('overview');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [selectedBranchId, setSelectedBranchId] = useState<string>('all');
   const [currentRole, setCurrentRole] = useState<UserRole>('Owner');
   const [globalSearch, setGlobalSearch] = useState('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -66,7 +64,6 @@ export default function DealershipAdminDashboard() {
   };
 
   // Central Mock Data States
-  const [branches, setBranches] = useState(INITIAL_BRANCHES);
   const [vehicles, setVehicles] = useState<AdminVehicle[]>(INITIAL_VEHICLES);
   const [customers, setCustomers] = useState<Customer[]>(INITIAL_CUSTOMERS);
   const [applications, setApplications] = useState<FinancingApplication[]>(INITIAL_APPLICATIONS);
@@ -118,22 +115,6 @@ export default function DealershipAdminDashboard() {
     },
   ]);
 
-  // Branch-Filtered Data
-  const branchFilteredVehicles = useMemo(() => {
-    if (selectedBranchId === 'all') return vehicles;
-    return vehicles.filter((v) => v.branchId === selectedBranchId);
-  }, [vehicles, selectedBranchId]);
-
-  const branchFilteredSales = useMemo(() => {
-    if (selectedBranchId === 'all') return sales;
-    return sales.filter((s) => s.branchId === selectedBranchId);
-  }, [sales, selectedBranchId]);
-
-  const branchFilteredAppointments = useMemo(() => {
-    if (selectedBranchId === 'all') return appointments;
-    return appointments.filter((a) => a.branchId === selectedBranchId);
-  }, [appointments, selectedBranchId]);
-
   // Badge Counts for Sidebar
   const badgeCounts = useMemo(() => {
     return {
@@ -155,7 +136,7 @@ export default function DealershipAdminDashboard() {
       action,
       target,
       ipAddress: '120.29.74.19 (Makati City)',
-      branchName: selectedBranchId === 'all' ? 'Consolidated HQ' : branches.find((b) => b.id === selectedBranchId)?.name || 'HQ',
+      branchName: 'Main Dealership',
     };
     setAuditLogs([newLog, ...auditLogs]);
   };
@@ -514,9 +495,6 @@ export default function DealershipAdminDashboard() {
         
         {/* Reusable TopNav Bar */}
         <TopNav
-          branches={branches}
-          selectedBranchId={selectedBranchId}
-          setSelectedBranchId={setSelectedBranchId}
           currentRole={currentRole}
           setCurrentRole={(r) => {
             setCurrentRole(r);
@@ -548,25 +526,17 @@ export default function DealershipAdminDashboard() {
           </Link>
           <ChevronRight className="w-3 h-3 text-slate-600" />
           <span className="text-slate-200 font-semibold">{activeTabLabels[activeTab]}</span>
-          {selectedBranchId !== 'all' && (
-            <>
-              <ChevronRight className="w-3 h-3 text-slate-600" />
-              <span className="text-red-500 font-mono text-[10px]">
-                {branches.find((b) => b.id === selectedBranchId)?.name}
-              </span>
-            </>
-          )}
         </div>
 
         {/* Dynamic Tab Body */}
         <main className="flex-1 p-4 lg:p-7 overflow-y-auto">
           {activeTab === 'overview' && (
             <OverviewTab
-              vehicles={branchFilteredVehicles}
+              vehicles={vehicles}
               applications={applications}
               customers={customers}
-              sales={branchFilteredSales}
-              appointments={branchFilteredAppointments}
+              sales={sales}
+              appointments={appointments}
               auditLogs={auditLogs}
               setActiveTab={setActiveTab}
               onOpenAppDetails={(app) => {
@@ -578,8 +548,7 @@ export default function DealershipAdminDashboard() {
 
           {activeTab === 'inventory' && (
             <InventoryTab
-              vehicles={branchFilteredVehicles}
-              branches={branches}
+              vehicles={vehicles}
               onAddVehicle={handleAddVehicle}
               onUpdateVehicle={handleUpdateVehicle}
               onDeleteVehicle={handleDeleteVehicle}
@@ -590,7 +559,6 @@ export default function DealershipAdminDashboard() {
           {activeTab === 'customers' && (
             <CustomersTab
               customers={customers}
-              branches={branches}
               applications={applications}
               appointments={appointments}
               sales={sales}
@@ -603,7 +571,6 @@ export default function DealershipAdminDashboard() {
           {activeTab === 'financing' && (
             <FinancingTab
               applications={applications}
-              branches={branches}
               vehicles={vehicles}
               onApproveApplication={handleApproveApplication}
               onRejectApplication={handleRejectApplication}
@@ -635,8 +602,7 @@ export default function DealershipAdminDashboard() {
 
           {activeTab === 'sales' && (
             <SalesTab
-              sales={branchFilteredSales}
-              branches={branches}
+              sales={sales}
               onRecordPayment={handleRecordPayment}
               currencySymbol={settings.currencySymbol}
             />
@@ -644,8 +610,7 @@ export default function DealershipAdminDashboard() {
 
           {activeTab === 'appointments' && (
             <AppointmentsTab
-              appointments={branchFilteredAppointments}
-              branches={branches}
+              appointments={appointments}
               vehicles={vehicles}
               staff={staff}
               onAddAppointment={handleAddAppointment}
@@ -656,7 +621,6 @@ export default function DealershipAdminDashboard() {
           {activeTab === 'leads' && (
             <LeadsTab
               leads={leads}
-              branches={branches}
               staff={staff}
               onAddLead={handleAddLead}
               onUpdateLeadStage={handleUpdateLeadStage}
@@ -667,7 +631,6 @@ export default function DealershipAdminDashboard() {
           {activeTab === 'staff' && (
             <StaffTab
               staff={staff}
-              branches={branches}
               onInviteStaff={handleInviteStaff}
               onToggleStatus={handleToggleStaffStatus}
             />
@@ -708,15 +671,10 @@ export default function DealershipAdminDashboard() {
           {activeTab === 'settings' && (
             <SettingsTab
               settings={settings}
-              branches={branches}
               auditLogs={auditLogs}
               onUpdateSettings={(newSettings) => {
                 setSettings(newSettings);
                 logAction('Modified Dealership Settings', 'Financing Assumptions Updated');
-              }}
-              onAddBranch={(newBranch) => {
-                setBranches([...branches, newBranch]);
-                logAction('Registered New Branch', newBranch.name);
               }}
               currencySymbol={settings.currencySymbol}
             />

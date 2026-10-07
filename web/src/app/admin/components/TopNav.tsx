@@ -7,7 +7,6 @@ import {
   Menu,
   Plus,
   ChevronDown,
-  Building2,
   CheckCircle2,
   AlertTriangle,
   Clock,
@@ -22,12 +21,9 @@ import {
   X,
   FileCheck,
 } from 'lucide-react';
-import { DealershipBranch, UserRole, AdminTab } from '../types';
+import { UserRole, AdminTab } from '../types';
 
 interface TopNavProps {
-  branches: DealershipBranch[];
-  selectedBranchId: string;
-  setSelectedBranchId: (id: string) => void;
   currentRole: UserRole;
   setCurrentRole: (role: UserRole) => void;
   setMobileOpen: (open: boolean) => void;
@@ -49,9 +45,6 @@ interface TopNavProps {
 }
 
 export const TopNav: React.FC<TopNavProps> = ({
-  branches,
-  selectedBranchId,
-  setSelectedBranchId,
   currentRole,
   setCurrentRole,
   setMobileOpen,
@@ -63,21 +56,16 @@ export const TopNav: React.FC<TopNavProps> = ({
   onMarkAllNotificationsRead,
   activeTabTitle,
 }) => {
-  const [branchDropdownOpen, setBranchDropdownOpen] = useState(false);
   const [quickActionOpen, setQuickActionOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
-  const branchRef = useRef<HTMLDivElement>(null);
   const quickActionRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (branchRef.current && !branchRef.current.contains(e.target as Node)) {
-        setBranchDropdownOpen(false);
-      }
       if (quickActionRef.current && !quickActionRef.current.contains(e.target as Node)) {
         setQuickActionOpen(false);
       }
@@ -92,7 +80,6 @@ export const TopNav: React.FC<TopNavProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const activeBranch = branches.find((b) => b.id === selectedBranchId);
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   const roleOptions: UserRole[] = [
@@ -107,89 +94,16 @@ export const TopNav: React.FC<TopNavProps> = ({
   return (
     <header className="sticky top-0 z-30 h-16 bg-[#0e111a]/95 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-7 flex items-center justify-between gap-4">
       
-      {/* Left: Mobile hamburger & Branch Selector */}
-      <div className="flex items-center gap-3">
+      {/* Left: Mobile hamburger & Global Search Input pinned to left edge */}
+      <div className="flex items-center gap-3 flex-1 max-w-md sm:max-w-lg">
         <button
           onClick={() => setMobileOpen(true)}
-          className="lg:hidden p-2 rounded-none text-slate-400 hover:text-white hover:bg-slate-800/70"
+          className="lg:hidden p-2 rounded-none text-slate-400 hover:text-white hover:bg-slate-800/70 shrink-0"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* Branch Selector Dropdown */}
-        <div className="relative" ref={branchRef}>
-          <button
-            onClick={() => setBranchDropdownOpen(!branchDropdownOpen)}
-            className="flex items-center gap-2.5 px-3 py-1.5 rounded-none bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 text-xs font-medium text-slate-200 transition cursor-pointer"
-          >
-            <Building2 className="w-4 h-4 text-red-500 shrink-0" />
-            <div className="text-left hidden sm:block">
-              <span className="block text-[10px] text-slate-400 uppercase tracking-wider font-mono">
-                Dealership Branch
-              </span>
-              <span className="font-semibold text-white">
-                {selectedBranchId === 'all' ? 'All Dealership Branches' : activeBranch?.name}
-              </span>
-            </div>
-            <span className="sm:hidden font-semibold text-white">
-              {selectedBranchId === 'all' ? 'All' : activeBranch?.code}
-            </span>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-          </button>
-
-          {branchDropdownOpen && (
-            <div className="absolute left-0 mt-2 w-72 bg-[#121624] border border-slate-700 rounded-none shadow-2xl py-2 z-50">
-              <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                Select Dealership Context
-              </div>
-              <button
-                onClick={() => {
-                  setSelectedBranchId('all');
-                  setBranchDropdownOpen(false);
-                }}
-                className={`w-full text-left px-3.5 py-2.5 text-xs flex items-center justify-between hover:bg-slate-800/70 transition cursor-pointer ${
-                  selectedBranchId === 'all' ? 'text-red-400 font-bold bg-red-500/10' : 'text-slate-300'
-                }`}
-              >
-                <div>
-                  <div className="font-semibold">All Dealership Branches</div>
-                  <div className="text-[10px] text-slate-400">Consolidated enterprise overview</div>
-                </div>
-                {selectedBranchId === 'all' && <span className="text-xs">✓</span>}
-              </button>
-              {branches.map((b) => (
-                <button
-                  key={b.id}
-                  onClick={() => {
-                    setSelectedBranchId(b.id);
-                    setBranchDropdownOpen(false);
-                  }}
-                  className={`w-full text-left px-3.5 py-2.5 text-xs flex items-center justify-between hover:bg-slate-800/70 transition cursor-pointer ${
-                    selectedBranchId === b.id ? 'text-red-400 font-bold bg-red-500/10' : 'text-slate-300'
-                  }`}
-                >
-                  <div>
-                    <div className="font-semibold flex items-center gap-1.5">
-                      {b.name}
-                      {b.isHeadquarters && (
-                        <span className="text-[9px] font-mono bg-red-500/20 text-red-300 border border-red-500/30 px-1.5 py-0.2 rounded-none">
-                          HQ
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-[10px] text-slate-400 truncate max-w-[200px]">{b.city}</div>
-                  </div>
-                  <span className="text-[10px] font-mono text-slate-400">{b.code}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Middle: Global Search Input */}
-      <div className="flex-1 max-w-md hidden md:block">
-        <div className="relative">
+        <div className="relative w-full hidden sm:block">
           <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
           <input
             type="text"
@@ -201,7 +115,7 @@ export const TopNav: React.FC<TopNavProps> = ({
           {searchQuery && (
             <button
               onClick={() => onGlobalSearch('')}
-              className="absolute right-2.5 top-2.5 text-slate-400 hover:text-white"
+              className="absolute right-2.5 top-2.5 text-slate-400 hover:text-white cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -210,7 +124,7 @@ export const TopNav: React.FC<TopNavProps> = ({
       </div>
 
       {/* Right Controls: Quick Actions, Notifications, Role Profile */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 shrink-0">
         
         {/* Quick Action Dropdown */}
         <div className="relative" ref={quickActionRef}>

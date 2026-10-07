@@ -13,25 +13,22 @@ import {
   ExternalLink,
   ChevronRight,
   ShieldCheck,
-  Building2,
   Calendar,
   X,
   CreditCard,
   Banknote,
   FileText,
 } from 'lucide-react';
-import { SaleRecord, PaymentTransaction, DealershipBranch } from '../../types';
+import { SaleRecord, PaymentTransaction } from '../../types';
 
 interface SalesTabProps {
   sales: SaleRecord[];
-  branches: DealershipBranch[];
   onRecordPayment: (payment: Omit<PaymentTransaction, 'id'>, saleId: string) => void;
   currencySymbol: string;
 }
 
 export const SalesTab: React.FC<SalesTabProps> = ({
   sales,
-  branches,
   onRecordPayment,
   currencySymbol,
 }) => {

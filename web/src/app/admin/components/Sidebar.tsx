@@ -165,14 +165,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <Sparkles className="w-3 h-3 text-red-200" />
                   DRIVEFLOW
                 </div>
-                <div>
-                  <span className="text-[11px] font-black tracking-wider text-slate-100 uppercase block leading-none">
-                    DEALER ADMIN
-                  </span>
-                  <span className="text-[9px] font-mono text-slate-400 tracking-wider">
-                    v2.6 Enterprise
-                  </span>
-                </div>
               </div>
             ) : (
               <div className="mx-auto bg-red-600 text-white font-black text-xs p-1.5 rounded-none">

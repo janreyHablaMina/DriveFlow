@@ -15,18 +15,16 @@ import {
   Shield,
   Key,
 } from 'lucide-react';
-import { StaffMember, UserRole, DealershipBranch } from '../../types';
+import { StaffMember, UserRole } from '../../types';
 
 interface StaffTabProps {
   staff: StaffMember[];
-  branches: DealershipBranch[];
   onInviteStaff: (member: Omit<StaffMember, 'id' | 'joinDate' | 'lastLogin' | 'avatar'>) => void;
   onToggleStatus: (id: string) => void;
 }
 
 export const StaffTab: React.FC<StaffTabProps> = ({
   staff,
-  branches,
   onInviteStaff,
   onToggleStatus,
 }) => {
@@ -39,7 +37,7 @@ export const StaffTab: React.FC<StaffTabProps> = ({
   const [formEmail, setFormEmail] = useState('');
   const [formPhone, setFormPhone] = useState('');
   const [formRole, setFormRole] = useState<UserRole>('Sales Agent');
-  const [formBranchId, setFormBranchId] = useState(branches[0]?.id || 'bgc');
+  const [formBranchId, setFormBranchId] = useState('main');
 
   const filteredStaff = useMemo(() => {
     return staff.filter((member) => {
@@ -53,14 +51,13 @@ export const StaffTab: React.FC<StaffTabProps> = ({
 
   const handleInvite = (e: React.FormEvent) => {
     e.preventDefault();
-    const branch = branches.find((b) => b.id === formBranchId);
     onInviteStaff({
       name: formName,
       email: formEmail,
       phone: formPhone,
       role: formRole,
-      branchId: formBranchId,
-      branchName: branch?.name || 'BGC Showroom',
+      branchId: 'main',
+      branchName: 'Main Dealership',
       active: true,
       permissions: {
         canApproveFinancing: formRole === 'Owner' || formRole === 'Administrator' || formRole === 'Financing Officer',
@@ -184,7 +181,6 @@ export const StaffTab: React.FC<StaffTabProps> = ({
               <tr>
                 <th className="py-3 px-4">Staff Member</th>
                 <th className="py-3 px-3">Role & Permissions</th>
-                <th className="py-3 px-3">Assigned Branch</th>
                 <th className="py-3 px-3">Contact</th>
                 <th className="py-3 px-3">Status</th>
                 <th className="py-3 px-3">Last Active</th>
@@ -210,10 +206,6 @@ export const StaffTab: React.FC<StaffTabProps> = ({
 
                   <td className="py-3 px-3">
                     {getRoleBadge(member.role)}
-                  </td>
-
-                  <td className="py-3 px-3 text-slate-200 text-[11px]">
-                    {member.branchName}
                   </td>
 
                   <td className="py-3 px-3 font-mono text-[11px] text-slate-300">
@@ -307,35 +299,19 @@ export const StaffTab: React.FC<StaffTabProps> = ({
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-slate-400 block mb-1">Assigned Role</label>
-                  <select
-                    value={formRole}
-                    onChange={(e) => setFormRole(e.target.value as UserRole)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
-                  >
-                    <option value="Sales Agent">Sales Agent</option>
-                    <option value="Financing Officer">Financing Officer</option>
-                    <option value="Accountant">Accountant</option>
-                    <option value="Manager">General Manager</option>
-                    <option value="Administrator">Administrator</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-slate-400 block mb-1">Branch</label>
-                  <select
-                    value={formBranchId}
-                    onChange={(e) => setFormBranchId(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
-                  >
-                    {branches.map((b) => (
-                      <option key={b.id} value={b.id}>
-                        {b.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div>
+                <label className="text-slate-400 block mb-1">Assigned Role</label>
+                <select
+                  value={formRole}
+                  onChange={(e) => setFormRole(e.target.value as UserRole)}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
+                >
+                  <option value="Sales Agent">Sales Agent</option>
+                  <option value="Financing Officer">Financing Officer</option>
+                  <option value="Accountant">Accountant</option>
+                  <option value="Manager">General Manager</option>
+                  <option value="Administrator">Administrator</option>
+                </select>
               </div>
             </div>
 
