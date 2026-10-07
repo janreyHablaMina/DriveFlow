@@ -234,6 +234,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
       assignedAgent: formAgent,
       branchId: 'main',
       interestedVehicleName: formVehicle.trim() || undefined,
+      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
       tags: formPaymentType === 'Cash' ? ['Cash Buyer', 'Verified KYC'] : ['Financing Applicant', 'Showroom Prospect'],
       totalPurchases: 0,
       lastContactDate: new Date().toISOString().split('T')[0],
@@ -483,9 +484,17 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                       {/* Client & Advisor */}
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-xs flex items-center justify-center shrink-0">
-                            {getInitials(cust.name)}
-                          </div>
+                          {cust.avatar ? (
+                            <img
+                              src={cust.avatar}
+                              alt={cust.name}
+                              className="w-8 h-8 rounded-none object-cover border border-slate-700 shrink-0"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-xs flex items-center justify-center shrink-0">
+                              {getInitials(cust.name)}
+                            </div>
+                          )}
                           <div>
                             <button
                               type="button"
@@ -721,9 +730,17 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
             {/* Dossier Header */}
             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-none bg-slate-900 border border-slate-700 text-red-500 font-bold font-mono text-base flex items-center justify-center">
-                  {getInitials(selectedCustomer.name)}
-                </div>
+                {selectedCustomer.avatar ? (
+                  <img
+                    src={selectedCustomer.avatar}
+                    alt={selectedCustomer.name}
+                    className="w-10 h-10 rounded-none object-cover border border-slate-700 shrink-0"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-none bg-slate-900 border border-slate-700 text-red-500 font-bold font-mono text-base flex items-center justify-center">
+                    {getInitials(selectedCustomer.name)}
+                  </div>
+                )}
                 <div>
                   <h3 className="text-lg font-bold text-white flex items-center gap-2">
                     <span>{selectedCustomer.name}</span>
