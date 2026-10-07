@@ -47,6 +47,12 @@ interface CustomersTabProps {
   currencySymbol: string;
 }
 
+const ADVISOR_AVATARS: Record<string, string> = {
+  'janrey mina': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+  'marc santos': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+  'carlos mendoza': 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+};
+
 export const CustomersTab: React.FC<CustomersTabProps> = ({
   customers,
   applications,
@@ -507,7 +513,15 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                               {cust.name}
                             </button>
                             <div className="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
-                              <UserCheck className="w-3 h-3 text-red-500 shrink-0" />
+                              {ADVISOR_AVATARS[cust.assignedAgent.toLowerCase()] ? (
+                                <img
+                                  src={ADVISOR_AVATARS[cust.assignedAgent.toLowerCase()]}
+                                  alt={cust.assignedAgent}
+                                  className="w-3.5 h-3.5 rounded-none object-cover border border-slate-700 shrink-0"
+                                />
+                              ) : (
+                                <UserCheck className="w-3 h-3 text-red-500 shrink-0" />
+                              )}
                               <span>Assisted by: <strong className="text-slate-200 font-medium">{cust.assignedAgent}</strong></span>
                             </div>
                           </div>
@@ -844,7 +858,16 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                   </div>
                   <div>
                     <span className="text-slate-500 uppercase text-[10px] font-mono block">Lead Sales Advisor</span>
-                    <span className="text-slate-200 font-medium">{selectedCustomer.assignedAgent}</span>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      {ADVISOR_AVATARS[selectedCustomer.assignedAgent.toLowerCase()] && (
+                        <img
+                          src={ADVISOR_AVATARS[selectedCustomer.assignedAgent.toLowerCase()]}
+                          alt={selectedCustomer.assignedAgent}
+                          className="w-4 h-4 rounded-none object-cover border border-slate-700 shrink-0"
+                        />
+                      )}
+                      <span className="text-slate-200 font-medium">{selectedCustomer.assignedAgent}</span>
+                    </div>
                   </div>
                   <div>
                     <span className="text-slate-500 uppercase text-[10px] font-mono block">Employer / Company</span>

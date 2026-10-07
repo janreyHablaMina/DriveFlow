@@ -100,6 +100,13 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
     return clean.slice(0, 2).toUpperCase();
   };
 
+  // Helper for advisor avatar lookup
+  const getAdvisorAvatar = (advisorName: string, leadAdvisorAvatar?: string) => {
+    if (leadAdvisorAvatar) return leadAdvisorAvatar;
+    const member = staff?.find((s) => s.name.toLowerCase() === advisorName.toLowerCase());
+    return member?.avatar;
+  };
+
   // Helper for stage styling
   const getStageBadge = (stage: LeadStage) => {
     switch (stage) {
@@ -465,9 +472,17 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                         {/* Prospect & Advisor */}
                         <td className="py-3.5 px-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-xs flex items-center justify-center shrink-0">
-                              {getInitials(lead.name)}
-                            </div>
+                            {lead.avatar ? (
+                              <img
+                                src={lead.avatar}
+                                alt={lead.name}
+                                className="w-8 h-8 rounded-none object-cover border border-slate-700 shrink-0"
+                              />
+                            ) : (
+                              <div className="w-8 h-8 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-xs flex items-center justify-center shrink-0">
+                                {getInitials(lead.name)}
+                              </div>
+                            )}
                             <div>
                               <button
                                 type="button"
@@ -477,7 +492,15 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                                 {lead.name}
                               </button>
                               <div className="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
-                                <UserCheck className="w-3 h-3 text-red-500 shrink-0" />
+                                {getAdvisorAvatar(lead.assignedRep, lead.advisorAvatar) ? (
+                                  <img
+                                    src={getAdvisorAvatar(lead.assignedRep, lead.advisorAvatar)}
+                                    alt={lead.assignedRep}
+                                    className="w-3.5 h-3.5 rounded-none object-cover border border-slate-700 shrink-0"
+                                  />
+                                ) : (
+                                  <UserCheck className="w-3 h-3 text-red-500 shrink-0" />
+                                )}
                                 <span>Assisted by: <strong className="text-slate-200 font-medium">{lead.assignedRep}</strong></span>
                               </div>
                             </div>
@@ -731,14 +754,27 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                         key={lead.id}
                         className="p-3 rounded-none bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition space-y-2 text-xs"
                       >
-                        <div className="flex items-start justify-between gap-1">
-                          <button
-                            type="button"
-                            onClick={() => setSelectedLead(lead)}
-                            className="font-bold text-white text-xs hover:text-red-400 transition text-left cursor-pointer"
-                          >
-                            {lead.name}
-                          </button>
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center gap-2 min-w-0">
+                            {lead.avatar ? (
+                              <img
+                                src={lead.avatar}
+                                alt={lead.name}
+                                className="w-6 h-6 rounded-none object-cover border border-slate-700 shrink-0"
+                              />
+                            ) : (
+                              <div className="w-6 h-6 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-[9px] flex items-center justify-center shrink-0">
+                                {getInitials(lead.name)}
+                              </div>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => setSelectedLead(lead)}
+                              className="font-bold text-white text-xs hover:text-red-400 transition text-left cursor-pointer truncate"
+                            >
+                              {lead.name}
+                            </button>
+                          </div>
                           <span className={`text-[9px] font-mono px-1 py-0.2 rounded-none border shrink-0 ${getSourceBadge(lead.source)}`}>
                             {lead.source}
                           </span>
@@ -750,7 +786,16 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
 
                         <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
                           <span>Budget: <strong className="text-emerald-400">{currencySymbol}{(lead.budget / 1000000).toFixed(1)}M</strong></span>
-                          <span>{lead.assignedRep.split(' ')[0]}</span>
+                          <div className="flex items-center gap-1.5" title={`Assigned Advisor: ${lead.assignedRep}`}>
+                            {getAdvisorAvatar(lead.assignedRep, lead.advisorAvatar) && (
+                              <img
+                                src={getAdvisorAvatar(lead.assignedRep, lead.advisorAvatar)}
+                                alt={lead.assignedRep}
+                                className="w-3.5 h-3.5 rounded-none object-cover border border-slate-700 shrink-0"
+                              />
+                            )}
+                            <span className="text-slate-300 font-medium">{lead.assignedRep.split(' ')[0]}</span>
+                          </div>
                         </div>
 
                         <p className="text-[10px] text-slate-400 italic line-clamp-2">
@@ -783,11 +828,33 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
         <div className="fixed inset-0 bg-black/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-[#121624] border border-slate-700 rounded-none max-w-lg w-full p-6 space-y-4 text-xs">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <div>
-                <h3 className="text-base font-bold text-white">{selectedLead.name}</h3>
-                <span className="text-[11px] font-mono text-slate-400">
-                  Assigned Advisor: {selectedLead.assignedRep} • Received: {selectedLead.createdDate}
-                </span>
+              <div className="flex items-center gap-3">
+                {selectedLead.avatar ? (
+                  <img
+                    src={selectedLead.avatar}
+                    alt={selectedLead.name}
+                    className="w-10 h-10 rounded-none object-cover border border-slate-700 shrink-0"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-sm flex items-center justify-center shrink-0">
+                    {getInitials(selectedLead.name)}
+                  </div>
+                )}
+                <div>
+                  <h3 className="text-base font-bold text-white">{selectedLead.name}</h3>
+                  <div className="text-[11px] font-mono text-slate-400 flex items-center gap-1.5 mt-0.5">
+                    {getAdvisorAvatar(selectedLead.assignedRep, selectedLead.advisorAvatar) ? (
+                      <img
+                        src={getAdvisorAvatar(selectedLead.assignedRep, selectedLead.advisorAvatar)}
+                        alt={selectedLead.assignedRep}
+                        className="w-3.5 h-3.5 rounded-none object-cover border border-slate-700 shrink-0"
+                      />
+                    ) : (
+                      <UserCheck className="w-3 h-3 text-red-500 shrink-0" />
+                    )}
+                    <span>Assigned Advisor: <strong className="text-slate-200 font-medium">{selectedLead.assignedRep}</strong> • Received: {selectedLead.createdDate}</span>
+                  </div>
+                </div>
               </div>
               <button
                 type="button"

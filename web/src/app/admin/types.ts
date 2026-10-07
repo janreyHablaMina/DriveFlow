@@ -287,6 +287,8 @@ export interface Lead {
   name: string;
   phone: string;
   email: string;
+  avatar?: string;
+  advisorAvatar?: string;
   interestedVehicle: string;
   budget: number;
   source: 'Website Calculator' | 'Facebook Ads' | 'Walk-In Showroom' | 'Referral' | 'Google Search';
