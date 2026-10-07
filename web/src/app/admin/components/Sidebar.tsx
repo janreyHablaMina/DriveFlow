@@ -156,9 +156,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           collapsed ? 'w-20' : 'w-72'
         } ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
       >
-        {/* Top Header */}
-        <div className="flex flex-col">
-          <div className="flex items-center justify-between p-4 border-b border-slate-800/80 h-16">
+        {/* Top Header & Navigation */}
+        <div className="flex flex-col flex-1 min-h-0">
+          <div className="flex items-center justify-between p-4 border-b border-slate-800/80 h-16 shrink-0">
             {!collapsed ? (
               <div className="flex items-center gap-2.5">
                 <div className="bg-red-600 text-white font-black text-xs px-2.5 py-1 rounded-sm tracking-wider uppercase shadow-md shadow-red-950/50 flex items-center gap-1.5">
@@ -199,13 +199,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
 
           {/* Navigation Links with Scroll */}
-          <div className="p-3 overflow-y-auto max-h-[calc(100vh-140px)] space-y-5 custom-scrollbar">
+          <div className="p-2.5 overflow-y-auto flex-1 space-y-3.5 custom-scrollbar">
             {(['Core Operations', 'Finance & CRM', 'Growth & Platform'] as const).map((groupName) => {
               const items = navItems.filter((i) => i.group === groupName);
               return (
-                <div key={groupName} className="space-y-1">
+                <div key={groupName} className="space-y-0.5">
                   {!collapsed && (
-                    <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest px-3 block mb-1.5">
+                    <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest px-3 block mb-1">
                       {groupName}
                     </span>
                   )}
@@ -221,7 +221,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         }}
                         title={collapsed ? item.label : undefined}
                         className={`w-full flex items-center ${
-                          collapsed ? 'justify-center px-0 py-2.5' : 'justify-between px-3 py-2.5'
+                          collapsed ? 'justify-center px-0 py-2' : 'justify-between px-3 py-2'
                         } rounded-md text-xs font-semibold tracking-wide transition-colors cursor-pointer group ${
                           isActive
                             ? 'bg-[#e10600] text-white shadow-[0_0_20px_rgba(225,6,0,0.35)]'
