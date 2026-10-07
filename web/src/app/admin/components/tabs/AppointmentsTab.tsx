@@ -45,7 +45,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
   const [formCustPhone, setFormCustPhone] = useState('');
   const [formCustEmail, setFormCustEmail] = useState('');
   const [formVehicle, setFormVehicle] = useState(vehicles[0]?.name || '');
-  const [formType, setFormType] = useState<AppointmentType>('Showroom Test Drive');
+  const [formType, setFormType] = useState<AppointmentType>('Showroom Visit & Consultation');
   const [formDate, setFormDate] = useState('2026-10-18');
   const [formSlot, setFormSlot] = useState('02:00 PM - 03:00 PM');
   const [formStaff, setFormStaff] = useState(staff[0]?.name || 'Janrey Mina');
@@ -92,7 +92,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
       assignedStaff: formStaff,
       branchId: formBranchId,
       status: 'Confirmed',
-      notes: formNotes || 'Standard test drive route requested.',
+      notes: formNotes || 'Showroom consultation and vehicle inspection appointment.',
     });
     setIsBookModalOpen(false);
   };
@@ -118,13 +118,13 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-800">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-            <span>Appointments & Test Drive Scheduling</span>
+            <span>Appointments & Customer Scheduling</span>
             <span className="text-xs font-mono text-slate-400 font-normal">
               ({filteredAppointments.length} bookings)
             </span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Coordinate showroom visits, VIP flatbed test drives, financing signing, and vehicle handovers without slot clashes.
+            Coordinate showroom visits, vehicle inspections, financing signings, and vehicle handovers without slot clashes.
           </p>
         </div>
 
@@ -149,7 +149,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
             className="px-3.5 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm shadow-red-950/40"
           >
             <Plus className="w-4 h-4" />
-            Book Test Drive / Meeting
+            Book Appointment
           </button>
         </div>
       </div>
@@ -188,10 +188,11 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
             className="w-full bg-slate-900 border border-slate-700/60 rounded-none px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
             <option value="all">All Appointment Types</option>
-            <option value="Showroom Test Drive">Showroom Test Drive</option>
-            <option value="VIP Home Test Drive">VIP Home Test Drive</option>
+            <option value="Showroom Visit & Consultation">Showroom Visit & Consultation</option>
+            <option value="Vehicle Viewing & Inspection">Vehicle Viewing & Inspection</option>
             <option value="Vehicle Unit Handover">Vehicle Unit Handover</option>
             <option value="Financing Contract Signing">Financing Contract Signing</option>
+            <option value="Appraisal & Trade-In">Appraisal & Trade-In</option>
           </select>
         </div>
       </div>
@@ -337,7 +338,7 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
             className="bg-[#121624] border border-slate-700 rounded-none max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto space-y-4 text-xs"
           >
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-white">Book Test Drive or Meeting</h3>
+              <h3 className="text-base font-bold text-white">Schedule Client Appointment</h3>
               <button
                 type="button"
                 onClick={() => setIsBookModalOpen(false)}
@@ -417,8 +418,8 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
                     onChange={(e) => setFormType(e.target.value as AppointmentType)}
                     className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white"
                   >
-                    <option value="Showroom Test Drive">Showroom Test Drive</option>
-                    <option value="VIP Home Test Drive">VIP Home Test Drive</option>
+                    <option value="Showroom Visit & Consultation">Showroom Visit & Consultation</option>
+                    <option value="Vehicle Viewing & Inspection">Vehicle Viewing & Inspection</option>
                     <option value="Vehicle Unit Handover">Vehicle Unit Handover</option>
                     <option value="Financing Contract Signing">Financing Contract Signing</option>
                     <option value="Appraisal & Trade-In">Appraisal & Trade-In</option>

@@ -254,11 +254,13 @@ export interface SaleRecord {
 
 export type AppointmentStatus = 'Pending' | 'Confirmed' | 'Completed' | 'Cancelled' | 'No-show';
 export type AppointmentType =
-  | 'Showroom Test Drive'
-  | 'VIP Home Test Drive'
+  | 'Showroom Visit & Consultation'
+  | 'Vehicle Viewing & Inspection'
   | 'Financing Contract Signing'
   | 'Vehicle Unit Handover'
-  | 'Appraisal & Trade-In';
+  | 'Appraisal & Trade-In'
+  | 'Showroom Test Drive'
+  | 'VIP Home Test Drive';
 
 export interface Appointment {
   id: string;

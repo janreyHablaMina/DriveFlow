@@ -106,7 +106,7 @@ export default function DealershipAdminDashboard() {
     },
     {
       id: 'notif-4',
-      title: 'Test Drive Scheduled Tomorrow',
+      title: 'Appointment Scheduled Tomorrow',
       description: 'Arch. Lorenzo Villavicencio unit handover at BGC Showroom.',
       time: '5h ago',
       type: 'info' as const,
@@ -438,7 +438,7 @@ export default function DealershipAdminDashboard() {
         break;
       case 'book-appointment':
         setActiveTab('appointments');
-        showToast('Switched to Appointments. Click "+ Book Test Drive" to schedule visit.');
+        showToast('Switched to Appointments. Click "+ Book Appointment" to schedule visit.');
         break;
       case 'add-lead':
         setActiveTab('leads');
@@ -460,7 +460,7 @@ export default function DealershipAdminDashboard() {
     financing: 'Financing Applications',
     documents: 'Document Vault',
     sales: 'Sales & Payments',
-    appointments: 'Appointments & Test Drives',
+    appointments: 'Appointments',
     leads: 'Leads & Inquiries',
     staff: 'Staff & Permissions',
     reports: 'Reports & Analytics',

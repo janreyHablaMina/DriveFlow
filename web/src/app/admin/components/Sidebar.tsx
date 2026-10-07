@@ -70,7 +70,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       id: 'appointments',
-      label: 'Appointments & Test Drives',
+      label: 'Appointments',
       icon: Calendar,
       badge: badgeCounts.appointments,
       badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-500/30',

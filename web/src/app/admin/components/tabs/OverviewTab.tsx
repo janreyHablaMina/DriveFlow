@@ -320,7 +320,7 @@ export const OverviewTab: React.FC<OverviewTabProps> = ({
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-bold text-white tracking-wide flex items-center gap-2">
               <Calendar className="w-4 h-4 text-red-500" />
-              Upcoming Test Drives & Unit Handovers
+              Upcoming Client Appointments & Handovers
             </h3>
             <button
               onClick={() => setActiveTab('appointments')}

@@ -180,7 +180,7 @@ export const TopNav: React.FC<TopNavProps> = ({
                 className="w-full text-left px-3.5 py-2 text-xs flex items-center gap-2.5 text-slate-200 hover:bg-slate-800/80 transition cursor-pointer"
               >
                 <Calendar className="w-4 h-4 text-purple-400" />
-                <span>Schedule Test Drive</span>
+                <span>Schedule Appointment</span>
               </button>
               <button
                 onClick={() => {

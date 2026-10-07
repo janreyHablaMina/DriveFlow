@@ -362,7 +362,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
             {activeDossierTab === 'appointments' && (
               <div className="space-y-3">
                 {appointments.filter((a) => a.customerName.includes(selectedCustomer.name)).length === 0 ? (
-                  <div className="text-center py-8 text-slate-500 font-mono">No scheduled test drives or handovers recorded.</div>
+                  <div className="text-center py-8 text-slate-500 font-mono">No scheduled appointments or handovers recorded.</div>
                 ) : (
                   appointments
                     .filter((a) => a.customerName.includes(selectedCustomer.name))
