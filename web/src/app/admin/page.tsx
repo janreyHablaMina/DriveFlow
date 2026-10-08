@@ -5,105 +5,55 @@ import Link from 'next/link';
 import { 
   LayoutDashboard, 
   Car, 
+  Users, 
   Calendar, 
   CreditCard, 
   Repeat, 
-  Settings, 
-  Plus, 
   Search, 
-  CheckCircle, 
-  Clock, 
-  AlertCircle, 
-  Eye, 
-  Edit3, 
-  Trash2, 
+  Plus, 
   ExternalLink, 
-  ChevronRight, 
   X, 
-  Menu,
+  Menu, 
+  Check, 
+  Receipt, 
+  Clock, 
+  Printer, 
+  TrendingUp, 
+  DollarSign, 
+  Trash2, 
+  Edit3,
+  ChevronRight,
   ShieldCheck,
-  TrendingUp,
-  DollarSign,
-  Users,
-  Check,
-  FileText,
-  Printer,
-  Receipt,
-  ArrowDownRight,
-  Filter,
-  Download,
   AlertTriangle,
-  BadgeCheck
+  FileText,
+  Phone,
+  Eye,
+  CheckCircle
 } from 'lucide-react';
 import { VEHICLES, Vehicle } from '@/data/vehicles';
 
-// Extended Vehicle Type with editable dealership status
+// Vehicle with admin tracking
 interface AdminVehicle extends Vehicle {
   status: 'in-stock' | 'reserved' | 'sold';
   stockNumber: string;
-  viewsCount: number;
 }
 
-interface TestDriveBooking {
-  id: string;
-  clientName: string;
-  clientPhone: string;
-  clientEmail: string;
-  vehicleId: string;
-  vehicleName: string;
-  scheduledDate: string;
-  scheduledTime: string;
-  showroomBranch: string;
-  advisor: string;
-  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
-  createdAt: string;
-}
-
-interface FinancingApplication {
-  id: string;
-  applicantName: string;
-  applicantPhone: string;
-  vehicleName: string;
-  vehiclePrice: string;
-  downPayment: string;
-  termMonths: number;
-  monthlyEstimate: string;
-  bankPartner: string;
-  status: 'under-review' | 'pre-approved' | 'approved' | 'declined';
-  appliedDate: string;
-}
-
-interface TradeInItem {
-  id: string;
-  clientName: string;
-  clientPhone: string;
-  clientCar: string;
-  year: number;
-  mileage: string;
-  desiredCar: string;
-  estimatedValue: string;
-  status: 'inspection-pending' | 'appraisal-sent' | 'deal-closed';
-  date: string;
-}
-
-// =========================================================================
-// CUSTOMER BILLING & PAYMENT LEDGER TYPES
-// =========================================================================
-export interface PaymentTransaction {
+// Payment transaction log
+interface PaymentTransaction {
   id: string;
   orNumber: string;
   date: string;
   time: string;
   amount: number;
-  paymentMethod: 'Bank Wire (BDO)' | 'Post-Dated Check (BPI)' | 'Online Transfer' | 'Showroom Cashier' | 'Direct Debit';
+  method: 'Bank Wire (BDO)' | 'Post-Dated Check (BPI)' | 'Online Transfer' | 'Showroom Cashier' | 'Direct Debit';
   type: 'Down Payment' | 'Monthly Amortization' | 'Principal Prepayment' | 'Lump Sum Settlement';
-  referenceNo: string;
-  status: 'Verified & Posted' | 'Pending Clearance';
+  refNumber: string;
   receivedBy: string;
   notes?: string;
 }
 
-export interface CustomerAccount {
+// Customer Account with full financing and balance details
+interface CustomerAccount {
   id: string;
   accountNumber: string;
   clientName: string;
@@ -112,188 +62,90 @@ export interface CustomerAccount {
   tinOrId: string;
   billingAddress: string;
   
-  // Vehicle & Purchase details
-  vehicleId: string;
+  // Vehicle details
   vehicleName: string;
   vinNumber: string;
   plateNumber: string;
   contractDate: string;
   dealershipBranch: string;
   
-  // Financial metrics
+  // Financial breakdown
   contractPrice: number;
   downPaymentPaid: number;
-  totalFinancedWithInterest: number;
+  totalFinanced: number;
   totalAmountPaid: number;
   remainingBalance: number;
   monthlyAmortization: number;
   termMonths: number;
   nextDueDate: string;
-  status: 'current' | 'grace-period' | 'overdue' | 'paid-in-full';
+  status: 'current' | 'overdue' | 'paid-in-full';
   
-  // Itemized transaction ledger
-  ledger: PaymentTransaction[];
+  // Complete payment ledger history
+  paymentHistory: PaymentTransaction[];
+}
+
+// Test Drive Booking
+interface TestDriveBooking {
+  id: string;
+  clientName: string;
+  phone: string;
+  vehicleName: string;
+  branch: string;
+  dateTime: string;
+  advisor: string;
+  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+}
+
+// Financing Lead
+interface FinancingLead {
+  id: string;
+  applicantName: string;
+  phone: string;
+  vehicleName: string;
+  vehiclePrice: number;
+  downPayment: number;
+  termMonths: number;
+  monthlyEstimate: number;
+  bankPartner: string;
+  status: 'pre-approved' | 'under-review' | 'approved';
+}
+
+// Trade-In Request
+interface TradeInLead {
+  id: string;
+  clientName: string;
+  phone: string;
+  clientCar: string;
+  year: number;
+  mileage: string;
+  targetCar: string;
+  estimatedValue: number;
+  status: 'appraisal-sent' | 'inspection-pending';
 }
 
 export default function AdminDashboardPage() {
-  // Navigation active tab
-  const [activeTab, setActiveTab] = useState<'overview' | 'inventory' | 'accounts' | 'bookings' | 'financing' | 'tradeins' | 'settings'>('overview');
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'overview' | 'accounts' | 'inventory' | 'bookings' | 'financing' | 'tradeins'>('overview');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Initial Vehicles mapped with Admin fields
+  // Initial Vehicles
   const [inventory, setInventory] = useState<AdminVehicle[]>(() => 
     VEHICLES.map((v, i) => ({
       ...v,
       status: i === 1 ? 'reserved' : i === 4 ? 'sold' : 'in-stock',
-      stockNumber: `DFM-${1000 + i}`,
-      viewsCount: 240 + (i * 35),
+      stockNumber: `DFM-${1001 + i}`,
     }))
   );
 
-  // Test Drive Bookings State
-  const [bookings, setBookings] = useState<TestDriveBooking[]>([
-    {
-      id: 'BK-901',
-      clientName: 'Atty. Rafael Mercado',
-      clientPhone: '+63 917 554 8921',
-      clientEmail: 'rmercado@lawfirm.ph',
-      vehicleId: 'porsche-gt4rs',
-      vehicleName: '2026 Porsche 718 Cayman GT4 RS',
-      scheduledDate: 'Oct 18, 2026',
-      scheduledTime: '10:30 AM',
-      showroomBranch: 'Circuit Makati Studio',
-      advisor: 'Carlos Mendoza',
-      status: 'pending',
-      createdAt: '2 hours ago',
-    },
-    {
-      id: 'BK-902',
-      clientName: 'Dr. Maria Santos-Cruz',
-      clientPhone: '+63 918 902 4411',
-      clientEmail: 'dr.cruz@medcenter.ph',
-      vehicleId: 'everest-2024',
-      vehicleName: '2024 Ford Everest Titanium+ 4x4',
-      scheduledDate: 'Oct 17, 2026',
-      scheduledTime: '2:00 PM',
-      showroomBranch: 'BGC Flagship Showroom',
-      advisor: 'Janrey Mina',
-      status: 'confirmed',
-      createdAt: '5 hours ago',
-    },
-    {
-      id: 'BK-903',
-      clientName: 'Eduardo Tan',
-      clientPhone: '+63 920 332 9900',
-      clientEmail: 'ed.tan@apexholdings.com',
-      vehicleId: 'lc300-2023',
-      vehicleName: '2023 Toyota Land Cruiser 300 ZX',
-      scheduledDate: 'Oct 19, 2026',
-      scheduledTime: '4:00 PM',
-      showroomBranch: 'BGC Flagship Showroom',
-      advisor: 'Carlos Mendoza',
-      status: 'pending',
-      createdAt: 'Yesterday',
-    },
-    {
-      id: 'BK-904',
-      clientName: 'Vicente Sy',
-      clientPhone: '+63 917 111 8888',
-      clientEmail: 'vsy@primex.com',
-      vehicleId: 'bmw-m3-2023',
-      vehicleName: '2023 BMW M3 Competition xDrive',
-      scheduledDate: 'Oct 16, 2026',
-      scheduledTime: '11:00 AM',
-      showroomBranch: 'Circuit Makati Studio',
-      advisor: 'Janrey Mina',
-      status: 'completed',
-      createdAt: '2 days ago',
-    },
-  ]);
-
-  // Financing Applications State
-  const [financingApps] = useState<FinancingApplication[]>([
-    {
-      id: 'FN-401',
-      applicantName: 'Enrique Lopez',
-      applicantPhone: '+63 917 882 1200',
-      vehicleName: '2024 Ford Everest Titanium+ 4x4',
-      vehiclePrice: '₱2,350,000',
-      downPayment: '₱470,000 (20%)',
-      termMonths: 48,
-      monthlyEstimate: '₱38,500',
-      bankPartner: 'BDO Private Bank',
-      status: 'pre-approved',
-      appliedDate: 'Oct 15, 2026',
-    },
-    {
-      id: 'FN-402',
-      applicantName: 'Samantha Nicole Ong',
-      applicantPhone: '+63 928 440 9182',
-      vehicleName: '2023 BMW M3 Competition xDrive',
-      vehiclePrice: '₱6,950,000',
-      downPayment: '₱2,085,000 (30%)',
-      termMonths: 36,
-      monthlyEstimate: '₱118,200',
-      bankPartner: 'BPI Family Savings',
-      status: 'under-review',
-      appliedDate: 'Oct 16, 2026',
-    },
-    {
-      id: 'FN-403',
-      applicantName: 'Capt. Gerald Bautista',
-      applicantPhone: '+63 905 667 2234',
-      vehicleName: '2023 Toyota Hilux GR Sport 4x4',
-      vehiclePrice: '₱1,980,000',
-      downPayment: '₱396,000 (20%)',
-      termMonths: 60,
-      monthlyEstimate: '₱31,200',
-      bankPartner: 'Security Bank Auto Loans',
-      status: 'approved',
-      appliedDate: 'Oct 14, 2026',
-    },
-  ]);
-
-  // Trade-In Leads State
-  const [tradeIns] = useState<TradeInItem[]>([
-    {
-      id: 'TI-201',
-      clientName: 'Alexander Yu',
-      clientPhone: '+63 917 992 0011',
-      clientCar: '2021 Toyota Fortuner LTD 4x4',
-      year: 2021,
-      mileage: '38,000 KM',
-      desiredCar: '2023 Toyota Land Cruiser 300 ZX',
-      estimatedValue: '₱1,750,000',
-      status: 'appraisal-sent',
-      date: 'Oct 15, 2026',
-    },
-    {
-      id: 'TI-202',
-      clientName: 'Kenneth Co',
-      clientPhone: '+63 918 333 4455',
-      clientCar: '2020 Ford Ranger Raptor 2.0 Bi-Turbo',
-      year: 2020,
-      mileage: '42,500 KM',
-      desiredCar: '2024 Ford Everest Titanium+ 4x4',
-      estimatedValue: '₱1,380,000',
-      status: 'inspection-pending',
-      date: 'Oct 16, 2026',
-    },
-  ]);
-
-  // =========================================================================
-  // CUSTOMER BILLING & PAYMENT LEDGER STATE
-  // =========================================================================
+  // Initial Customer Accounts with rich details & payment ledgers
   const [customerAccounts, setCustomerAccounts] = useState<CustomerAccount[]>([
     {
-      id: 'CUST-001',
+      id: 'cust-1',
       accountNumber: 'ACC-DFM-2026-081',
       clientName: 'Gov. Ferdinand Romualdez',
       phone: '+63 917 554 1234',
       email: 'f.romualdez@gov.ph',
       tinOrId: 'TIN: 241-890-123-000',
       billingAddress: 'Forbes Park, Makati City, Metro Manila',
-      vehicleId: 'everest-2024',
       vehicleName: '2024 Ford Everest Titanium+ 4x4',
       vinNumber: 'MNB24EVR8849012',
       plateNumber: 'NGB-8818',
@@ -301,129 +153,32 @@ export default function AdminDashboardPage() {
       dealershipBranch: 'BGC Flagship Showroom',
       contractPrice: 2350000,
       downPaymentPaid: 470000,
-      totalFinancedWithInterest: 2580000,
-      totalAmountPaid: 739500, // 470,000 DP + (38,500 * 7 mos)
-      remainingBalance: 1840500,
+      totalFinanced: 2580000,
+      totalAmountPaid: 739500, // 470,000 DP + 7 monthly payments of 38,500
+      remainingBalance: 1610500,
       monthlyAmortization: 38500,
       termMonths: 36,
       nextDueDate: 'Nov 15, 2026',
       status: 'current',
-      ledger: [
-        {
-          id: 'TXN-101',
-          orNumber: 'OR-2026-8801',
-          date: 'March 15, 2026',
-          time: '11:30 AM',
-          amount: 470000,
-          paymentMethod: 'Bank Wire (BDO)',
-          type: 'Down Payment',
-          referenceNo: 'WIRE-BDO-992100',
-          status: 'Verified & Posted',
-          receivedBy: 'Janrey Mina',
-          notes: '20% Down Payment settlement upon vehicle release',
-        },
-        {
-          id: 'TXN-102',
-          orNumber: 'OR-2026-8912',
-          date: 'April 15, 2026',
-          time: '09:15 AM',
-          amount: 38500,
-          paymentMethod: 'Post-Dated Check (BPI)',
-          type: 'Monthly Amortization',
-          referenceNo: 'CHK-BPI-004419',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 01/36',
-        },
-        {
-          id: 'TXN-103',
-          orNumber: 'OR-2026-9044',
-          date: 'May 15, 2026',
-          time: '10:00 AM',
-          amount: 38500,
-          paymentMethod: 'Post-Dated Check (BPI)',
-          type: 'Monthly Amortization',
-          referenceNo: 'CHK-BPI-004420',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 02/36',
-        },
-        {
-          id: 'TXN-104',
-          orNumber: 'OR-2026-9155',
-          date: 'June 15, 2026',
-          time: '02:45 PM',
-          amount: 38500,
-          paymentMethod: 'Online Transfer',
-          type: 'Monthly Amortization',
-          referenceNo: 'INSTA-8829104',
-          status: 'Verified & Posted',
-          receivedBy: 'Janrey Mina',
-          notes: 'Amortization 03/36',
-        },
-        {
-          id: 'TXN-105',
-          orNumber: 'OR-2026-9289',
-          date: 'July 15, 2026',
-          time: '11:20 AM',
-          amount: 38500,
-          paymentMethod: 'Post-Dated Check (BPI)',
-          type: 'Monthly Amortization',
-          referenceNo: 'CHK-BPI-004421',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 04/36',
-        },
-        {
-          id: 'TXN-106',
-          orNumber: 'OR-2026-9401',
-          date: 'August 15, 2026',
-          time: '04:10 PM',
-          amount: 38500,
-          paymentMethod: 'Post-Dated Check (BPI)',
-          type: 'Monthly Amortization',
-          referenceNo: 'CHK-BPI-004422',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 05/36',
-        },
-        {
-          id: 'TXN-107',
-          orNumber: 'OR-2026-9533',
-          date: 'September 15, 2026',
-          time: '01:30 PM',
-          amount: 38500,
-          paymentMethod: 'Post-Dated Check (BPI)',
-          type: 'Monthly Amortization',
-          referenceNo: 'CHK-BPI-004423',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 06/36',
-        },
-        {
-          id: 'TXN-108',
-          orNumber: 'OR-2026-9680',
-          date: 'October 15, 2026',
-          time: '10:15 AM',
-          amount: 38500,
-          paymentMethod: 'Post-Dated Check (BPI)',
-          type: 'Monthly Amortization',
-          referenceNo: 'CHK-BPI-004424',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 07/36',
-        },
+      paymentHistory: [
+        { id: 'tx-1', orNumber: 'OR-2026-9680', date: 'Oct 15, 2026', time: '10:15 AM', amount: 38500, method: 'Post-Dated Check (BPI)', type: 'Monthly Amortization', refNumber: 'CHK-BPI-004424', receivedBy: 'Marc Santos', notes: 'Amortization 07/36' },
+        { id: 'tx-2', orNumber: 'OR-2026-9533', date: 'Sep 15, 2026', time: '01:30 PM', amount: 38500, method: 'Post-Dated Check (BPI)', type: 'Monthly Amortization', refNumber: 'CHK-BPI-004423', receivedBy: 'Marc Santos', notes: 'Amortization 06/36' },
+        { id: 'tx-3', orNumber: 'OR-2026-9401', date: 'Aug 15, 2026', time: '04:10 PM', amount: 38500, method: 'Post-Dated Check (BPI)', type: 'Monthly Amortization', refNumber: 'CHK-BPI-004422', receivedBy: 'Marc Santos', notes: 'Amortization 05/36' },
+        { id: 'tx-4', orNumber: 'OR-2026-9289', date: 'Jul 15, 2026', time: '11:20 AM', amount: 38500, method: 'Post-Dated Check (BPI)', type: 'Monthly Amortization', refNumber: 'CHK-BPI-004421', receivedBy: 'Marc Santos', notes: 'Amortization 04/36' },
+        { id: 'tx-5', orNumber: 'OR-2026-9155', date: 'Jun 15, 2026', time: '02:45 PM', amount: 38500, method: 'Online Transfer', type: 'Monthly Amortization', refNumber: 'INSTA-8829104', receivedBy: 'Janrey Mina', notes: 'Amortization 03/36' },
+        { id: 'tx-6', orNumber: 'OR-2026-9044', date: 'May 15, 2026', time: '10:00 AM', amount: 38500, method: 'Post-Dated Check (BPI)', type: 'Monthly Amortization', refNumber: 'CHK-BPI-004420', receivedBy: 'Marc Santos', notes: 'Amortization 02/36' },
+        { id: 'tx-7', orNumber: 'OR-2026-8912', date: 'Apr 15, 2026', time: '09:15 AM', amount: 38500, method: 'Post-Dated Check (BPI)', type: 'Monthly Amortization', refNumber: 'CHK-BPI-004419', receivedBy: 'Marc Santos', notes: 'Amortization 01/36' },
+        { id: 'tx-8', orNumber: 'OR-2026-8801', date: 'Mar 15, 2026', time: '11:30 AM', amount: 470000, method: 'Bank Wire (BDO)', type: 'Down Payment', refNumber: 'WIRE-BDO-992100', receivedBy: 'Janrey Mina', notes: 'Initial 20% equity down payment' },
       ],
     },
     {
-      id: 'CUST-002',
+      id: 'cust-2',
       accountNumber: 'ACC-DFM-2026-094',
       clientName: 'Atty. Patricia Beatrice Lim',
       phone: '+63 917 888 7711',
       email: 'pblim@limpartners.ph',
       tinOrId: 'TIN: 312-990-445-000',
       billingAddress: 'Dasmariñas Village, Makati City, Metro Manila',
-      vehicleId: 'porsche-gt4rs',
       vehicleName: '2026 Porsche 718 Cayman GT4 RS',
       vinNumber: 'WP0AF2A82PS29910',
       plateNumber: 'PBL-718',
@@ -431,77 +186,29 @@ export default function AdminDashboardPage() {
       dealershipBranch: 'Circuit Makati Studio',
       contractPrice: 6400000,
       downPaymentPaid: 1920000,
-      totalFinancedWithInterest: 7100000,
-      totalAmountPaid: 2892000, // 1,920,000 DP + (108,000 * 9 mos)
-      remainingBalance: 4208000,
+      totalFinanced: 7100000,
+      totalAmountPaid: 2892000, // 1,920,000 DP + 9 monthly payments of 108,000
+      remainingBalance: 3508000,
       monthlyAmortization: 108000,
       termMonths: 48,
       nextDueDate: 'Nov 10, 2026',
       status: 'current',
-      ledger: [
-        {
-          id: 'TXN-201',
-          orNumber: 'OR-2026-7719',
-          date: 'January 10, 2026',
-          time: '03:15 PM',
-          amount: 1920000,
-          paymentMethod: 'Bank Wire (BDO)',
-          type: 'Down Payment',
-          referenceNo: 'WIRE-BDO-PRIVATE-01',
-          status: 'Verified & Posted',
-          receivedBy: 'Janrey Mina',
-          notes: '30% Equity Down Payment settlement',
-        },
-        {
-          id: 'TXN-202',
-          orNumber: 'OR-2026-7840',
-          date: 'February 10, 2026',
-          time: '11:00 AM',
-          amount: 108000,
-          paymentMethod: 'Bank Wire (BDO)',
-          type: 'Monthly Amortization',
-          referenceNo: 'WIRE-BDO-09921',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 01/48',
-        },
-        {
-          id: 'TXN-203',
-          orNumber: 'OR-2026-8102',
-          date: 'March 10, 2026',
-          time: '10:30 AM',
-          amount: 108000,
-          paymentMethod: 'Bank Wire (BDO)',
-          type: 'Monthly Amortization',
-          referenceNo: 'WIRE-BDO-10294',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 02/48',
-        },
-        {
-          id: 'TXN-204',
-          orNumber: 'OR-2026-9705',
-          date: 'October 10, 2026',
-          time: '02:00 PM',
-          amount: 108000,
-          paymentMethod: 'Bank Wire (BDO)',
-          type: 'Monthly Amortization',
-          referenceNo: 'WIRE-BDO-49102',
-          status: 'Verified & Posted',
-          receivedBy: 'Janrey Mina',
-          notes: 'Amortization 09/48',
-        },
+      paymentHistory: [
+        { id: 'tx-9', orNumber: 'OR-2026-9705', date: 'Oct 10, 2026', time: '02:00 PM', amount: 108000, method: 'Bank Wire (BDO)', type: 'Monthly Amortization', refNumber: 'WIRE-BDO-49102', receivedBy: 'Janrey Mina', notes: 'Amortization 09/48' },
+        { id: 'tx-10', orNumber: 'OR-2026-9410', date: 'Sep 10, 2026', time: '11:15 AM', amount: 108000, method: 'Bank Wire (BDO)', type: 'Monthly Amortization', refNumber: 'WIRE-BDO-48091', receivedBy: 'Janrey Mina', notes: 'Amortization 08/48' },
+        { id: 'tx-11', orNumber: 'OR-2026-8102', date: 'Mar 10, 2026', time: '10:30 AM', amount: 108000, method: 'Bank Wire (BDO)', type: 'Monthly Amortization', refNumber: 'WIRE-BDO-10294', receivedBy: 'Marc Santos', notes: 'Amortization 02/48' },
+        { id: 'tx-12', orNumber: 'OR-2026-7840', date: 'Feb 10, 2026', time: '11:00 AM', amount: 108000, method: 'Bank Wire (BDO)', type: 'Monthly Amortization', refNumber: 'WIRE-BDO-09921', receivedBy: 'Marc Santos', notes: 'Amortization 01/48' },
+        { id: 'tx-13', orNumber: 'OR-2026-7719', date: 'Jan 10, 2026', time: '03:15 PM', amount: 1920000, method: 'Bank Wire (BDO)', type: 'Down Payment', refNumber: 'WIRE-BDO-PVT-01', receivedBy: 'Janrey Mina', notes: '30% Equity Down Payment' },
       ],
     },
     {
-      id: 'CUST-003',
+      id: 'cust-3',
       accountNumber: 'ACC-DFM-2026-105',
       clientName: 'Engr. Mateo De Leon',
       phone: '+63 920 445 6789',
       email: 'mdeleon@apexconstruction.ph',
       tinOrId: 'TIN: 189-402-331-000',
       billingAddress: 'Ayala Alabang Village, Muntinlupa City',
-      vehicleId: 'hilux-grs',
       vehicleName: '2023 Toyota Hilux GR Sport 4x4',
       vinNumber: 'MR0FZ22G8001923',
       plateNumber: 'NEB-4921',
@@ -509,90 +216,29 @@ export default function AdminDashboardPage() {
       dealershipBranch: 'BGC Flagship Showroom',
       contractPrice: 1980000,
       downPaymentPaid: 396000,
-      totalFinancedWithInterest: 2268000,
-      totalAmountPaid: 520800, // 396k DP + 4 payments of 31,200
-      remainingBalance: 1747200,
+      totalFinanced: 2268000,
+      totalAmountPaid: 520800, // 396k DP + 4 monthly payments of 31,200
+      remainingBalance: 1459200,
       monthlyAmortization: 31200,
       termMonths: 60,
-      nextDueDate: 'Oct 04, 2026', // Overdue by 12 days
+      nextDueDate: 'Oct 04, 2026', // Overdue
       status: 'overdue',
-      ledger: [
-        {
-          id: 'TXN-301',
-          orNumber: 'OR-2026-9050',
-          date: 'May 04, 2026',
-          time: '01:00 PM',
-          amount: 396000,
-          paymentMethod: 'Bank Wire (BDO)',
-          type: 'Down Payment',
-          referenceNo: 'WIRE-BDO-44102',
-          status: 'Verified & Posted',
-          receivedBy: 'Janrey Mina',
-          notes: '20% Down Payment',
-        },
-        {
-          id: 'TXN-302',
-          orNumber: 'OR-2026-9210',
-          date: 'June 04, 2026',
-          time: '04:20 PM',
-          amount: 31200,
-          paymentMethod: 'Online Transfer',
-          type: 'Monthly Amortization',
-          referenceNo: 'INSTA-990142',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 01/60',
-        },
-        {
-          id: 'TXN-303',
-          orNumber: 'OR-2026-9388',
-          date: 'July 04, 2026',
-          time: '03:10 PM',
-          amount: 31200,
-          paymentMethod: 'Online Transfer',
-          type: 'Monthly Amortization',
-          referenceNo: 'INSTA-992150',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 02/60',
-        },
-        {
-          id: 'TXN-304',
-          orNumber: 'OR-2026-9502',
-          date: 'August 04, 2026',
-          time: '02:00 PM',
-          amount: 31200,
-          paymentMethod: 'Online Transfer',
-          type: 'Monthly Amortization',
-          referenceNo: 'INSTA-994192',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 03/60',
-        },
-        {
-          id: 'TXN-305',
-          orNumber: 'OR-2026-9611',
-          date: 'September 04, 2026',
-          time: '09:40 AM',
-          amount: 31200,
-          paymentMethod: 'Online Transfer',
-          type: 'Monthly Amortization',
-          referenceNo: 'INSTA-998821',
-          status: 'Verified & Posted',
-          receivedBy: 'Marc Santos',
-          notes: 'Amortization 04/60',
-        },
+      paymentHistory: [
+        { id: 'tx-14', orNumber: 'OR-2026-9611', date: 'Sep 04, 2026', time: '09:40 AM', amount: 31200, method: 'Online Transfer', type: 'Monthly Amortization', refNumber: 'INSTA-998821', receivedBy: 'Marc Santos', notes: 'Amortization 04/60' },
+        { id: 'tx-15', orNumber: 'OR-2026-9502', date: 'Aug 04, 2026', time: '02:00 PM', amount: 31200, method: 'Online Transfer', type: 'Monthly Amortization', refNumber: 'INSTA-994192', receivedBy: 'Marc Santos', notes: 'Amortization 03/60' },
+        { id: 'tx-16', orNumber: 'OR-2026-9388', date: 'Jul 04, 2026', time: '03:10 PM', amount: 31200, method: 'Online Transfer', type: 'Monthly Amortization', refNumber: 'INSTA-992150', receivedBy: 'Marc Santos', notes: 'Amortization 02/60' },
+        { id: 'tx-17', orNumber: 'OR-2026-9210', date: 'Jun 04, 2026', time: '04:20 PM', amount: 31200, method: 'Online Transfer', type: 'Monthly Amortization', refNumber: 'INSTA-990142', receivedBy: 'Marc Santos', notes: 'Amortization 01/60' },
+        { id: 'tx-18', orNumber: 'OR-2026-9050', date: 'May 04, 2026', time: '01:00 PM', amount: 396000, method: 'Bank Wire (BDO)', type: 'Down Payment', refNumber: 'WIRE-BDO-44102', receivedBy: 'Janrey Mina', notes: '20% Equity Down Payment' },
       ],
     },
     {
-      id: 'CUST-004',
+      id: 'cust-4',
       accountNumber: 'ACC-DFM-2026-118',
       clientName: 'Dr. Roberto Tan',
       phone: '+63 918 222 3344',
       email: 'dr.tan@asianhospital.com',
       tinOrId: 'TIN: 104-551-892-000',
       billingAddress: 'Corinthian Gardens, Quezon City',
-      vehicleId: 'bmw-m3-2023',
       vehicleName: '2023 BMW M3 Competition xDrive',
       vinNumber: 'WBS33AY08PFP4921',
       plateNumber: 'DOC-888',
@@ -600,394 +246,175 @@ export default function AdminDashboardPage() {
       dealershipBranch: 'Circuit Makati Studio',
       contractPrice: 6950000,
       downPaymentPaid: 3500000,
-      totalFinancedWithInterest: 6950000,
-      totalAmountPaid: 6950000, // Fully Paid!
+      totalFinanced: 6950000,
+      totalAmountPaid: 6950000,
       remainingBalance: 0,
       monthlyAmortization: 0,
       termMonths: 24,
-      nextDueDate: 'Settled & Closed',
+      nextDueDate: 'Fully Paid & Cleared',
       status: 'paid-in-full',
-      ledger: [
-        {
-          id: 'TXN-401',
-          orNumber: 'OR-2026-7901',
-          date: 'February 18, 2026',
-          time: '10:00 AM',
-          amount: 3500000,
-          paymentMethod: 'Bank Wire (BDO)',
-          type: 'Down Payment',
-          referenceNo: 'WIRE-BDO-66210',
-          status: 'Verified & Posted',
-          receivedBy: 'Janrey Mina',
-          notes: 'Initial 50% Equity Wire',
-        },
-        {
-          id: 'TXN-402',
-          orNumber: 'OR-2026-9480',
-          date: 'August 28, 2026',
-          time: '02:30 PM',
-          amount: 3450000,
-          paymentMethod: 'Bank Wire (BDO)',
-          type: 'Lump Sum Settlement',
-          referenceNo: 'WIRE-BDO-99412',
-          status: 'Verified & Posted',
-          receivedBy: 'Janrey Mina',
-          notes: 'Full Early Payoff & LTO Original OR/CR Title Released to Owner',
-        },
+      paymentHistory: [
+        { id: 'tx-19', orNumber: 'OR-2026-9480', date: 'Aug 28, 2026', time: '02:30 PM', amount: 3450000, method: 'Bank Wire (BDO)', type: 'Lump Sum Settlement', refNumber: 'WIRE-BDO-99412', receivedBy: 'Janrey Mina', notes: 'Full Early Payoff & LTO Original OR/CR Title Released' },
+        { id: 'tx-20', orNumber: 'OR-2026-7901', date: 'Feb 18, 2026', time: '10:00 AM', amount: 3500000, method: 'Bank Wire (BDO)', type: 'Down Payment', refNumber: 'WIRE-BDO-66210', receivedBy: 'Janrey Mina', notes: 'Initial 50% Equity Wire' },
       ],
     },
   ]);
 
-  // Selected customer for Ledger & Dossier Modal
-  const [selectedCustomer, setSelectedCustomer] = useState<CustomerAccount | null>(null);
+  // Initial Test Drive Bookings
+  const [bookings, setBookings] = useState<TestDriveBooking[]>([
+    { id: 'BK-901', clientName: 'Atty. Rafael Mercado', phone: '+63 917 554 8921', vehicleName: '2026 Porsche 718 Cayman GT4 RS', branch: 'Circuit Makati Studio', dateTime: 'Oct 18, 2026 • 10:30 AM', advisor: 'Carlos Mendoza', status: 'pending' },
+    { id: 'BK-902', clientName: 'Dr. Maria Santos-Cruz', phone: '+63 918 902 4411', vehicleName: '2024 Ford Everest Titanium+ 4x4', branch: 'BGC Flagship Showroom', dateTime: 'Oct 17, 2026 • 2:00 PM', advisor: 'Janrey Mina', status: 'confirmed' },
+    { id: 'BK-903', clientName: 'Eduardo Tan', phone: '+63 920 332 9900', vehicleName: '2023 Toyota Land Cruiser 300 ZX', branch: 'BGC Flagship Showroom', dateTime: 'Oct 19, 2026 • 4:00 PM', advisor: 'Carlos Mendoza', status: 'pending' },
+    { id: 'BK-904', clientName: 'Vicente Sy', phone: '+63 917 111 8888', vehicleName: '2023 BMW M3 Competition xDrive', branch: 'Circuit Makati Studio', dateTime: 'Oct 16, 2026 • 11:00 AM', advisor: 'Janrey Mina', status: 'completed' },
+  ]);
 
-  // Record Payment Modal State
-  const [isPostPaymentModalOpen, setIsPostPaymentModalOpen] = useState(false);
-  const [isSOAModalOpen, setIsSOAModalOpen] = useState(false);
+  // Initial Financing Applications
+  const [financingLeads] = useState<FinancingLead[]>([
+    { id: 'FN-401', applicantName: 'Enrique Lopez', phone: '+63 917 882 1200', vehicleName: '2024 Ford Everest Titanium+ 4x4', vehiclePrice: 2350000, downPayment: 470000, termMonths: 48, monthlyEstimate: 38500, bankPartner: 'BDO Private Bank', status: 'pre-approved' },
+    { id: 'FN-402', applicantName: 'Samantha Nicole Ong', phone: '+63 928 440 9182', vehicleName: '2023 BMW M3 Competition xDrive', vehiclePrice: 6950000, downPayment: 2085000, termMonths: 36, monthlyEstimate: 118200, bankPartner: 'BPI Family Savings', status: 'under-review' },
+    { id: 'FN-403', applicantName: 'Capt. Gerald Bautista', phone: '+63 905 667 2234', vehicleName: '2023 Toyota Hilux GR Sport 4x4', vehiclePrice: 1980000, downPayment: 396000, termMonths: 60, monthlyEstimate: 31200, bankPartner: 'Security Bank Auto Loans', status: 'approved' },
+  ]);
+
+  // Initial Trade-In Requests
+  const [tradeInLeads] = useState<TradeInLead[]>([
+    { id: 'TI-201', clientName: 'Alexander Yu', phone: '+63 917 992 0011', clientCar: '2021 Toyota Fortuner LTD 4x4', year: 2021, mileage: '38,000 KM', targetCar: '2023 Toyota Land Cruiser 300 ZX', estimatedValue: 1750000, status: 'appraisal-sent' },
+    { id: 'TI-202', clientName: 'Kenneth Co', phone: '+63 918 333 4455', clientCar: '2020 Ford Ranger Raptor 2.0 Bi-Turbo', year: 2020, mileage: '42,500 KM', targetCar: '2024 Ford Everest Titanium+ 4x4', estimatedValue: 1380000, status: 'inspection-pending' },
+  ]);
+
+  // Active customer for ledger & payment modal
+  const [selectedCustomer, setSelectedCustomer] = useState<CustomerAccount | null>(null);
+  const [isRecordPaymentOpen, setIsRecordPaymentOpen] = useState(false);
+  const [isSOAOpen, setIsSOAOpen] = useState(false);
 
   // New Payment Form
-  const [paymentForm, setPaymentForm] = useState({
-    amount: 38500,
-    paymentMethod: 'Bank Wire (BDO)' as PaymentTransaction['paymentMethod'],
-    type: 'Monthly Amortization' as PaymentTransaction['type'],
-    orNumber: `OR-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-    referenceNo: `REF-${Math.floor(100000 + Math.random() * 900000)}`,
-    notes: 'Regular monthly amortization payment',
-  });
+  const [newAmount, setNewAmount] = useState<number>(38500);
+  const [newMethod, setNewMethod] = useState<PaymentTransaction['method']>('Bank Wire (BDO)');
+  const [newType, setNewType] = useState<PaymentTransaction['type']>('Monthly Amortization');
+  const [newRef, setNewRef] = useState('');
 
-  // Filter & Search states for inventory
-  const [inventorySearch, setInventorySearch] = useState('');
-  const [selectedStatusFilter, setSelectedStatusFilter] = useState<'all' | 'in-stock' | 'reserved' | 'sold'>('all');
-  const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<'all' | 'suv' | 'sedan' | 'truck' | 'premium'>('all');
+  // Global search & filter
+  const [searchQuery, setSearchQuery] = useState('');
+  const [toast, setToast] = useState<string | null>(null);
 
-  // Customer Ledger Search & Filter
-  const [accountSearch, setAccountSearch] = useState('');
-  const [accountStatusFilter, setAccountStatusFilter] = useState<'all' | 'current' | 'overdue' | 'paid-in-full'>('all');
-
-  // Modal states for vehicle CRUD
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingVehicle, setEditingVehicle] = useState<AdminVehicle | null>(null);
-
-  // New Vehicle Form State
-  const [formData, setFormData] = useState({
-    name: '',
-    make: 'Ford',
-    model: '',
-    trim: '',
-    year: 2024,
-    category: 'suv' as 'suv' | 'sedan' | 'truck' | 'premium',
-    categoryLabel: 'Family SUV',
-    price: '',
-    priceNumeric: 0,
-    monthly: '₱35,000/mo',
-    mileage: '10,000 KM',
-    fuel: 'Diesel',
-    transmission: 'Automatic',
-    engine: '2.0L Turbo',
-    drivetrain: '4x4',
-    power: '210 PS',
-    torque: '500 Nm',
-    seating: '7 Passengers',
-    color: 'Obsidian Black',
-    plateEnding: '8',
-    orCrStatus: 'Clean LTO Documents, 1st Owner',
-    imageUrl: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80',
-    description: 'Dealer certified pre-owned showroom unit in immaculate condition.',
-  });
-
-  // Notifications Toast state
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const showToast = (msg: string) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 4000);
+    setToast(msg);
+    setTimeout(() => setToast(null), 3000);
   };
 
-  // Filtered Customer Accounts
-  const filteredAccounts = useMemo(() => {
-    return customerAccounts.filter((acc) => {
-      const matchesSearch = 
-        acc.clientName.toLowerCase().includes(accountSearch.toLowerCase()) ||
-        acc.accountNumber.toLowerCase().includes(accountSearch.toLowerCase()) ||
-        acc.vehicleName.toLowerCase().includes(accountSearch.toLowerCase()) ||
-        acc.plateNumber.toLowerCase().includes(accountSearch.toLowerCase()) ||
-        acc.phone.includes(accountSearch);
+  // KPI calculations
+  const totalFleetValue = useMemo(() => inventory.reduce((acc, c) => acc + (c.priceNumeric || 0), 0), [inventory]);
+  const totalContractPortfolio = useMemo(() => customerAccounts.reduce((acc, c) => acc + c.contractPrice, 0), [customerAccounts]);
+  const totalCollected = useMemo(() => customerAccounts.reduce((acc, c) => acc + c.totalAmountPaid, 0), [customerAccounts]);
+  const totalOutstanding = useMemo(() => customerAccounts.reduce((acc, c) => acc + c.remainingBalance, 0), [customerAccounts]);
 
-      const matchesStatus = accountStatusFilter === 'all' || acc.status === accountStatusFilter;
-      return matchesSearch && matchesStatus;
-    });
-  }, [customerAccounts, accountSearch, accountStatusFilter]);
+  // Filtered customer accounts
+  const filteredCustomers = useMemo(() => {
+    return customerAccounts.filter(c => 
+      c.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.vehicleName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.plateNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.accountNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.phone.includes(searchQuery)
+    );
+  }, [customerAccounts, searchQuery]);
 
-  // Aggregate Customer Ledger KPI metrics
-  const ledgerMetrics = useMemo(() => {
-    const totalContractValue = customerAccounts.reduce((acc, c) => acc + c.contractPrice, 0);
-    const totalCollected = customerAccounts.reduce((acc, c) => acc + c.totalAmountPaid, 0);
-    const totalOutstanding = customerAccounts.reduce((acc, c) => acc + c.remainingBalance, 0);
-    const overdueCount = customerAccounts.filter(c => c.status === 'overdue').length;
-    return {
-      totalContractValue,
-      totalCollected,
-      totalOutstanding,
-      overdueCount,
-    };
-  }, [customerAccounts]);
+  // Filtered inventory
+  const filteredInventory = useMemo(() => {
+    return inventory.filter(c => 
+      c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.stockNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      c.make.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [inventory, searchQuery]);
 
   // Handle Recording New Payment
-  const handlePostPaymentSubmit = (e: React.FormEvent) => {
+  const handleRecordPayment = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedCustomer) return;
+    if (!selectedCustomer || newAmount <= 0) return;
 
-    const amountNum = Number(paymentForm.amount);
-    if (!amountNum || amountNum <= 0) {
-      alert('Please enter a valid payment amount.');
-      return;
-    }
-
-    const todayStr = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date());
-    const timeStr = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date());
-
-    const newTransaction: PaymentTransaction = {
-      id: `TXN-${Date.now().toString().slice(-4)}`,
-      orNumber: paymentForm.orNumber,
-      date: todayStr,
-      time: timeStr,
-      amount: amountNum,
-      paymentMethod: paymentForm.paymentMethod,
-      type: paymentForm.type,
-      referenceNo: paymentForm.referenceNo,
-      status: 'Verified & Posted',
+    const newTxn: PaymentTransaction = {
+      id: `tx-${Date.now()}`,
+      orNumber: `OR-2026-${Math.floor(8000 + Math.random() * 1999)}`,
+      date: new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date()),
+      time: new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date()),
+      amount: newAmount,
+      method: newMethod,
+      type: newType,
+      refNumber: newRef || `REF-${Math.floor(100000 + Math.random() * 899999)}`,
       receivedBy: 'Janrey Mina',
-      notes: paymentForm.notes,
+      notes: 'Customer payment recorded via admin console',
     };
 
-    setCustomerAccounts(prev => prev.map(cust => {
-      if (cust.id === selectedCustomer.id) {
-        const newPaid = cust.totalAmountPaid + amountNum;
-        const newBalance = Math.max(0, cust.remainingBalance - amountNum);
-        const updatedStatus = newBalance === 0 ? 'paid-in-full' : 'current';
-        
+    setCustomerAccounts(prev => prev.map(c => {
+      if (c.id === selectedCustomer.id) {
+        const updatedPaid = c.totalAmountPaid + newAmount;
+        const updatedBalance = Math.max(0, c.remainingBalance - newAmount);
+        const updatedStatus = updatedBalance === 0 ? 'paid-in-full' : 'current';
+
         const updatedCustomer = {
-          ...cust,
-          totalAmountPaid: newPaid,
-          remainingBalance: newBalance,
+          ...c,
+          totalAmountPaid: updatedPaid,
+          remainingBalance: updatedBalance,
           status: updatedStatus as CustomerAccount['status'],
-          ledger: [newTransaction, ...cust.ledger],
+          paymentHistory: [newTxn, ...c.paymentHistory],
         };
 
-        // Also update the selected customer modal state
         setSelectedCustomer(updatedCustomer);
         return updatedCustomer;
       }
-      return cust;
+      return c;
     }));
 
-    setIsPostPaymentModalOpen(false);
-    showToast(`Payment of ₱${amountNum.toLocaleString()} posted under ${paymentForm.orNumber}! Balance updated.`);
-  };
-
-  // Filtered Inventory
-  const filteredInventory = useMemo(() => {
-    return inventory.filter((car) => {
-      const matchesSearch = 
-        car.name.toLowerCase().includes(inventorySearch.toLowerCase()) ||
-        car.stockNumber.toLowerCase().includes(inventorySearch.toLowerCase()) ||
-        car.make.toLowerCase().includes(inventorySearch.toLowerCase());
-      
-      const matchesStatus = selectedStatusFilter === 'all' || car.status === selectedStatusFilter;
-      const matchesCategory = selectedCategoryFilter === 'all' || car.category === selectedCategoryFilter;
-
-      return matchesSearch && matchesStatus && matchesCategory;
-    });
-  }, [inventory, inventorySearch, selectedStatusFilter, selectedCategoryFilter]);
-
-  // Aggregate KPI metrics
-  const totalFleetValue = useMemo(() => {
-    return inventory.reduce((acc, car) => acc + (car.priceNumeric || 0), 0);
-  }, [inventory]);
-
-  const inStockCount = useMemo(() => inventory.filter(v => v.status === 'in-stock').length, [inventory]);
-  const reservedCount = useMemo(() => inventory.filter(v => v.status === 'reserved').length, [inventory]);
-  const soldCount = useMemo(() => inventory.filter(v => v.status === 'sold').length, [inventory]);
-
-  // Handlers for Vehicle CRUD
-  const handleStatusChange = (carId: string, newStatus: 'in-stock' | 'reserved' | 'sold') => {
-    setInventory(prev => prev.map(car => car.id === carId ? { ...car, status: newStatus } : car));
-    showToast(`Vehicle status updated to ${newStatus.toUpperCase()}`);
-  };
-
-  const handleDeleteVehicle = (carId: string) => {
-    if (confirm('Are you sure you want to delete this vehicle from inventory?')) {
-      setInventory(prev => prev.filter(c => c.id !== carId));
-      showToast('Vehicle removed from dealership catalog.');
-    }
-  };
-
-  const handleOpenEdit = (car: AdminVehicle) => {
-    setEditingVehicle(car);
-    setFormData({
-      name: car.name,
-      make: car.make,
-      model: car.model,
-      trim: car.trim,
-      year: car.year,
-      category: car.category,
-      categoryLabel: car.categoryLabel,
-      price: car.price,
-      priceNumeric: car.priceNumeric,
-      monthly: car.monthly,
-      mileage: car.mileage,
-      fuel: car.fuel,
-      transmission: car.transmission,
-      engine: car.engine,
-      drivetrain: car.drivetrain,
-      power: car.power,
-      torque: car.torque,
-      seating: car.seating,
-      color: car.color,
-      plateEnding: car.plateEnding,
-      orCrStatus: car.orCrStatus,
-      imageUrl: car.images[0] || '',
-      description: car.description,
-    });
-    setIsEditModalOpen(true);
-  };
-
-  const handleSaveEdit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingVehicle) return;
-
-    setInventory(prev => prev.map(car => {
-      if (car.id === editingVehicle.id) {
-        return {
-          ...car,
-          ...formData,
-          images: [formData.imageUrl, ...car.images.slice(1)],
-        };
-      }
-      return car;
-    }));
-
-    setIsEditModalOpen(false);
-    setEditingVehicle(null);
-    showToast('Vehicle specification saved successfully.');
-  };
-
-  const handleCreateVehicle = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newCar: AdminVehicle = {
-      id: `car-${Date.now()}`,
-      name: formData.name,
-      make: formData.make,
-      model: formData.model,
-      trim: formData.trim,
-      year: formData.year,
-      category: formData.category,
-      categoryLabel: formData.categoryLabel,
-      price: formData.price,
-      priceNumeric: formData.priceNumeric || parseInt(formData.price.replace(/\D/g, ''), 10) || 0,
-      monthly: formData.monthly,
-      badge: 'New Arrival',
-      mileage: formData.mileage,
-      fuel: formData.fuel,
-      transmission: formData.transmission,
-      engine: formData.engine,
-      drivetrain: formData.drivetrain,
-      power: formData.power,
-      torque: formData.torque,
-      seating: formData.seating,
-      color: formData.color,
-      plateEnding: formData.plateEnding,
-      orCrStatus: formData.orCrStatus,
-      images: [formData.imageUrl],
-      description: formData.description,
-      features: ['200-Point Inspected', 'Dealer Warranty', 'Full Casa Records'],
-      inspectionHighlights: [
-        { name: 'Engine Compression', score: '99%' },
-        { name: 'Transmission Fluid Quality', score: '100%' },
-      ],
-      status: 'in-stock',
-      stockNumber: `DFM-${1000 + inventory.length + 1}`,
-      viewsCount: 1,
-    };
-
-    setInventory([newCar, ...inventory]);
-    setIsAddModalOpen(false);
-    showToast(`${formData.name} published to inventory catalog!`);
-  };
-
-  // Handlers for Booking Status
-  const handleBookingStatus = (id: string, newStatus: 'confirmed' | 'completed' | 'cancelled') => {
-    setBookings(prev => prev.map(b => b.id === id ? { ...b, status: newStatus } : b));
-    showToast(`Test drive booking ${id} marked as ${newStatus.toUpperCase()}`);
+    setIsRecordPaymentOpen(false);
+    showToast(`Payment of ₱${newAmount.toLocaleString()} posted! Balance updated.`);
   };
 
   return (
-    <div className="min-h-screen bg-[#08080c] text-slate-100 flex font-sans selection:bg-red-600 selection:text-white">
+    <div className="min-h-screen bg-[#08080d] text-slate-200 flex font-sans">
       
-      {/* Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#14141e] border border-red-500/80 text-white px-5 py-3 rounded shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-3 duration-300">
-          <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-          <span className="text-xs font-semibold">{toastMessage}</span>
+      {/* Toast Alert */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-[#14141e] border border-emerald-500/50 text-white px-4 py-2.5 rounded-lg shadow-2xl text-xs font-medium flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-2">
+          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+          <span>{toast}</span>
         </div>
       )}
 
       {/* ========================================================================= */}
       {/* SIDEBAR NAVIGATION */}
       {/* ========================================================================= */}
-      
-      {/* Mobile Drawer Overlay */}
-      {mobileSidebarOpen && (
-        <div 
-          onClick={() => setMobileSidebarOpen(false)} 
-          className="fixed inset-0 bg-black/80 z-40 lg:hidden backdrop-blur-sm"
-        />
+      {sidebarOpen && (
+        <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-black/70 backdrop-blur-xs z-40 lg:hidden" />
       )}
 
       <aside className={`
-        fixed lg:sticky top-0 left-0 h-screen w-64 bg-[#0a0a0f] border-r border-white/10 z-50 
-        flex flex-col justify-between transition-transform duration-300 ease-in-out shrink-0
-        ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        fixed lg:sticky top-0 left-0 h-screen w-64 bg-[#0c0c14] border-r border-white/5 z-50 
+        flex flex-col justify-between p-4 transition-transform duration-200 ease-out shrink-0
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        {/* Brand Header */}
-        <div>
-          <div className="h-16 border-b border-white/10 px-6 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 group">
-              <span className="bg-red-600 px-2 py-0.5 text-white font-extrabold text-sm tracking-tight rounded-sm">
+        <div className="space-y-6">
+          
+          {/* Logo & Close */}
+          <div className="flex items-center justify-between px-2 pt-1">
+            <Link href="/" className="flex items-center gap-2">
+              <span className="bg-red-600 px-2 py-0.5 text-white font-extrabold text-xs tracking-tight rounded">
                 DRIVEFLOW
               </span>
               <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase">
-                ADMIN // OPS
+                ADMIN CONSOLE
               </span>
             </Link>
-
-            <button 
-              onClick={() => setMobileSidebarOpen(false)}
-              className="lg:hidden text-slate-400 hover:text-white"
-            >
-              <X className="w-5 h-5" />
+            <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-slate-400 hover:text-white p-1">
+              <X className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Quick System Telemetry Pill */}
-          <div className="px-5 py-3 border-b border-white/5 bg-[#0e0e16]/60">
-            <div className="flex items-center justify-between text-[11px] font-mono">
-              <span className="text-slate-400 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                Showroom Cloud
-              </span>
-              <span className="text-slate-200 font-bold">{inStockCount} Units Live</span>
-            </div>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="p-3 space-y-1">
+          {/* Clean Navigation Links with All Details */}
+          <nav className="space-y-1 text-xs font-medium">
             <button
-              onClick={() => { setActiveTab('overview'); setMobileSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-semibold transition text-left cursor-pointer ${
-                activeTab === 'overview'
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              onClick={() => { setActiveTab('overview'); setSidebarOpen(false); }}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition cursor-pointer ${
+                activeTab === 'overview' ? 'bg-red-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
               <LayoutDashboard className="w-4 h-4 shrink-0" />
@@ -995,123 +422,98 @@ export default function AdminDashboardPage() {
             </button>
 
             <button
-              onClick={() => { setActiveTab('inventory'); setMobileSidebarOpen(false); }}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-semibold transition text-left cursor-pointer ${
-                activeTab === 'inventory'
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              onClick={() => { setActiveTab('accounts'); setSidebarOpen(false); }}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md transition cursor-pointer ${
+                activeTab === 'accounts' ? 'bg-red-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
               <div className="flex items-center gap-3">
-                <Car className="w-4 h-4 shrink-0" />
-                <span>Vehicle Inventory</span>
+                <Users className="w-4 h-4 shrink-0 text-emerald-400" />
+                <span>Customer Balances & Ledger</span>
               </div>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                activeTab === 'inventory' ? 'bg-black/40 text-white' : 'bg-white/10 text-slate-300'
+                activeTab === 'accounts' ? 'bg-black/30 text-white' : 'bg-emerald-500/15 text-emerald-400'
               }`}>
-                {inventory.length}
-              </span>
-            </button>
-
-            {/* NEW: Customer Accounts & Payment Ledger */}
-            <button
-              onClick={() => { setActiveTab('accounts'); setMobileSidebarOpen(false); }}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-semibold transition text-left cursor-pointer ${
-                activeTab === 'accounts'
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <Users className="w-4 h-4 shrink-0" />
-                <span>Customer Ledger & Balance</span>
-              </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                 {customerAccounts.length}
               </span>
             </button>
 
             <button
-              onClick={() => { setActiveTab('bookings'); setMobileSidebarOpen(false); }}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-semibold transition text-left cursor-pointer ${
-                activeTab === 'bookings'
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              onClick={() => { setActiveTab('inventory'); setSidebarOpen(false); }}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md transition cursor-pointer ${
+                activeTab === 'inventory' ? 'bg-red-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Car className="w-4 h-4 shrink-0" />
+                <span>Vehicle Fleet</span>
+              </div>
+              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                activeTab === 'inventory' ? 'bg-black/30 text-white' : 'bg-white/10 text-slate-400'
+              }`}>
+                {inventory.length}
+              </span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab('bookings'); setSidebarOpen(false); }}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md transition cursor-pointer ${
+                activeTab === 'bookings' ? 'bg-red-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
               <div className="flex items-center gap-3">
                 <Calendar className="w-4 h-4 shrink-0" />
                 <span>Test Drive Bookings</span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400">
                 {bookings.filter(b => b.status === 'pending').length} new
               </span>
             </button>
 
             <button
-              onClick={() => { setActiveTab('financing'); setMobileSidebarOpen(false); }}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-semibold transition text-left cursor-pointer ${
-                activeTab === 'financing'
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              onClick={() => { setActiveTab('financing'); setSidebarOpen(false); }}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md transition cursor-pointer ${
+                activeTab === 'financing' ? 'bg-red-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
               <div className="flex items-center gap-3">
                 <CreditCard className="w-4 h-4 shrink-0" />
                 <span>Bank Financing</span>
               </div>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                activeTab === 'financing' ? 'bg-black/40 text-white' : 'bg-white/10 text-slate-300'
-              }`}>
-                {financingApps.length}
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-400">
+                {financingLeads.length}
               </span>
             </button>
 
             <button
-              onClick={() => { setActiveTab('tradeins'); setMobileSidebarOpen(false); }}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-semibold transition text-left cursor-pointer ${
-                activeTab === 'tradeins'
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+              onClick={() => { setActiveTab('tradeins'); setSidebarOpen(false); }}
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-md transition cursor-pointer ${
+                activeTab === 'tradeins' ? 'bg-red-600 text-white font-semibold shadow-sm' : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
               <div className="flex items-center gap-3">
                 <Repeat className="w-4 h-4 shrink-0" />
-                <span>Trade-In Appraisals</span>
+                <span>Trade-In Valuations</span>
               </div>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
-                activeTab === 'tradeins' ? 'bg-black/40 text-white' : 'bg-white/10 text-slate-300'
-              }`}>
-                {tradeIns.length}
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-400">
+                {tradeInLeads.length}
               </span>
-            </button>
-
-            <button
-              onClick={() => { setActiveTab('settings'); setMobileSidebarOpen(false); }}
-              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-semibold transition text-left cursor-pointer ${
-                activeTab === 'settings'
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <Settings className="w-4 h-4 shrink-0" />
-              <span>Dealership Settings</span>
             </button>
           </nav>
         </div>
 
         {/* Sidebar Footer */}
-        <div className="p-4 border-t border-white/10 space-y-3">
+        <div className="pt-4 border-t border-white/5 space-y-3">
           <Link
             href="/"
-            className="w-full flex items-center justify-between px-3 py-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-medium rounded transition border border-white/5"
+            className="flex items-center justify-between px-3 py-2 text-xs text-slate-400 hover:text-white transition rounded-md hover:bg-white/5"
           >
             <span>View Live Showroom</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </Link>
 
-          <div className="flex items-center gap-3 px-2 pt-1">
-            <div className="w-8 h-8 rounded-full bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 font-bold text-xs">
+          <div className="flex items-center gap-2.5 px-3 py-1">
+            <div className="w-8 h-8 rounded-full bg-red-600/20 text-red-500 flex items-center justify-center font-bold text-xs border border-red-500/30">
               JM
             </div>
             <div className="overflow-hidden">
@@ -1127,72 +529,52 @@ export default function AdminDashboardPage() {
       {/* ========================================================================= */}
       <div className="flex-1 flex flex-col min-w-0">
         
-        {/* Top Header Bar */}
-        <header className="h-16 border-b border-white/10 bg-[#0a0a0f]/90 backdrop-blur-md px-4 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-30">
+        {/* Top Header */}
+        <header className="h-16 border-b border-white/5 px-4 sm:px-6 lg:px-8 flex items-center justify-between bg-[#0a0a10]/80 backdrop-blur sticky top-0 z-30">
           <div className="flex items-center gap-3">
-            <button 
-              onClick={() => setMobileSidebarOpen(true)}
-              className="lg:hidden text-slate-400 hover:text-white p-1"
-            >
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden text-slate-400 hover:text-white p-1">
               <Menu className="w-5 h-5" />
             </button>
-
             <div>
-              <div className="flex items-center gap-1.5 text-[11px] font-mono text-slate-400">
-                <span>DriveFlow Motors</span>
-                <span>/</span>
-                <span className="text-white capitalize">{activeTab === 'accounts' ? 'Customer Accounts & Ledger' : activeTab}</span>
-              </div>
-              <h1 className="text-base sm:text-lg font-bold text-white capitalize leading-tight">
-                {activeTab === 'overview' && 'Dealership Command Center'}
-                {activeTab === 'inventory' && 'Vehicle Fleet Management'}
-                {activeTab === 'accounts' && 'Client Balances & Payment History Ledgers'}
+              <div className="text-[10px] font-mono text-slate-500 uppercase">DriveFlow Motors Manila</div>
+              <h1 className="text-sm sm:text-base font-bold text-white capitalize leading-tight">
+                {activeTab === 'overview' && 'Dealership Overview & Operations'}
+                {activeTab === 'accounts' && 'Customer Balances & Payment Ledgers'}
+                {activeTab === 'inventory' && 'Vehicle Fleet Inventory'}
                 {activeTab === 'bookings' && 'VIP Test Drive Appointments'}
-                {activeTab === 'financing' && 'Auto Loan & Financing Applications'}
+                {activeTab === 'financing' && 'Bank Financing & Underwriting'}
                 {activeTab === 'tradeins' && 'Trade-In Vehicle Valuations'}
-                {activeTab === 'settings' && 'Dealership Operating Settings'}
               </h1>
             </div>
           </div>
 
-          {/* Quick Header Actions */}
-          <div className="flex items-center gap-3">
-            {activeTab === 'accounts' ? (
-              <button
-                onClick={() => {
-                  if (customerAccounts.length > 0) {
-                    setSelectedCustomer(customerAccounts[0]);
-                    setIsPostPaymentModalOpen(true);
-                  }
-                }}
-                className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 sm:px-4 py-2 rounded transition flex items-center gap-1.5 shadow-md cursor-pointer"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Record Payment</span>
-              </button>
-            ) : (
-              <button
-                onClick={() => setIsAddModalOpen(true)}
-                className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-3 sm:px-4 py-2 rounded transition flex items-center gap-1.5 shadow-md cursor-pointer"
-              >
-                <Plus className="w-4 h-4" />
-                <span className="hidden sm:inline">Add Vehicle</span>
-              </button>
-            )}
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={() => {
+                if (customerAccounts.length > 0) {
+                  setSelectedCustomer(customerAccounts[0]);
+                  setIsRecordPaymentOpen(true);
+                }
+              }}
+              className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 sm:px-4 py-2 rounded-md transition flex items-center gap-1.5 shadow-sm cursor-pointer"
+            >
+              <Receipt className="w-3.5 h-3.5" />
+              <span>Record Payment</span>
+            </button>
 
             <Link
               href="/vehicles"
               target="_blank"
-              className="bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs px-3 py-2 rounded border border-white/10 transition flex items-center gap-1.5"
+              className="bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs px-3 py-2 rounded-md border border-white/5 transition flex items-center gap-1.5"
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Public Catalog</span>
+              <span className="hidden sm:inline">Public Catalog</span>
             </Link>
           </div>
         </header>
 
-        {/* Dynamic Body Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl w-full mx-auto">
+        {/* Content Body */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 max-w-6xl w-full mx-auto">
           
           {/* ================================================================= */}
           {/* TAB 1: OVERVIEW */}
@@ -1200,362 +582,135 @@ export default function AdminDashboardPage() {
           {activeTab === 'overview' && (
             <div className="space-y-6">
               
-              {/* 4 Top KPI Cards */}
+              {/* 4 Clean Summary Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 
-                {/* Metric 1 */}
-                <div className="bg-[#101017] border border-white/10 p-5 rounded shadow-lg relative overflow-hidden group hover:border-red-600/50 transition">
-                  <div className="flex items-center justify-between text-slate-400 mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider">TOTAL FLEET VALUE</span>
-                    <DollarSign className="w-4 h-4 text-red-500" />
-                  </div>
-                  <div className="text-2xl font-black text-white tracking-tight">
+                <div className="bg-[#0f0f18] border border-white/5 rounded-xl p-4.5">
+                  <span className="text-[11px] font-mono text-slate-400 block uppercase">Total Showroom Fleet</span>
+                  <div className="text-2xl font-black text-white tracking-tight mt-1">
                     ₱{(totalFleetValue / 1000000).toFixed(1)}M
                   </div>
-                  <div className="mt-2 text-[11px] font-mono text-emerald-400 flex items-center gap-1">
-                    <TrendingUp className="w-3.5 h-3.5" />
-                    <span>+8.4% inventory turnover</span>
-                  </div>
+                  <span className="text-[11px] font-mono text-slate-500 block mt-1">
+                    {inventory.length} total vehicles listed
+                  </span>
                 </div>
 
-                {/* Metric 2 */}
-                <div className="bg-[#101017] border border-white/10 p-5 rounded shadow-lg relative overflow-hidden group hover:border-red-600/50 transition">
-                  <div className="flex items-center justify-between text-slate-400 mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider">CUSTOMER RECEIVABLES</span>
-                    <Users className="w-4 h-4 text-emerald-400" />
+                <div className="bg-[#0f0f18] border border-white/5 rounded-xl p-4.5">
+                  <span className="text-[11px] font-mono text-slate-400 block uppercase">Total Amount Collected</span>
+                  <div className="text-2xl font-black text-emerald-400 tracking-tight mt-1">
+                    ₱{(totalCollected / 1000000).toFixed(2)}M
                   </div>
-                  <div className="text-2xl font-black text-white tracking-tight">
-                    ₱{(ledgerMetrics.totalOutstanding / 1000000).toFixed(2)}M
-                  </div>
-                  <div className="mt-2 text-[11px] font-mono text-slate-300 flex items-center gap-1">
-                    <span className="text-emerald-400 font-bold">₱{(ledgerMetrics.totalCollected / 1000000).toFixed(1)}M</span>
-                    <span>collected to date</span>
-                  </div>
+                  <span className="text-[11px] font-mono text-emerald-400/80 block mt-1">
+                    {((totalCollected / totalContractPortfolio) * 100).toFixed(1)}% portfolio recovered
+                  </span>
                 </div>
 
-                {/* Metric 3 */}
-                <div className="bg-[#101017] border border-white/10 p-5 rounded shadow-lg relative overflow-hidden group hover:border-red-600/50 transition">
-                  <div className="flex items-center justify-between text-slate-400 mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider">TEST DRIVES SCHEDULED</span>
-                    <Calendar className="w-4 h-4 text-red-500" />
+                <div className="bg-[#0f0f18] border border-white/5 rounded-xl p-4.5">
+                  <span className="text-[11px] font-mono text-slate-400 block uppercase">Outstanding Balances Due</span>
+                  <div className="text-2xl font-black text-amber-400 tracking-tight mt-1">
+                    ₱{(totalOutstanding / 1000000).toFixed(2)}M
                   </div>
-                  <div className="text-2xl font-black text-white tracking-tight">
-                    {bookings.length} <span className="text-sm font-normal text-slate-400">SESSIONS</span>
-                  </div>
-                  <div className="mt-2 text-[11px] font-mono text-red-400 flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5" />
-                    <span>{bookings.filter(b => b.status === 'pending').length} pending confirmation</span>
-                  </div>
+                  <span className="text-[11px] font-mono text-slate-500 block mt-1">
+                    {customerAccounts.filter(c => c.status !== 'paid-in-full').length} active amortizing clients
+                  </span>
                 </div>
 
-                {/* Metric 4 */}
-                <div className="bg-[#101017] border border-white/10 p-5 rounded shadow-lg relative overflow-hidden group hover:border-red-600/50 transition">
-                  <div className="flex items-center justify-between text-slate-400 mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider">LOAN APPROVAL RATE</span>
-                    <CreditCard className="w-4 h-4 text-red-500" />
+                <div className="bg-[#0f0f18] border border-white/5 rounded-xl p-4.5">
+                  <span className="text-[11px] font-mono text-slate-400 block uppercase">Scheduled Test Drives</span>
+                  <div className="text-2xl font-black text-white tracking-tight mt-1">
+                    {bookings.length} Sessions
                   </div>
-                  <div className="text-2xl font-black text-white tracking-tight">
-                    94.2%
-                  </div>
-                  <div className="mt-2 text-[11px] font-mono text-emerald-400 flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Avg 15-min underwriting</span>
-                  </div>
+                  <span className="text-[11px] font-mono text-amber-400 block mt-1">
+                    {bookings.filter(b => b.status === 'pending').length} pending confirmation
+                  </span>
                 </div>
 
               </div>
 
-              {/* Middle Section: Customer Balances Snapshot & Test Drive Queue */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                
-                {/* Left 7 cols: Customer Ledger Quick View */}
-                <div className="lg:col-span-7 bg-[#101017] border border-white/10 rounded p-5 shadow-lg">
-                  <div className="flex items-center justify-between mb-4">
+              {/* Customer Accounts Quick Section */}
+              <div className="bg-[#0f0f18] border border-white/5 rounded-xl p-5 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
                     <h2 className="text-sm font-bold text-white flex items-center gap-2">
-                      <Receipt className="w-4 h-4 text-emerald-400" />
-                      <span>Live Customer Accounts & Balances</span>
+                      <Users className="w-4 h-4 text-emerald-400" />
+                      <span>Customer Balances Snapshot</span>
                     </h2>
-                    <button 
-                      onClick={() => setActiveTab('accounts')}
-                      className="text-xs text-red-400 hover:text-red-300 transition font-mono flex items-center gap-1 cursor-pointer"
-                    >
-                      <span>Full Ledger ({customerAccounts.length})</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
+                    <p className="text-xs text-slate-400 mt-0.5">Summary of client balances, paid amounts, and next payment schedules.</p>
                   </div>
+                  <button
+                    onClick={() => setActiveTab('accounts')}
+                    className="text-xs text-red-400 hover:text-red-300 transition flex items-center gap-1 font-mono cursor-pointer"
+                  >
+                    <span>Full Ledger ({customerAccounts.length})</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
 
-                  <div className="space-y-3">
-                    {customerAccounts.map((acc) => (
-                      <div 
-                        key={acc.id}
-                        onClick={() => { setSelectedCustomer(acc); setActiveTab('accounts'); }}
-                        className="bg-[#14141e] border border-white/5 p-3.5 rounded flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-red-500/40 transition cursor-pointer"
-                      >
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs font-bold text-white">{acc.clientName}</span>
-                            <span className={`text-[10px] font-mono px-2 py-0.5 rounded uppercase font-bold ${
-                              acc.status === 'current' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
-                              acc.status === 'overdue' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
-                              'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                            }`}>
-                              {acc.status}
-                            </span>
-                          </div>
-                          <p className="text-xs text-slate-300 font-semibold mt-1">
-                            {acc.vehicleName}
-                          </p>
-                          <div className="text-[11px] font-mono text-slate-400 mt-1 flex items-center gap-2">
-                            <span>Contract: ₱{acc.contractPrice.toLocaleString()}</span>
-                            <span>•</span>
-                            <span className="text-emerald-400">Paid: ₱{acc.totalAmountPaid.toLocaleString()}</span>
-                          </div>
+                <div className="divide-y divide-white/5">
+                  {customerAccounts.map((acc) => (
+                    <div 
+                      key={acc.id}
+                      onClick={() => { setSelectedCustomer(acc); setActiveTab('accounts'); }}
+                      className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-white/[0.02] -mx-2 px-2 rounded-lg transition cursor-pointer"
+                    >
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-bold text-white">{acc.clientName}</span>
+                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase ${
+                            acc.status === 'current' ? 'bg-emerald-500/15 text-emerald-400' :
+                            acc.status === 'overdue' ? 'bg-red-500/15 text-red-400 animate-pulse' :
+                            'bg-blue-500/15 text-blue-400'
+                          }`}>
+                            {acc.status}
+                          </span>
                         </div>
+                        <p className="text-xs text-slate-400 mt-0.5 font-mono">
+                          {acc.vehicleName} • Plate {acc.plateNumber}
+                        </p>
+                      </div>
 
+                      <div className="flex items-center gap-5 text-xs font-mono">
                         <div className="text-left sm:text-right">
-                          <span className="text-[10px] font-mono text-slate-400 uppercase block">Remaining Balance</span>
-                          <span className="text-sm font-bold text-white font-mono">
-                            ₱{acc.remainingBalance.toLocaleString()}
-                          </span>
-                          <span className="text-[10px] font-mono text-slate-400 block mt-0.5">
-                            Due: {acc.nextDueDate}
-                          </span>
+                          <span className="text-slate-500 block text-[10px]">TOTAL PAID</span>
+                          <span className="font-bold text-emerald-400">₱{acc.totalAmountPaid.toLocaleString()}</span>
+                        </div>
+                        <div className="text-left sm:text-right">
+                          <span className="text-slate-500 block text-[10px]">REMAINING BALANCE</span>
+                          <span className="font-bold text-white">₱{acc.remainingBalance.toLocaleString()}</span>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Right 5 cols: Upcoming VIP Bookings */}
-                <div className="lg:col-span-5 bg-[#101017] border border-white/10 rounded p-5 shadow-lg space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-bold text-white flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-red-500" />
-                      <span>Test Drive Queue</span>
-                    </h2>
-                    <button 
-                      onClick={() => setActiveTab('bookings')}
-                      className="text-xs text-red-400 hover:text-red-300 font-mono flex items-center gap-1 cursor-pointer"
-                    >
-                      <span>View All</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-
-                  <div className="space-y-2.5">
-                    {bookings.slice(0, 3).map((booking) => (
-                      <div key={booking.id} className="p-3 bg-[#14141e] rounded border border-white/5 space-y-1">
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="font-bold text-white">{booking.clientName}</span>
-                          <span className="text-[10px] font-mono text-amber-400">{booking.status}</span>
-                        </div>
-                        <p className="text-[11px] text-slate-300 truncate">{booking.vehicleName}</p>
-                        <div className="text-[10px] font-mono text-slate-500">
-                          {booking.scheduledDate} @ {booking.scheduledTime}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Broadcast Bulletin */}
-                  <div className="bg-gradient-to-r from-red-950/40 via-red-900/20 to-transparent border border-red-600/30 rounded p-3.5">
-                    <span className="text-[10px] font-mono text-red-400 font-bold uppercase tracking-wider block mb-1">
-                      // BILLING BULLETIN
-                    </span>
-                    <p className="text-[11px] text-slate-300 leading-relaxed">
-                      Auto-generated monthly Statement of Accounts (SOA) will dispatch on the 25th. Verify all check clearings prior to month-end close.
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-          )}
-
-          {/* ================================================================= */}
-          {/* TAB 2: INVENTORY MANAGEMENT */}
-          {/* ================================================================= */}
-          {activeTab === 'inventory' && (
-            <div className="space-y-5">
-              
-              {/* Controls & Filter Bar */}
-              <div className="bg-[#101017] border border-white/10 rounded p-4 shadow-lg space-y-3">
-                <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
-                  
-                  {/* Search Bar */}
-                  <div className="relative flex-1">
-                    <Search className="w-4 h-4 text-red-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    <input
-                      type="text"
-                      value={inventorySearch}
-                      onChange={(e) => setInventorySearch(e.target.value)}
-                      placeholder="Search by stock number, car name, make, model..."
-                      className="w-full bg-[#161622] border border-white/10 text-xs text-white pl-10 pr-4 py-2.5 rounded outline-none focus:border-red-500 transition"
-                    />
-                  </div>
-
-                  {/* Filter Dropdowns */}
-                  <div className="flex flex-wrap items-center gap-2">
-                    <select
-                      value={selectedStatusFilter}
-                      onChange={(e: any) => setSelectedStatusFilter(e.target.value)}
-                      className="bg-[#161622] border border-white/10 text-xs text-white px-3 py-2.5 rounded outline-none cursor-pointer"
-                    >
-                      <option value="all">All Statuses</option>
-                      <option value="in-stock">In Stock ({inStockCount})</option>
-                      <option value="reserved">Reserved ({reservedCount})</option>
-                      <option value="sold">Sold ({soldCount})</option>
-                    </select>
-
-                    <select
-                      value={selectedCategoryFilter}
-                      onChange={(e: any) => setSelectedCategoryFilter(e.target.value)}
-                      className="bg-[#161622] border border-white/10 text-xs text-white px-3 py-2.5 rounded outline-none cursor-pointer"
-                    >
-                      <option value="all">All Categories</option>
-                      <option value="suv">Family SUVs</option>
-                      <option value="sedan">Daily Commuters</option>
-                      <option value="truck">Work & Utility</option>
-                      <option value="premium">Flagship & Premium</option>
-                    </select>
-
-                    <button
-                      onClick={() => setIsAddModalOpen(true)}
-                      className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-4 py-2.5 rounded transition flex items-center gap-1.5 shadow-md cursor-pointer ml-auto"
-                    >
-                      <Plus className="w-4 h-4" />
-                      <span>New Vehicle</span>
-                    </button>
-                  </div>
-
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Inventory Table */}
-              <div className="bg-[#101017] border border-white/10 rounded overflow-hidden shadow-lg">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-[#14141e] text-[11px] font-mono text-slate-400 uppercase border-b border-white/10">
-                      <tr>
-                        <th className="px-4 py-3.5">Vehicle Details</th>
-                        <th className="px-4 py-3.5">Category</th>
-                        <th className="px-4 py-3.5">Specs & Plate</th>
-                        <th className="px-4 py-3.5">Cash Price</th>
-                        <th className="px-4 py-3.5">Status</th>
-                        <th className="px-4 py-3.5 text-right">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/5 font-sans">
-                      {filteredInventory.length === 0 ? (
-                        <tr>
-                          <td colSpan={6} className="px-4 py-12 text-center text-slate-400 font-mono text-xs">
-                            No vehicles matching your filter criteria.
-                          </td>
-                        </tr>
-                      ) : (
-                        filteredInventory.map((car) => (
-                          <tr key={car.id} className="hover:bg-white/[0.02] transition">
-                            
-                            {/* Vehicle Details */}
-                            <td className="px-4 py-3.5">
-                              <div className="flex items-center gap-3">
-                                <img
-                                  src={car.images[0]}
-                                  alt={car.name}
-                                  className="w-14 h-10 object-cover rounded bg-slate-900 border border-white/10 shrink-0"
-                                />
-                                <div>
-                                  <span className="text-[10px] font-mono text-slate-500 uppercase block">
-                                    {car.stockNumber}
-                                  </span>
-                                  <span className="font-bold text-white block hover:text-red-400 transition cursor-pointer">
-                                    {car.name}
-                                  </span>
-                                  <span className="text-[11px] text-slate-400 font-mono">
-                                    {car.year} • {car.color}
-                                  </span>
-                                </div>
-                              </div>
-                            </td>
-
-                            {/* Category */}
-                            <td className="px-4 py-3.5">
-                              <span className="inline-block px-2.5 py-1 rounded text-[10px] font-mono uppercase bg-white/5 border border-white/10 text-slate-300">
-                                {car.categoryLabel}
-                              </span>
-                            </td>
-
-                            {/* Specs */}
-                            <td className="px-4 py-3.5 font-mono text-[11px] text-slate-300">
-                              <div>{car.engine}</div>
-                              <div className="text-slate-500">{car.mileage} • Plate {car.plateEnding.split(' ')[0]}</div>
-                            </td>
-
-                            {/* Price */}
-                            <td className="px-4 py-3.5">
-                              <div className="font-bold text-white text-sm">{car.price}</div>
-                              <div className="text-[10px] font-mono text-red-400">{car.monthly}</div>
-                            </td>
-
-                            {/* Status Selector */}
-                            <td className="px-4 py-3.5">
-                              <select
-                                value={car.status}
-                                onChange={(e: any) => handleStatusChange(car.id, e.target.value)}
-                                className={`text-[10px] font-mono uppercase px-2.5 py-1 rounded font-bold outline-none cursor-pointer border ${
-                                  car.status === 'in-stock' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' :
-                                  car.status === 'reserved' ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' :
-                                  'bg-red-500/20 text-red-400 border-red-500/30'
-                                }`}
-                              >
-                                <option value="in-stock" className="bg-[#161622] text-white">In Stock</option>
-                                <option value="reserved" className="bg-[#161622] text-white">Reserved</option>
-                                <option value="sold" className="bg-[#161622] text-white">Sold</option>
-                              </select>
-                            </td>
-
-                            {/* Actions */}
-                            <td className="px-4 py-3.5 text-right">
-                              <div className="inline-flex items-center gap-1.5">
-                                <Link
-                                  href={`/vehicles/${car.id}`}
-                                  target="_blank"
-                                  className="w-7 h-7 rounded bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white flex items-center justify-center transition border border-white/5"
-                                  title="View Public Page"
-                                >
-                                  <Eye className="w-3.5 h-3.5" />
-                                </Link>
-
-                                <button
-                                  onClick={() => handleOpenEdit(car)}
-                                  className="w-7 h-7 rounded bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white flex items-center justify-center transition border border-white/5 cursor-pointer"
-                                  title="Edit Vehicle"
-                                >
-                                  <Edit3 className="w-3.5 h-3.5" />
-                                </button>
-
-                                <button
-                                  onClick={() => handleDeleteVehicle(car.id)}
-                                  className="w-7 h-7 rounded bg-red-600/10 hover:bg-red-600 text-red-400 hover:text-white flex items-center justify-center transition border border-red-500/20 cursor-pointer"
-                                  title="Delete Vehicle"
-                                >
-                                  <Trash2 className="w-3.5 h-3.5" />
-                                </button>
-                              </div>
-                            </td>
-
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
+              {/* Showroom Appointments Quick Section */}
+              <div className="bg-[#0f0f18] border border-white/5 rounded-xl p-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-sm font-bold text-white flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-red-500" />
+                    <span>Upcoming Showroom Test Drives</span>
+                  </h2>
+                  <button
+                    onClick={() => setActiveTab('bookings')}
+                    className="text-xs text-red-400 hover:text-red-300 transition font-mono cursor-pointer"
+                  >
+                    View All ({bookings.length})
+                  </button>
                 </div>
 
-                {/* Table Footer */}
-                <div className="p-3.5 bg-[#14141e] border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span>Showing {filteredInventory.length} of {inventory.length} total fleet units</span>
-                  <span>DriveFlow Dealership Management System v2.6</span>
+                <div className="divide-y divide-white/5">
+                  {bookings.slice(0, 3).map((b) => (
+                    <div key={b.id} className="py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div>
+                        <span className="text-xs font-bold text-white block">{b.clientName} ({b.phone})</span>
+                        <span className="text-xs text-slate-400">{b.vehicleName}</span>
+                      </div>
+                      <div className="text-xs font-mono text-slate-400">
+                        {b.dateTime} • {b.branch}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
@@ -1563,231 +718,129 @@ export default function AdminDashboardPage() {
           )}
 
           {/* ================================================================= */}
-          {/* TAB 3: CUSTOMER ACCOUNTS & PAYMENT LEDGER */}
+          {/* TAB 2: CUSTOMER BALANCES & PAYMENT LEDGER */}
           {/* ================================================================= */}
           {activeTab === 'accounts' && (
-            <div className="space-y-6">
+            <div className="space-y-5">
               
-              {/* 4 Financial KPI Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                
-                <div className="bg-[#101017] border border-white/10 p-5 rounded shadow-lg">
-                  <div className="flex items-center justify-between text-slate-400 mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider">TOTAL CONTRACT PORTFOLIO</span>
-                    <FileText className="w-4 h-4 text-red-500" />
-                  </div>
-                  <div className="text-2xl font-black text-white tracking-tight">
-                    ₱{(ledgerMetrics.totalContractValue / 1000000).toFixed(2)}M
-                  </div>
-                  <div className="mt-2 text-[11px] font-mono text-slate-400">
-                    Across {customerAccounts.length} financed client contracts
-                  </div>
+              {/* Search & Actions Bar */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="relative flex-1 max-w-md">
+                  <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search by customer name, vehicle, plate, or account #..."
+                    className="w-full bg-[#0f0f18] border border-white/10 text-xs text-white pl-9 pr-4 py-2.5 rounded-lg outline-none focus:border-red-500"
+                  />
                 </div>
 
-                <div className="bg-[#101017] border border-white/10 p-5 rounded shadow-lg">
-                  <div className="flex items-center justify-between text-slate-400 mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider">COLLECTED TO DATE</span>
-                    <CheckCircle className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <div className="text-2xl font-black text-emerald-400 tracking-tight">
-                    ₱{(ledgerMetrics.totalCollected / 1000000).toFixed(2)}M
-                  </div>
-                  <div className="mt-2 text-[11px] font-mono text-emerald-400/90 flex items-center gap-1">
-                    <TrendingUp className="w-3.5 h-3.5" />
-                    <span>{((ledgerMetrics.totalCollected / ledgerMetrics.totalContractValue) * 100).toFixed(1)}% recovery rate</span>
-                  </div>
-                </div>
-
-                <div className="bg-[#101017] border border-white/10 p-5 rounded shadow-lg">
-                  <div className="flex items-center justify-between text-slate-400 mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider">OUTSTANDING BALANCE</span>
-                    <DollarSign className="w-4 h-4 text-amber-400" />
-                  </div>
-                  <div className="text-2xl font-black text-amber-400 tracking-tight">
-                    ₱{(ledgerMetrics.totalOutstanding / 1000000).toFixed(2)}M
-                  </div>
-                  <div className="mt-2 text-[11px] font-mono text-slate-400">
-                    Remaining amortizations to collect
-                  </div>
-                </div>
-
-                <div className="bg-[#101017] border border-white/10 p-5 rounded shadow-lg">
-                  <div className="flex items-center justify-between text-slate-400 mb-2">
-                    <span className="text-[10px] font-mono uppercase tracking-wider">PORTFOLIO HEALTH</span>
-                    <ShieldCheck className="w-4 h-4 text-blue-400" />
-                  </div>
-                  <div className="text-2xl font-black text-white tracking-tight">
-                    {ledgerMetrics.overdueCount > 0 ? (
-                      <span className="text-red-400">{ledgerMetrics.overdueCount} Past Due</span>
-                    ) : (
-                      <span className="text-emerald-400">100% Up to Date</span>
-                    )}
-                  </div>
-                  <div className="mt-2 text-[11px] font-mono text-slate-400">
-                    12-day grace period applied
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Accounts Table Controls */}
-              <div className="bg-[#101017] border border-white/10 rounded p-4 shadow-lg space-y-3">
-                <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
-                  
-                  {/* Search input */}
-                  <div className="relative flex-1">
-                    <Search className="w-4 h-4 text-red-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    <input
-                      type="text"
-                      value={accountSearch}
-                      onChange={(e) => setAccountSearch(e.target.value)}
-                      placeholder="Search customer by name, vehicle, phone, account #, or plate..."
-                      className="w-full bg-[#161622] border border-white/10 text-xs text-white pl-10 pr-4 py-2.5 rounded outline-none focus:border-red-500 transition"
-                    />
-                  </div>
-
-                  {/* Status Filter */}
-                  <div className="flex items-center gap-2">
-                    <select
-                      value={accountStatusFilter}
-                      onChange={(e: any) => setAccountStatusFilter(e.target.value)}
-                      className="bg-[#161622] border border-white/10 text-xs text-white px-3 py-2.5 rounded outline-none cursor-pointer"
-                    >
-                      <option value="all">All Account Statuses</option>
-                      <option value="current">Current / Up to Date</option>
-                      <option value="overdue">Overdue / Action Required</option>
-                      <option value="paid-in-full">Paid in Full / Closed</option>
-                    </select>
-
-                    <button
-                      onClick={() => {
-                        if (customerAccounts.length > 0) {
-                          setSelectedCustomer(customerAccounts[0]);
-                          setIsPostPaymentModalOpen(true);
-                        }
-                      }}
-                      className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2.5 rounded transition flex items-center gap-1.5 shadow-md cursor-pointer whitespace-nowrap"
-                    >
-                      <Receipt className="w-4 h-4" />
-                      <span>Post Payment</span>
-                    </button>
-                  </div>
-
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      if (customerAccounts.length > 0) {
+                        setSelectedCustomer(customerAccounts[0]);
+                        setIsRecordPaymentOpen(true);
+                      }
+                    }}
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2.5 rounded-md transition flex items-center gap-1.5 shadow-sm cursor-pointer whitespace-nowrap"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Post Payment</span>
+                  </button>
                 </div>
               </div>
 
-              {/* Customer Accounts Ledger Table */}
-              <div className="bg-[#101017] border border-white/10 rounded overflow-hidden shadow-lg">
+              {/* Complete Customer Accounts Table */}
+              <div className="bg-[#0f0f18] border border-white/5 rounded-xl overflow-hidden shadow-lg">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-[#14141e] text-[11px] font-mono text-slate-400 uppercase border-b border-white/10">
+                    <thead className="bg-[#141420] text-[10px] font-mono text-slate-400 uppercase border-b border-white/5">
                       <tr>
-                        <th className="px-4 py-3.5">Customer & Account No.</th>
+                        <th className="px-4 py-3.5">Customer & Account</th>
                         <th className="px-4 py-3.5">Assigned Vehicle</th>
-                        <th className="px-4 py-3.5">Contract Value</th>
-                        <th className="px-4 py-3.5">Total Paid (To Date)</th>
-                        <th className="px-4 py-3.5">Remaining Balance</th>
-                        <th className="px-4 py-3.5">Next Due Date</th>
+                        <th className="px-4 py-3.5 font-mono">Contract Value</th>
+                        <th className="px-4 py-3.5 font-mono">Paid to Date</th>
+                        <th className="px-4 py-3.5 font-mono">Remaining Balance</th>
+                        <th className="px-4 py-3.5">Next Due</th>
                         <th className="px-4 py-3.5">Status</th>
-                        <th className="px-4 py-3.5 text-right">Actions</th>
+                        <th className="px-4 py-3.5 text-right">Ledger</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5 font-sans">
-                      {filteredAccounts.length === 0 ? (
+                      {filteredCustomers.length === 0 ? (
                         <tr>
-                          <td colSpan={8} className="px-4 py-12 text-center text-slate-400 font-mono text-xs">
-                            No customer accounts matching your search.
+                          <td colSpan={8} className="p-8 text-center text-slate-500 font-mono text-xs">
+                            No customer accounts matching your query.
                           </td>
                         </tr>
                       ) : (
-                        filteredAccounts.map((acc) => {
-                          const percentPaid = Math.round((acc.totalAmountPaid / (acc.contractPrice || 1)) * 100);
+                        filteredCustomers.map((acc) => {
+                          const percent = Math.round((acc.totalAmountPaid / (acc.contractPrice || 1)) * 100);
 
                           return (
                             <tr key={acc.id} className="hover:bg-white/[0.02] transition">
                               
-                              {/* Customer info */}
+                              {/* Customer */}
                               <td className="px-4 py-3.5">
-                                <span className="text-[10px] font-mono text-red-500 font-bold block">{acc.accountNumber}</span>
                                 <span className="font-bold text-white block text-sm">{acc.clientName}</span>
-                                <span className="text-[11px] font-mono text-slate-400">{acc.phone}</span>
+                                <span className="text-[11px] font-mono text-slate-400">{acc.accountNumber} • {acc.phone}</span>
                               </td>
 
                               {/* Vehicle */}
                               <td className="px-4 py-3.5">
-                                <span className="font-semibold text-white block">{acc.vehicleName}</span>
-                                <span className="text-[11px] font-mono text-slate-400">
-                                  Plate: <strong className="text-white">{acc.plateNumber}</strong>
-                                </span>
+                                <span className="text-slate-200 block font-medium truncate max-w-[210px]">{acc.vehicleName}</span>
+                                <span className="text-[11px] font-mono text-slate-400">Plate: <strong className="text-white">{acc.plateNumber}</strong></span>
                               </td>
 
                               {/* Contract Price */}
                               <td className="px-4 py-3.5 font-mono">
-                                <span className="font-bold text-white text-sm">₱{acc.contractPrice.toLocaleString()}</span>
-                                <span className="text-slate-500 block text-[10px]">DP: ₱{acc.downPaymentPaid.toLocaleString()}</span>
+                                <span className="font-bold text-white">₱{acc.contractPrice.toLocaleString()}</span>
+                                <span className="text-[10px] text-slate-500 block">DP: ₱{acc.downPaymentPaid.toLocaleString()}</span>
                               </td>
 
-                              {/* Total Paid with Mini Progress Bar */}
+                              {/* Paid to Date */}
                               <td className="px-4 py-3.5 font-mono">
-                                <div className="text-emerald-400 font-bold text-sm">
-                                  ₱{acc.totalAmountPaid.toLocaleString()}
-                                </div>
-                                <div className="flex items-center gap-1.5 mt-1">
-                                  <div className="w-16 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                    <div 
-                                      className="h-full bg-emerald-500 rounded-full"
-                                      style={{ width: `${Math.min(100, percentPaid)}%` }}
-                                    />
-                                  </div>
-                                  <span className="text-[10px] text-slate-400">{percentPaid}%</span>
-                                </div>
+                                <span className="font-bold text-emerald-400">₱{acc.totalAmountPaid.toLocaleString()}</span>
+                                <span className="text-[10px] text-slate-500 block">{percent}% settled</span>
                               </td>
 
                               {/* Remaining Balance */}
                               <td className="px-4 py-3.5 font-mono">
-                                <span className={`font-bold text-sm ${
-                                  acc.remainingBalance === 0 ? 'text-slate-400' : 'text-amber-400'
-                                }`}>
+                                <span className={`font-bold ${acc.remainingBalance === 0 ? 'text-slate-500' : 'text-amber-400'}`}>
                                   ₱{acc.remainingBalance.toLocaleString()}
                                 </span>
                                 {acc.monthlyAmortization > 0 && (
-                                  <span className="text-slate-500 block text-[10px]">
-                                    ₱{acc.monthlyAmortization.toLocaleString()}/mo
-                                  </span>
+                                  <span className="text-[10px] text-slate-500 block">₱{acc.monthlyAmortization.toLocaleString()}/mo</span>
                                 )}
                               </td>
 
-                              {/* Next Due Date */}
+                              {/* Next Due */}
                               <td className="px-4 py-3.5 font-mono text-[11px]">
-                                {acc.status === 'paid-in-full' ? (
-                                  <span className="text-emerald-400 font-bold">Settled</span>
-                                ) : (
-                                  <span className={acc.status === 'overdue' ? 'text-red-400 font-bold flex items-center gap-1' : 'text-slate-300'}>
-                                    {acc.status === 'overdue' && <AlertTriangle className="w-3.5 h-3.5 shrink-0" />}
-                                    {acc.nextDueDate}
-                                  </span>
-                                )}
-                              </td>
-
-                              {/* Status Badge */}
-                              <td className="px-4 py-3.5">
-                                <span className={`inline-block px-2.5 py-1 rounded text-[10px] font-mono uppercase font-bold ${
-                                  acc.status === 'current' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
-                                  acc.status === 'overdue' ? 'bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse' :
-                                  'bg-blue-500/20 text-blue-400 border border-blue-500/30'
-                                }`}>
-                                  {acc.status === 'paid-in-full' ? 'Paid In Full' : acc.status}
+                                <span className={acc.status === 'overdue' ? 'text-red-400 font-bold' : 'text-slate-300'}>
+                                  {acc.nextDueDate}
                                 </span>
                               </td>
 
-                              {/* Action: Open Customer Ledger Dossier */}
+                              {/* Status */}
+                              <td className="px-4 py-3.5">
+                                <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-mono uppercase font-bold ${
+                                  acc.status === 'current' ? 'bg-emerald-500/15 text-emerald-400' :
+                                  acc.status === 'overdue' ? 'bg-red-500/15 text-red-400 animate-pulse' :
+                                  'bg-blue-500/15 text-blue-400'
+                                }`}>
+                                  {acc.status}
+                                </span>
+                              </td>
+
+                              {/* Open Ledger Button */}
                               <td className="px-4 py-3.5 text-right">
                                 <button
                                   onClick={() => setSelectedCustomer(acc)}
-                                  className="bg-white/5 hover:bg-red-600 text-slate-300 hover:text-white text-xs font-semibold px-3 py-1.5 rounded transition border border-white/10 hover:border-red-600 flex items-center gap-1.5 ml-auto cursor-pointer"
+                                  className="bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white px-3 py-1.5 rounded text-xs font-semibold transition border border-white/5 cursor-pointer"
                                 >
-                                  <FileText className="w-3.5 h-3.5" />
-                                  <span>Inspect Ledger</span>
+                                  View History
                                 </button>
                               </td>
 
@@ -1799,9 +852,9 @@ export default function AdminDashboardPage() {
                   </table>
                 </div>
 
-                <div className="p-3.5 bg-[#14141e] border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span>DriveFlow Automotive Financing & Client Accounts Ledger Engine</span>
-                  <span>{customerAccounts.length} Active Portfolios</span>
+                <div className="p-3 bg-[#141420] border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-400">
+                  <span>DriveFlow Client Accounts Engine</span>
+                  <span>{customerAccounts.length} Active Records</span>
                 </div>
               </div>
 
@@ -1809,95 +862,162 @@ export default function AdminDashboardPage() {
           )}
 
           {/* ================================================================= */}
-          {/* TAB 4: TEST DRIVE BOOKINGS */}
+          {/* TAB 3: VEHICLE FLEET INVENTORY */}
           {/* ================================================================= */}
-          {activeTab === 'bookings' && (
-            <div className="space-y-5">
+          {activeTab === 'inventory' && (
+            <div className="space-y-4">
               
-              <div className="bg-[#101017] border border-white/10 rounded p-5 shadow-lg">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
-                  <div>
-                    <h2 className="text-base font-bold text-white">VIP Private Viewing & Test Drive Schedule</h2>
-                    <p className="text-xs text-slate-400">Appointments submitted through the showroom portal and booking hotline.</p>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-xs font-mono">
-                    <span className="px-3 py-1 bg-amber-500/15 border border-amber-500/30 text-amber-400 rounded">
-                      {bookings.filter(b => b.status === 'pending').length} Pending Review
-                    </span>
-                    <span className="px-3 py-1 bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 rounded">
-                      {bookings.filter(b => b.status === 'confirmed').length} Confirmed
-                    </span>
-                  </div>
+              {/* Search Bar */}
+              <div className="flex items-center justify-between gap-3">
+                <div className="relative flex-1 max-w-md">
+                  <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search fleet by car name, make, model, stock #..."
+                    className="w-full bg-[#0f0f18] border border-white/10 text-xs text-white pl-9 pr-4 py-2.5 rounded-lg outline-none focus:border-red-500"
+                  />
                 </div>
-
-                <div className="space-y-3">
-                  {bookings.map((booking) => (
-                    <div 
-                      key={booking.id}
-                      className="bg-[#14141e] border border-white/10 rounded p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-white/20 transition"
-                    >
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-2.5">
-                          <span className="text-xs font-mono text-red-500 font-bold">{booking.id}</span>
-                          <span className="text-sm font-bold text-white">{booking.clientName}</span>
-                          <span className={`text-[10px] font-mono uppercase px-2.5 py-0.5 rounded font-bold ${
-                            booking.status === 'confirmed' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
-                            booking.status === 'pending' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
-                            booking.status === 'completed' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
-                            'bg-slate-500/20 text-slate-400'
-                          }`}>
-                            {booking.status}
-                          </span>
-                        </div>
-
-                        <div className="text-xs text-slate-200 font-semibold">
-                          Target Vehicle: <span className="text-white">{booking.vehicleName}</span>
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-mono text-slate-400">
-                          <span>📅 {booking.scheduledDate} ({booking.scheduledTime})</span>
-                          <span>🏢 {booking.showroomBranch}</span>
-                          <span>👤 Advisor: {booking.advisor}</span>
-                          <span>📞 {booking.clientPhone}</span>
-                        </div>
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex items-center gap-2 self-start md:self-auto border-t md:border-t-0 pt-3 md:pt-0 border-white/10 w-full md:w-auto">
-                        {booking.status === 'pending' && (
-                          <button
-                            onClick={() => handleBookingStatus(booking.id, 'confirmed')}
-                            className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded transition cursor-pointer flex items-center gap-1.5"
-                          >
-                            <Check className="w-3.5 h-3.5" />
-                            <span>Confirm Booking</span>
-                          </button>
-                        )}
-
-                        {booking.status === 'confirmed' && (
-                          <button
-                            onClick={() => handleBookingStatus(booking.id, 'completed')}
-                            className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded transition cursor-pointer flex items-center gap-1.5"
-                          >
-                            <CheckCircle className="w-3.5 h-3.5" />
-                            <span>Mark Completed</span>
-                          </button>
-                        )}
-
-                        <button
-                          onClick={() => handleBookingStatus(booking.id, 'cancelled')}
-                          className="bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white text-xs px-3 py-2 rounded transition border border-white/10 cursor-pointer"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
+                <span className="text-xs font-mono text-slate-400">{filteredInventory.length} vehicles</span>
               </div>
 
+              {/* Inventory Table */}
+              <div className="bg-[#0f0f18] border border-white/5 rounded-xl overflow-hidden shadow-lg">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-[#141420] text-[10px] font-mono text-slate-400 uppercase border-b border-white/5">
+                      <tr>
+                        <th className="px-4 py-3">Vehicle Details</th>
+                        <th className="px-4 py-3">Category</th>
+                        <th className="px-4 py-3 font-mono">Engine & Specs</th>
+                        <th className="px-4 py-3 font-mono">Cash Price</th>
+                        <th className="px-4 py-3">Status</th>
+                        <th className="px-4 py-3 text-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5 font-sans">
+                      {filteredInventory.map((car) => (
+                        <tr key={car.id} className="hover:bg-white/[0.02]">
+                          
+                          <td className="px-4 py-3 flex items-center gap-3">
+                            <img src={car.images[0]} alt={car.name} className="w-14 h-10 object-cover rounded bg-slate-900 shrink-0" />
+                            <div>
+                              <span className="text-[10px] font-mono text-slate-500 uppercase">{car.stockNumber}</span>
+                              <span className="font-bold text-white block truncate max-w-[220px]">{car.name}</span>
+                              <span className="text-[10px] font-mono text-slate-400">{car.year} • {car.color}</span>
+                            </div>
+                          </td>
+
+                          <td className="px-4 py-3 text-slate-300">
+                            <span className="inline-block px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-white/5 border border-white/10">
+                              {car.categoryLabel}
+                            </span>
+                          </td>
+
+                          <td className="px-4 py-3 font-mono text-[11px] text-slate-400">
+                            <div>{car.engine}</div>
+                            <div className="text-slate-500">{car.mileage} • Plate {car.plateEnding.split(' ')[0]}</div>
+                          </td>
+
+                          <td className="px-4 py-3 font-mono">
+                            <span className="font-bold text-white text-sm">{car.price}</span>
+                            <span className="text-[10px] text-slate-500 block">{car.monthly}</span>
+                          </td>
+
+                          <td className="px-4 py-3">
+                            <select
+                              value={car.status}
+                              onChange={(e: any) => {
+                                const s = e.target.value;
+                                setInventory(prev => prev.map(c => c.id === car.id ? { ...c, status: s } : c));
+                                showToast(`Vehicle status updated to ${s.toUpperCase()}`);
+                              }}
+                              className="bg-[#141420] text-[11px] font-mono text-slate-300 border border-white/10 rounded px-2.5 py-1 outline-none cursor-pointer"
+                            >
+                              <option value="in-stock">In Stock</option>
+                              <option value="reserved">Reserved</option>
+                              <option value="sold">Sold</option>
+                            </select>
+                          </td>
+
+                          <td className="px-4 py-3 text-right">
+                            <Link 
+                              href={`/vehicles/${car.id}`} 
+                              target="_blank" 
+                              className="inline-flex items-center gap-1 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 px-2.5 py-1.5 rounded transition text-xs"
+                            >
+                              <Eye className="w-3.5 h-3.5" />
+                              <span>View</span>
+                            </Link>
+                          </td>
+
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          )}
+
+          {/* ================================================================= */}
+          {/* TAB 4: TEST DRIVES */}
+          {/* ================================================================= */}
+          {activeTab === 'bookings' && (
+            <div className="bg-[#0f0f18] border border-white/5 rounded-xl p-5 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-sm font-bold text-white">VIP Private Viewing & Test Drive Appointments</h2>
+                  <p className="text-xs text-slate-400">Scheduled client test drive sessions across BGC and Makati showrooms.</p>
+                </div>
+                <span className="text-xs font-mono text-slate-400">{bookings.length} Total Bookings</span>
+              </div>
+
+              <div className="divide-y divide-white/5">
+                {bookings.map((b) => (
+                  <div key={b.id} className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-white">{b.clientName}</span>
+                        <span className="text-[11px] font-mono text-slate-400">({b.phone})</span>
+                        <span className={`text-[10px] font-mono uppercase px-2 py-0.5 rounded font-bold ${
+                          b.status === 'confirmed' ? 'bg-emerald-500/15 text-emerald-400' :
+                          b.status === 'pending' ? 'bg-amber-500/15 text-amber-400' :
+                          'bg-blue-500/15 text-blue-400'
+                        }`}>
+                          {b.status}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-200 mt-1 font-medium">{b.vehicleName}</p>
+                      <span className="text-[11px] font-mono text-slate-500 block mt-0.5">
+                        {b.dateTime} • {b.branch} • Advisor: {b.advisor}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 self-start sm:self-auto">
+                      {b.status === 'pending' && (
+                        <button
+                          onClick={() => {
+                            setBookings(prev => prev.map(item => item.id === b.id ? { ...item, status: 'confirmed' } : item));
+                            showToast('Test drive booking confirmed!');
+                          }}
+                          className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded transition cursor-pointer"
+                        >
+                          Confirm
+                        </button>
+                      )}
+                      <a 
+                        href={`tel:${b.phone}`}
+                        className="bg-white/5 hover:bg-white/10 text-slate-300 text-xs px-3 py-1.5 rounded transition border border-white/5"
+                      >
+                        Call Client
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -1905,70 +1025,58 @@ export default function AdminDashboardPage() {
           {/* TAB 5: BANK FINANCING */}
           {/* ================================================================= */}
           {activeTab === 'financing' && (
-            <div className="space-y-5">
-              
-              <div className="bg-[#101017] border border-white/10 rounded p-5 shadow-lg">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h2 className="text-base font-bold text-white">Bank Financing & Loan Pre-Approvals</h2>
-                    <p className="text-xs text-slate-400">Originated applications through BDO, BPI, Security Bank, and Metrobank partnerships.</p>
-                  </div>
-                  <div className="font-mono text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded">
-                    Tier-1 Priority Lending Active
-                  </div>
-                </div>
-
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-[#14141e] text-[11px] font-mono text-slate-400 uppercase border-b border-white/10">
-                      <tr>
-                        <th className="px-4 py-3.5">Ref No. & Applicant</th>
-                        <th className="px-4 py-3.5">Target Vehicle</th>
-                        <th className="px-4 py-3.5">Down Payment</th>
-                        <th className="px-4 py-3.5">Monthly Amortization</th>
-                        <th className="px-4 py-3.5">Lending Partner</th>
-                        <th className="px-4 py-3.5">Underwriting Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/5 font-sans">
-                      {financingApps.map((app) => (
-                        <tr key={app.id} className="hover:bg-white/[0.02] transition">
-                          <td className="px-4 py-3.5">
-                            <span className="text-[10px] font-mono text-red-500 font-bold block">{app.id}</span>
-                            <span className="font-bold text-white block">{app.applicantName}</span>
-                            <span className="text-[11px] font-mono text-slate-400">{app.applicantPhone}</span>
-                          </td>
-                          <td className="px-4 py-3.5">
-                            <span className="font-semibold text-white block">{app.vehicleName}</span>
-                            <span className="text-[11px] font-mono text-slate-400">{app.vehiclePrice}</span>
-                          </td>
-                          <td className="px-4 py-3.5 font-mono text-slate-300">
-                            {app.downPayment}
-                          </td>
-                          <td className="px-4 py-3.5 font-mono">
-                            <span className="font-bold text-white">{app.monthlyEstimate}</span>
-                            <span className="text-slate-400 block text-[10px]">({app.termMonths} mos)</span>
-                          </td>
-                          <td className="px-4 py-3.5 font-mono text-slate-300">
-                            {app.bankPartner}
-                          </td>
-                          <td className="px-4 py-3.5">
-                            <span className={`inline-block px-2.5 py-1 rounded text-[10px] font-mono uppercase font-bold ${
-                              app.status === 'approved' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
-                              app.status === 'pre-approved' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
-                              'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                            }`}>
-                              {app.status.replace('-', ' ')}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
+            <div className="bg-[#0f0f18] border border-white/5 rounded-xl p-5 space-y-4">
+              <div>
+                <h2 className="text-sm font-bold text-white">Bank Financing Applications</h2>
+                <p className="text-xs text-slate-400">Client auto loan applications through BDO, BPI, and Security Bank.</p>
               </div>
 
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs">
+                  <thead className="bg-[#141420] text-[10px] font-mono text-slate-400 uppercase border-b border-white/5">
+                    <tr>
+                      <th className="px-4 py-3">Applicant & Ref</th>
+                      <th className="px-4 py-3">Vehicle Requested</th>
+                      <th className="px-4 py-3 font-mono">Down Payment</th>
+                      <th className="px-4 py-3 font-mono">Monthly Rate</th>
+                      <th className="px-4 py-3">Bank Partner</th>
+                      <th className="px-4 py-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5 font-sans">
+                    {financingLeads.map((fn) => (
+                      <tr key={fn.id} className="hover:bg-white/[0.02]">
+                        <td className="px-4 py-3.5">
+                          <span className="font-bold text-white block">{fn.applicantName}</span>
+                          <span className="text-[11px] font-mono text-slate-400">{fn.id} • {fn.phone}</span>
+                        </td>
+                        <td className="px-4 py-3.5 text-slate-300">
+                          {fn.vehicleName}
+                        </td>
+                        <td className="px-4 py-3.5 font-mono text-slate-300">
+                          ₱{fn.downPayment.toLocaleString()}
+                        </td>
+                        <td className="px-4 py-3.5 font-mono">
+                          <span className="font-bold text-white">₱{fn.monthlyEstimate.toLocaleString()}</span>
+                          <span className="text-[10px] text-slate-500 block">({fn.termMonths} mos)</span>
+                        </td>
+                        <td className="px-4 py-3.5 text-slate-300">
+                          {fn.bankPartner}
+                        </td>
+                        <td className="px-4 py-3.5">
+                          <span className={`inline-block px-2.5 py-0.5 rounded text-[10px] font-mono uppercase font-bold ${
+                            fn.status === 'approved' ? 'bg-emerald-500/15 text-emerald-400' :
+                            fn.status === 'pre-approved' ? 'bg-blue-500/15 text-blue-400' :
+                            'bg-amber-500/15 text-amber-400'
+                          }`}>
+                            {fn.status.replace('-', ' ')}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
 
@@ -1976,117 +1084,40 @@ export default function AdminDashboardPage() {
           {/* TAB 6: TRADE-IN VALUATIONS */}
           {/* ================================================================= */}
           {activeTab === 'tradeins' && (
-            <div className="space-y-5">
-              
-              <div className="bg-[#101017] border border-white/10 rounded p-5 shadow-lg">
-                <div className="mb-6">
-                  <h2 className="text-base font-bold text-white">Client Trade-In Valuation Requests</h2>
-                  <p className="text-xs text-slate-400">Appraise existing client vehicles against current DriveFlow certified showroom stock.</p>
-                </div>
+            <div className="bg-[#0f0f18] border border-white/5 rounded-xl p-5 space-y-4">
+              <div>
+                <h2 className="text-sm font-bold text-white">Trade-In Vehicle Valuations</h2>
+                <p className="text-xs text-slate-400">Client trade-in appraisals against certified DriveFlow inventory.</p>
+              </div>
 
-                <div className="space-y-3">
-                  {tradeIns.map((ti) => (
-                    <div 
-                      key={ti.id}
-                      className="bg-[#14141e] border border-white/10 rounded p-4 flex flex-col md:flex-row md:items-center justify-between gap-4"
-                    >
-                      <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono text-red-500 font-bold">{ti.id}</span>
-                          <span className="text-sm font-bold text-white">{ti.clientName}</span>
-                          <span className="text-[10px] font-mono text-slate-400">({ti.clientPhone})</span>
-                        </div>
-                        <div className="text-xs text-slate-300">
-                          Trade-In Unit: <strong className="text-white">{ti.clientCar}</strong> ({ti.year} • {ti.mileage})
-                        </div>
-                        <div className="text-xs text-slate-400 font-mono">
-                          Target Vehicle: <span className="text-red-400">{ti.desiredCar}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-4">
-                        <div className="text-right">
-                          <span className="text-[10px] font-mono text-slate-400 uppercase block">Estimated Offer</span>
-                          <span className="text-base font-bold text-white font-mono">{ti.estimatedValue}</span>
-                        </div>
-                        <button
-                          onClick={() => showToast(`Inspection docket generated for ${ti.clientCar}`)}
-                          className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded transition cursor-pointer"
-                        >
-                          Send Appraisal
-                        </button>
-                      </div>
+              <div className="divide-y divide-white/5">
+                {tradeInLeads.map((ti) => (
+                  <div key={ti.id} className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <span className="text-xs font-bold text-white block">{ti.clientName} ({ti.phone})</span>
+                      <p className="text-xs text-slate-300 mt-0.5">
+                        Trade Unit: <strong className="text-white">{ti.clientCar}</strong> ({ti.year} • {ti.mileage})
+                      </p>
+                      <span className="text-[11px] font-mono text-slate-400 block mt-0.5">
+                        Targeting: <span className="text-red-400">{ti.targetCar}</span>
+                      </span>
                     </div>
-                  ))}
-                </div>
 
+                    <div className="flex items-center gap-3">
+                      <div className="text-left sm:text-right font-mono">
+                        <span className="text-[10px] text-slate-500 uppercase block">Appraised Valuation</span>
+                        <span className="text-sm font-bold text-white">₱{ti.estimatedValue.toLocaleString()}</span>
+                      </div>
+                      <button
+                        onClick={() => showToast(`Appraisal report sent to ${ti.clientName}`)}
+                        className="bg-white/5 hover:bg-white/10 text-white text-xs px-3 py-1.5 rounded transition border border-white/5 cursor-pointer"
+                      >
+                        Send Offer
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-            </div>
-          )}
-
-          {/* ================================================================= */}
-          {/* TAB 7: SETTINGS & DEALERSHIP SPECS */}
-          {/* ================================================================= */}
-          {activeTab === 'settings' && (
-            <div className="space-y-5">
-              
-              <div className="bg-[#101017] border border-white/10 rounded p-5 shadow-lg space-y-6">
-                <div>
-                  <h2 className="text-base font-bold text-white">Dealership Headquarters & Operating Configuration</h2>
-                  <p className="text-xs text-slate-400">Manage showroom contact, hotline, operating hours, and inventory publication flags.</p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-sans">
-                  <div className="space-y-1.5">
-                    <label className="text-slate-400 font-mono text-[11px] block uppercase">Showroom Name</label>
-                    <input 
-                      type="text" 
-                      defaultValue="DriveFlow Motors Manila" 
-                      className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-slate-400 font-mono text-[11px] block uppercase">Showroom VIP Hotline</label>
-                    <input 
-                      type="text" 
-                      defaultValue="+63 (2) 8877-CARS (2277)" 
-                      className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-slate-400 font-mono text-[11px] block uppercase">Main Dealership Address</label>
-                    <input 
-                      type="text" 
-                      defaultValue="Circuit Makati & BGC, Metro Manila, Philippines" 
-                      className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-slate-400 font-mono text-[11px] block uppercase">Sales Inquiries Email</label>
-                    <input 
-                      type="email" 
-                      defaultValue="sales@driveflow.ph" 
-                      className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                    />
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                  <span className="text-xs text-slate-400 font-mono">Last configuration backup: Today 10:30 AM</span>
-                  <button 
-                    onClick={() => showToast('Dealership settings saved successfully.')}
-                    className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-2.5 rounded transition shadow-md cursor-pointer"
-                  >
-                    Save Settings
-                  </button>
-                </div>
-
-              </div>
-
             </div>
           )}
 
@@ -2094,464 +1125,124 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* ========================================================================= */}
-      {/* MODAL: FULL CUSTOMER DOSSIER & PAYMENT HISTORY LEDGER */}
+      {/* MODAL: CUSTOMER PAYMENT HISTORY & LEDGER DOSSIER */}
       {/* ========================================================================= */}
-      {selectedCustomer && !isSOAModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-          <div className="bg-[#101017] border border-white/15 rounded-lg max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl animate-in zoom-in-95 duration-200">
+      {selectedCustomer && !isSOAOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-[#101018] border border-white/10 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-5 sm:p-6 space-y-5 animate-in zoom-in-95 duration-150">
             
-            {/* Dossier Header */}
-            <div className="sticky top-0 bg-[#14141e] px-6 py-4 border-b border-white/10 flex items-center justify-between z-10">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 font-bold text-sm">
-                  {selectedCustomer.clientName.split(' ').map(n => n[0]).slice(0, 2).join('')}
+            {/* Header */}
+            <div className="flex items-start justify-between pb-3.5 border-b border-white/5">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base font-bold text-white">{selectedCustomer.clientName}</h2>
+                  <span className="text-xs font-mono text-red-400">({selectedCustomer.accountNumber})</span>
                 </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-base font-bold text-white">{selectedCustomer.clientName}</h2>
-                    <span className="text-xs font-mono text-red-400 font-bold">({selectedCustomer.accountNumber})</span>
-                  </div>
-                  <span className="text-xs text-slate-400 font-mono">
-                    {selectedCustomer.phone} • {selectedCustomer.email}
-                  </span>
-                </div>
+                <p className="text-xs text-slate-400 font-mono mt-0.5">
+                  {selectedCustomer.vehicleName} • Plate: <strong className="text-white">{selectedCustomer.plateNumber}</strong>
+                </p>
+                <span className="text-[11px] text-slate-500 font-mono block mt-0.5">
+                  {selectedCustomer.phone} • {selectedCustomer.email} • {selectedCustomer.billingAddress}
+                </span>
               </div>
 
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setIsSOAModalOpen(true)}
-                  className="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-3.5 py-2 rounded transition flex items-center gap-1.5 border border-white/10 cursor-pointer"
-                  title="Generate Official SOA"
+                  onClick={() => setIsSOAOpen(true)}
+                  className="bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs px-3 py-1.5 rounded-md transition flex items-center gap-1.5 border border-white/5 cursor-pointer"
                 >
                   <Printer className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Statement of Account</span>
                 </button>
-
-                <button 
-                  onClick={() => setSelectedCustomer(null)}
-                  className="text-slate-400 hover:text-white p-1.5 rounded hover:bg-white/5 transition"
-                >
+                <button onClick={() => setSelectedCustomer(null)} className="text-slate-400 hover:text-white p-1">
                   <X className="w-5 h-5" />
                 </button>
               </div>
             </div>
 
-            <div className="p-6 space-y-6 text-xs font-sans">
-              
-              {/* Top Details Card: Vehicle & Delivery Info */}
-              <div className="bg-[#14141e] border border-white/5 rounded p-4.5 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <span className="text-[10px] font-mono text-slate-400 uppercase block">Vehicle Assigned</span>
-                  <span className="font-bold text-white text-sm block mt-0.5">{selectedCustomer.vehicleName}</span>
-                  <span className="text-[11px] font-mono text-slate-400">VIN: {selectedCustomer.vinNumber}</span>
-                </div>
-
-                <div>
-                  <span className="text-[10px] font-mono text-slate-400 uppercase block">Plate & Contract Date</span>
-                  <span className="font-bold text-white text-sm block mt-0.5">Plate: {selectedCustomer.plateNumber}</span>
-                  <span className="text-[11px] font-mono text-slate-400">Signed: {selectedCustomer.contractDate}</span>
-                </div>
-
-                <div>
-                  <span className="text-[10px] font-mono text-slate-400 uppercase block">Registered Address</span>
-                  <span className="text-xs text-slate-200 block mt-0.5 truncate">{selectedCustomer.billingAddress}</span>
-                  <span className="text-[11px] font-mono text-slate-400">{selectedCustomer.tinOrId}</span>
-                </div>
-              </div>
-
-              {/* 4 Financial Highlight Blocks */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="bg-[#14141e] border border-white/10 p-3.5 rounded">
-                  <span className="text-[10px] font-mono text-slate-400 uppercase block">Total Contract</span>
-                  <span className="text-base sm:text-lg font-black text-white font-mono block mt-1">
-                    ₱{selectedCustomer.contractPrice.toLocaleString()}
-                  </span>
-                  <span className="text-[10px] font-mono text-slate-500">DP: ₱{selectedCustomer.downPaymentPaid.toLocaleString()}</span>
-                </div>
-
-                <div className="bg-[#14141e] border border-emerald-500/30 p-3.5 rounded bg-emerald-950/10">
-                  <span className="text-[10px] font-mono text-emerald-400 uppercase block">Total Amount Paid</span>
-                  <span className="text-base sm:text-lg font-black text-emerald-400 font-mono block mt-1">
-                    ₱{selectedCustomer.totalAmountPaid.toLocaleString()}
-                  </span>
-                  <span className="text-[10px] font-mono text-emerald-400/80">
-                    {Math.round((selectedCustomer.totalAmountPaid / selectedCustomer.contractPrice) * 100)}% of Contract Settled
-                  </span>
-                </div>
-
-                <div className="bg-[#14141e] border border-amber-500/30 p-3.5 rounded bg-amber-950/10">
-                  <span className="text-[10px] font-mono text-amber-400 uppercase block">Remaining Balance</span>
-                  <span className="text-base sm:text-lg font-black text-amber-400 font-mono block mt-1">
-                    ₱{selectedCustomer.remainingBalance.toLocaleString()}
-                  </span>
-                  <span className="text-[10px] font-mono text-amber-400/80">Outstanding Balance</span>
-                </div>
-
-                <div className="bg-[#14141e] border border-white/10 p-3.5 rounded">
-                  <span className="text-[10px] font-mono text-slate-400 uppercase block">Next Amortization</span>
-                  <span className="text-base sm:text-lg font-black text-white font-mono block mt-1">
-                    ₱{selectedCustomer.monthlyAmortization.toLocaleString()}
-                  </span>
-                  <span className="text-[10px] font-mono text-red-400">Due: {selectedCustomer.nextDueDate}</span>
-                </div>
-              </div>
-
-              {/* Visual Payment Progress Bar */}
-              <div className="bg-[#14141e] border border-white/5 rounded p-4 space-y-2">
-                <div className="flex items-center justify-between text-xs font-mono">
-                  <span className="text-slate-300">
-                    Contract Liquidation Progress: <strong className="text-emerald-400">{Math.round((selectedCustomer.totalAmountPaid / selectedCustomer.contractPrice) * 100)}% Complete</strong>
-                  </span>
-                  <span className="text-slate-400">
-                    Remaining: ₱{selectedCustomer.remainingBalance.toLocaleString()}
-                  </span>
-                </div>
-                <div className="w-full h-2.5 bg-black/50 rounded-full overflow-hidden border border-white/10">
-                  <div 
-                    className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min(100, Math.round((selectedCustomer.totalAmountPaid / selectedCustomer.contractPrice) * 100))}%` }}
-                  />
-                </div>
-              </div>
-
-              {/* Payment History Ledger Table */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                      <Receipt className="w-4 h-4 text-emerald-400" />
-                      <span>Itemized Payment History & Receipt Ledger</span>
-                    </h3>
-                    <p className="text-[11px] text-slate-400">Official receipts, wire transfers, and posted amortization checks.</p>
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      setPaymentForm({
-                        amount: selectedCustomer.monthlyAmortization || 38500,
-                        paymentMethod: 'Bank Wire (BDO)',
-                        type: 'Monthly Amortization',
-                        orNumber: `OR-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-                        referenceNo: `REF-${Math.floor(100000 + Math.random() * 900000)}`,
-                        notes: `Monthly amortization payment for ${selectedCustomer.vehicleName}`,
-                      });
-                      setIsPostPaymentModalOpen(true);
-                    }}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3.5 py-2 rounded transition flex items-center gap-1.5 shadow-md cursor-pointer"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Post New Payment</span>
-                  </button>
-                </div>
-
-                <div className="border border-white/10 rounded overflow-hidden">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-[#14141e] text-[10px] font-mono text-slate-400 uppercase border-b border-white/10">
-                      <tr>
-                        <th className="px-3.5 py-3">Date & Timestamp</th>
-                        <th className="px-3.5 py-3">OR Number</th>
-                        <th className="px-3.5 py-3">Amount Paid</th>
-                        <th className="px-3.5 py-3">Payment Method</th>
-                        <th className="px-3.5 py-3">Transaction Type</th>
-                        <th className="px-3.5 py-3">Reference / Check</th>
-                        <th className="px-3.5 py-3">Processed By</th>
-                        <th className="px-3.5 py-3 text-right">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/5 font-sans">
-                      {selectedCustomer.ledger.map((txn) => (
-                        <tr key={txn.id} className="hover:bg-white/[0.02]">
-                          <td className="px-3.5 py-3 font-mono text-[11px] text-slate-300">
-                            <div>{txn.date}</div>
-                            <div className="text-[10px] text-slate-500">{txn.time}</div>
-                          </td>
-                          <td className="px-3.5 py-3 font-mono text-red-400 font-bold">
-                            {txn.orNumber}
-                          </td>
-                          <td className="px-3.5 py-3 font-mono text-sm font-bold text-emerald-400">
-                            ₱{txn.amount.toLocaleString()}
-                          </td>
-                          <td className="px-3.5 py-3 text-slate-300">
-                            {txn.paymentMethod}
-                          </td>
-                          <td className="px-3.5 py-3">
-                            <span className="inline-block px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-white/5 border border-white/10 text-slate-300">
-                              {txn.type}
-                            </span>
-                          </td>
-                          <td className="px-3.5 py-3 font-mono text-[11px] text-slate-400">
-                            {txn.referenceNo}
-                          </td>
-                          <td className="px-3.5 py-3 text-slate-400 text-[11px]">
-                            {txn.receivedBy}
-                          </td>
-                          <td className="px-3.5 py-3 text-right">
-                            <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
-                              <Check className="w-3 h-3" />
-                              <span>Posted</span>
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-      )}
-
-      {/* ========================================================================= */}
-      {/* SUB-MODAL: POST / RECORD NEW PAYMENT */}
-      {/* ========================================================================= */}
-      {isPostPaymentModalOpen && selectedCustomer && (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#101017] border border-emerald-500/40 rounded-lg max-w-lg w-full p-6 shadow-2xl animate-in zoom-in-95 duration-200 space-y-4">
-            
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            {/* Financial Overview 3-Box */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-[#141420] rounded-lg text-xs font-mono">
               <div>
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <Receipt className="w-4 h-4 text-emerald-400" />
-                  <span>Post Payment to Account</span>
-                </h3>
-                <span className="text-xs font-mono text-slate-400">
-                  {selectedCustomer.clientName} ({selectedCustomer.accountNumber})
+                <span className="text-[10px] text-slate-500 uppercase block font-bold">Total Contract Price</span>
+                <span className="text-base font-black text-white block mt-0.5">₱{selectedCustomer.contractPrice.toLocaleString()}</span>
+                <span className="text-[10px] text-slate-500">DP Paid: ₱{selectedCustomer.downPaymentPaid.toLocaleString()}</span>
+              </div>
+
+              <div>
+                <span className="text-[10px] text-emerald-400 uppercase block font-bold">Total Amount Paid</span>
+                <span className="text-base font-black text-emerald-400 block mt-0.5">₱{selectedCustomer.totalAmountPaid.toLocaleString()}</span>
+                <span className="text-[10px] text-emerald-400/80">
+                  {Math.round((selectedCustomer.totalAmountPaid / selectedCustomer.contractPrice) * 100)}% of Contract Paid
                 </span>
               </div>
-              <button 
-                onClick={() => setIsPostPaymentModalOpen(false)}
-                className="text-slate-400 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handlePostPaymentSubmit} className="space-y-4 text-xs">
-              
-              <div className="bg-[#14141e] p-3 rounded border border-white/5 flex items-center justify-between">
-                <span className="text-slate-400">Current Balance Before Payment:</span>
-                <span className="font-mono text-amber-400 font-bold text-sm">₱{selectedCustomer.remainingBalance.toLocaleString()}</span>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-mono text-slate-400 uppercase">Payment Amount (PHP)</label>
-                <input
-                  type="number"
-                  required
-                  min="1"
-                  value={paymentForm.amount}
-                  onChange={(e) => setPaymentForm({ ...paymentForm, amount: parseFloat(e.target.value) || 0 })}
-                  className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white text-base font-mono font-bold outline-none focus:border-emerald-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Official Receipt (OR) #</label>
-                  <input
-                    type="text"
-                    required
-                    value={paymentForm.orNumber}
-                    onChange={(e) => setPaymentForm({ ...paymentForm, orNumber: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white font-mono outline-none focus:border-emerald-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Payment Method</label>
-                  <select
-                    value={paymentForm.paymentMethod}
-                    onChange={(e: any) => setPaymentForm({ ...paymentForm, paymentMethod: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none cursor-pointer"
-                  >
-                    <option value="Bank Wire (BDO)">Bank Wire (BDO)</option>
-                    <option value="Post-Dated Check (BPI)">Post-Dated Check (BPI)</option>
-                    <option value="Online Transfer">Online Transfer</option>
-                    <option value="Showroom Cashier">Showroom Cashier</option>
-                    <option value="Direct Debit">Direct Debit</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Transaction Type</label>
-                  <select
-                    value={paymentForm.type}
-                    onChange={(e: any) => setPaymentForm({ ...paymentForm, type: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none cursor-pointer"
-                  >
-                    <option value="Monthly Amortization">Monthly Amortization</option>
-                    <option value="Principal Prepayment">Principal Prepayment</option>
-                    <option value="Lump Sum Settlement">Lump Sum Settlement</option>
-                    <option value="Down Payment">Down Payment</option>
-                  </select>
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Bank Ref / Check #</label>
-                  <input
-                    type="text"
-                    required
-                    value={paymentForm.referenceNo}
-                    onChange={(e) => setPaymentForm({ ...paymentForm, referenceNo: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white font-mono outline-none focus:border-emerald-500"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-mono text-slate-400 uppercase">Internal Billing Notes</label>
-                <input
-                  type="text"
-                  value={paymentForm.notes}
-                  onChange={(e) => setPaymentForm({ ...paymentForm, notes: e.target.value })}
-                  className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-emerald-500"
-                />
-              </div>
-
-              <div className="pt-3 border-t border-white/10 flex items-center justify-end gap-2.5">
-                <button
-                  type="button"
-                  onClick={() => setIsPostPaymentModalOpen(false)}
-                  className="px-4 py-2 text-slate-400 hover:text-white transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2 rounded transition shadow-lg cursor-pointer"
-                >
-                  Post Payment & Update Balance
-                </button>
-              </div>
-
-            </form>
-
-          </div>
-        </div>
-      )}
-
-      {/* ========================================================================= */}
-      {/* MODAL: PRINTABLE STATEMENT OF ACCOUNT (SOA) */}
-      {/* ========================================================================= */}
-      {isSOAModalOpen && selectedCustomer && (
-        <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0e0e15] text-slate-100 border border-white/20 rounded-lg max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-6">
-            
-            {/* Action Bar */}
-            <div className="flex items-center justify-between pb-4 border-b border-white/10">
-              <span className="text-xs font-mono text-slate-400 uppercase">OFFICIAL STATEMENT OF ACCOUNT // DRIVEFLOW MOTORS</span>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => window.print()}
-                  className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-2 rounded transition flex items-center gap-1.5 cursor-pointer"
-                >
-                  <Printer className="w-3.5 h-3.5" />
-                  <span>Print Document</span>
-                </button>
-                <button
-                  onClick={() => setIsSOAModalOpen(false)}
-                  className="text-slate-400 hover:text-white p-1"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Letterhead */}
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-              <div>
-                <div className="inline-block bg-red-600 px-3 py-1 text-white font-black text-lg tracking-tight rounded-sm mb-2">
-                  DRIVEFLOW MOTORS
-                </div>
-                <div className="text-xs text-slate-400 leading-relaxed font-mono">
-                  Circuit Makati & BGC Showroom, Metro Manila<br />
-                  Hotline: (02) 8877-CARS • billing@driveflow.ph<br />
-                  VAT Reg TIN: 009-881-204-000
-                </div>
-              </div>
-
-              <div className="text-left sm:text-right font-mono text-xs">
-                <span className="text-red-400 font-bold text-sm block">STATEMENT OF ACCOUNT</span>
-                <span className="text-slate-400 block">Statement Date: {new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}</span>
-                <span className="text-white font-bold block mt-1">Account Ref: {selectedCustomer.accountNumber}</span>
-              </div>
-            </div>
-
-            {/* Bill To & Unit Spec */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-[#14141e] rounded border border-white/5 text-xs font-mono">
-              <div>
-                <span className="text-[10px] text-slate-500 uppercase block font-bold mb-1">CLIENT INFORMATION</span>
-                <strong className="text-white text-sm block">{selectedCustomer.clientName}</strong>
-                <span className="text-slate-400 block">{selectedCustomer.billingAddress}</span>
-                <span className="text-slate-400 block">{selectedCustomer.tinOrId}</span>
-                <span className="text-slate-400 block">{selectedCustomer.phone}</span>
-              </div>
 
               <div>
-                <span className="text-[10px] text-slate-500 uppercase block font-bold mb-1">VEHICLE CONTRACT SPECIFICATIONS</span>
-                <strong className="text-white text-sm block">{selectedCustomer.vehicleName}</strong>
-                <span className="text-slate-400 block">Plate: {selectedCustomer.plateNumber}</span>
-                <span className="text-slate-400 block">VIN: {selectedCustomer.vinNumber}</span>
-                <span className="text-slate-400 block">Contract Date: {selectedCustomer.contractDate}</span>
+                <span className="text-[10px] text-amber-400 uppercase block font-bold">Remaining Balance</span>
+                <span className="text-base font-black text-amber-400 block mt-0.5">₱{selectedCustomer.remainingBalance.toLocaleString()}</span>
+                <span className="text-[10px] text-slate-500">Monthly: ₱{selectedCustomer.monthlyAmortization.toLocaleString()}</span>
               </div>
             </div>
 
-            {/* Financial Ledger Summary Box */}
-            <div className="border border-white/10 rounded overflow-hidden">
-              <table className="w-full text-left text-xs font-mono">
-                <thead className="bg-[#14141e] text-[10px] text-slate-400 uppercase">
-                  <tr>
-                    <th className="p-3">Financial Obligation Item</th>
-                    <th className="p-3 text-right">Amount (PHP)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5">
-                  <tr>
-                    <td className="p-3 text-slate-300">Total Vehicle Contract Agreed Price</td>
-                    <td className="p-3 text-right font-bold text-white">₱{selectedCustomer.contractPrice.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td className="p-3 text-slate-300">Initial Down Payment Equity Settled</td>
-                    <td className="p-3 text-right font-bold text-emerald-400">- ₱{selectedCustomer.downPaymentPaid.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td className="p-3 text-slate-300">Total Cumulative Payments Remitted to Date</td>
-                    <td className="p-3 text-right font-bold text-emerald-400">- ₱{selectedCustomer.totalAmountPaid.toLocaleString()}</td>
-                  </tr>
-                  <tr className="bg-[#14141e] font-bold text-sm">
-                    <td className="p-3 text-white">CURRENT OUTSTANDING BALANCE</td>
-                    <td className="p-3 text-right text-amber-400">₱{selectedCustomer.remainingBalance.toLocaleString()}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            {/* Itemized Payment History Table */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <Receipt className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Payment History & Official Receipts</span>
+                  </h3>
+                  <span className="text-[11px] text-slate-500">Every payment made by this client is logged and tracked below.</span>
+                </div>
 
-            {/* Recent Payments Breakdown in SOA */}
-            <div>
-              <h4 className="text-xs font-mono font-bold text-slate-300 mb-2 uppercase">Verified Payment Transactions</h4>
-              <div className="border border-white/5 rounded overflow-hidden">
-                <table className="w-full text-left text-[11px] font-mono">
-                  <thead className="bg-[#14141e] text-[9px] text-slate-400 uppercase">
+                <button
+                  onClick={() => {
+                    setNewAmount(selectedCustomer.monthlyAmortization || 38500);
+                    setIsRecordPaymentOpen(true);
+                  }}
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-3 py-1.5 rounded transition flex items-center gap-1 cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Post Payment</span>
+                </button>
+              </div>
+
+              <div className="border border-white/5 rounded-lg overflow-hidden">
+                <table className="w-full text-left text-xs font-mono">
+                  <thead className="bg-[#141420] text-[10px] text-slate-400 uppercase border-b border-white/5">
                     <tr>
-                      <th className="p-2.5">Date</th>
-                      <th className="p-2.5">OR #</th>
-                      <th className="p-2.5">Method & Reference</th>
-                      <th className="p-2.5 text-right">Amount Paid</th>
+                      <th className="px-3.5 py-2.5">Date & Time</th>
+                      <th className="px-3.5 py-2.5">OR Number</th>
+                      <th className="px-3.5 py-2.5">Amount Paid</th>
+                      <th className="px-3.5 py-2.5">Method & Type</th>
+                      <th className="px-3.5 py-2.5">Reference #</th>
+                      <th className="px-3.5 py-2.5 text-right">Status</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
-                    {selectedCustomer.ledger.map((txn) => (
-                      <tr key={txn.id}>
-                        <td className="p-2.5 text-slate-300">{txn.date}</td>
-                        <td className="p-2.5 text-red-400">{txn.orNumber}</td>
-                        <td className="p-2.5 text-slate-400">{txn.paymentMethod} ({txn.referenceNo})</td>
-                        <td className="p-2.5 text-right text-emerald-400 font-bold">₱{txn.amount.toLocaleString()}</td>
+                    {selectedCustomer.paymentHistory.map((txn) => (
+                      <tr key={txn.id} className="hover:bg-white/[0.02]">
+                        <td className="px-3.5 py-2.5 text-slate-300">
+                          <div>{txn.date}</div>
+                          <div className="text-[10px] text-slate-500">{txn.time}</div>
+                        </td>
+                        <td className="px-3.5 py-2.5 text-red-400 font-bold">
+                          {txn.orNumber}
+                        </td>
+                        <td className="px-3.5 py-2.5 font-bold text-emerald-400 text-sm">
+                          ₱{txn.amount.toLocaleString()}
+                        </td>
+                        <td className="px-3.5 py-2.5 text-slate-300 text-[11px]">
+                          <div>{txn.type}</div>
+                          <div className="text-slate-500 text-[10px]">{txn.method}</div>
+                        </td>
+                        <td className="px-3.5 py-2.5 text-slate-400 text-[11px]">
+                          {txn.refNumber}
+                        </td>
+                        <td className="px-3.5 py-2.5 text-right">
+                          <span className="inline-block px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">
+                            Posted
+                          </span>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -2559,327 +1250,175 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            {/* Signature Block */}
-            <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-end gap-6 text-xs font-mono text-slate-400">
-              <div>
-                <p className="text-[10px] text-slate-500 leading-normal max-w-sm">
-                  This document serves as an official accounting statement certified by DriveFlow Motors Finance Department.
-                </p>
-              </div>
-              <div className="text-right">
-                <div className="w-48 border-b border-white/20 pb-1 mb-1 text-center font-bold text-white text-xs">
-                  Janrey Mina
-                </div>
-                <span className="text-[10px] text-slate-500 block text-center">General Manager / Authorized Officer</span>
-              </div>
-            </div>
-
           </div>
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* MODAL: ADD NEW VEHICLE */}
+      {/* MODAL: POST / RECORD PAYMENT */}
       {/* ========================================================================= */}
-      {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#101017] border border-white/15 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-in zoom-in-95 duration-200">
-            
-            {/* Modal Header */}
-            <div className="sticky top-0 bg-[#14141e] px-6 py-4 border-b border-white/10 flex items-center justify-between z-10">
+      {isRecordPaymentOpen && selectedCustomer && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-[#101018] border border-emerald-500/40 rounded-xl max-w-md w-full p-5 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between pb-2.5 border-b border-white/5">
               <div>
-                <h2 className="text-base font-bold text-white flex items-center gap-2">
-                  <Plus className="w-4 h-4 text-red-500" />
-                  <span>Add Vehicle to Showroom Fleet</span>
-                </h2>
-                <span className="text-[11px] font-mono text-slate-400">Publish fresh verified inventory to DriveFlow catalog</span>
+                <h3 className="text-sm font-bold text-white">Record Customer Payment</h3>
+                <span className="text-xs font-mono text-slate-400">{selectedCustomer.clientName}</span>
               </div>
-              <button 
-                onClick={() => setIsAddModalOpen(false)}
-                className="text-slate-400 hover:text-white p-1"
-              >
-                <X className="w-5 h-5" />
+              <button onClick={() => setIsRecordPaymentOpen(false)} className="text-slate-400 hover:text-white">
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Modal Form */}
-            <form onSubmit={handleCreateVehicle} className="p-6 space-y-4 text-xs font-sans">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
-                <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Vehicle Display Title</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. 2024 Ford Everest Titanium+ 4x4"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Make / Manufacturer</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Ford, BMW, Toyota"
-                    value={formData.make}
-                    onChange={(e) => setFormData({ ...formData, make: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Year</label>
-                  <input
-                    type="number"
-                    required
-                    value={formData.year}
-                    onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value, 10) || 2024 })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Category</label>
-                  <select
-                    value={formData.category}
-                    onChange={(e: any) => {
-                      const cat = e.target.value;
-                      const labels: Record<string, string> = {
-                        suv: 'Family SUV',
-                        sedan: 'Daily Commuter',
-                        truck: 'Work & Utility',
-                        premium: 'Flagship & Premium',
-                      };
-                      setFormData({ ...formData, category: cat, categoryLabel: labels[cat] });
-                    }}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none cursor-pointer"
-                  >
-                    <option value="suv">Family SUV</option>
-                    <option value="sedan">Daily Commuter</option>
-                    <option value="truck">Work & Utility Truck</option>
-                    <option value="premium">Flagship & Premium</option>
-                  </select>
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Cash Price</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. ₱2,350,000"
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Estimated Monthly</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. ₱38,500/mo"
-                    value={formData.monthly}
-                    onChange={(e) => setFormData({ ...formData, monthly: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Odometer Mileage</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. 12,400 KM"
-                    value={formData.mileage}
-                    onChange={(e) => setFormData({ ...formData, mileage: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Engine Specs</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 2.0L Bi-Turbo Diesel"
-                    value={formData.engine}
-                    onChange={(e) => setFormData({ ...formData, engine: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Color & Finish</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Absolute Black Metallic"
-                    value={formData.color}
-                    onChange={(e) => setFormData({ ...formData, color: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Primary Vehicle Photo URL</label>
-                  <input
-                    type="url"
-                    required
-                    placeholder="https://images.unsplash.com/photo-..."
-                    value={formData.imageUrl}
-                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Description / Condition Summary</label>
-                  <textarea
-                    rows={3}
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500 resize-none"
-                  />
-                </div>
-
+            <form onSubmit={handleRecordPayment} className="space-y-3.5 text-xs">
+              <div className="p-3 bg-[#141420] rounded border border-white/5 flex items-center justify-between font-mono">
+                <span className="text-slate-400">Current Balance:</span>
+                <span className="text-amber-400 font-bold">₱{selectedCustomer.remainingBalance.toLocaleString()}</span>
               </div>
 
-              {/* Modal Buttons */}
-              <div className="pt-4 border-t border-white/10 flex items-center justify-end gap-3">
+              <div>
+                <label className="text-[10px] font-mono text-slate-400 uppercase block mb-1">Amount to Post (PHP)</label>
+                <input
+                  type="number"
+                  required
+                  min="1"
+                  value={newAmount}
+                  onChange={(e) => setNewAmount(parseFloat(e.target.value) || 0)}
+                  className="w-full bg-[#141420] border border-white/10 p-2.5 rounded text-white font-mono font-bold text-sm outline-none focus:border-emerald-500"
+                />
+              </div>
+
+              <div>
+                <label className="text-[10px] font-mono text-slate-400 uppercase block mb-1">Payment Method</label>
+                <select
+                  value={newMethod}
+                  onChange={(e: any) => setNewMethod(e.target.value)}
+                  className="w-full bg-[#141420] border border-white/10 p-2 rounded text-white outline-none cursor-pointer"
+                >
+                  <option value="Bank Wire (BDO)">Bank Wire (BDO)</option>
+                  <option value="Post-Dated Check (BPI)">Post-Dated Check (BPI)</option>
+                  <option value="Online Transfer">Online Transfer</option>
+                  <option value="Showroom Cashier">Showroom Cashier</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-mono text-slate-400 uppercase block mb-1">Payment Classification</label>
+                <select
+                  value={newType}
+                  onChange={(e: any) => setNewType(e.target.value)}
+                  className="w-full bg-[#141420] border border-white/10 p-2 rounded text-white outline-none cursor-pointer"
+                >
+                  <option value="Monthly Amortization">Monthly Amortization</option>
+                  <option value="Principal Prepayment">Principal Prepayment</option>
+                  <option value="Lump Sum Settlement">Lump Sum Settlement</option>
+                  <option value="Down Payment">Down Payment</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-mono text-slate-400 uppercase block mb-1">Bank Reference / Check #</label>
+                <input
+                  type="text"
+                  placeholder="e.g. CHK-BPI-004425 or WIRE-BDO-8921"
+                  value={newRef}
+                  onChange={(e) => setNewRef(e.target.value)}
+                  className="w-full bg-[#141420] border border-white/10 p-2 rounded text-white font-mono outline-none focus:border-emerald-500"
+                />
+              </div>
+
+              <div className="pt-3 border-t border-white/5 flex items-center justify-end gap-2">
                 <button
                   type="button"
-                  onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2.5 rounded text-xs font-semibold text-slate-400 hover:text-white transition"
+                  onClick={() => setIsRecordPaymentOpen(false)}
+                  className="px-3 py-1.5 text-slate-400 hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-2.5 rounded transition shadow-lg cursor-pointer"
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-1.5 rounded transition cursor-pointer"
                 >
-                  Publish Vehicle
+                  Post Payment & Update Balance
                 </button>
               </div>
             </form>
-
           </div>
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* MODAL: EDIT VEHICLE */}
+      {/* MODAL: PRINTABLE STATEMENT OF ACCOUNT */}
       {/* ========================================================================= */}
-      {isEditModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#101017] border border-white/15 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-in zoom-in-95 duration-200">
+      {isSOAOpen && selectedCustomer && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-[#0e0e15] text-slate-200 border border-white/10 rounded-xl max-w-2xl w-full p-6 space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto">
             
-            {/* Modal Header */}
-            <div className="sticky top-0 bg-[#14141e] px-6 py-4 border-b border-white/10 flex items-center justify-between z-10">
-              <div>
-                <h2 className="text-base font-bold text-white flex items-center gap-2">
-                  <Edit3 className="w-4 h-4 text-red-500" />
-                  <span>Edit Vehicle Specifications</span>
-                </h2>
-                <span className="text-[11px] font-mono text-slate-400">{editingVehicle?.stockNumber}</span>
+            <div className="flex items-center justify-between pb-3 border-b border-white/5">
+              <span className="text-xs font-mono text-slate-400">STATEMENT OF ACCOUNT</span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => window.print()}
+                  className="bg-red-600 hover:bg-red-500 text-white text-xs font-semibold px-3 py-1.5 rounded transition flex items-center gap-1 cursor-pointer"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>Print Document</span>
+                </button>
+                <button onClick={() => setIsSOAOpen(false)} className="text-slate-400 hover:text-white p-1">
+                  <X className="w-4 h-4" />
+                </button>
               </div>
-              <button 
-                onClick={() => setIsEditModalOpen(false)}
-                className="text-slate-400 hover:text-white p-1"
-              >
-                <X className="w-5 h-5" />
-              </button>
             </div>
 
-            {/* Modal Form */}
-            <form onSubmit={handleSaveEdit} className="p-6 space-y-4 text-xs font-sans">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                
-                <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Vehicle Display Title</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
+            <div className="space-y-4 text-xs font-mono">
+              <div className="flex justify-between">
+                <div>
+                  <strong className="text-white text-sm block">DRIVEFLOW MOTORS MANILA</strong>
+                  <span className="text-slate-400 text-[11px]">BGC & Makati Showrooms • (02) 8877-CARS</span>
                 </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Cash Price</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
+                <div className="text-right text-slate-400 text-[11px]">
+                  <span>Account Ref: {selectedCustomer.accountNumber}</span>
+                  <span className="block">Date: {new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })}</span>
                 </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Estimated Monthly</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.monthly}
-                    onChange={(e) => setFormData({ ...formData, monthly: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Odometer Mileage</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.mileage}
-                    onChange={(e) => setFormData({ ...formData, mileage: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Engine Specs</label>
-                  <input
-                    type="text"
-                    value={formData.engine}
-                    onChange={(e) => setFormData({ ...formData, engine: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
-                <div className="sm:col-span-2 space-y-1">
-                  <label className="text-[11px] font-mono text-slate-400 uppercase">Primary Vehicle Photo URL</label>
-                  <input
-                    type="url"
-                    required
-                    value={formData.imageUrl}
-                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                    className="w-full bg-[#161622] border border-white/10 p-2.5 rounded text-white outline-none focus:border-red-500"
-                  />
-                </div>
-
               </div>
 
-              {/* Modal Buttons */}
-              <div className="pt-4 border-t border-white/10 flex items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2.5 rounded text-xs font-semibold text-slate-400 hover:text-white transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-2.5 rounded transition shadow-lg cursor-pointer"
-                >
-                  Save Changes
-                </button>
+              <div className="p-3 bg-[#141420] rounded space-y-1">
+                <div className="text-white font-bold">{selectedCustomer.clientName}</div>
+                <div className="text-slate-400">{selectedCustomer.vehicleName} (Plate: {selectedCustomer.plateNumber})</div>
+                <div className="text-[11px] text-slate-500">{selectedCustomer.billingAddress}</div>
               </div>
-            </form>
+
+              <div className="space-y-1.5 border-t border-b border-white/5 py-3">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Total Contract Agreed Price:</span>
+                  <span className="text-white font-bold">₱{selectedCustomer.contractPrice.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Down Payment Paid:</span>
+                  <span className="text-emerald-400 font-bold">- ₱{selectedCustomer.downPaymentPaid.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Total Remitted to Date:</span>
+                  <span className="text-emerald-400 font-bold">- ₱{selectedCustomer.totalAmountPaid.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between pt-1 border-t border-white/5 text-sm font-bold">
+                  <span className="text-white">REMAINING OUTSTANDING BALANCE:</span>
+                  <span className="text-amber-400">₱{selectedCustomer.remainingBalance.toLocaleString()}</span>
+                </div>
+              </div>
+
+              <div>
+                <span className="text-[10px] text-slate-500 uppercase block mb-1.5 font-bold">Payment History Receipts</span>
+                <div className="space-y-1 text-[11px]">
+                  {selectedCustomer.paymentHistory.map(t => (
+                    <div key={t.id} className="flex justify-between text-slate-300">
+                      <span>{t.date} • {t.orNumber} ({t.type})</span>
+                      <span className="text-emerald-400 font-bold">₱{t.amount.toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
 
           </div>
         </div>
