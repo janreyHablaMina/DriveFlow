@@ -8,11 +8,9 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: 'Vehicles For Sale', href: '/vehicles' },
-    { label: 'Categories', href: '/#section-categories' },
+    { label: 'Inventory', href: '/vehicles' },
     { label: 'About Us', href: '/#section-about' },
-    { label: 'Schedule Test Drive', href: '/#section-testdrive' },
-    { label: 'Showroom Location', href: '/#section-location' },
+    { label: 'Location', href: '/#section-location' },
     { label: 'FAQ', href: '/#section-faq' },
   ];
 
@@ -34,13 +32,13 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-7 text-xs font-semibold text-slate-300">
+        {/* Desktop Navigation Links (Clean & Essential) */}
+        <nav className="hidden lg:flex items-center gap-8 text-xs font-semibold text-slate-300">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="hover:text-red-400 transition-colors"
+              className="hover:text-red-400 transition-colors uppercase tracking-wider text-[11px]"
             >
               {link.label}
             </Link>
@@ -74,7 +72,7 @@ export default function Header() {
         {/* Mobile Hamburger Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="xl:hidden w-11 h-11 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/5 active:bg-white/10 rounded transition border border-white/10"
+          className="lg:hidden w-11 h-11 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/5 active:bg-white/10 rounded transition border border-white/10"
           aria-label="Toggle navigation menu"
         >
           {mobileMenuOpen ? <X className="w-5 h-5 text-red-500" /> : <Menu className="w-5 h-5" />}
@@ -84,7 +82,7 @@ export default function Header() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="xl:hidden border-t border-white/10 bg-[#0d0d14]/98 backdrop-blur-xl px-4 sm:px-6 py-5 space-y-4 shadow-2xl animate-in slide-in-from-top-2 duration-200 max-h-[calc(100vh-4rem)] overflow-y-auto">
+        <div className="lg:hidden border-t border-white/10 bg-[#0d0d14]/98 backdrop-blur-xl px-4 sm:px-6 py-5 space-y-4 shadow-2xl animate-in slide-in-from-top-2 duration-200 max-h-[calc(100vh-4rem)] overflow-y-auto">
           <nav className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <Link
