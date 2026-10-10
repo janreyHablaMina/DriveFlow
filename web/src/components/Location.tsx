@@ -42,10 +42,10 @@ export default function Location() {
           <p className="font-body text-xs sm:text-sm text-slate-400 mb-6 sm:mb-8 max-w-md mx-auto leading-relaxed">
             Experience our premium inventory in person. Reserve your dedicated automotive advisor and vehicle test drive today.
           </p>
-          <form onSubmit={handleBooking} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto font-body">
+          <form onSubmit={handleBooking} className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto font-body">
             <input type="text" placeholder="Your Full Name" required className="flex-1 bg-[#161622] border border-white/20 p-3 text-base sm:text-xs text-white outline-none focus:border-red-500 rounded" />
             <input type="tel" placeholder="+63 Mobile Number" required className="flex-1 bg-[#161622] border border-white/20 p-3 text-base sm:text-xs text-white outline-none focus:border-red-500 rounded" />
-            <button type="submit" className="button-shimmer w-full sm:w-auto bg-racing-red hover:bg-white hover:text-black active:bg-red-700 px-6 sm:px-7 py-3.5 sm:py-3 text-xs font-bold uppercase tracking-wider text-white whitespace-nowrap rounded cursor-pointer">
+            <button type="submit" className="button-shimmer shrink-0 w-full sm:w-auto bg-racing-red hover:bg-white hover:text-black active:bg-red-700 px-6 sm:px-7 py-3.5 sm:py-3 text-xs font-bold uppercase tracking-wider text-white whitespace-nowrap rounded cursor-pointer">
               <span>Book Private Viewing</span>
             </button>
           </form>
