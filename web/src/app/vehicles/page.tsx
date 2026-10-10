@@ -67,8 +67,9 @@ function BannerSlider({ vehicles }: { vehicles: Vehicle[] }) {
       ))}
 
       {/* Slide Content Overlay - Contained to max-w-7xl for grid alignment */}
-      <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex flex-col justify-end md:justify-center pointer-events-none pb-12 md:pb-0">
-        <div className="max-w-2xl pointer-events-auto">
+      <div className="relative z-20 h-full w-full px-4 sm:px-6 lg:px-12 pointer-events-none">
+        <div className="max-w-7xl mx-auto h-full flex flex-col justify-end md:justify-center pb-12 md:pb-0">
+          <div className="max-w-2xl pointer-events-auto">
           <div className="inline-flex items-center gap-2 bg-black/80 backdrop-blur-md border border-red-500/40 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono text-white mb-3 self-start">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
             <span className="text-red-400 font-bold uppercase tracking-wider">SHOWROOM SPOTLIGHT</span>
@@ -107,6 +108,7 @@ function BannerSlider({ vehicles }: { vehicles: Vehicle[] }) {
             </Link>
           </div>
         </div>
+      </div>
       </div>
 
       {/* Prev / Next Chevrons */}
@@ -216,7 +218,7 @@ function VehiclesContent() {
   }, [searchQuery, selectedCategory, selectedMake, selectedPriceRange, sortBy]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 8; // Exactly 2 rows of 4 cards on desktop
+  const ITEMS_PER_PAGE = 6; // Exactly 2 rows of 3 cards on desktop
 
   // Reset to page 1 whenever search or filter options change
   useEffect(() => {
@@ -273,20 +275,22 @@ function VehiclesContent() {
           <BannerSlider vehicles={spotlightVehicles} />
         </div>
 
-        {/* Clean Breadcrumb Strip */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 mb-6 flex items-center justify-between text-xs font-mono text-slate-400">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="hover:text-red-400 transition">Home</Link>
-            <span>/</span>
-            <span className="text-white font-semibold">Vehicles For Sale</span>
+        {/* Vehicles Content Container matching Header/Footer width */}
+        <div className="w-full px-4 sm:px-6 lg:px-12">
+          {/* Clean Breadcrumb Strip */}
+          <div className="max-w-7xl mx-auto mb-6 flex items-center justify-between text-xs font-mono text-slate-400">
+            <div className="flex items-center gap-2">
+              <Link href="/" className="hover:text-red-400 transition">Home</Link>
+              <span>/</span>
+              <span className="text-white font-semibold">Vehicles For Sale</span>
+            </div>
+            <span className="text-slate-400 hidden sm:inline">
+              <strong className="text-white">{VEHICLES.length}</strong> Units Available in Showroom
+            </span>
           </div>
-          <span className="text-slate-400 hidden sm:inline">
-            <strong className="text-white">{VEHICLES.length}</strong> Units Available in Showroom
-          </span>
-        </div>
 
-        {/* Lightweight, Breathable Filter & Search Bar */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 mb-8">
+          {/* Lightweight, Breathable Filter & Search Bar */}
+          <div className="max-w-7xl mx-auto mb-8">
           <div className="bg-[#101017] border border-white/10 rounded p-4 sm:p-5 shadow-lg space-y-4">
             
             {/* Row 1: Search & Controls */}
@@ -421,7 +425,7 @@ function VehiclesContent() {
         </div>
 
         {/* Cars Inventory List / Grid */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="max-w-7xl mx-auto">
           <div id="inventory-catalog-top" className="scroll-mt-24" />
           
           <div className="flex items-center justify-between mb-5">
@@ -518,7 +522,7 @@ function VehiclesContent() {
             </div>
           ) : (
             /* Grid View */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {paginatedVehicles.map((car) => (
                 <div
                   key={car.id}
@@ -658,6 +662,7 @@ function VehiclesContent() {
           )}
 
         </div>
+      </div>
 
       </main>
 
