@@ -21,8 +21,8 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 lg:px-12 shadow-lg">
-      <div className="max-w-7xl mx-auto h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 lg:px-12 xl:px-16 shadow-lg">
+      <div className="w-full h-16 flex items-center justify-between">
         
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
