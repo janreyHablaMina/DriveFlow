@@ -79,9 +79,9 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
       </div>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-6 lg:px-12 py-8">
-        
-        {/* Clean Header: Title & Pricing */}
+      <main className="flex-1 w-full px-6 lg:px-12 py-8">
+        <div className="max-w-7xl mx-auto">
+          {/* Clean Header: Title & Pricing */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-6 border-b border-white/10 gap-4">
           <div>
             <div className="flex items-center gap-2.5 mb-2">
@@ -452,7 +452,7 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
             </div>
           </div>
         )}
-
+        </div>
       </main>
 
       <Footer />
