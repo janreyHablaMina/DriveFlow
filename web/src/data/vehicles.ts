@@ -41,7 +41,7 @@ export const VEHICLES: Vehicle[] = [
     price: '₱2,350,000',
     priceNumeric: 2350000,
     monthly: '₱38,500/mo',
-    badge: 'DEAL OF THE WEEK',
+    badge: 'Featured',
     mileage: '12,400 KM',
     fuel: 'Diesel',
     transmission: '10-Speed Electronic Automatic',
@@ -59,23 +59,23 @@ export const VEHICLES: Vehicle[] = [
       'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80'
     ],
-    description: 'The premier midsize SUV in the Philippines. Finished in immaculate Absolute Black with zero scratches or dents. Equipped with dual-panel panoramic moonroof, massive 12-inch Sync 4A portrait touchscreen with wireless Apple CarPlay/Android Auto, Bang & Olufsen premium acoustics, and full 360-degree surround cameras. Freshly detailed and covered under transferable manufacturer warranty until 2029.',
+    description: 'Ford Everest Titanium+ in Absolute Black. Equipped with panoramic moonroof, 12-inch touchscreen with wireless Apple CarPlay/Android Auto, Bang & Olufsen sound, and 360-degree cameras. Casa maintained with complete records.',
     features: [
       'Panoramic Dual-Panel Moonroof',
       '12-inch Sync 4A Touchscreen with Wireless CarPlay',
       'Bang & Olufsen 12-Speaker Sound System',
       '360-Degree Surround High-Definition Camera',
       'Blind Spot Information System with Trailer Coverage',
-      'Adaptive Cruise Control with Stop-and-Go & Lane Centering',
+      'Adaptive Cruise Control with Stop-and-Go',
       'Power Folding 3rd Row Seats with Hands-Free Tailgate',
       'Under Active Ford Casa Warranty & Complete Service Booklet'
     ],
     inspectionHighlights: [
-      { name: 'Engine Compression & Turbocharger', score: 'Pass (100% Factory Spec)' },
+      { name: 'Engine Compression & Turbocharger', score: 'Pass (Factory Spec)' },
       { name: '10-Speed Transmission & Shift Dynamics', score: 'Pass (Smooth)' },
-      { name: 'Electronic 4WD Transfer Case & Locking Diff', score: 'Pass (Fully Functional)' },
-      { name: 'Suspension, Bushings & Wheel Alignment', score: 'Pass (Zero Play)' },
-      { name: 'Frame & Underchassis Integrity Check', score: 'Pass (100% Zero Accident/Flood)' }
+      { name: 'Electronic 4WD Transfer Case & Locking Diff', score: 'Pass (Functional)' },
+      { name: 'Suspension, Bushings & Wheel Alignment', score: 'Pass (Verified)' },
+      { name: 'Frame & Underchassis Integrity Check', score: 'Pass (Clean / Flood-Free)' }
     ]
   },
   {
@@ -90,7 +90,7 @@ export const VEHICLES: Vehicle[] = [
     price: '₱1,450,000',
     priceNumeric: 1450000,
     monthly: '₱23,800/mo',
-    badge: 'SPORT SEDAN',
+    badge: 'Low Mileage',
     mileage: '14,000 KM',
     fuel: 'Gasoline',
     transmission: 'CVT with Steering Wheel Paddle Shifters',
@@ -138,7 +138,7 @@ export const VEHICLES: Vehicle[] = [
     price: '₱1,750,000',
     priceNumeric: 1750000,
     monthly: '₱28,600/mo',
-    badge: 'INDES-TRUCTIBLE',
+    badge: '1st Owner',
     mileage: '18,500 KM',
     fuel: 'Diesel',
     transmission: '6-Speed Automatic with Sequential Shift',
@@ -155,7 +155,7 @@ export const VEHICLES: Vehicle[] = [
       'https://images.unsplash.com/photo-1551830820-330a71b99659?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80'
     ],
-    description: 'The benchmark of bulletproof reliability in the Philippines. This Conquest edition boasts aggressive wide fender flares, black exterior door garnish, sports bar with integrated high-mount brake light, heavy-duty bedliner, and Toyota’s renowned 2.8L turbo diesel pushing a massive 500 Nm of torque. Zero off-road abuse, strictly city highway driven.',
+    description: 'Toyota Hilux Conquest 4x4 in Emotional Red. Factory overfenders, sports bar, heavy-duty bedliner, and powerful 2.8L turbo diesel engine. Strictly city driven with zero off-road abuse.',
     features: [
       '2.8L 1GD-FTV High-Output Turbo Diesel',
       'Conquest Signature Overfenders & Dark Chrome Grille',
@@ -186,7 +186,7 @@ export const VEHICLES: Vehicle[] = [
     price: '₱2,180,000',
     priceNumeric: 2180000,
     monthly: '₱35,700/mo',
-    badge: 'POPULAR CHOICE',
+    badge: 'Top Condition',
     mileage: '19,200 KM',
     fuel: 'Diesel',
     transmission: '6-Speed Automatic',
@@ -202,7 +202,7 @@ export const VEHICLES: Vehicle[] = [
       'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80'
     ],
-    description: 'The gold standard executive family SUV. Factory two-tone styling featuring split-level LED quad headlights, ventilated front leather seats, JBL 9-speaker concert acoustics, Toyota Safety Sense radar package, and electric tailgate with kick sensor. Meticulously maintained with scheduled casa service oil changes every 5,000 km.',
+    description: 'Toyota Fortuner LTD in factory Two-Tone Platinum White Pearl with contrast black roof. Features ventilated front leather cooling seats, JBL audio, Toyota Safety Sense, and power tailgate with kick sensor.',
     features: [
       'Two-Tone Platinum White Pearl with Contrast Black Roof',
       'Front Ventilated Leather Bucket Seats (Cooling)',
@@ -217,7 +217,7 @@ export const VEHICLES: Vehicle[] = [
       { name: 'Turbo Diesel Boost & Intercooler Seal', score: 'Pass (Factory Performance)' },
       { name: 'Transmission Fluid Quality & Shifts', score: 'Pass (Pristine)' },
       { name: 'Brake Pads & Electronic Parking Brake', score: 'Pass (90% Remaining)' },
-      { name: 'Air Conditioning Dual Evaporator Cooling', score: 'Pass (Ice Cold @ 16°C)' },
+      { name: 'Air Conditioning Dual Evaporator Cooling', score: 'Pass (Cold @ 16°C)' },
       { name: 'Full Underhood Electrical Harness Test', score: 'Pass (Untouched Factory Wire)' }
     ]
   },
@@ -233,7 +233,7 @@ export const VEHICLES: Vehicle[] = [
     price: '₱1,180,000',
     priceNumeric: 1180000,
     monthly: '₱19,300/mo',
-    badge: 'ECO & HYBRID',
+    badge: 'Hybrid / Coding-Free',
     mileage: '22,500 KM',
     fuel: 'Hybrid Electric (Self-Charging)',
     transmission: 'Electronically Controlled CVT (e-CVT)',
