@@ -1,7 +1,7 @@
 export default function Testimonials() {
   return (
-    <section className="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
-      <div className="max-w-5xl mx-auto">
+    <section className="px-6 lg:px-12 py-14 border-b border-white/10 bg-carbon">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <span className="text-xs font-black uppercase text-red-500 tracking-widest">// CLIENT REVIEWS</span>
           <h2 className="text-3xl font-black italic uppercase mt-1">Verified Vehicle Owners</h2>

@@ -8,8 +8,8 @@ export default function Location() {
 
   return (
     <>
-      <section id="section-location" className="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <section id="section-location" className="px-6 lg:px-12 py-16 border-b border-white/10 bg-carbon">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
             <span className="text-xs font-black uppercase text-red-500 tracking-widest">// SHOWROOM LOCATION</span>
             <h2 className="text-3xl font-black italic uppercase mt-1 mb-4">DriveFlow Motors Showroom</h2>
@@ -30,7 +30,7 @@ export default function Location() {
         </div>
       </section>
 
-      <section id="section-cta" className="px-6 lg:px-16 py-20 bg-black text-center relative overflow-hidden border-b-4 border-red-600">
+      <section id="section-cta" className="px-6 lg:px-12 py-20 bg-black text-center relative overflow-hidden border-b-4 border-red-600">
         <div className="absolute inset-0 opacity-15 bg-[url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1800&q=80')] bg-cover bg-center"></div>
         <div className="relative z-10 max-w-2xl mx-auto">
           <span className="bg-red-600 text-white text-[10px] font-black uppercase px-3 py-1 tracking-widest skew-12 inline-block mb-4">

@@ -6,8 +6,8 @@ export default function Promotions() {
   };
 
   return (
-    <section className="px-6 lg:px-16 py-12 bg-racing-red text-black border-b border-white/10">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+    <section className="px-6 lg:px-12 py-12 bg-racing-red text-black border-b border-white/10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
         <div>
           <span className="bg-black text-white text-[10px] font-black uppercase px-2 py-0.5 skew-12 inline-block mb-1">
             <span className="unskew-12 inline-block">LIMITED SHOWROOM PROMO</span>

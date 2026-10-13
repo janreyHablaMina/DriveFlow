@@ -16,8 +16,8 @@ export default function Showcase() {
   };
 
   return (
-    <section id="section-showcase" className="px-6 lg:px-16 py-16 border-b border-white/10 bg-carbon">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+    <section id="section-showcase" className="px-6 lg:px-12 py-16 border-b border-white/10 bg-carbon">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         <div className="h-80 bg-slate-900 border border-red-600/40 overflow-hidden relative">
           <img src={imgUrl} alt="Showcase Car" className="w-full h-full object-cover transition-all duration-500" />
           <div className="absolute bottom-3 left-3 bg-black/90 px-3 py-1 text-xs font-black text-red-500 border border-red-600/50">

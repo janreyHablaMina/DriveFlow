@@ -1,7 +1,7 @@
 export default function NewArrivals() {
   return (
-    <section className="px-6 lg:px-16 py-14 border-b border-white/10 bg-[#0a0a0e]">
-      <div className="max-w-6xl mx-auto">
+    <section className="px-6 lg:px-12 py-14 border-b border-white/10 bg-[#0a0a0e]">
+      <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-black uppercase italic">Fresh Showroom Arrivals</h2>
           <span className="text-xs font-mono text-red-500">Inspected & Documented This Week</span>

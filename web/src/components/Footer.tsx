@@ -31,7 +31,7 @@ export default function Footer() {
           <p className="text-[11px] text-slate-400 mt-0.5">sales@driveflow.ph</p>
         </div>
       </div>
-      <div className="max-w-6xl mx-auto pt-6 border-t border-white/5 text-center text-[10px] text-slate-600">
+      <div className="max-w-7xl mx-auto pt-6 border-t border-white/5 text-center text-[10px] text-slate-600">
         © 2026 DriveFlow Motors Manila. All rights reserved. Precision Automotive Dealership Platform.
       </div>
     </footer>

@@ -30,14 +30,14 @@ export default function FAQ() {
   ];
 
   return (
-    <section id="section-faq" className="px-6 lg:px-16 py-14 border-b border-white/10 bg-[#0a0a0e]">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-8">
+    <section id="section-faq" className="px-6 lg:px-12 py-16 border-b border-white/10 bg-[#0a0a0e]">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center max-w-3xl mx-auto mb-10">
           <span className="text-xs font-black uppercase text-red-500 tracking-widest">// COMMON QUESTIONS</span>
           <h2 className="text-3xl font-black italic uppercase mt-1">Frequently Asked Questions</h2>
         </div>
 
-        <div className="space-y-3 font-body">
+        <div className="max-w-4xl mx-auto space-y-3 font-body">
           {faqs.map((faq, index) => (
             <div key={index} className="border border-white/15 bg-black/60 rounded">
               <button 
