@@ -1,8 +1,8 @@
 export default function Telemetry() {
   return (
-    <section className="px-6 lg:px-16 py-12 bg-black border-b border-white/10 relative overflow-hidden">
+    <section className="px-6 lg:px-12 py-12 bg-black border-b border-white/10 relative overflow-hidden">
       <div className="absolute inset-0 bg-carbon opacity-30 pointer-events-none"></div>
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 text-center relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 text-center relative z-10">
         <div className="flex-1">
           <p className="text-4xl font-bold italic text-red-500 tracking-tight">500+</p>
           <p className="text-[10px] font-semibold text-slate-400 uppercase mt-2 tracking-widest">Vehicles Delivered Nationwide</p>

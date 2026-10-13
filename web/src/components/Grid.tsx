@@ -52,7 +52,7 @@ export default function Grid() {
   };
 
   return (
-    <section id="section-inventory" className="px-6 lg:px-16 py-16 border-b border-white/10 bg-[#08080c] relative">
+    <section id="section-inventory" className="px-6 lg:px-12 py-16 border-b border-white/10 bg-[#08080c] relative">
       <div className="max-w-7xl mx-auto">
         
         {/* Section Header */}

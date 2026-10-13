@@ -10,8 +10,8 @@ export default function CategoryBrowser() {
   };
 
   return (
-    <section className="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
-      <div className="max-w-6xl mx-auto">
+    <section id="section-categories" className="px-6 lg:px-12 py-14 border-b border-white/10 bg-carbon">
+      <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-end mb-8">
           <div>
             <span className="text-xs font-black text-red-500 uppercase tracking-widest">// SHOP BY LIFESTYLE</span>

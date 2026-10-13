@@ -4,7 +4,7 @@ import { ShieldCheck, Target, Users, ArrowRight } from 'lucide-react';
 
 export default function AboutCompany() {
   return (
-    <section className="px-6 lg:px-16 py-20 border-b border-white/10 bg-black relative overflow-hidden">
+    <section id="section-about" className="px-6 lg:px-12 py-20 border-b border-white/10 bg-black relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-carbon opacity-20 pointer-events-none"></div>
       
       <div className="max-w-7xl mx-auto relative z-10">

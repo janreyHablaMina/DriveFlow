@@ -18,8 +18,8 @@ export default function SearchFilter() {
   };
 
   return (
-    <section id="section-search" className="px-6 lg:px-16 py-12 border-b border-white/10 bg-black relative">
-      <div className="max-w-6xl mx-auto relative z-10 shadow-2xl">
+    <section id="section-search" className="px-6 lg:px-12 py-12 border-b border-white/10 bg-black relative">
+      <div className="max-w-7xl mx-auto relative z-10 shadow-2xl">
         <div className="bg-black/80 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-sm">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
             <h2 className="text-xl font-black italic uppercase tracking-wider text-white flex items-center gap-2">

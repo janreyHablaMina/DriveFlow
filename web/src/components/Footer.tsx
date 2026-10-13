@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="px-6 lg:px-16 py-10 bg-[#07070a] border-t border-red-600/30 text-xs text-slate-500 font-body">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 font-mono">
+    <footer className="px-6 lg:px-12 py-10 bg-[#07070a] border-t border-red-600/30 text-xs text-slate-500 font-body">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 font-mono">
         <div>
           <span className="text-lg font-black text-white block mb-2 font-sans">DRIVEFLOW MOTORS</span>
           <p className="text-[11px] text-slate-400">Manila&apos;s premier luxury & performance car dealership. Authenticated inventory, dealer warranty, and seamless bank financing.</p>

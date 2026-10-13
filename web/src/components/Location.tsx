@@ -8,7 +8,7 @@ export default function Location() {
 
   return (
     <>
-      <section className="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
+      <section id="section-location" className="px-6 lg:px-16 py-14 border-b border-white/10 bg-carbon">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
             <span className="text-xs font-black uppercase text-red-500 tracking-widest">// SHOWROOM LOCATION</span>
