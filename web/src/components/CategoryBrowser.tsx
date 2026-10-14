@@ -2,7 +2,11 @@
 
 export default function CategoryBrowser() {
   const selectCategory = (category: string) => {
-    alert(`[Category Selected: ${category}]\nDisplaying all qualifying inventory available for viewing.`);
+    const el = document.getElementById('section-inventory');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+    window.dispatchEvent(new CustomEvent('filter-inventory', { detail: category }));
   };
 
   return (

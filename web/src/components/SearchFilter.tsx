@@ -9,7 +9,12 @@ export default function SearchFilter() {
   const [budget, setBudget] = useState('any');
 
   const executeSearch = () => {
-    alert(`[Search Filter Applied]\nMake: ${make}\nBody Type: ${bodyType}\nBudget: ${budget}\n\nDisplaying matching vehicles in DriveFlow inventory.`);
+    const el = document.getElementById('section-inventory');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+    const target = bodyType !== 'all' ? bodyType : (make !== 'all' ? make : 'all');
+    window.dispatchEvent(new CustomEvent('filter-inventory', { detail: target }));
   };
 
   return (
