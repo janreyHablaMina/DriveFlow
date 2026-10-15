@@ -416,7 +416,7 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
                 Similar {vehicle.categoryLabel}s In Stock
               </h2>
               <Link 
-                href="/#section-inventory"
+                href="/vehicles"
                 className="text-xs text-red-400 hover:text-white flex items-center gap-1 transition"
               >
                 View All <ArrowRight className="w-3 h-3" />

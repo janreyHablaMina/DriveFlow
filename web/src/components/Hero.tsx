@@ -46,7 +46,7 @@ export default function Hero() {
               <AnimateOnScroll delay={400} direction="up">
                 <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
                   <Link 
-                    href="/#section-inventory" 
+                    href="/vehicles" 
                     className="button-shimmer bg-racing-red hover:bg-white hover:text-black active:bg-red-700 text-white font-bold text-xs px-6 py-3.5 rounded transition shadow-lg flex items-center justify-center gap-2 group cursor-pointer"
                   >
                     <span>Explore Inventory</span>

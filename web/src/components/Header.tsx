@@ -8,7 +8,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: 'Vehicles For Sale', href: '/#section-inventory' },
+    { label: 'Vehicles For Sale', href: '/vehicles' },
     { label: 'Categories', href: '/#section-categories' },
     { label: 'About Us', href: '/#section-about' },
     { label: 'Schedule Test Drive', href: '/#section-testdrive' },
