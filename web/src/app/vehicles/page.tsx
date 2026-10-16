@@ -215,6 +215,29 @@ function VehiclesContent() {
     });
   }, [searchQuery, selectedCategory, selectedMake, selectedPriceRange, sortBy]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 8; // Exactly 2 rows of 4 cards on desktop
+
+  // Reset to page 1 whenever search or filter options change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory, selectedMake, selectedPriceRange, sortBy]);
+
+  const totalPages = Math.ceil(filteredVehicles.length / ITEMS_PER_PAGE);
+
+  const paginatedVehicles = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredVehicles.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredVehicles, currentPage]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    const el = document.getElementById('inventory-catalog-top');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   const categories = [
     { id: 'all', label: 'All Cars', count: VEHICLES.length },
     { id: 'suv', label: 'Family SUVs', count: VEHICLES.filter(v => v.category === 'suv').length },
@@ -229,6 +252,7 @@ function VehiclesContent() {
     setSelectedMake('all');
     setSelectedPriceRange('all');
     setSortBy('featured');
+    setCurrentPage(1);
   };
 
   const hasActiveFilters = 
@@ -398,6 +422,7 @@ function VehiclesContent() {
 
         {/* Cars Inventory List / Grid */}
         <div className="w-full px-4 sm:px-6 lg:px-12 xl:px-16">
+          <div id="inventory-catalog-top" className="scroll-mt-24" />
           
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
@@ -406,6 +431,12 @@ function VehiclesContent() {
                 ({filteredVehicles.length} of {VEHICLES.length} units)
               </span>
             </h2>
+
+            {totalPages > 1 && (
+              <span className="text-xs font-mono text-slate-400">
+                Page <strong className="text-white">{currentPage}</strong> of <strong className="text-white">{totalPages}</strong>
+              </span>
+            )}
           </div>
 
           {filteredVehicles.length === 0 ? (
@@ -428,7 +459,7 @@ function VehiclesContent() {
           ) : viewMode === 'list' ? (
             /* List View */
             <div className="space-y-4">
-              {filteredVehicles.map((car) => (
+              {paginatedVehicles.map((car) => (
                 <div
                   key={car.id}
                   className="bg-[#101017] border border-white/10 hover:border-red-600/60 transition-all rounded overflow-hidden flex flex-col md:flex-row group shadow-lg"
@@ -488,7 +519,7 @@ function VehiclesContent() {
           ) : (
             /* Grid View */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredVehicles.map((car) => (
+              {paginatedVehicles.map((car) => (
                 <div
                   key={car.id}
                   className="bg-[#101017] border border-white/10 hover:border-red-600/70 transition-all rounded overflow-hidden flex flex-col group shadow-lg hover:-translate-y-1"
@@ -565,6 +596,64 @@ function VehiclesContent() {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Clean Modern Pagination Bar (2 Rows Per Page) */}
+          {totalPages > 1 && (
+            <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <span className="text-xs font-mono text-slate-400">
+                Showing <strong className="text-white">{(currentPage - 1) * ITEMS_PER_PAGE + 1}</strong> - <strong className="text-white">{Math.min(currentPage * ITEMS_PER_PAGE, filteredVehicles.length)}</strong> of <strong className="text-white">{filteredVehicles.length}</strong> vehicles
+              </span>
+
+              <div className="flex items-center gap-2">
+                {/* Previous Page Button */}
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`px-3.5 py-2 rounded text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+                    currentPage === 1
+                      ? 'bg-white/5 text-slate-600 border border-white/5 cursor-not-allowed'
+                      : 'bg-[#14141e] hover:bg-white/10 text-white border border-white/10'
+                  }`}
+                  aria-label="Previous Page"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Previous</span>
+                </button>
+
+                {/* Page Number Buttons */}
+                <div className="flex items-center gap-1.5">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`w-9 h-9 rounded text-xs font-mono font-bold transition cursor-pointer flex items-center justify-center ${
+                        currentPage === page
+                          ? 'bg-red-600 text-white shadow-md'
+                          : 'bg-[#14141e] hover:bg-white/10 text-slate-300 hover:text-white border border-white/10'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Next Page Button */}
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={`px-3.5 py-2 rounded text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer ${
+                    currentPage === totalPages
+                      ? 'bg-white/5 text-slate-600 border border-white/5 cursor-not-allowed'
+                      : 'bg-[#14141e] hover:bg-white/10 text-white border border-white/10'
+                  }`}
+                  aria-label="Next Page"
+                >
+                  <span>Next</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           )}
 
