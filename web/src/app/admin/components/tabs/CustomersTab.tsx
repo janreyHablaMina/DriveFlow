@@ -27,6 +27,7 @@ import {
   Sparkles,
   MapPin,
   ExternalLink,
+  Car,
 } from 'lucide-react';
 import {
   Customer,
@@ -92,6 +93,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
   const [formTin, setFormTin] = useState('');
   const [formAddress, setFormAddress] = useState('');
   const [formEmployer, setFormEmployer] = useState('');
+  const [formVehicle, setFormVehicle] = useState('');
   const [formIncome, setFormIncome] = useState(300000);
   const [formPaymentType, setFormPaymentType] = useState<'Cash' | 'Financing'>('Financing');
   const [formCreditTier, setFormCreditTier] = useState<Customer['creditTier']>('Tier 1 - Excellent (750+)');
@@ -110,17 +112,50 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
   // Helper to distinguish if client is Cash or Financing
   const getCustomerDealType = (cust: Customer): 'Cash' | 'Financing' => {
     if (cust.paymentType) return cust.paymentType;
-    // Check if they have an active financing application
     const hasFinancingApp = applications.some((a) => a.customerId === cust.id);
     if (hasFinancingApp) return 'Financing';
-    // Check sales records
     const custSales = sales.filter((s) => s.customerId === cust.id);
     if (custSales.some((s) => s.financingType === 'Full Cash Sale')) return 'Cash';
     if (custSales.some((s) => s.financingType === 'In-House Financing' || s.financingType === 'Bank Partner Financed')) return 'Financing';
-    // Check tags
     if (cust.tags?.some((t) => t.toLowerCase().includes('cash'))) return 'Cash';
     if (cust.tags?.some((t) => t.toLowerCase().includes('financ'))) return 'Financing';
     return 'Financing';
+  };
+
+  // Helper to get vehicle of interest or purchased vehicle
+  const getCustomerVehicle = (cust: Customer) => {
+    if (cust.interestedVehicleName) {
+      return {
+        name: cust.interestedVehicleName,
+        isPurchased: cust.totalPurchases > 0,
+      };
+    }
+    const custSale = sales.find((s) => s.customerId === cust.id);
+    if (custSale) {
+      return {
+        name: custSale.vehicleName,
+        isPurchased: true,
+      };
+    }
+    const custApp = applications.find((a) => a.customerId === cust.id);
+    if (custApp) {
+      return {
+        name: custApp.vehicleName,
+        isPurchased: false,
+      };
+    }
+    return null;
+  };
+
+  // Helper to get financing institution or status channel
+  const getCustomerFinancingChannel = (cust: Customer) => {
+    const custApp = applications.find((a) => a.customerId === cust.id);
+    if (custApp) return custApp.financingChannel;
+    const custSale = sales.find((s) => s.customerId === cust.id);
+    if (custSale && custSale.financingType !== 'Full Cash Sale') {
+      return custSale.financingBank || custSale.financingType;
+    }
+    return null;
   };
 
   // Top KPI metrics calculations
@@ -156,7 +191,9 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
         c.email.toLowerCase().includes(search.toLowerCase()) ||
         c.phone.includes(search) ||
         c.employer.toLowerCase().includes(search.toLowerCase()) ||
-        c.city.toLowerCase().includes(search.toLowerCase());
+        c.city.toLowerCase().includes(search.toLowerCase()) ||
+        c.assignedAgent.toLowerCase().includes(search.toLowerCase()) ||
+        (c.interestedVehicleName && c.interestedVehicleName.toLowerCase().includes(search.toLowerCase()));
       const dealType = getCustomerDealType(c);
       const matchDealType = dealTypeFilter === 'all' || dealType === dealTypeFilter;
       const matchTag = tagFilter === 'all' || (c.tags && c.tags.includes(tagFilter));
@@ -196,6 +233,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
       paymentType: formPaymentType,
       assignedAgent: formAgent,
       branchId: 'main',
+      interestedVehicleName: formVehicle.trim() || undefined,
       tags: formPaymentType === 'Cash' ? ['Cash Buyer', 'Verified KYC'] : ['Financing Applicant', 'Showroom Prospect'],
       totalPurchases: 0,
       lastContactDate: new Date().toISOString().split('T')[0],
@@ -208,6 +246,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
     setFormTin('');
     setFormAddress('');
     setFormEmployer('');
+    setFormVehicle('');
     setFormIncome(300000);
     setFormPaymentType('Financing');
   };
@@ -360,7 +399,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
               setSearch(e.target.value);
               setCurrentPage(1);
             }}
-            placeholder="Search client name, phone, email, employer, city..."
+            placeholder="Search by client, advisor, vehicle, phone, email, employer..."
             className="w-full bg-slate-900 border border-slate-700/60 rounded-none pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-red-500"
           />
         </div>
@@ -417,19 +456,18 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-900/90 text-[10px] font-mono text-slate-400 uppercase tracking-wider border-b border-slate-800">
               <tr>
-                <th className="py-3 px-4">Client Dossier</th>
-                <th className="py-3 px-3">Contact & Address</th>
-                <th className="py-3 px-3">Employer / Monthly Income</th>
-                <th className="py-3 px-3">Deal Type</th>
-                <th className="py-3 px-3">Assigned Agent</th>
-                <th className="py-3 px-3">Total Purchases</th>
+                <th className="py-3 px-4">Client & Advisor</th>
+                <th className="py-3 px-3">Vehicle of Interest / Acquired</th>
+                <th className="py-3 px-3">Deal Structure</th>
+                <th className="py-3 px-3">Deal Value</th>
+                <th className="py-3 px-3">Quick Contact</th>
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60 text-slate-300">
               {paginatedCustomers.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-slate-500 font-mono text-xs">
+                  <td colSpan={6} className="py-12 text-center text-slate-500 font-mono text-xs">
                     No client records match your current filters.
                   </td>
                 </tr>
@@ -437,11 +475,13 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                 paginatedCustomers.map((cust, idx) => {
                   const isNearBottom = idx >= paginatedCustomers.length - 2 && paginatedCustomers.length > 2;
                   const dealType = getCustomerDealType(cust);
+                  const vehicleInfo = getCustomerVehicle(cust);
+                  const financingChannel = getCustomerFinancingChannel(cust);
 
                   return (
                     <tr key={cust.id} className="hover:bg-slate-800/40 transition">
-                      {/* Client Dossier & Initials */}
-                      <td className="py-3 px-4">
+                      {/* Client & Advisor */}
+                      <td className="py-3.5 px-4">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-xs flex items-center justify-center shrink-0">
                             {getInitials(cust.name)}
@@ -453,62 +493,31 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                                 setSelectedCustomer(cust);
                                 setActiveDossierTab('overview');
                               }}
-                              className="font-bold text-white hover:text-red-400 transition text-left cursor-pointer"
+                              className="font-bold text-white hover:text-red-400 transition text-left cursor-pointer text-xs"
                             >
                               {cust.name}
                             </button>
-                            <div className="text-[10px] text-slate-400 mt-1 flex flex-wrap gap-1">
-                              {cust.tags.map((t, tIdx) => (
-                                <span
-                                  key={tIdx}
-                                  className="bg-slate-800/90 text-slate-300 border border-slate-700/60 px-1.5 py-0.5 rounded-none text-[9px] font-mono"
-                                >
-                                  {t}
-                                </span>
-                              ))}
+                            <div className="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
+                              <UserCheck className="w-3 h-3 text-red-500 shrink-0" />
+                              <span>Assisted by: <strong className="text-slate-200 font-medium">{cust.assignedAgent}</strong></span>
                             </div>
                           </div>
                         </div>
                       </td>
 
-                      {/* Contact & Address */}
-                      <td className="py-3 px-3 text-[11px]">
-                        <div className="flex items-center gap-1.5 text-slate-200">
-                          <Phone className="w-3 h-3 text-slate-400" />
-                          <a
-                            href={`tel:${cust.phone}`}
-                            className="hover:text-red-400 transition font-mono"
-                          >
-                            {cust.phone}
-                          </a>
-                        </div>
-                        <div className="flex items-center gap-1.5 text-slate-400 mt-0.5">
-                          <Mail className="w-3 h-3 text-slate-500" />
-                          <a
-                            href={`mailto:${cust.email}`}
-                            className="hover:text-white transition truncate max-w-[160px]"
-                          >
-                            {cust.email}
-                          </a>
-                        </div>
-                        <div className="flex items-center gap-1 text-[10px] text-slate-500 mt-0.5">
-                          <MapPin className="w-2.5 h-2.5" />
-                          <span className="truncate max-w-[160px]">{cust.city}</span>
-                        </div>
+                      {/* Vehicle of Interest / Acquired */}
+                      <td className="py-3.5 px-3 text-[11px]">
+                        {vehicleInfo ? (
+                          <span className="font-semibold text-white truncate block max-w-[230px]" title={vehicleInfo.name}>
+                            {vehicleInfo.name}
+                          </span>
+                        ) : (
+                          <span className="text-slate-600 font-mono text-[10px]">—</span>
+                        )}
                       </td>
 
-                      {/* Employer & Income */}
-                      <td className="py-3 px-3 text-[11px]">
-                        <div className="text-slate-200 font-medium truncate max-w-[180px]" title={cust.employer}>
-                          {cust.employer}
-                        </div>
-                        <div className="text-emerald-400 font-mono font-medium mt-0.5">
-                          {currencySymbol}{cust.monthlyIncome.toLocaleString()} / mo
-                        </div>
-                      </td>
-
-                      {/* Deal Type: Cash vs Financing */}
-                      <td className="py-3 px-3">
+                      {/* Deal Structure: Cash vs Financing */}
+                      <td className="py-3.5 px-3">
                         {dealType === 'Cash' ? (
                           <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold border inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
                             <Banknote className="w-3.5 h-3.5 text-emerald-400" />
@@ -522,16 +531,10 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                         )}
                       </td>
 
-                      {/* Assigned Agent */}
-                      <td className="py-3 px-3 text-slate-300 text-[11px]">
-                        <div className="font-medium text-slate-200">{cust.assignedAgent}</div>
-                        <div className="text-[10px] text-slate-500 font-mono">Lead Advisor</div>
-                      </td>
-
-                      {/* Total Purchases */}
-                      <td className="py-3 px-3 font-mono font-bold text-white text-[11px]">
+                      {/* Total Purchases / Deal Value */}
+                      <td className="py-3.5 px-3 font-mono text-[11px]">
                         {cust.totalPurchases > 0 ? (
-                          <span className="text-emerald-400">
+                          <span className="font-bold text-white">
                             {currencySymbol}{cust.totalPurchases.toLocaleString()}
                           </span>
                         ) : (
@@ -539,8 +542,34 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                         )}
                       </td>
 
+                      {/* Quick Contact */}
+                      <td className="py-3.5 px-3 text-[11px]">
+                        <div className="flex items-center gap-1.5 text-slate-200">
+                          <Phone className="w-3 h-3 text-slate-400 shrink-0" />
+                          <a
+                            href={`tel:${cust.phone}`}
+                            className="hover:text-red-400 transition font-mono"
+                          >
+                            {cust.phone}
+                          </a>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-slate-400 mt-0.5">
+                          <Mail className="w-3 h-3 text-slate-500 shrink-0" />
+                          <a
+                            href={`mailto:${cust.email}`}
+                            className="hover:text-white transition truncate max-w-[150px]"
+                          >
+                            {cust.email}
+                          </a>
+                        </div>
+                        <div className="flex items-center gap-1 text-[10px] text-slate-500 mt-0.5">
+                          <MapPin className="w-2.5 h-2.5 shrink-0" />
+                          <span className="truncate max-w-[150px]">{cust.city}</span>
+                        </div>
+                      </td>
+
                       {/* Actions Triple-dot Menu */}
-                      <td className="py-3 px-4 text-right">
+                      <td className="py-3.5 px-4 text-right">
                         <div className="customer-action-menu relative inline-block text-left">
                           <button
                             type="button"
@@ -797,6 +826,10 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                     </a>
                   </div>
                   <div>
+                    <span className="text-slate-500 uppercase text-[10px] font-mono block">Lead Sales Advisor</span>
+                    <span className="text-slate-200 font-medium">{selectedCustomer.assignedAgent}</span>
+                  </div>
+                  <div>
                     <span className="text-slate-500 uppercase text-[10px] font-mono block">Employer / Company</span>
                     <span className="text-slate-200">{selectedCustomer.employer}</span>
                   </div>
@@ -820,7 +853,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                       {selectedCustomer.creditTier}
                     </span>
                   </div>
-                  <div className="col-span-2">
+                  <div>
                     <span className="text-slate-500 uppercase text-[10px] font-mono block">Registered Address</span>
                     <span className="text-slate-300">{selectedCustomer.address}, {selectedCustomer.city}</span>
                   </div>
@@ -829,10 +862,10 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                 {selectedCustomer.interestedVehicleName && (
                   <div className="p-3.5 rounded-none bg-red-950/20 border border-red-500/30 flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] font-mono text-red-400 uppercase tracking-wider block">Interested Vehicle</span>
+                      <span className="text-[10px] font-mono text-red-400 uppercase tracking-wider block">Target Vehicle</span>
                       <span className="font-bold text-white text-sm">{selectedCustomer.interestedVehicleName}</span>
                     </div>
-                    <span className="text-xs font-semibold text-red-300 bg-red-500/20 px-2 py-1 rounded-none">Active Inquiry</span>
+                    <span className="text-xs font-semibold text-red-300 bg-red-500/20 px-2 py-1 rounded-none">Active Deal</span>
                   </div>
                 )}
               </div>
@@ -1003,6 +1036,17 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                     className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white focus:outline-hidden focus:border-red-500"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="text-slate-400 block mb-1">Target / Inquired Vehicle</label>
+                <input
+                  type="text"
+                  placeholder="e.g. 2024 Ford Everest Titanium+ 4x4"
+                  value={formVehicle}
+                  onChange={(e) => setFormVehicle(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white focus:outline-hidden focus:border-red-500"
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-3">

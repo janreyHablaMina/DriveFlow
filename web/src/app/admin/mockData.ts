@@ -159,7 +159,7 @@ export const INITIAL_CUSTOMERS: Customer[] = [
     branchId: 'makati',
     interestedVehicleId: 'm3-2023',
     interestedVehicleName: '2023 BMW M3 Competition xDrive',
-    tags: ['High Net Worth', 'Physician', 'Ready For Release'],
+    tags: ['Ready For Release'],
     totalPurchases: 6950000,
     createdDate: '2026-09-02',
     lastContactDate: '2026-10-16',
