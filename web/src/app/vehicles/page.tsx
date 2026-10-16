@@ -1,466 +1,143 @@
 'use client';
 
-import { useState, useMemo, Suspense } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { 
   Search, 
-  SlidersHorizontal, 
   X, 
   ArrowRight, 
+  ChevronLeft, 
+  ChevronRight, 
   ShieldCheck, 
-  Car, 
-  Fuel, 
   Gauge, 
-  CheckCircle2, 
-  Sparkles,
-  Phone,
+  Fuel, 
+  Car, 
   RefreshCw,
   LayoutGrid,
   List,
-  ChevronLeft,
-  ChevronRight,
-  Eye,
-  Calendar,
-  Zap,
-  Check,
-  CheckCircle,
-  Award
+  Sparkles
 } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { VEHICLES, Vehicle } from '@/data/vehicles';
 
-function VehicleCard({ 
-  car, 
-  viewMode, 
-  onQuickView 
-}: { 
-  car: Vehicle; 
-  viewMode: 'grid' | 'list';
-  onQuickView: (car: Vehicle) => void;
-}) {
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
+// Featured Spotlight Vehicles for the Top Hero Banner Slider
+const SPOTLIGHT_IDS = ['bmw-2023', 'everest-2024', 'mercedes-2022', 'lexus-2021'];
 
-  const nextImage = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setActiveImageIndex((prev) => (prev + 1) % car.images.length);
-  };
+function BannerSlider({ vehicles }: { vehicles: Vehicle[] }) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const prevImage = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setActiveImageIndex((prev) => (prev - 1 + car.images.length) % car.images.length);
-  };
+  // Auto-advance slides every 5 seconds
+  useEffect(() => {
+    if (isPaused || vehicles.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % vehicles.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPaused, vehicles.length]);
 
-  const setImage = (e: React.MouseEvent, idx: number) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setActiveImageIndex(idx);
-  };
+  if (vehicles.length === 0) return null;
 
-  if (viewMode === 'list') {
-    return (
-      <div className="bg-[#0f0f17] border border-white/10 hover:border-red-600/70 transition-all duration-300 rounded overflow-hidden flex flex-col md:flex-row group shadow-xl hover:shadow-[0_15px_40px_rgba(225,6,0,0.15)]">
-        
-        {/* List Image Carousel Container */}
-        <div className="md:w-80 lg:w-96 h-60 md:h-auto relative shrink-0 overflow-hidden bg-slate-950">
-          <img
-            src={car.images[activeImageIndex]}
-            alt={car.name}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/80 via-transparent to-transparent pointer-events-none"></div>
-
-          {/* Image Navigation Arrows */}
-          {car.images.length > 1 && (
-            <>
-              <button
-                onClick={prevImage}
-                className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/70 hover:bg-red-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-10"
-                aria-label="Previous image"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={nextImage}
-                className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/70 hover:bg-red-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-10"
-                aria-label="Next image"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </>
-          )}
-
-          {/* Thumbnail Dots */}
-          <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 bg-black/60 backdrop-blur-sm px-2 py-1 rounded-full">
-            {car.images.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={(e) => setImage(e, idx)}
-                className={`w-1.5 h-1.5 rounded-full transition-all cursor-pointer ${
-                  activeImageIndex === idx ? 'w-4 bg-red-500' : 'bg-white/40 hover:bg-white/80'
-                }`}
-                aria-label={`Show image ${idx + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Badges on List Image */}
-          <div className="absolute top-3 left-3 flex items-center gap-2">
-            <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-black/85 backdrop-blur-md text-red-400 border border-red-500/30 uppercase">
-              {car.badge}
-            </span>
-            <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-red-600 text-white">
-              {car.year}
-            </span>
-          </div>
-        </div>
-
-        {/* List Content */}
-        <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
-          <div>
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-              <span className="text-[10px] font-mono font-bold text-red-500 uppercase tracking-widest flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5" /> {car.categoryLabel}
-              </span>
-              <span className="text-[11px] font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded border border-white/5">
-                Plate Ending: <strong className="text-white">{car.plateEnding.split(' ')[0]}</strong>
-              </span>
-            </div>
-
-            <h2 className="text-lg sm:text-xl font-bold text-white group-hover:text-red-400 transition-colors">
-              {car.name}
-            </h2>
-            <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-              {car.description}
-            </p>
-
-            {/* Spec Matrix */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 my-4 py-2.5 px-3 bg-black/40 rounded border border-white/5 text-xs">
-              <div>
-                <span className="text-[10px] font-mono text-slate-400 block uppercase">Mileage</span>
-                <span className="font-semibold text-white truncate block">{car.mileage}</span>
-              </div>
-              <div>
-                <span className="text-[10px] font-mono text-slate-400 block uppercase">Engine</span>
-                <span className="font-semibold text-white truncate block">{car.engine}</span>
-              </div>
-              <div>
-                <span className="text-[10px] font-mono text-slate-400 block uppercase">Power</span>
-                <span className="font-semibold text-white truncate block">{car.power.split('@')[0]}</span>
-              </div>
-              <div>
-                <span className="text-[10px] font-mono text-slate-400 block uppercase">Transmission</span>
-                <span className="font-semibold text-white truncate block">{car.transmission.split(' ')[0]}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Pricing and Action row */}
-          <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <span className="text-[10px] font-mono text-slate-400 block uppercase">Cash Purchase Price</span>
-              <div className="flex items-baseline gap-2">
-                <span className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  {car.price}
-                </span>
-                <span className="text-xs text-red-400 font-mono font-medium">
-                  Est. {car.monthly}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => onQuickView(car)}
-                className="bg-[#181824] hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white px-3.5 py-2.5 rounded text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer"
-              >
-                <Eye className="w-3.5 h-3.5 text-red-400" />
-                <span>Quick Specs</span>
-              </button>
-              <Link
-                href={`/vehicles/${car.id}`}
-                className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-5 py-2.5 rounded transition flex items-center gap-2 group/btn cursor-pointer shadow-md"
-              >
-                <span>View Full Details</span>
-                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    );
-  }
-
-  // Grid View Mode
-  return (
-    <div className="bg-[#0f0f17] border border-white/10 hover:border-red-600/70 transition-all duration-300 rounded overflow-hidden flex flex-col group shadow-xl hover:-translate-y-1.5 hover:shadow-[0_20px_45px_rgba(225,6,0,0.18)]">
-      
-      {/* Vehicle Image Container with Multi-Image Navigation */}
-      <div className="h-56 sm:h-60 relative overflow-hidden bg-slate-950">
-        <img
-          src={car.images[activeImageIndex]}
-          alt={car.name}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-transparent pointer-events-none"></div>
-
-        {/* Left / Right Image Arrows on Hover */}
-        {car.images.length > 1 && (
-          <>
-            <button
-              onClick={prevImage}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/70 hover:bg-red-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-10"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={nextImage}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/70 hover:bg-red-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all cursor-pointer z-10"
-              aria-label="Next image"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </>
-        )}
-
-        {/* Thumbnail Dots */}
-        <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10 bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-full">
-          {car.images.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={(e) => setImage(e, idx)}
-              className={`w-1.5 h-1.5 rounded-full transition-all cursor-pointer ${
-                activeImageIndex === idx ? 'w-3.5 bg-red-500' : 'bg-white/40 hover:bg-white/80'
-              }`}
-              aria-label={`Show image ${idx + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Top Badges */}
-        <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-          <span className="text-[10px] font-bold font-mono px-2.5 py-1 rounded bg-black/85 backdrop-blur-md text-red-400 border border-red-500/30 uppercase">
-            {car.badge}
-          </span>
-          <span className="text-[11px] font-mono font-bold text-white bg-red-600 px-2 py-0.5 rounded">
-            {car.year}
-          </span>
-        </div>
-
-        {/* Bottom Mileage & Coding Overlay */}
-        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-[10px] font-mono text-slate-300 pointer-events-none">
-          <span className="bg-black/85 backdrop-blur-md px-2 py-0.5 rounded border border-white/10 flex items-center gap-1">
-            <Gauge className="w-3 h-3 text-red-500" /> {car.mileage}
-          </span>
-          <span className="bg-black/85 backdrop-blur-md px-2 py-0.5 rounded border border-white/10">
-            Plate: {car.plateEnding.split(' ')[0]}
-          </span>
-        </div>
-      </div>
-
-      {/* Vehicle Info */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
-        <div>
-          <span className="text-[10px] font-mono font-bold text-red-500 uppercase tracking-widest block mb-1">
-            {car.categoryLabel}
-          </span>
-          <h2 className="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors line-clamp-1">
-            {car.name}
-          </h2>
-          <p className="text-xs text-slate-400 mt-0.5 line-clamp-1">
-            {car.color} • {car.trim}
-          </p>
-
-          {/* Quick Specs Pill Row */}
-          <div className="grid grid-cols-2 gap-2 my-3 py-2 px-3 bg-black/40 rounded border border-white/5 text-[11px] text-slate-300">
-            <div className="flex items-center gap-1.5 truncate">
-              <Zap className="w-3.5 h-3.5 text-red-400 shrink-0" />
-              <span className="truncate">{car.power.split('@')[0]}</span>
-            </div>
-            <div className="flex items-center gap-1.5 truncate">
-              <Fuel className="w-3.5 h-3.5 text-red-400 shrink-0" />
-              <span className="truncate">{car.fuel}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Price & Action Row */}
-        <div className="pt-3 border-t border-white/10">
-          <div className="flex items-baseline justify-between mb-3">
-            <div>
-              <span className="text-[9px] font-mono text-slate-400 block uppercase">Cash Price</span>
-              <span className="text-lg sm:text-xl font-bold text-white tracking-tight">
-                {car.price}
-              </span>
-            </div>
-            <div className="text-right">
-              <span className="text-[9px] font-mono text-slate-400 block uppercase">Est. Monthly</span>
-              <span className="text-xs sm:text-sm font-semibold text-red-400 font-mono">
-                {car.monthly}
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              onClick={() => onQuickView(car)}
-              className="bg-[#181824] hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white font-semibold text-xs py-2.5 px-2 rounded transition flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <Eye className="w-3.5 h-3.5 text-red-400" />
-              <span>Specs</span>
-            </button>
-            <Link
-              href={`/vehicles/${car.id}`}
-              className="bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-bold text-xs py-2.5 px-3 rounded transition text-center flex items-center justify-center gap-1 group/btn cursor-pointer shadow-md"
-            >
-              <span>Details</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  );
-}
-
-function QuickSpecsModal({ 
-  car, 
-  onClose 
-}: { 
-  car: Vehicle | null; 
-  onClose: () => void; 
-}) {
-  if (!car) return null;
+  const currentCar = vehicles[currentSlide];
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div 
-        className="bg-[#11111a] border border-white/15 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center border border-white/10 transition cursor-pointer z-10"
+    <div 
+      className="relative w-full h-[360px] xs:h-[400px] sm:h-[450px] lg:h-[480px] overflow-hidden rounded-none md:rounded-lg border-y md:border border-white/10 shadow-2xl bg-black group"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      {/* Background Image with Smooth Fade Transition */}
+      {vehicles.map((car, idx) => (
+        <div
+          key={car.id}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+          }`}
         >
-          <X className="w-4 h-4" />
-        </button>
-
-        {/* Header Photo */}
-        <div className="relative h-60 sm:h-72 overflow-hidden bg-slate-950">
           <img
             src={car.images[0]}
             alt={car.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#11111a] via-transparent to-transparent"></div>
-          
-          <div className="absolute bottom-4 left-4 right-4">
-            <span className="text-[10px] font-mono font-bold bg-red-600 text-white px-2.5 py-0.5 rounded uppercase">
-              {car.categoryLabel}
+          {/* Cinematic Vignette Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/95 via-black/60 md:via-black/40 to-transparent pointer-events-none"></div>
+        </div>
+      ))}
+
+      {/* Slide Content Overlay */}
+      <div className="relative z-20 h-full flex flex-col justify-end md:justify-center p-5 sm:p-8 lg:p-12 max-w-2xl">
+        <div className="inline-flex items-center gap-2 bg-black/80 backdrop-blur-md border border-red-500/40 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono text-white mb-3 self-start">
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+          <span className="text-red-400 font-bold uppercase tracking-wider">SHOWROOM SPOTLIGHT</span>
+          <span className="text-slate-400">•</span>
+          <span className="text-slate-300">Ready For Delivery</span>
+        </div>
+
+        <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-black italic uppercase text-white tracking-tight leading-[0.95] drop-shadow-lg">
+          {currentCar.name}
+        </h2>
+
+        {/* Specs Pill */}
+        <p className="text-xs sm:text-sm text-slate-300 mt-2 font-mono flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span>{currentCar.engine}</span>
+          <span className="text-red-500">•</span>
+          <span>{currentCar.power.split('@')[0]}</span>
+          <span className="text-red-500">•</span>
+          <span>{currentCar.mileage}</span>
+        </p>
+
+        {/* Price & CTA */}
+        <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-4">
+          <div>
+            <span className="text-[10px] font-mono text-slate-400 block uppercase">Cash Outright Price</span>
+            <span className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              {currentCar.price}
             </span>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mt-1">
-              {car.name}
-            </h2>
-            <p className="text-xs text-slate-300">
-              {car.year} • {car.color} • {car.mileage} • Plate Ending {car.plateEnding}
-            </p>
           </div>
+
+          <Link
+            href={`/vehicles/${currentCar.id}`}
+            className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-3.5 rounded transition flex items-center gap-2 group/btn cursor-pointer shadow-lg ml-auto sm:ml-0"
+          >
+            <span>Explore This Vehicle</span>
+            <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+          </Link>
         </div>
+      </div>
 
-        {/* Content */}
-        <div className="p-5 sm:p-6 space-y-5">
-          
-          {/* Price Strip */}
-          <div className="bg-black/50 p-4 rounded border border-white/5 flex items-center justify-between">
-            <div>
-              <span className="text-[10px] font-mono text-slate-400 uppercase block">Outright Cash Price</span>
-              <span className="text-2xl font-bold text-white">{car.price}</span>
-            </div>
-            <div className="text-right">
-              <span className="text-[10px] font-mono text-slate-400 uppercase block">Estimated Financing</span>
-              <span className="text-base font-bold text-red-400 font-mono">{car.monthly}</span>
-            </div>
-          </div>
+      {/* Prev / Next Chevrons */}
+      <button
+        onClick={() => setCurrentSlide((prev) => (prev - 1 + vehicles.length) % vehicles.length)}
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center border border-white/20 transition cursor-pointer backdrop-blur-sm"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="w-5 h-5" />
+      </button>
 
-          {/* Key Specifications Table */}
-          <div>
-            <h3 className="text-xs font-bold uppercase text-slate-300 tracking-wider mb-2.5 flex items-center gap-1.5">
-              <Award className="w-4 h-4 text-red-500" /> Vehicle Specifications
-            </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
-              <div className="bg-[#181824] p-2.5 rounded border border-white/5">
-                <span className="text-slate-400 text-[10px] block">Engine</span>
-                <span className="text-white font-medium">{car.engine}</span>
-              </div>
-              <div className="bg-[#181824] p-2.5 rounded border border-white/5">
-                <span className="text-slate-400 text-[10px] block">Power & Torque</span>
-                <span className="text-white font-medium">{car.power.split('@')[0]}</span>
-              </div>
-              <div className="bg-[#181824] p-2.5 rounded border border-white/5">
-                <span className="text-slate-400 text-[10px] block">Transmission</span>
-                <span className="text-white font-medium truncate block">{car.transmission}</span>
-              </div>
-              <div className="bg-[#181824] p-2.5 rounded border border-white/5">
-                <span className="text-slate-400 text-[10px] block">Drivetrain</span>
-                <span className="text-white font-medium">{car.drivetrain}</span>
-              </div>
-              <div className="bg-[#181824] p-2.5 rounded border border-white/5">
-                <span className="text-slate-400 text-[10px] block">Fuel Type</span>
-                <span className="text-white font-medium">{car.fuel}</span>
-              </div>
-              <div className="bg-[#181824] p-2.5 rounded border border-white/5">
-                <span className="text-slate-400 text-[10px] block">Seating Capacity</span>
-                <span className="text-white font-medium">{car.seating}</span>
-              </div>
-            </div>
-          </div>
+      <button
+        onClick={() => setCurrentSlide((prev) => (prev + 1) % vehicles.length)}
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center border border-white/20 transition cursor-pointer backdrop-blur-sm"
+        aria-label="Next slide"
+      >
+        <ChevronRight className="w-4 h-4" />
+      </button>
 
-          {/* 200-Point Inspection highlights */}
-          <div>
-            <h3 className="text-xs font-bold uppercase text-slate-300 tracking-wider mb-2.5 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" /> 200-Point Certified Inspection
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-              {car.inspectionHighlights.map((item, idx) => (
-                <div key={idx} className="flex items-center justify-between p-2 rounded bg-black/40 border border-white/5">
-                  <span className="text-slate-300 flex items-center gap-1.5">
-                    <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> {item.name}
-                  </span>
-                  <span className="font-mono text-emerald-400 text-[11px]">{item.score}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Action buttons */}
-          <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row gap-3">
-            <Link
-              href={`/vehicles/${car.id}`}
-              className="flex-1 bg-red-600 hover:bg-red-500 text-white font-bold text-xs py-3 rounded transition text-center flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>View Full Vehicle Page & Loan Calculator</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <a
-              href="tel:+639170000000"
-              className="bg-[#181824] hover:bg-white/10 border border-white/10 text-white font-bold text-xs px-5 py-3 rounded transition text-center flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <Phone className="w-3.5 h-3.5 text-red-500" />
-              <span>Call Advisor</span>
-            </a>
-          </div>
-
-        </div>
-
+      {/* Slide Indicator Dots */}
+      <div className="absolute bottom-4 right-4 sm:right-8 z-30 flex items-center gap-2 bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+        {vehicles.map((car, idx) => (
+          <button
+            key={car.id}
+            onClick={() => setCurrentSlide(idx)}
+            className={`transition-all duration-300 rounded-full cursor-pointer ${
+              idx === currentSlide
+                ? 'w-6 h-2 bg-red-600'
+                : 'w-2 h-2 bg-white/40 hover:bg-white/80'
+            }`}
+            aria-label={`Go to slide ${idx + 1}`}
+          />
+        ))}
       </div>
     </div>
   );
@@ -475,34 +152,33 @@ function VehiclesContent() {
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [selectedMake, setSelectedMake] = useState<string>(initialMake);
   const [selectedPriceRange, setSelectedPriceRange] = useState<string>('all');
-  const [selectedTransmission, setSelectedTransmission] = useState<string>('all');
-  const [selectedFuel, setSelectedFuel] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [showFiltersMobile, setShowFiltersMobile] = useState(false);
-  const [quickViewCar, setQuickViewCar] = useState<Vehicle | null>(null);
 
-  // Extract unique makes from data
-  const allMakes = useMemo(() => {
-    const set = new Set(VEHICLES.map((v) => v.make));
-    return Array.from(set).sort();
+  // Spotlight vehicles for the banner
+  const spotlightVehicles = useMemo(() => {
+    const list = VEHICLES.filter((v) => SPOTLIGHT_IDS.includes(v.id));
+    return list.length > 0 ? list : VEHICLES.slice(0, 4);
   }, []);
 
-  // Filtered and sorted vehicles
+  // Unique makes
+  const allMakes = useMemo(() => {
+    return Array.from(new Set(VEHICLES.map((v) => v.make))).sort();
+  }, []);
+
+  // Filtered vehicles
   const filteredVehicles = useMemo(() => {
     return VEHICLES.filter((car) => {
-      // Search term
+      // Search
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
-        const matchesQuery = 
+        const matches = 
           car.name.toLowerCase().includes(q) ||
           car.make.toLowerCase().includes(q) ||
           car.model.toLowerCase().includes(q) ||
           car.categoryLabel.toLowerCase().includes(q) ||
-          car.year.toString().includes(q) ||
-          car.color.toLowerCase().includes(q) ||
-          car.description.toLowerCase().includes(q);
-        if (!matchesQuery) return false;
+          car.year.toString().includes(q);
+        if (!matches) return false;
       }
 
       // Category
@@ -515,25 +191,12 @@ function VehiclesContent() {
         return false;
       }
 
-      // Transmission
-      if (selectedTransmission !== 'all') {
-        const isAuto = car.transmission.toLowerCase().includes('auto') || car.transmission.toLowerCase().includes('pdk');
-        if (selectedTransmission === 'automatic' && !isAuto) return false;
-        if (selectedTransmission === 'manual' && isAuto) return false;
-      }
-
-      // Fuel
-      if (selectedFuel !== 'all') {
-        if (selectedFuel === 'diesel' && !car.fuel.toLowerCase().includes('diesel')) return false;
-        if (selectedFuel === 'gasoline' && !car.fuel.toLowerCase().includes('gas')) return false;
-      }
-
       // Price Range
       if (selectedPriceRange !== 'all') {
-        const price = car.priceNumeric;
-        if (selectedPriceRange === 'under-3m' && price >= 3000000) return false;
-        if (selectedPriceRange === '3m-6m' && (price < 3000000 || price > 6000000)) return false;
-        if (selectedPriceRange === 'above-6m' && price <= 6000000) return false;
+        const p = car.priceNumeric;
+        if (selectedPriceRange === 'under-2m' && p >= 2000000) return false;
+        if (selectedPriceRange === '2m-2.5m' && (p < 2000000 || p > 2500000)) return false;
+        if (selectedPriceRange === 'above-2.5m' && p <= 2500000) return false;
       }
 
       return true;
@@ -546,151 +209,72 @@ function VehiclesContent() {
         const numB = parseInt(b.mileage.replace(/\D/g, ''), 10) || 0;
         return numA - numB;
       }
-      return 0; // default / featured
+      return 0;
     });
-  }, [
-    searchQuery,
-    selectedCategory,
-    selectedMake,
-    selectedPriceRange,
-    selectedTransmission,
-    selectedFuel,
-    sortBy
-  ]);
+  }, [searchQuery, selectedCategory, selectedMake, selectedPriceRange, sortBy]);
 
-  const hasActiveFilters = 
-    searchQuery.trim() !== '' ||
-    selectedCategory !== 'all' ||
-    selectedMake !== 'all' ||
-    selectedPriceRange !== 'all' ||
-    selectedTransmission !== 'all' ||
-    selectedFuel !== 'all' ||
-    sortBy !== 'featured';
+  const categories = [
+    { id: 'all', label: 'All Cars', count: VEHICLES.length },
+    { id: 'suv', label: 'Family SUVs', count: VEHICLES.filter(v => v.category === 'suv').length },
+    { id: 'sedan', label: 'Daily Sedans', count: VEHICLES.filter(v => v.category === 'sedan').length },
+    { id: 'truck', label: 'Work & Utility', count: VEHICLES.filter(v => v.category === 'truck').length },
+    { id: 'premium', label: 'Premium & Luxury', count: VEHICLES.filter(v => v.category === 'premium').length },
+  ];
 
   const resetFilters = () => {
     setSearchQuery('');
     setSelectedCategory('all');
     setSelectedMake('all');
     setSelectedPriceRange('all');
-    setSelectedTransmission('all');
-    setSelectedFuel('all');
     setSortBy('featured');
   };
 
-  const categories = [
-    { id: 'all', label: 'All Inventory', count: VEHICLES.length },
-    { id: 'premium', label: 'Supercars & Premium', count: VEHICLES.filter(v => v.category === 'premium').length },
-    { id: 'suv', label: 'Executive SUVs', count: VEHICLES.filter(v => v.category === 'suv').length },
-    { id: 'sedan', label: 'Performance Sedans', count: VEHICLES.filter(v => v.category === 'sedan').length },
-    { id: 'truck', label: 'Utility Trucks', count: VEHICLES.filter(v => v.category === 'truck').length },
-  ];
+  const hasActiveFilters = 
+    searchQuery.trim() !== '' ||
+    selectedCategory !== 'all' ||
+    selectedMake !== 'all' ||
+    selectedPriceRange !== 'all' ||
+    sortBy !== 'featured';
 
   return (
-    <div className="min-h-screen bg-[#07070a] text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#09090e] text-slate-100 flex flex-col font-sans">
       <Header />
 
-      <main className="flex-1">
+      <main className="flex-1 pb-16">
         
-        {/* Luxury Showroom Studio Banner Header */}
-        <section className="relative px-4 sm:px-6 lg:px-12 pt-10 sm:pt-16 pb-12 sm:pb-16 border-b border-red-600/30 overflow-hidden bg-gradient-to-b from-[#13131c] via-[#0b0b10] to-[#07070a]">
-          
-          {/* Subtle Red Ambient Glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-red-600/12 blur-[140px] rounded-full pointer-events-none"></div>
-
-          <div className="max-w-7xl mx-auto relative z-10">
-            
-            {/* Breadcrumb Navigation */}
-            <div className="flex items-center gap-2 text-xs text-slate-400 font-mono mb-4">
-              <Link href="/" className="hover:text-red-400 transition">Showroom Home</Link>
-              <span>/</span>
-              <span className="text-white font-semibold">Allocated Showroom Inventory</span>
-            </div>
-
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-              <div>
-                {/* Live Inventory Status Pill */}
-                <div className="inline-flex items-center gap-2 bg-black/70 backdrop-blur-md border border-red-500/30 px-3 py-1 rounded text-[11px] font-mono text-white mb-3">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span className="text-red-400 font-bold uppercase tracking-wider">OFFICIAL SHOWROOM ARCHIVE</span>
-                  <span className="text-slate-400 hidden sm:inline">•</span>
-                  <span className="text-slate-300 hidden sm:inline">12 Available Allocations</span>
-                </div>
-
-                <h1 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black italic uppercase tracking-tighter text-white leading-[0.95]">
-                  VEHICLES FOR <span className="text-red-600 drop-shadow-[0_0_30px_rgba(225,6,0,0.4)]">SALE.</span>
-                </h1>
-                
-                <p className="text-xs sm:text-sm text-slate-300 mt-3 max-w-2xl leading-relaxed font-body">
-                  Metro Manila&apos;s authenticated showroom for luxury, supercar, and executive automobiles. Every allocation is 200-point inspected with official LTO NCR verification, clean title certification, and comprehensive dealer powertrain warranty.
-                </p>
-              </div>
-
-              {/* Fast Advisory Hotline Pill */}
-              <div className="bg-[#0f0f18]/90 backdrop-blur-md border border-white/10 p-4 rounded flex items-center gap-4 shrink-0 shadow-xl self-start lg:self-auto">
-                <div className="w-11 h-11 rounded bg-red-600/15 border border-red-500/30 text-red-500 flex items-center justify-center shrink-0">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">VIP INVENTORY HOTLINE</span>
-                  <span className="text-sm font-bold font-mono text-white tracking-wide">+63 (2) 8877-CARS</span>
-                  <span className="text-[10px] text-emerald-400 block font-mono">Mon–Sat 9AM–7PM</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Showroom Trust Telemetry Bar */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-8 pt-6 border-t border-white/10 text-xs font-mono">
-              <div className="bg-black/50 border border-white/5 p-3 sm:p-3.5 rounded flex items-center gap-3">
-                <ShieldCheck className="w-5 h-5 text-red-500 shrink-0" />
-                <div>
-                  <span className="text-[10px] text-slate-400 block uppercase">Title Guarantee</span>
-                  <span className="font-bold text-white text-xs sm:text-sm">100% Clean LTO Title</span>
-                </div>
-              </div>
-              <div className="bg-black/50 border border-white/5 p-3 sm:p-3.5 rounded flex items-center gap-3">
-                <Award className="w-5 h-5 text-emerald-400 shrink-0" />
-                <div>
-                  <span className="text-[10px] text-slate-400 block uppercase">Rigorous Audit</span>
-                  <span className="font-bold text-white text-xs sm:text-sm">200-Point Inspected</span>
-                </div>
-              </div>
-              <div className="bg-black/50 border border-white/5 p-3 sm:p-3.5 rounded flex items-center gap-3">
-                <Zap className="w-5 h-5 text-red-500 shrink-0" />
-                <div>
-                  <span className="text-[10px] text-slate-400 block uppercase">Financing Speed</span>
-                  <span className="font-bold text-white text-xs sm:text-sm">15-Min Bank Approval</span>
-                </div>
-              </div>
-              <div className="bg-black/50 border border-white/5 p-3 sm:p-3.5 rounded flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                <div>
-                  <span className="text-[10px] text-slate-400 block uppercase">Dealer Protection</span>
-                  <span className="font-bold text-white text-xs sm:text-sm">12-Mo Warranty</span>
-                </div>
-              </div>
-            </div>
-
+        {/* Clean Breadcrumb Strip */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pt-6 pb-4 flex items-center justify-between text-xs font-mono text-slate-400">
+          <div className="flex items-center gap-2">
+            <Link href="/" className="hover:text-red-400 transition">Home</Link>
+            <span>/</span>
+            <span className="text-white font-semibold">Vehicles For Sale</span>
           </div>
-        </section>
+          <span className="text-slate-400 hidden sm:inline">
+            <strong className="text-white">{VEHICLES.length}</strong> Units Available in Showroom
+          </span>
+        </div>
 
-        {/* Filter & Inventory Content Area */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:py-12">
-          
-          {/* Main Search & Control Deck */}
-          <div className="bg-[#0e0e15] border border-white/10 rounded-sm p-4 sm:p-5 mb-8 shadow-2xl">
+        {/* Top Hero Banner Slider */}
+        <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-12 mb-8">
+          <BannerSlider vehicles={spotlightVehicles} />
+        </div>
+
+        {/* Lightweight, Breathable Filter & Search Bar */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 mb-8">
+          <div className="bg-[#101017] border border-white/10 rounded p-4 sm:p-5 shadow-lg space-y-4">
             
-            {/* Row 1: Search bar, view switcher, and mobile filter button */}
+            {/* Row 1: Search & Controls */}
             <div className="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
               
-              {/* Search Box */}
+              {/* Search Bar */}
               <div className="relative flex-1">
                 <Search className="w-4 h-4 text-red-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search by car make, model, displacement, or keywords (e.g. Porsche, GT4 RS, Bi-Turbo, V8)..."
-                  className="w-full bg-[#14141e] border border-white/10 text-xs sm:text-sm text-white pl-10 pr-10 py-3 rounded outline-none focus:border-red-500 transition"
+                  placeholder="Search by car name, make, model (e.g. Ford, BMW, Everest, Civic)..."
+                  className="w-full bg-[#161622] border border-white/10 text-xs sm:text-sm text-white pl-10 pr-10 py-3 rounded outline-none focus:border-red-500 transition"
                 />
                 {searchQuery && (
                   <button
@@ -702,260 +286,289 @@ function VehiclesContent() {
                 )}
               </div>
 
-              {/* Right Controls: Sort & View Mode Switcher */}
-              <div className="flex items-center gap-2.5">
-                
-                {/* Sort Dropdown */}
-                <div className="flex items-center gap-2 bg-[#14141e] border border-white/10 px-3 py-2.5 rounded text-xs shrink-0">
-                  <span className="text-slate-400 font-mono hidden sm:inline">SORT:</span>
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="bg-transparent text-white font-medium outline-none cursor-pointer"
-                  >
-                    <option value="featured" className="bg-[#14141e] text-white">Featured Allocation</option>
-                    <option value="price-low" className="bg-[#14141e] text-white">Price: Low to High</option>
-                    <option value="price-high" className="bg-[#14141e] text-white">Price: High to Low</option>
-                    <option value="year-newest" className="bg-[#14141e] text-white">Year: Newest First</option>
-                    <option value="mileage-lowest" className="bg-[#14141e] text-white">Mileage: Lowest First</option>
-                  </select>
-                </div>
-
-                {/* Grid / List Switcher */}
-                <div className="hidden sm:flex items-center bg-[#14141e] border border-white/10 p-0.5 rounded">
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`p-2 rounded transition cursor-pointer ${
-                      viewMode === 'grid' ? 'bg-red-600 text-white shadow' : 'text-slate-400 hover:text-white'
-                    }`}
-                    title="Grid View"
-                  >
-                    <LayoutGrid className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`p-2 rounded transition cursor-pointer ${
-                      viewMode === 'list' ? 'bg-red-600 text-white shadow' : 'text-slate-400 hover:text-white'
-                    }`}
-                    title="List View"
-                  >
-                    <List className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Mobile Filter Toggle */}
-                <button
-                  onClick={() => setShowFiltersMobile(!showFiltersMobile)}
-                  className="md:hidden flex items-center justify-center gap-2 bg-[#14141e] border border-white/10 px-3.5 py-2.5 rounded text-xs font-semibold text-white cursor-pointer"
+              {/* Make / Brand Filter */}
+              <div className="flex items-center gap-2 bg-[#161622] border border-white/10 px-3 py-2.5 rounded text-xs">
+                <span className="text-slate-400 font-mono hidden sm:inline">MAKE:</span>
+                <select
+                  value={selectedMake}
+                  onChange={(e) => setSelectedMake(e.target.value)}
+                  className="bg-transparent text-white font-medium outline-none cursor-pointer"
                 >
-                  <SlidersHorizontal className="w-4 h-4 text-red-500" />
-                  <span>Filters</span>
-                </button>
+                  <option value="all" className="bg-[#161622] text-white">All Brands</option>
+                  {allMakes.map((m) => (
+                    <option key={m} value={m} className="bg-[#161622] text-white">{m}</option>
+                  ))}
+                </select>
               </div>
 
-            </div>
-
-            {/* Row 2: Category Navigation Tabs */}
-            <div className="flex items-center gap-2 pt-4 mt-4 border-t border-white/10 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-3.5 py-2 rounded text-xs font-bold whitespace-nowrap transition cursor-pointer flex items-center gap-2 uppercase tracking-wider ${
-                    selectedCategory === cat.id
-                      ? 'bg-red-600 text-white shadow-[0_0_15px_rgba(225,6,0,0.4)]'
-                      : 'bg-black/50 text-slate-300 hover:text-white hover:bg-white/5 border border-white/5'
-                  }`}
-                >
-                  <span>{cat.label}</span>
-                  <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded ${
-                    selectedCategory === cat.id ? 'bg-black/40 text-white' : 'bg-white/10 text-slate-400'
-                  }`}>
-                    {cat.count}
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            {/* Row 3: Make Quick Brand Chips */}
-            <div className="flex items-center gap-1.5 pt-3.5 mt-3.5 border-t border-white/5 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 text-xs">
-              <span className="text-[10px] font-mono uppercase text-slate-400 mr-1 shrink-0">BRANDS:</span>
-              <button
-                onClick={() => setSelectedMake('all')}
-                className={`px-2.5 py-1 rounded text-[11px] font-mono uppercase transition cursor-pointer shrink-0 ${
-                  selectedMake === 'all'
-                    ? 'bg-white/20 text-white font-bold border border-white/40'
-                    : 'text-slate-400 hover:text-white bg-black/30 border border-white/5'
-                }`}
-              >
-                All Brands
-              </button>
-              {allMakes.map((m) => (
-                <button
-                  key={m}
-                  onClick={() => setSelectedMake(m)}
-                  className={`px-2.5 py-1 rounded text-[11px] font-mono uppercase transition cursor-pointer shrink-0 ${
-                    selectedMake.toLowerCase() === m.toLowerCase()
-                      ? 'bg-red-600/30 text-red-400 border border-red-500/50 font-bold'
-                      : 'text-slate-400 hover:text-white bg-black/30 border border-white/5'
-                  }`}
-                >
-                  {m}
-                </button>
-              ))}
-            </div>
-
-            {/* Row 4: Advanced Dropdown Filter Drawer */}
-            <div className={`pt-4 mt-4 border-t border-white/10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ${
-              showFiltersMobile ? 'block' : 'hidden md:grid'
-            }`}>
-              
-              {/* Price Range */}
-              <div>
-                <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Budget Allocation</label>
+              {/* Price Filter */}
+              <div className="flex items-center gap-2 bg-[#161622] border border-white/10 px-3 py-2.5 rounded text-xs">
+                <span className="text-slate-400 font-mono hidden sm:inline">PRICE:</span>
                 <select
                   value={selectedPriceRange}
                   onChange={(e) => setSelectedPriceRange(e.target.value)}
-                  className="w-full bg-[#14141e] border border-white/10 text-xs text-white p-2.5 rounded outline-none focus:border-red-500 transition cursor-pointer"
+                  className="bg-transparent text-white font-medium outline-none cursor-pointer"
                 >
-                  <option value="all">Any Price</option>
-                  <option value="under-3m">Under ₱3,000,000</option>
-                  <option value="3m-6m">₱3,000,000 - ₱6,000,000</option>
-                  <option value="above-6m">Above ₱6,000,000</option>
+                  <option value="all" className="bg-[#161622] text-white">All Budgets</option>
+                  <option value="under-2m" className="bg-[#161622] text-white">Under ₱2,000,000</option>
+                  <option value="2m-2.5m" className="bg-[#161622] text-white">₱2M - ₱2.5M</option>
+                  <option value="above-2.5m" className="bg-[#161622] text-white">Above ₱2.5M</option>
                 </select>
               </div>
 
-              {/* Transmission */}
-              <div>
-                <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Transmission System</label>
+              {/* Sort By */}
+              <div className="flex items-center gap-2 bg-[#161622] border border-white/10 px-3 py-2.5 rounded text-xs">
+                <span className="text-slate-400 font-mono hidden sm:inline">SORT:</span>
                 <select
-                  value={selectedTransmission}
-                  onChange={(e) => setSelectedTransmission(e.target.value)}
-                  className="w-full bg-[#14141e] border border-white/10 text-xs text-white p-2.5 rounded outline-none focus:border-red-500 transition cursor-pointer"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-transparent text-white font-medium outline-none cursor-pointer"
                 >
-                  <option value="all">Any Transmission</option>
-                  <option value="automatic">Automatic / PDK Dual-Clutch</option>
-                  <option value="manual">Manual</option>
+                  <option value="featured" className="bg-[#161622] text-white">Featured</option>
+                  <option value="price-low" className="bg-[#161622] text-white">Price: Low to High</option>
+                  <option value="price-high" className="bg-[#161622] text-white">Price: High to Low</option>
+                  <option value="year-newest" className="bg-[#161622] text-white">Year: Newest</option>
+                  <option value="mileage-lowest" className="bg-[#161622] text-white">Mileage: Lowest</option>
                 </select>
               </div>
 
-              {/* Fuel Type */}
-              <div>
-                <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">Powertrain / Fuel</label>
-                <select
-                  value={selectedFuel}
-                  onChange={(e) => setSelectedFuel(e.target.value)}
-                  className="w-full bg-[#14141e] border border-white/10 text-xs text-white p-2.5 rounded outline-none focus:border-red-500 transition cursor-pointer"
+              {/* Grid / List Switcher */}
+              <div className="hidden sm:flex items-center bg-[#161622] border border-white/10 p-0.5 rounded">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-2 rounded transition cursor-pointer ${
+                    viewMode === 'grid' ? 'bg-red-600 text-white shadow' : 'text-slate-400 hover:text-white'
+                  }`}
+                  title="Grid View"
                 >
-                  <option value="all">Any Powertrain</option>
-                  <option value="gasoline">Gasoline / High-Octane</option>
-                  <option value="diesel">Turbo Diesel</option>
-                </select>
+                  <LayoutGrid className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-2 rounded transition cursor-pointer ${
+                    viewMode === 'list' ? 'bg-red-600 text-white shadow' : 'text-slate-400 hover:text-white'
+                  }`}
+                  title="List View"
+                >
+                  <List className="w-4 h-4" />
+                </button>
               </div>
 
             </div>
 
-            {/* Status Footer: Count and Active Filter Pills */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-4 mt-4 border-t border-white/5 text-xs text-slate-400 font-mono">
-              <div className="flex items-center gap-2">
-                <span>Displaying <strong className="text-white font-bold">{filteredVehicles.length}</strong> allocated units</span>
-                {hasActiveFilters && (
-                  <span className="text-red-400 font-semibold">• Active Filters</span>
-                )}
+            {/* Row 2: Category Pills */}
+            <div className="flex items-center justify-between gap-3 pt-3 border-t border-white/5 flex-wrap">
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.id)}
+                    className={`px-3 py-1.5 rounded text-xs font-semibold whitespace-nowrap transition cursor-pointer flex items-center gap-1.5 ${
+                      selectedCategory === cat.id
+                        ? 'bg-red-600 text-white shadow-sm'
+                        : 'bg-black/40 text-slate-300 hover:text-white hover:bg-white/5 border border-white/5'
+                    }`}
+                  >
+                    <span>{cat.label}</span>
+                    <span className={`text-[10px] font-mono px-1 rounded ${
+                      selectedCategory === cat.id ? 'bg-black/30 text-white' : 'bg-white/10 text-slate-400'
+                    }`}>
+                      {cat.count}
+                    </span>
+                  </button>
+                ))}
               </div>
 
+              {/* Active Filter Clear */}
               {hasActiveFilters && (
                 <button
                   onClick={resetFilters}
-                  className="flex items-center gap-1.5 text-red-400 hover:text-white transition cursor-pointer text-xs font-semibold"
+                  className="text-xs text-red-400 hover:text-white flex items-center gap-1 transition cursor-pointer ml-auto"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
-                  <span>Reset All Filters</span>
+                  <span>Reset Filters</span>
                 </button>
               )}
             </div>
 
           </div>
+        </div>
 
-          {/* Vehicles List or Grid */}
+        {/* Cars Inventory List / Grid */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+              <span>Available Inventory</span>
+              <span className="text-xs font-mono font-normal text-slate-400">
+                ({filteredVehicles.length} of {VEHICLES.length} units)
+              </span>
+            </h2>
+          </div>
+
           {filteredVehicles.length === 0 ? (
-            <div className="bg-[#0f0f17] border border-white/10 rounded p-12 text-center max-w-xl mx-auto my-12 shadow-2xl">
-              <div className="w-16 h-16 rounded-full bg-red-600/15 border border-red-500/20 text-red-500 flex items-center justify-center mx-auto mb-4">
-                <Car className="w-8 h-8" />
+            <div className="bg-[#101017] border border-white/10 rounded p-12 text-center max-w-md mx-auto my-12 shadow-xl">
+              <div className="w-14 h-14 rounded-full bg-red-600/15 border border-red-500/20 text-red-500 flex items-center justify-center mx-auto mb-3">
+                <Car className="w-7 h-7" />
               </div>
-              <h2 className="text-lg sm:text-xl font-bold text-white mb-2">No Matching Allocations In Stock</h2>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6">
-                We couldn&apos;t find any vehicles in our current showroom inventory matching your selected filters. Reset your filters or contact our client advisor for bespoke sourcing.
+              <h3 className="text-base font-bold text-white mb-1.5">No Matching Vehicles Found</h3>
+              <p className="text-xs text-slate-400 leading-relaxed mb-5">
+                We couldn&apos;t find any vehicles in our showroom matching your current search or filters.
               </p>
               <button
                 onClick={resetFilters}
-                className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-3 rounded transition cursor-pointer inline-flex items-center gap-2"
+                className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-5 py-2.5 rounded transition cursor-pointer inline-flex items-center gap-2"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
-                <span>Reset All Filters</span>
+                <span>Clear Filters</span>
               </button>
             </div>
-          ) : (
-            <div className={
-              viewMode === 'grid'
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                : "space-y-6"
-            }>
+          ) : viewMode === 'list' ? (
+            /* List View */
+            <div className="space-y-4">
               {filteredVehicles.map((car) => (
-                <VehicleCard
+                <div
                   key={car.id}
-                  car={car}
-                  viewMode={viewMode}
-                  onQuickView={(selectedCar) => setQuickViewCar(selectedCar)}
-                />
+                  className="bg-[#101017] border border-white/10 hover:border-red-600/60 transition-all rounded overflow-hidden flex flex-col md:flex-row group shadow-lg"
+                >
+                  <div className="md:w-80 h-52 md:h-auto relative shrink-0 overflow-hidden bg-slate-900">
+                    <img
+                      src={car.images[0]}
+                      alt={car.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <span className="absolute top-2.5 left-2.5 text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-black/80 text-red-400 border border-red-500/30 uppercase">
+                      {car.badge}
+                    </span>
+                    <span className="absolute bottom-2.5 left-2.5 text-[10px] font-mono text-white bg-black/80 px-2 py-0.5 rounded">
+                      {car.mileage}
+                    </span>
+                  </div>
+
+                  <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <span className="text-[10px] font-mono text-red-400 font-bold uppercase">
+                          {car.categoryLabel}
+                        </span>
+                        <span className="text-xs font-mono text-slate-400">
+                          {car.year} • Plate Ending {car.plateEnding.split(' ')[0]}
+                        </span>
+                      </div>
+                      <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-red-400 transition-colors">
+                        {car.name}
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                        {car.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-3 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4">
+                      <div>
+                        <span className="text-[10px] font-mono text-slate-400 block uppercase">Cash Price</span>
+                        <span className="text-xl font-bold text-white tracking-tight">
+                          {car.price}
+                        </span>
+                      </div>
+
+                      <Link
+                        href={`/vehicles/${car.id}`}
+                        className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-5 py-2.5 rounded transition flex items-center justify-center gap-1.5 self-start sm:self-auto"
+                      >
+                        <span>View Details</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            /* Grid View */
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredVehicles.map((car) => (
+                <div
+                  key={car.id}
+                  className="bg-[#101017] border border-white/10 hover:border-red-600/70 transition-all rounded overflow-hidden flex flex-col group shadow-lg hover:-translate-y-1"
+                >
+                  {/* Photo */}
+                  <div className="h-52 sm:h-56 relative overflow-hidden bg-slate-900">
+                    <img
+                      src={car.images[0]}
+                      alt={car.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+
+                    {/* Top Badges */}
+                    <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between">
+                      <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-black/80 text-red-400 border border-red-500/30 uppercase">
+                        {car.badge}
+                      </span>
+                      <span className="text-[10px] font-mono font-bold text-white bg-red-600 px-2 py-0.5 rounded">
+                        {car.year}
+                      </span>
+                    </div>
+
+                    {/* Bottom Mileage & Plate */}
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] font-mono text-slate-300">
+                      <span className="bg-black/80 px-2 py-0.5 rounded flex items-center gap-1">
+                        <Gauge className="w-3 h-3 text-red-500" /> {car.mileage}
+                      </span>
+                      <span className="bg-black/80 px-2 py-0.5 rounded">
+                        Plate: {car.plateEnding.split(' ')[0]}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Body */}
+                  <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <span className="text-[10px] font-mono text-red-400 font-bold uppercase tracking-wider block mb-1">
+                        {car.categoryLabel}
+                      </span>
+                      <h3 className="text-base font-bold text-white group-hover:text-red-400 transition-colors line-clamp-1">
+                        {car.name}
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-0.5 line-clamp-1">
+                        {car.engine} • {car.transmission.split(' ')[0]}
+                      </p>
+                    </div>
+
+                    <div className="pt-3 border-t border-white/10 mt-3">
+                      <div className="flex items-baseline justify-between mb-3">
+                        <div>
+                          <span className="text-[9px] font-mono text-slate-400 block uppercase">Cash Price</span>
+                          <span className="text-lg font-bold text-white tracking-tight">
+                            {car.price}
+                          </span>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-[9px] font-mono text-slate-400 block uppercase">Est. Monthly</span>
+                          <span className="text-xs font-semibold text-red-400 font-mono">
+                            {car.monthly}
+                          </span>
+                        </div>
+                      </div>
+
+                      <Link
+                        href={`/vehicles/${car.id}`}
+                        className="w-full bg-red-600 hover:bg-red-500 text-white font-bold text-xs py-2.5 rounded transition text-center flex items-center justify-center gap-1.5 shadow"
+                      >
+                        <span>View Vehicle Details</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+
+                  </div>
+                </div>
               ))}
             </div>
           )}
 
-          {/* Bottom VIP Bespoke Sourcing Banner */}
-          <div className="mt-14 p-6 sm:p-10 rounded border border-white/10 bg-gradient-to-r from-[#12121e] via-[#0c0c14] to-black relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-red-600/10 blur-[100px] pointer-events-none rounded-full"></div>
-            
-            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-              <div className="max-w-2xl">
-                <span className="text-[10px] font-mono font-bold text-red-500 uppercase tracking-widest block mb-1">
-                  // BESPOKE AUTOMOTIVE CONCIERGE
-                </span>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-black italic uppercase text-white">
-                  Searching for a Specific Model or Rare Specification?
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed font-body">
-                  If the exact model, trim, or color finish you desire is not listed in today&apos;s allocation, our procurement specialists will source authenticated vehicles from our verified collector and dealer networks with full 200-point inspection and title guarantees.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-                <a
-                  href="tel:+63288772277"
-                  className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-3.5 rounded transition text-center flex items-center justify-center gap-2 shadow-lg cursor-pointer"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>Call VIP Sourcing Desk</span>
-                </a>
-                <Link
-                  href="/#section-testdrive"
-                  className="bg-[#181824] hover:bg-white/10 border border-white/15 text-white font-semibold text-xs px-6 py-3.5 rounded transition text-center flex items-center justify-center cursor-pointer"
-                >
-                  Book Showroom Consultation
-                </Link>
-              </div>
-            </div>
-          </div>
-
         </div>
 
       </main>
-
-      {/* Quick Specs Modal */}
-      <QuickSpecsModal
-        car={quickViewCar}
-        onClose={() => setQuickViewCar(null)}
-      />
 
       <Footer />
     </div>
@@ -965,8 +578,8 @@ function VehiclesContent() {
 export default function VehiclesPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#07070a] flex items-center justify-center text-white font-mono text-xs">
-        Loading Showroom Inventory Archive...
+      <div className="min-h-screen bg-[#09090e] flex items-center justify-center text-white font-mono text-xs">
+        Loading Showroom Inventory...
       </div>
     }>
       <VehiclesContent />
