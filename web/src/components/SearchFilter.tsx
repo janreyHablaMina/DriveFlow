@@ -31,7 +31,7 @@ export default function SearchFilter() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
             <div>
               <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1.5 ml-1 tracking-wider">Make / Brand</label>
               <select 
@@ -81,8 +81,8 @@ export default function SearchFilter() {
                 <option value="premium">Premium (₱3M+)</option>
               </select>
             </div>
-            <div className="flex items-end pt-1 sm:pt-0 sm:col-span-2 md:col-span-1">
-              <button onClick={executeSearch} className="w-full h-[46px] bg-racing-red hover:bg-white hover:text-black active:bg-red-700 text-white text-xs font-black uppercase tracking-wider transition-all rounded-sm flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(220,38,38,0.3)]">
+            <div className="flex items-end">
+              <button onClick={executeSearch} className="w-full h-[46px] bg-racing-red hover:bg-white hover:text-black active:bg-red-700 text-white text-xs font-black uppercase tracking-wider transition-all rounded-sm flex items-center justify-center gap-2 group shadow-[0_0_15px_rgba(220,38,38,0.3)] cursor-pointer">
                 <Search className="w-4 h-4 group-hover:scale-110 transition-transform" /> 
                 <span>Search Vehicles</span>
               </button>

@@ -155,7 +155,7 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
               <h2 className="text-xs sm:text-sm font-semibold uppercase text-slate-300 tracking-wider mb-3.5 sm:mb-4">
                 Vehicle Specifications
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-y-3 sm:gap-y-4 gap-x-3 sm:gap-x-6 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 gap-y-3 sm:gap-y-4 gap-x-3 sm:gap-x-6 text-xs">
                 <div>
                   <span className="text-slate-500 block mb-0.5 text-[10px] sm:text-xs">Odometer</span>
                   <span className="font-medium text-white">{vehicle.mileage}</span>
@@ -234,7 +234,7 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
                 </span>
               </div>
 
-              <div className="space-y-2 text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
                 {vehicle.inspectionHighlights.map((item, idx) => (
                   <div key={idx} className="flex items-center justify-between py-2 px-3 bg-black/30 rounded border border-white/5">
                     <span className="text-slate-300 flex items-center gap-2">
@@ -249,92 +249,94 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
           </div>
 
           {/* Right Column: Clean Sidebar for Inquiry & Loan Calculator (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            {/* Booking / Inquiry Form */}
-            <div className="bg-[#111118] border border-white/10 rounded p-4 sm:p-6 static lg:sticky lg:top-20 shadow-xl">
-              <h2 className="text-sm sm:text-base font-bold text-white mb-1">
-                Interested in this vehicle?
-              </h2>
-              <p className="text-xs text-slate-400 mb-4 sm:mb-5">
-                Book an on-site viewing, request video walkaround, or speak with an advisor.
-              </p>
+          <div className="lg:col-span-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 items-start">
+              
+              {/* Card 1: Booking / Inquiry Form */}
+              <div className="bg-[#111118] border border-white/10 rounded p-4 sm:p-6 shadow-xl">
+                <h2 className="text-sm sm:text-base font-bold text-white mb-1">
+                  Interested in this vehicle?
+                </h2>
+                <p className="text-xs text-slate-400 mb-4 sm:mb-5">
+                  Book an on-site viewing, request video walkaround, or speak with an advisor.
+                </p>
 
-              {inquirySubmitted ? (
-                <div className="p-5 sm:p-6 bg-emerald-500/10 border border-emerald-500/20 rounded text-center">
-                  <CheckCircle2 className="w-9 h-9 sm:w-10 sm:h-10 text-emerald-400 mx-auto mb-2" />
-                  <h3 className="text-sm font-semibold text-white">Request Received</h3>
-                  <p className="text-xs text-slate-300 mt-1">
-                    An advisor will reach out to you shortly via phone or message.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleInquirySubmit} className="space-y-3 sm:space-y-3.5">
-                  <div>
-                    <label className="block text-[10px] sm:text-[11px] text-slate-400 mb-1">Your Full Name</label>
-                    <input 
-                      required 
-                      type="text" 
-                      placeholder="e.g. Juan dela Cruz" 
-                      className="w-full bg-[#181822] border border-white/10 text-base sm:text-xs text-white p-3 rounded outline-none focus:border-red-500 transition"
-                    />
+                {inquirySubmitted ? (
+                  <div className="p-5 sm:p-6 bg-emerald-500/10 border border-emerald-500/20 rounded text-center">
+                    <CheckCircle2 className="w-9 h-9 sm:w-10 sm:h-10 text-emerald-400 mx-auto mb-2" />
+                    <h3 className="text-sm font-semibold text-white">Request Received</h3>
+                    <p className="text-xs text-slate-300 mt-1">
+                      An advisor will reach out to you shortly via phone or message.
+                    </p>
                   </div>
-
-                  <div>
-                    <label className="block text-[10px] sm:text-[11px] text-slate-400 mb-1">Contact Number</label>
-                    <input 
-                      required 
-                      type="tel" 
-                      placeholder="+63 917 000 0000" 
-                      className="w-full bg-[#181822] border border-white/10 text-base sm:text-xs text-white p-3 rounded outline-none focus:border-red-500 transition"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                ) : (
+                  <form onSubmit={handleInquirySubmit} className="space-y-3 sm:space-y-3.5">
                     <div>
-                      <label className="block text-[10px] sm:text-[11px] text-slate-400 mb-1">Preferred Date</label>
+                      <label className="block text-[10px] sm:text-[11px] text-slate-400 mb-1">Your Full Name</label>
                       <input 
                         required 
-                        type="date" 
-                        className="w-full bg-[#181822] border border-white/10 text-base sm:text-xs text-white p-3 rounded outline-none focus:border-red-500 transition" 
-                        style={{ colorScheme: 'dark' }} 
+                        type="text" 
+                        placeholder="e.g. Juan dela Cruz" 
+                        className="w-full bg-[#181822] border border-white/10 text-base sm:text-xs text-white p-3 rounded outline-none focus:border-red-500 transition"
                       />
                     </div>
+
                     <div>
-                      <label className="block text-[10px] sm:text-[11px] text-slate-400 mb-1">Preferred Time</label>
-                      <select 
+                      <label className="block text-[10px] sm:text-[11px] text-slate-400 mb-1">Contact Number</label>
+                      <input 
                         required 
-                        className="w-full bg-[#181822] border border-white/10 text-base sm:text-xs text-white p-3 rounded outline-none focus:border-red-500 transition cursor-pointer"
-                      >
-                        <option value="morning">Morning (9AM - 12PM)</option>
-                        <option value="afternoon">Afternoon (1PM - 4PM)</option>
-                        <option value="late">Late (4PM - 6PM)</option>
-                      </select>
+                        type="tel" 
+                        placeholder="+63 917 000 0000" 
+                        className="w-full bg-[#181822] border border-white/10 text-base sm:text-xs text-white p-3 rounded outline-none focus:border-red-500 transition"
+                      />
                     </div>
-                  </div>
 
-                  <button
-                    type="submit"
-                    className="w-full mt-2 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-semibold text-xs py-3.5 rounded transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <span>Schedule Test Drive & Viewing</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-[10px] sm:text-[11px] text-slate-400 mb-1">Preferred Date</label>
+                        <input 
+                          required 
+                          type="date" 
+                          className="w-full bg-[#181822] border border-white/10 text-base sm:text-xs text-white p-3 rounded outline-none focus:border-red-500 transition" 
+                          style={{ colorScheme: 'dark' }} 
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] sm:text-[11px] text-slate-400 mb-1">Preferred Time</label>
+                        <select 
+                          required 
+                          className="w-full bg-[#181822] border border-white/10 text-base sm:text-xs text-white p-3 rounded outline-none focus:border-red-500 transition cursor-pointer"
+                        >
+                          <option value="morning">Morning (9AM - 12PM)</option>
+                          <option value="afternoon">Afternoon (1PM - 4PM)</option>
+                          <option value="late">Late (4PM - 6PM)</option>
+                        </select>
+                      </div>
+                    </div>
 
-                  <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs text-slate-400 border-t border-white/5 mt-3">
-                    <a href="tel:+639170000000" className="flex items-center gap-1.5 hover:text-white transition py-1">
-                      <Phone className="w-3.5 h-3.5 text-red-400" /> Call Hotline
-                    </a>
-                    <span className="hidden sm:inline">•</span>
-                    <a href="https://wa.me/639170000000" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-white transition py-1">
-                      <MessageSquare className="w-3.5 h-3.5 text-emerald-400" /> WhatsApp / Viber
-                    </a>
-                  </div>
-                </form>
-              )}
+                    <button
+                      type="submit"
+                      className="w-full mt-2 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-semibold text-xs py-3.5 rounded transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <span>Schedule Test Drive & Viewing</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
 
-              {/* Clean Loan Calculator */}
-              <div className="mt-5 sm:mt-6 pt-5 sm:pt-6 border-t border-white/10">
+                    <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs text-slate-400 border-t border-white/5 mt-3">
+                      <a href="tel:+639170000000" className="flex items-center gap-1.5 hover:text-white transition py-1">
+                        <Phone className="w-3.5 h-3.5 text-red-400" /> Call Hotline
+                      </a>
+                      <span className="hidden sm:inline">•</span>
+                      <a href="https://wa.me/639170000000" target="_blank" rel="noreferrer" className="flex items-center gap-1.5 hover:text-white transition py-1">
+                        <MessageSquare className="w-3.5 h-3.5 text-emerald-400" /> WhatsApp / Viber
+                      </a>
+                    </div>
+                  </form>
+                )}
+              </div>
+
+              {/* Card 2: Clean Loan Calculator */}
+              <div className="bg-[#111118] border border-white/10 rounded p-4 sm:p-6 static lg:sticky lg:top-20 shadow-xl">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
                     <Calculator className="w-3.5 h-3.5 text-red-400" /> Financing Calculator
@@ -402,7 +404,6 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
               </div>
 
             </div>
-
           </div>
 
         </div>

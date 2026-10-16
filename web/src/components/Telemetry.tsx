@@ -76,7 +76,7 @@ export default function Telemetry() {
   return (
     <section className="px-4 sm:px-6 lg:px-12 py-10 sm:py-12 bg-black border-b border-white/10 relative overflow-hidden">
       <div className="absolute inset-0 bg-carbon opacity-30 pointer-events-none"></div>
-      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-4 text-center relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4 text-center relative z-10">
         {stats.map((stat, idx) => (
           <div key={stat.label} className="flex flex-col items-center justify-center p-2">
             <AnimateOnScroll delay={idx * 80} direction="up" className="w-full">

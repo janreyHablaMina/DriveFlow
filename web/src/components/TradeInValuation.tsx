@@ -22,8 +22,8 @@ export default function TestDriveBooking() {
         <AnimateOnScroll direction="up">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-white/10 rounded-sm overflow-hidden shadow-2xl group">
             
-            {/* Left Side: Image & Info */}
-            <div className="relative h-[400px] lg:h-auto hidden md:block overflow-hidden">
+            {/* Left Side: Image & Info (Desktop only) */}
+            <div className="relative h-[400px] lg:h-auto hidden lg:block overflow-hidden">
               <img 
                 src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=1200&q=80" 
                 alt="Test Drive Experience" 
@@ -44,10 +44,10 @@ export default function TestDriveBooking() {
 
             {/* Right Side: Booking Form */}
             <div className="bg-[#0e0e14] p-5 sm:p-8 lg:p-12">
-              <div className="md:hidden mb-6">
+              <div className="lg:hidden mb-6">
                 <span className="text-[11px] font-black text-red-500 uppercase tracking-widest block mb-1.5">// VIP EXPERIENCE</span>
-                <h2 className="text-2xl font-black italic uppercase text-white mb-2">Schedule A Test Drive</h2>
-                <p className="text-xs text-slate-400">Experience your next vehicle with a private guided drive.</p>
+                <h2 className="text-2xl sm:text-3xl font-black italic uppercase text-white mb-2">Schedule A Test Drive</h2>
+                <p className="text-xs sm:text-sm text-slate-400">Experience your next vehicle with a private guided showroom drive.</p>
               </div>
 
               {isSubmitted ? (
