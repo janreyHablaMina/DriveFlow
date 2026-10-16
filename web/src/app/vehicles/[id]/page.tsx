@@ -81,44 +81,14 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
       {/* Main Content Area */}
       <main className="flex-1 w-full px-4 sm:px-6 lg:px-12 py-6 sm:py-8">
         <div className="max-w-7xl mx-auto">
-          {/* Clean Header: Title & Pricing */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 pb-5 sm:pb-6 border-b border-white/10 gap-3.5 sm:gap-4">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold bg-red-600/15 text-red-400 border border-red-500/20 rounded">
-                  {vehicle.badge}
-                </span>
-                <span className="text-xs text-slate-400 font-mono">
-                  {vehicle.year} • {vehicle.mileage}
-                </span>
-              </div>
-              <h1 className="text-xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug">
-                {vehicle.name}
-              </h1>
-              <p className="text-slate-400 text-xs sm:text-sm mt-1 sm:mt-1.5">
-                {vehicle.color} &nbsp;•&nbsp; Plate Ending: {vehicle.plateEnding} &nbsp;•&nbsp; {vehicle.orCrStatus}
-              </p>
-            </div>
-
-            <div className="md:text-right pt-2 md:pt-0 border-t md:border-t-0 border-white/5">
-              <span className="text-[11px] sm:text-xs text-slate-400 block">Outright Cash Price</span>
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight">
-                {vehicle.price}
-              </span>
-              <span className="text-xs text-slate-400 block mt-0.5">
-                Est. Monthly: <strong className="text-red-400 font-medium">{vehicle.monthly}</strong>
-              </span>
-            </div>
-          </div>
-
           {/* Gallery & Sidebar Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 mb-12 sm:mb-16">
             
             {/* Left Column: Gallery & Details (7 cols) */}
             <div className="lg:col-span-7 space-y-5 sm:space-y-6">
               
-              {/* Main Featured Photo */}
-              <div className="relative h-[250px] xs:h-[320px] sm:h-[400px] md:h-[440px] bg-[#121218] rounded border border-white/10 overflow-hidden">
+              {/* Main Featured Photo (Images First) */}
+              <div className="relative h-[260px] xs:h-[340px] sm:h-[420px] md:h-[460px] bg-[#121218] rounded border border-white/10 overflow-hidden shadow-lg">
                 <img 
                   src={vehicle.images[activeImageIndex]} 
                   alt={vehicle.name}
@@ -147,6 +117,38 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
                   ))}
                 </div>
               )}
+
+              {/* Title & Pricing Card (After Images) */}
+              <div className="bg-[#111118] border border-white/5 rounded p-5 sm:p-6 shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold bg-red-600/15 text-red-400 border border-red-500/20 rounded">
+                        {vehicle.badge}
+                      </span>
+                      <span className="text-xs text-slate-400 font-mono">
+                        {vehicle.year} • {vehicle.mileage}
+                      </span>
+                    </div>
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-snug">
+                      {vehicle.name}
+                    </h1>
+                    <p className="text-slate-400 text-xs sm:text-sm mt-1 sm:mt-1.5">
+                      {vehicle.color} &nbsp;•&nbsp; Plate Ending: {vehicle.plateEnding} &nbsp;•&nbsp; {vehicle.orCrStatus}
+                    </p>
+                  </div>
+
+                  <div className="sm:text-right pt-3 sm:pt-0 border-t sm:border-t-0 border-white/5 shrink-0">
+                    <span className="text-[11px] sm:text-xs text-slate-400 block">Outright Cash Price</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                      {vehicle.price}
+                    </span>
+                    <span className="text-xs text-slate-400 block mt-0.5">
+                      Est. Monthly: <strong className="text-red-400 font-medium">{vehicle.monthly}</strong>
+                    </span>
+                  </div>
+                </div>
+              </div>
 
             {/* Quick Specs Grid (Clean & Modern Table) */}
             <div className="bg-[#111118] border border-white/5 rounded p-4 sm:p-6">
