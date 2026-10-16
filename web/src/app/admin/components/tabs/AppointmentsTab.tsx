@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Calendar,
   Search,
@@ -16,6 +16,7 @@ import {
   Check,
   X,
   CalendarCheck,
+  MoreVertical,
 } from 'lucide-react';
 import { Appointment, AppointmentStatus, AppointmentType, AdminVehicle, StaffMember } from '../../types';
 
@@ -38,6 +39,23 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.appointment-action-menu')) {
+        setOpenDropdownId(null);
+      }
+    };
+    if (openDropdownId) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [openDropdownId]);
 
   // Booking Modal
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
@@ -214,68 +232,155 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60 text-slate-300">
-                {filteredAppointments.map((apt) => (
-                  <tr key={apt.id} className="hover:bg-slate-800/40 transition">
-                    <td className="py-3 px-4">
-                      <span className="font-bold text-white block">{apt.customerName}</span>
-                      <span className="text-[10px] font-mono text-slate-400">{apt.customerPhone}</span>
-                    </td>
+                {filteredAppointments.map((apt, idx) => {
+                  const isNearBottom = idx >= filteredAppointments.length - 2 && filteredAppointments.length > 2;
+                  return (
+                    <tr key={apt.id} className="hover:bg-slate-800/40 transition">
+                      <td className="py-3 px-4">
+                        <span className="font-bold text-white block">{apt.customerName}</span>
+                        <span className="text-[10px] font-mono text-slate-400">{apt.customerPhone}</span>
+                      </td>
 
-                    <td className="py-3 px-3">
-                      <span className="text-white font-medium block truncate max-w-[170px]">{apt.vehicleName}</span>
-                      <span className="text-[10px] text-slate-500">{apt.notes}</span>
-                    </td>
+                      <td className="py-3 px-3">
+                        <span className="text-white font-medium block truncate max-w-[170px]">{apt.vehicleName}</span>
+                        <span className="text-[10px] text-slate-500">{apt.notes}</span>
+                      </td>
 
-                    <td className="py-3 px-3">
-                      <span className="px-2 py-0.5 rounded-none bg-slate-800 text-slate-300 text-[10px] font-mono">
-                        {apt.appointmentType}
-                      </span>
-                    </td>
+                      <td className="py-3 px-3">
+                        <span className="px-2 py-0.5 rounded-none bg-slate-800 text-slate-300 text-[10px] font-mono">
+                          {apt.appointmentType}
+                        </span>
+                      </td>
 
-                    <td className="py-3 px-3 font-mono text-[11px]">
-                      <span className="text-white font-bold block">{apt.date}</span>
-                      <span className="text-red-400 text-[10px]">{apt.timeSlot}</span>
-                    </td>
+                      <td className="py-3 px-3 font-mono text-[11px]">
+                        <span className="text-white font-bold block">{apt.date}</span>
+                        <span className="text-red-400 text-[10px]">{apt.timeSlot}</span>
+                      </td>
 
-                    <td className="py-3 px-3 text-[11px] text-slate-200">
-                      {apt.assignedStaff}
-                    </td>
+                      <td className="py-3 px-3 text-[11px] text-slate-200">
+                        {apt.assignedStaff}
+                      </td>
 
-                    <td className="py-3 px-3">
-                      {getStatusBadge(apt.status)}
-                    </td>
+                      <td className="py-3 px-3">
+                        {getStatusBadge(apt.status)}
+                      </td>
 
-                    <td className="py-3 px-4 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
-                        {apt.status === 'Pending' && (
+                      <td className="py-3 px-4 text-right">
+                        <div className="appointment-action-menu relative inline-block text-left">
                           <button
-                            onClick={() => onUpdateStatus(apt.id, 'Confirmed')}
-                            className="px-2 py-1 rounded-none bg-emerald-600/20 text-emerald-400 hover:bg-emerald-600/30 text-[11px] font-semibold cursor-pointer"
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setOpenDropdownId(openDropdownId === apt.id ? null : apt.id);
+                            }}
+                            className={`p-1.5 rounded-none border transition cursor-pointer flex items-center justify-center ${
+                              openDropdownId === apt.id
+                                ? 'bg-slate-800 text-white border-slate-600'
+                                : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+                            }`}
+                            title="Actions"
+                            aria-label="Appointment Actions"
                           >
-                            Confirm
+                            <MoreVertical className="w-4 h-4" />
                           </button>
-                        )}
-                        {apt.status === 'Confirmed' && (
-                          <button
-                            onClick={() => onUpdateStatus(apt.id, 'Completed')}
-                            className="px-2 py-1 rounded-none bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-semibold cursor-pointer"
-                          >
-                            Complete
-                          </button>
-                        )}
-                        {apt.status !== 'Cancelled' && (
-                          <button
-                            onClick={() => onUpdateStatus(apt.id, 'Cancelled')}
-                            className="p-1 rounded-none text-slate-500 hover:text-red-400 hover:bg-slate-800 cursor-pointer"
-                            title="Cancel Booking"
-                          >
-                            <X className="w-3.5 h-3.5" />
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+
+                          {openDropdownId === apt.id && (
+                            <div
+                              className={`absolute right-0 w-48 bg-[#121624] border border-slate-700 shadow-2xl z-50 rounded-none py-1 text-xs text-left ${
+                                isNearBottom ? 'bottom-full mb-1' : 'top-full mt-1'
+                              }`}
+                            >
+                              <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                                Appointment Actions
+                              </div>
+
+                              {apt.status === 'Pending' && (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    onUpdateStatus(apt.id, 'Confirmed');
+                                    setOpenDropdownId(null);
+                                  }}
+                                  className="w-full text-left px-3 py-2 flex items-center gap-2 text-emerald-400 hover:bg-slate-800 transition cursor-pointer font-medium"
+                                >
+                                  <CheckCircle2 className="w-3.5 h-3.5" />
+                                  <span>Confirm Booking</span>
+                                </button>
+                              )}
+
+                              {apt.status === 'Confirmed' && (
+                                <>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      onUpdateStatus(apt.id, 'Completed');
+                                      setOpenDropdownId(null);
+                                    }}
+                                    className="w-full text-left px-3 py-2 flex items-center gap-2 text-emerald-400 hover:bg-slate-800 transition cursor-pointer font-medium"
+                                  >
+                                    <Check className="w-3.5 h-3.5" />
+                                    <span>Mark as Completed</span>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      onUpdateStatus(apt.id, 'No-show');
+                                      setOpenDropdownId(null);
+                                    }}
+                                    className="w-full text-left px-3 py-2 flex items-center gap-2 text-amber-400 hover:bg-slate-800 transition cursor-pointer"
+                                  >
+                                    <AlertTriangle className="w-3.5 h-3.5" />
+                                    <span>Mark as No-Show</span>
+                                  </button>
+                                </>
+                              )}
+
+                              {(apt.status === 'Completed' || apt.status === 'No-show') && (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    onUpdateStatus(apt.id, 'Confirmed');
+                                    setOpenDropdownId(null);
+                                  }}
+                                  className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 transition cursor-pointer"
+                                >
+                                  <Clock className="w-3.5 h-3.5" />
+                                  <span>Re-open as Confirmed</span>
+                                </button>
+                              )}
+
+                              {apt.status === 'Cancelled' ? (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    onUpdateStatus(apt.id, 'Pending');
+                                    setOpenDropdownId(null);
+                                  }}
+                                  className="w-full text-left px-3 py-2 flex items-center gap-2 text-sky-400 hover:bg-slate-800 transition cursor-pointer"
+                                >
+                                  <Clock className="w-3.5 h-3.5" />
+                                  <span>Restore to Pending</span>
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    onUpdateStatus(apt.id, 'Cancelled');
+                                    setOpenDropdownId(null);
+                                  }}
+                                  className="w-full text-left px-3 py-2 flex items-center gap-2 text-red-400 hover:bg-red-950/30 transition cursor-pointer border-t border-slate-800/80 mt-1"
+                                >
+                                  <XCircle className="w-3.5 h-3.5" />
+                                  <span>Cancel Appointment</span>
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
