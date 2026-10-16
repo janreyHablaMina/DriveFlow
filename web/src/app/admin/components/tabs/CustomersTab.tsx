@@ -9,6 +9,7 @@ import {
   Mail,
   Building,
   CreditCard,
+  Banknote,
   Calendar,
   FileSpreadsheet,
   Clock,
@@ -55,7 +56,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
   currencySymbol,
 }) => {
   const [search, setSearch] = useState('');
-  const [creditFilter, setCreditFilter] = useState('all');
+  const [dealTypeFilter, setDealTypeFilter] = useState<'all' | 'Cash' | 'Financing'>('all');
   const [tagFilter, setTagFilter] = useState('all');
   const [sortBy, setSortBy] = useState<'name' | 'purchases' | 'income'>('purchases');
 
@@ -92,17 +93,34 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
   const [formAddress, setFormAddress] = useState('');
   const [formEmployer, setFormEmployer] = useState('');
   const [formIncome, setFormIncome] = useState(300000);
+  const [formPaymentType, setFormPaymentType] = useState<'Cash' | 'Financing'>('Financing');
   const [formCreditTier, setFormCreditTier] = useState<Customer['creditTier']>('Tier 1 - Excellent (750+)');
   const [formAgent, setFormAgent] = useState('Janrey Mina');
 
   // Helper to extract customer initials
   const getInitials = (name: string) => {
-    const clean = name.replace(/^(Arch\.|Dr\.|Capt\.|Atty\.|Mr\.|Ms\.|Mrs\.)\s+/i, '');
+    const clean = name.replace(/^(Arch\.|Dr\.|Capt\.|Atty\.|Mr\.|Ms\.|Mrs\.|Engr\.)\s+/i, '');
     const parts = clean.trim().split(/\s+/);
     if (parts.length >= 2) {
       return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
     }
     return clean.slice(0, 2).toUpperCase();
+  };
+
+  // Helper to distinguish if client is Cash or Financing
+  const getCustomerDealType = (cust: Customer): 'Cash' | 'Financing' => {
+    if (cust.paymentType) return cust.paymentType;
+    // Check if they have an active financing application
+    const hasFinancingApp = applications.some((a) => a.customerId === cust.id);
+    if (hasFinancingApp) return 'Financing';
+    // Check sales records
+    const custSales = sales.filter((s) => s.customerId === cust.id);
+    if (custSales.some((s) => s.financingType === 'Full Cash Sale')) return 'Cash';
+    if (custSales.some((s) => s.financingType === 'In-House Financing' || s.financingType === 'Bank Partner Financed')) return 'Financing';
+    // Check tags
+    if (cust.tags?.some((t) => t.toLowerCase().includes('cash'))) return 'Cash';
+    if (cust.tags?.some((t) => t.toLowerCase().includes('financ'))) return 'Financing';
+    return 'Financing';
   };
 
   // Top KPI metrics calculations
@@ -111,9 +129,13 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
     return customers.reduce((acc, c) => acc + (c.totalPurchases || 0), 0);
   }, [customers]);
 
-  const tier1Count = useMemo(() => {
-    return customers.filter((c) => c.creditTier.includes('Tier 1')).length;
-  }, [customers]);
+  const cashCount = useMemo(() => {
+    return customers.filter((c) => getCustomerDealType(c) === 'Cash').length;
+  }, [customers, applications, sales]);
+
+  const financingCount = useMemo(() => {
+    return customers.filter((c) => getCustomerDealType(c) === 'Financing').length;
+  }, [customers, applications, sales]);
 
   const activeTouchpointsCount = useMemo(() => {
     return applications.length + appointments.length;
@@ -135,9 +157,10 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
         c.phone.includes(search) ||
         c.employer.toLowerCase().includes(search.toLowerCase()) ||
         c.city.toLowerCase().includes(search.toLowerCase());
-      const matchCredit = creditFilter === 'all' || c.creditTier.includes(creditFilter);
+      const dealType = getCustomerDealType(c);
+      const matchDealType = dealTypeFilter === 'all' || dealType === dealTypeFilter;
       const matchTag = tagFilter === 'all' || (c.tags && c.tags.includes(tagFilter));
-      return matchSearch && matchCredit && matchTag;
+      return matchSearch && matchDealType && matchTag;
     });
 
     if (sortBy === 'purchases') {
@@ -149,7 +172,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
     }
 
     return result;
-  }, [customers, search, creditFilter, tagFilter, sortBy]);
+  }, [customers, search, dealTypeFilter, tagFilter, sortBy, applications, sales]);
 
   // Pagination calculation
   const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage) || 1;
@@ -170,9 +193,10 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
       employer: formEmployer,
       monthlyIncome: Number(formIncome),
       creditTier: formCreditTier,
+      paymentType: formPaymentType,
       assignedAgent: formAgent,
       branchId: 'main',
-      tags: ['New Lead', 'Showroom Prospect'],
+      tags: formPaymentType === 'Cash' ? ['Cash Buyer', 'Verified KYC'] : ['Financing Applicant', 'Showroom Prospect'],
       totalPurchases: 0,
       lastContactDate: new Date().toISOString().split('T')[0],
     });
@@ -185,6 +209,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
     setFormAddress('');
     setFormEmployer('');
     setFormIncome(300000);
+    setFormPaymentType('Financing');
   };
 
   const handlePostNote = (e: React.FormEvent) => {
@@ -232,7 +257,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
             </span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Maintain client KYC dossiers, credit investigation tiers, linked financing applications, and dealership touchpoints.
+            Maintain client KYC dossiers, purchase structures (Cash vs. Financing), linked bank applications, and dealership touchpoints.
           </p>
         </div>
 
@@ -284,24 +309,23 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
           </div>
         </div>
 
-        {/* Prime Tier 1 Clients */}
+        {/* Deal Structure: Cash vs Financing */}
         <div className="bg-[#121624] border border-slate-800 p-4 rounded-none flex items-center justify-between">
           <div>
             <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">
-              Tier 1 Prime Buyers
+              Deal Structure
             </span>
-            <div className="text-2xl font-bold text-white mt-1 flex items-baseline gap-2">
-              <span>{tier1Count}</span>
-              <span className="text-xs font-normal text-slate-400 font-mono">
-                ({totalClientsCount > 0 ? Math.round((tier1Count / totalClientsCount) * 100) : 0}%)
-              </span>
+            <div className="text-xl font-bold text-white mt-1 flex items-baseline gap-2 font-mono">
+              <span className="text-emerald-400">{cashCount} Cash</span>
+              <span className="text-slate-600">/</span>
+              <span className="text-sky-400">{financingCount} Financed</span>
             </div>
-            <span className="text-[11px] text-emerald-400 mt-1 inline-flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3" /> 750+ Credit Score
+            <span className="text-[11px] text-slate-400 mt-1 inline-flex items-center gap-1">
+              <Banknote className="w-3 h-3 text-emerald-400" /> Full Cash vs Auto Loan
             </span>
           </div>
           <div className="p-3 bg-slate-900 border border-slate-800 text-slate-300">
-            <Sparkles className="w-5 h-5 text-amber-400" />
+            <CreditCard className="w-5 h-5 text-sky-400" />
           </div>
         </div>
 
@@ -343,19 +367,18 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
 
         {/* Filter controls */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* Credit Tier Filter */}
+          {/* Deal Type (Cash vs Financing) Filter */}
           <select
-            value={creditFilter}
+            value={dealTypeFilter}
             onChange={(e) => {
-              setCreditFilter(e.target.value);
+              setDealTypeFilter(e.target.value as any);
               setCurrentPage(1);
             }}
             className="bg-slate-900 border border-slate-700/60 rounded-none px-3 py-1.5 text-xs text-slate-200 focus:outline-hidden focus:border-red-500"
           >
-            <option value="all">All Credit Tiers</option>
-            <option value="Tier 1">Tier 1 - Excellent (750+)</option>
-            <option value="Tier 2">Tier 2 - Good (680-749)</option>
-            <option value="Tier 3">Tier 3 - Fair (600-679)</option>
+            <option value="all">All Deal Types</option>
+            <option value="Cash">Cash Buyers</option>
+            <option value="Financing">Financed Deals</option>
           </select>
 
           {/* Tags Filter */}
@@ -397,6 +420,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                 <th className="py-3 px-4">Client Dossier</th>
                 <th className="py-3 px-3">Contact & Address</th>
                 <th className="py-3 px-3">Employer / Monthly Income</th>
+                <th className="py-3 px-3">Deal Type</th>
                 <th className="py-3 px-3">Assigned Agent</th>
                 <th className="py-3 px-3">Total Purchases</th>
                 <th className="py-3 px-4 text-right">Actions</th>
@@ -405,13 +429,14 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
             <tbody className="divide-y divide-slate-800/60 text-slate-300">
               {paginatedCustomers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-slate-500 font-mono text-xs">
+                  <td colSpan={7} className="py-12 text-center text-slate-500 font-mono text-xs">
                     No client records match your current filters.
                   </td>
                 </tr>
               ) : (
                 paginatedCustomers.map((cust, idx) => {
                   const isNearBottom = idx >= paginatedCustomers.length - 2 && paginatedCustomers.length > 2;
+                  const dealType = getCustomerDealType(cust);
 
                   return (
                     <tr key={cust.id} className="hover:bg-slate-800/40 transition">
@@ -480,6 +505,21 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                         <div className="text-emerald-400 font-mono font-medium mt-0.5">
                           {currencySymbol}{cust.monthlyIncome.toLocaleString()} / mo
                         </div>
+                      </td>
+
+                      {/* Deal Type: Cash vs Financing */}
+                      <td className="py-3 px-3">
+                        {dealType === 'Cash' ? (
+                          <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold border inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
+                            <Banknote className="w-3.5 h-3.5 text-emerald-400" />
+                            <span>Cash Buyer</span>
+                          </span>
+                        ) : (
+                          <span className="px-2 py-0.5 rounded-none text-[10px] font-mono font-bold border inline-flex items-center gap-1.5 bg-sky-500/10 text-sky-400 border-sky-500/30">
+                            <CreditCard className="w-3.5 h-3.5 text-sky-400" />
+                            <span>Financing</span>
+                          </span>
+                        )}
                       </td>
 
                       {/* Assigned Agent */}
@@ -555,18 +595,20 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                                 <span>Add Interaction Note</span>
                               </button>
 
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSelectedCustomer(cust);
-                                  setActiveDossierTab('financing');
-                                  setOpenDropdownId(null);
-                                }}
-                                className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer"
-                              >
-                                <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
-                                <span>View Financing ({getCustomerApplications(cust.id).length})</span>
-                              </button>
+                              {dealType === 'Financing' && (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setSelectedCustomer(cust);
+                                    setActiveDossierTab('financing');
+                                    setOpenDropdownId(null);
+                                  }}
+                                  className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer"
+                                >
+                                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+                                  <span>View Financing ({getCustomerApplications(cust.id).length})</span>
+                                </button>
+                              )}
 
                               <a
                                 href={`tel:${cust.phone}`}
@@ -654,9 +696,20 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                   {getInitials(selectedCustomer.name)}
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">{selectedCustomer.name}</h3>
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <span>{selectedCustomer.name}</span>
+                    {getCustomerDealType(selectedCustomer) === 'Cash' ? (
+                      <span className="px-2 py-0.5 rounded-none text-[9px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                        Cash Buyer
+                      </span>
+                    ) : (
+                      <span className="px-2 py-0.5 rounded-none text-[9px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30">
+                        Financed Client
+                      </span>
+                    )}
+                  </h3>
                   <span className="text-xs font-mono text-slate-400">
-                    TIN: {selectedCustomer.tin} • Advisor: {selectedCustomer.assignedAgent}
+                    TIN: {selectedCustomer.tin} • Lead Advisor: {selectedCustomer.assignedAgent}
                   </span>
                 </div>
               </div>
@@ -748,9 +801,23 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                     <span className="text-slate-200">{selectedCustomer.employer}</span>
                   </div>
                   <div>
+                    <span className="text-slate-500 uppercase text-[10px] font-mono block">Payment Structure</span>
+                    <span className={`font-bold font-mono inline-flex items-center gap-1 mt-0.5 ${
+                      getCustomerDealType(selectedCustomer) === 'Cash' ? 'text-emerald-400' : 'text-sky-400'
+                    }`}>
+                      {getCustomerDealType(selectedCustomer) === 'Cash' ? 'Full Cash Purchase' : 'Auto Loan / Financing'}
+                    </span>
+                  </div>
+                  <div>
                     <span className="text-slate-500 uppercase text-[10px] font-mono block">Declared Income</span>
                     <span className="text-emerald-400 font-mono font-bold">
                       {currencySymbol}{selectedCustomer.monthlyIncome.toLocaleString()} / mo
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-slate-500 uppercase text-[10px] font-mono block">Credit Standing</span>
+                    <span className="text-slate-300 font-mono">
+                      {selectedCustomer.creditTier}
                     </span>
                   </div>
                   <div className="col-span-2">
@@ -917,6 +984,29 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
+                  <label className="text-slate-400 block mb-1">Deal / Payment Structure</label>
+                  <select
+                    value={formPaymentType}
+                    onChange={(e) => setFormPaymentType(e.target.value as 'Cash' | 'Financing')}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white focus:outline-hidden focus:border-red-500"
+                  >
+                    <option value="Financing">Auto Loan / Financing</option>
+                    <option value="Cash">Full Cash Buyer</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-slate-400 block mb-1">Assigned Lead Advisor</label>
+                  <input
+                    type="text"
+                    value={formAgent}
+                    onChange={(e) => setFormAgent(e.target.value)}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white focus:outline-hidden focus:border-red-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
                   <label className="text-slate-400 block mb-1">Phone Number</label>
                   <input
                     type="text"
@@ -976,16 +1066,6 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                   <option value="Tier 3 - Fair (600-679)">Tier 3 - Fair (600-679)</option>
                   <option value="Under Review">Under Review</option>
                 </select>
-              </div>
-
-              <div>
-                <label className="text-slate-400 block mb-1">Assigned Lead Advisor</label>
-                <input
-                  type="text"
-                  value={formAgent}
-                  onChange={(e) => setFormAgent(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white focus:outline-hidden focus:border-red-500"
-                />
               </div>
             </div>
 

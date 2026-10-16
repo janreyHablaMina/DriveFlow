@@ -88,6 +88,7 @@ export interface Customer {
   employer: string;
   monthlyIncome: number;
   creditTier: 'Tier 1 - Excellent (750+)' | 'Tier 2 - Good (680-749)' | 'Tier 3 - Fair (600-679)' | 'Under Review';
+  paymentType?: 'Cash' | 'Financing';
   assignedAgent: string;
   branchId: string;
   interestedVehicleId?: string;
