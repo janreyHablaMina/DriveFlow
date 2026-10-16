@@ -33,8 +33,8 @@ export default function Location() {
       <section id="section-cta" className="px-4 sm:px-6 lg:px-12 py-12 sm:py-20 bg-black text-center relative overflow-hidden border-b-4 border-red-600">
         <div className="absolute inset-0 opacity-15 bg-[url('https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1800&q=80')] bg-cover bg-center"></div>
         <div className="relative z-10 max-w-2xl mx-auto">
-          <span className="bg-red-600 text-white text-[10px] font-black uppercase px-2.5 sm:px-3 py-1 tracking-wider sm:tracking-widest skew-12 inline-block mb-4">
-            <span className="unskew-12 inline-block">VIP PRIVATE SHOWROOM APPOINTMENT</span>
+          <span className="bg-red-600 text-white text-[10px] font-bold uppercase px-3 py-1 rounded tracking-wider inline-block mb-4">
+            VIP PRIVATE SHOWROOM APPOINTMENT
           </span>
           <h2 className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-black italic uppercase text-white mb-3 sm:mb-4 leading-tight">
             READY TO DRIVE <br /><span className="text-red-600">THE EXTRAORDINARY?</span>
@@ -43,10 +43,10 @@ export default function Location() {
             Experience our premium inventory in person. Reserve your dedicated automotive advisor and vehicle test drive today.
           </p>
           <form onSubmit={handleBooking} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto font-body">
-            <input type="text" placeholder="Your Full Name" required className="flex-1 bg-[#161622] border border-white/20 p-3 text-base sm:text-xs text-white outline-none focus:border-red-500 rounded-sm" />
-            <input type="tel" placeholder="+63 Mobile Number" required className="flex-1 bg-[#161622] border border-white/20 p-3 text-base sm:text-xs text-white outline-none focus:border-red-500 rounded-sm" />
-            <button type="submit" className="button-shimmer w-full sm:w-auto bg-racing-red hover:bg-white hover:text-black active:bg-red-700 px-6 sm:px-7 py-3.5 sm:py-3 text-xs font-black uppercase tracking-wider text-white sm:skew-12 whitespace-nowrap rounded-sm cursor-pointer">
-              <span className="sm:unskew-12 inline-block">Book Private Viewing</span>
+            <input type="text" placeholder="Your Full Name" required className="flex-1 bg-[#161622] border border-white/20 p-3 text-base sm:text-xs text-white outline-none focus:border-red-500 rounded" />
+            <input type="tel" placeholder="+63 Mobile Number" required className="flex-1 bg-[#161622] border border-white/20 p-3 text-base sm:text-xs text-white outline-none focus:border-red-500 rounded" />
+            <button type="submit" className="button-shimmer w-full sm:w-auto bg-racing-red hover:bg-white hover:text-black active:bg-red-700 px-6 sm:px-7 py-3.5 sm:py-3 text-xs font-bold uppercase tracking-wider text-white whitespace-nowrap rounded cursor-pointer">
+              <span>Book Private Viewing</span>
             </button>
           </form>
         </div>

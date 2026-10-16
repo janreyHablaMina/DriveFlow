@@ -59,8 +59,8 @@ export default function Showcase() {
                 ></button>
               </div>
 
-              <button onClick={reserveVehicle} className="button-shimmer w-full sm:w-auto bg-racing-red hover:bg-white hover:text-black active:bg-red-700 px-6 sm:px-8 py-3.5 text-xs font-black uppercase tracking-wider text-white sm:skew-12 inline-block transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.3)] cursor-pointer text-center">
-                <span className="sm:unskew-12 inline-block">Inquire In This Color</span>
+              <button onClick={reserveVehicle} className="button-shimmer w-full sm:w-auto bg-racing-red hover:bg-white hover:text-black active:bg-red-700 px-6 sm:px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-white rounded inline-block transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.3)] cursor-pointer text-center">
+                <span>Inquire In This Color</span>
               </button>
             </div>
           </div>

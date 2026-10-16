@@ -83,10 +83,9 @@ export default function AboutCompany() {
                 </div>
               </div>
 
-              <button className="button-shimmer w-full sm:w-auto bg-racing-red hover:bg-white hover:text-black text-white font-black text-xs px-8 py-3.5 sm:py-4 uppercase transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.3)] inline-flex items-center justify-center gap-2 group rounded-sm sm:skew-12 cursor-pointer">
-                <span className="sm:unskew-12 flex items-center gap-2">
-                  Meet The Team <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
+              <button className="button-shimmer w-full sm:w-auto bg-racing-red hover:bg-white hover:text-black text-white font-bold text-xs px-8 py-3.5 sm:py-4 uppercase transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.3)] inline-flex items-center justify-center gap-2 group rounded cursor-pointer">
+                <span>Meet The Team</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </AnimateOnScroll>

@@ -21,11 +21,9 @@ export default function Hero() {
               
               {/* Top Badge */}
               <AnimateOnScroll delay={100} direction="up">
-                <div className="inline-block bg-racing-red text-white text-[10px] sm:text-[11px] md:text-[10px] lg:text-[11px] font-black uppercase px-2.5 sm:px-3 py-1 tracking-wider sm:tracking-widest skew-12 mb-3 sm:mb-4 md:mb-3 lg:mb-5 shadow-md">
-                  <span className="unskew-12 flex items-center gap-1.5 sm:gap-2">
-                    <ShieldCheck className="w-3.5 h-3.5 fill-current shrink-0" /> 
-                    <span>DRIVEFLOW // CERTIFIED LUXURY & PERFORMANCE</span>
-                  </span>
+                <div className="inline-flex items-center gap-2 bg-racing-red text-white text-[10px] sm:text-[11px] font-bold uppercase px-3 py-1.5 rounded tracking-wider mb-3 sm:mb-4 md:mb-3 lg:mb-5 shadow-md">
+                  <ShieldCheck className="w-3.5 h-3.5 fill-current shrink-0" /> 
+                  <span>DRIVEFLOW // CERTIFIED LUXURY & PERFORMANCE</span>
                 </div>
               </AnimateOnScroll>
               
@@ -46,20 +44,19 @@ export default function Hero() {
 
               {/* Action Buttons */}
               <AnimateOnScroll delay={400} direction="up">
-                <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-2.5 sm:gap-3 lg:gap-4 items-stretch sm:items-center md:items-stretch lg:items-center">
+                <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
                   <Link 
                     href="/#section-inventory" 
-                    className="button-shimmer bg-racing-red px-5 lg:px-8 py-3 text-xs font-black uppercase tracking-wider sm:skew-12 hover:bg-white hover:text-black transition-all glow-red flex items-center justify-center text-center group rounded-sm shadow-lg cursor-pointer"
+                    className="button-shimmer bg-racing-red hover:bg-white hover:text-black active:bg-red-700 text-white font-bold text-xs px-6 py-3.5 rounded transition shadow-lg flex items-center justify-center gap-2 group cursor-pointer"
                   >
-                    <span className="sm:unskew-12 flex items-center gap-2">
-                      Explore Inventory <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-                    </span>
+                    <span>Explore Inventory</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                   </Link>
                   <Link 
                     href="/#section-testdrive" 
-                    className="bg-black/60 border border-white/20 hover:border-red-500 hover:bg-white/5 text-white px-5 lg:px-7 py-3 text-xs font-black uppercase tracking-wider sm:skew-12 transition-all flex items-center justify-center text-center rounded-sm cursor-pointer"
+                    className="bg-black/60 border border-white/20 hover:border-red-500 hover:bg-white/10 text-white font-bold px-6 py-3.5 text-xs transition flex items-center justify-center rounded cursor-pointer"
                   >
-                    <span className="sm:unskew-12 inline-block">Book A Test Drive</span>
+                    <span>Book A Test Drive</span>
                   </Link>
                 </div>
               </AnimateOnScroll>
