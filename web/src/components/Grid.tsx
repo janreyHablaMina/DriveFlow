@@ -52,21 +52,21 @@ export default function Grid() {
   };
 
   return (
-    <section id="section-inventory" className="px-6 lg:px-12 py-16 border-b border-white/10 bg-[#08080c] relative">
+    <section id="section-inventory" className="px-4 sm:px-6 lg:px-12 py-12 sm:py-16 border-b border-white/10 bg-[#08080c] relative">
       <div className="max-w-7xl mx-auto">
         
         {/* Section Header with Entrance Animation */}
         <AnimateOnScroll direction="up">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-10 gap-3 sm:gap-4">
             <div>
-              <span className="text-xs font-black uppercase text-red-500 tracking-widest block mb-1">
+              <span className="text-[11px] sm:text-xs font-black uppercase text-red-500 tracking-widest block mb-1">
                 // VERIFIED DEALERSHIP INVENTORY
               </span>
-              <h2 className="text-3xl sm:text-4xl font-black italic uppercase text-white">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black italic uppercase text-white">
                 Vehicles For Sale
               </h2>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 self-start sm:self-auto">
               <span className="text-xs font-mono px-3 py-1.5 bg-red-600/10 border border-red-600/30 text-red-400 font-bold rounded-full">
                 {filteredVehicles.length} Units In Stock
               </span>
@@ -77,13 +77,13 @@ export default function Grid() {
           </div>
         </AnimateOnScroll>
 
-        {/* Category Tabs */}
-        <div className="flex flex-wrap items-center gap-2 mb-10 border-b border-white/10 pb-4">
+        {/* Category Tabs - Horizontally scrollable on mobile */}
+        <div className="flex items-center gap-2 mb-8 sm:mb-10 border-b border-white/10 pb-4 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
           <button
             onClick={() => handleTabChange('all')}
-            className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm ${
+            className={`shrink-0 whitespace-nowrap px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm cursor-pointer ${
               activeTab === 'all'
-                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)] scale-102'
+                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]'
                 : 'bg-black/60 text-slate-400 hover:text-white hover:bg-white/5 border border-white/10'
             }`}
           >
@@ -91,9 +91,9 @@ export default function Grid() {
           </button>
           <button
             onClick={() => handleTabChange('suv')}
-            className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm ${
+            className={`shrink-0 whitespace-nowrap px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm cursor-pointer ${
               activeTab === 'suv'
-                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)] scale-102'
+                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]'
                 : 'bg-black/60 text-slate-400 hover:text-white hover:bg-white/5 border border-white/10'
             }`}
           >
@@ -101,9 +101,9 @@ export default function Grid() {
           </button>
           <button
             onClick={() => handleTabChange('sedan')}
-            className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm ${
+            className={`shrink-0 whitespace-nowrap px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm cursor-pointer ${
               activeTab === 'sedan'
-                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)] scale-102'
+                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]'
                 : 'bg-black/60 text-slate-400 hover:text-white hover:bg-white/5 border border-white/10'
             }`}
           >
@@ -111,9 +111,9 @@ export default function Grid() {
           </button>
           <button
             onClick={() => handleTabChange('truck')}
-            className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm ${
+            className={`shrink-0 whitespace-nowrap px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm cursor-pointer ${
               activeTab === 'truck'
-                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)] scale-102'
+                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]'
                 : 'bg-black/60 text-slate-400 hover:text-white hover:bg-white/5 border border-white/10'
             }`}
           >
@@ -121,25 +121,25 @@ export default function Grid() {
           </button>
           <button
             onClick={() => handleTabChange('premium')}
-            className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm ${
+            className={`shrink-0 whitespace-nowrap px-4 sm:px-5 py-2 sm:py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-sm cursor-pointer ${
               activeTab === 'premium'
-                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)] scale-102'
+                ? 'bg-racing-red text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]'
                 : 'bg-black/60 text-slate-400 hover:text-white hover:bg-white/5 border border-white/10'
             }`}
           >
-            Premium Collection ({VEHICLES.filter(v => v.category === 'premium').length})
+            Premium ({VEHICLES.filter(v => v.category === 'premium').length})
           </button>
         </div>
 
         {/* Vehicles Grid - Staggered entrance & Hover Depth */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {displayedVehicles.map((car, idx) => (
             <AnimateOnScroll key={car.id} delay={idx * 80} direction="up">
               <div 
                 className="bg-[#101017] border border-white/10 hover:border-red-600/80 transition-all duration-500 rounded-sm overflow-hidden flex flex-col group shadow-xl hover:shadow-[0_20px_45px_rgba(0,0,0,0.85)] hover:-translate-y-2 h-full"
               >
                 {/* Image & Badges */}
-                <Link href={`/vehicles/${car.id}`} className="block relative h-56 bg-slate-900 overflow-hidden cursor-pointer">
+                <Link href={`/vehicles/${car.id}`} className="block relative h-48 sm:h-56 bg-slate-900 overflow-hidden cursor-pointer">
                   <img 
                     src={car.images[0]} 
                     alt={car.name} 
@@ -160,24 +160,24 @@ export default function Grid() {
                 </Link>
 
                 {/* Card Body */}
-                <div className="p-6 flex-1 flex flex-col justify-between">
+                <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between">
                   <div>
                     <Link href={`/vehicles/${car.id}`}>
-                      <h3 className="font-black text-lg text-white uppercase group-hover:text-red-500 transition-colors leading-snug line-clamp-1 cursor-pointer">
+                      <h3 className="font-black text-base sm:text-lg text-white uppercase group-hover:text-red-500 transition-colors leading-snug line-clamp-1 cursor-pointer">
                         {car.name}
                       </h3>
                     </Link>
-                    <p className="text-slate-400 text-xs font-body mt-2 line-clamp-2 leading-relaxed">
+                    <p className="text-slate-400 text-xs font-body mt-1.5 sm:mt-2 line-clamp-2 leading-relaxed">
                       {car.description}
                     </p>
                   </div>
 
                   {/* Price and Action Buttons */}
-                  <div className="pt-4 border-t border-white/10 mt-6">
-                    <div className="flex items-baseline justify-between mb-4">
+                  <div className="pt-3.5 sm:pt-4 border-t border-white/10 mt-5 sm:mt-6">
+                    <div className="flex items-baseline justify-between mb-3.5 sm:mb-4">
                       <div>
                         <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest block">Outright Cash Price</span>
-                        <span className="text-2xl font-black text-red-500 tracking-tight">{car.price}</span>
+                        <span className="text-xl sm:text-2xl font-black text-red-500 tracking-tight">{car.price}</span>
                       </div>
                       <div className="text-right">
                         <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest block">Est. Loan</span>
@@ -188,13 +188,13 @@ export default function Grid() {
                     <div className="grid grid-cols-2 gap-2">
                       <Link 
                         href={`/vehicles/${car.id}`}
-                        className="w-full py-2.5 bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white text-xs font-bold uppercase transition rounded-sm border border-white/10 flex items-center justify-center gap-1.5"
+                        className="w-full py-2.5 sm:py-3 bg-white/5 hover:bg-white/15 text-slate-300 hover:text-white text-xs font-bold uppercase transition rounded-sm border border-white/10 flex items-center justify-center gap-1.5 text-center"
                       >
                         <Eye className="w-3.5 h-3.5" /> Full Specs
                       </Link>
                       <button 
                         onClick={() => handleBookTestDrive(car.name)}
-                        className="button-shimmer w-full py-2.5 bg-racing-red hover:bg-white hover:text-black text-white text-xs font-black uppercase transition-all duration-300 rounded-sm shadow-md flex items-center justify-center gap-1 group/btn"
+                        className="button-shimmer w-full py-2.5 sm:py-3 bg-racing-red hover:bg-white hover:text-black text-white text-xs font-black uppercase transition-all duration-300 rounded-sm shadow-md flex items-center justify-center gap-1 group/btn cursor-pointer"
                       >
                         <span>Book Drive</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
@@ -210,15 +210,15 @@ export default function Grid() {
         {/* View All Call To Action */}
         {filteredVehicles.length > 6 && (
           <AnimateOnScroll direction="up" delay={200}>
-            <div className="mt-12 text-center">
+            <div className="mt-8 sm:mt-12 text-center">
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="button-shimmer inline-flex items-center gap-3 bg-white/5 hover:bg-racing-red text-white border border-white/15 hover:border-red-600 px-8 py-4 text-xs font-black uppercase tracking-widest transition-all duration-300 rounded-sm shadow-xl group"
+                className="button-shimmer w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white/5 hover:bg-racing-red text-white border border-white/15 hover:border-red-600 px-6 sm:px-8 py-3.5 sm:py-4 text-xs font-black uppercase tracking-widest transition-all duration-300 rounded-sm shadow-xl group cursor-pointer"
               >
-                <span>{showAll ? 'Show Fewer Vehicles' : `Explore All Inventory (${filteredVehicles.length} Units Available)`}</span>
+                <span>{showAll ? 'Show Fewer Vehicles' : `Explore All Inventory (${filteredVehicles.length} Units)`}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
               </button>
-              <p className="text-[11px] font-mono text-slate-500 mt-3">
+              <p className="text-[10px] sm:text-[11px] font-mono text-slate-500 mt-2.5 sm:mt-3">
                 Showing {displayedVehicles.length} of {filteredVehicles.length} certified vehicles ready for immediate release
               </p>
             </div>

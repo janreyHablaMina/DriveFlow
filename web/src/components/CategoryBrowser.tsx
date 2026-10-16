@@ -39,13 +39,13 @@ export default function CategoryBrowser() {
   ];
 
   return (
-    <section id="section-categories" className="px-6 lg:px-12 py-14 border-b border-white/10 bg-carbon">
+    <section id="section-categories" className="px-4 sm:px-6 lg:px-12 py-10 sm:py-14 border-b border-white/10 bg-carbon">
       <div className="max-w-7xl mx-auto">
         <AnimateOnScroll direction="up">
-          <div className="flex justify-between items-end mb-8">
+          <div className="flex justify-between items-end mb-6 sm:mb-8">
             <div>
-              <span className="text-xs font-black text-red-500 uppercase tracking-widest">// SHOP BY LIFESTYLE</span>
-              <h2 className="text-3xl font-black italic uppercase mt-1">Browse Inventory</h2>
+              <span className="text-[11px] sm:text-xs font-black text-red-500 uppercase tracking-widest">// SHOP BY LIFESTYLE</span>
+              <h2 className="text-2xl sm:text-3xl font-black italic uppercase mt-1">Browse Inventory</h2>
             </div>
           </div>
         </AnimateOnScroll>
@@ -55,20 +55,20 @@ export default function CategoryBrowser() {
             <AnimateOnScroll key={cat.name} delay={idx * 100} direction="up">
               <div 
                 onClick={() => selectCategory(cat.name)} 
-                className="relative h-[280px] overflow-hidden group cursor-pointer border border-white/10 hover:border-red-600 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.8)] rounded-sm"
+                className="relative h-[250px] sm:h-[280px] overflow-hidden group cursor-pointer border border-white/10 hover:border-red-600 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.8)] rounded-sm"
               >
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110" 
                   style={{ backgroundImage: `url('${cat.img}')` }} 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/10 opacity-90 group-hover:opacity-100 transition duration-500" />
-                <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-end">
                   <span className="text-red-500 font-black text-[10px] tracking-widest mb-1 drop-shadow-md">CATEGORY //</span>
-                  <h3 className="font-black text-xl uppercase text-white group-hover:text-red-500 transition-colors drop-shadow-md">{cat.name}</h3>
-                  <p className="font-body text-xs text-slate-300 mt-2 line-clamp-2">{cat.desc}</p>
-                  <div className="flex items-center justify-between mt-4">
+                  <h3 className="font-black text-lg sm:text-xl uppercase text-white group-hover:text-red-500 transition-colors drop-shadow-md">{cat.name}</h3>
+                  <p className="font-body text-xs text-slate-300 mt-1.5 sm:mt-2 line-clamp-2">{cat.desc}</p>
+                  <div className="flex items-center justify-between mt-3 sm:mt-4">
                     <span className="text-xs font-bold text-white bg-black/60 px-2.5 py-1 rounded backdrop-blur-sm border border-white/10">{cat.stock}</span>
-                    <span className="text-red-500 opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-x-2 group-hover:translate-x-0 font-black text-xs flex items-center gap-1">
+                    <span className="text-red-500 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-all duration-300 transform sm:-translate-x-2 group-hover:translate-x-0 font-black text-xs flex items-center gap-1">
                       EXPLORE <span className="transition-transform group-hover:translate-x-1 duration-300">→</span>
                     </span>
                   </div>

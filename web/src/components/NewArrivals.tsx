@@ -20,20 +20,20 @@ export default function NewArrivals() {
   ];
 
   return (
-    <section className="px-6 lg:px-12 py-14 border-b border-white/10 bg-[#0a0a0e]">
+    <section className="px-4 sm:px-6 lg:px-12 py-10 sm:py-14 border-b border-white/10 bg-[#0a0a0e]">
       <div className="max-w-7xl mx-auto">
         <AnimateOnScroll direction="up">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-black uppercase italic">Fresh Showroom Arrivals</h2>
-            <span className="text-xs font-mono text-red-500">Inspected & Documented This Week</span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-4 mb-6">
+            <h2 className="text-xl sm:text-2xl font-black uppercase italic">Fresh Showroom Arrivals</h2>
+            <span className="text-[11px] sm:text-xs font-mono text-red-500">Inspected & Documented This Week</span>
           </div>
         </AnimateOnScroll>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
           {arrivals.map((item, idx) => (
             <AnimateOnScroll key={item.name} delay={idx * 100} direction="up">
-              <div className="p-4 bg-black/60 border border-white/10 hover:border-red-600 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(0,0,0,0.8)] rounded-sm group cursor-pointer">
-                <div className="h-44 bg-slate-800 mb-3 overflow-hidden rounded-sm relative">
+              <div className="p-3.5 sm:p-4 bg-black/60 border border-white/10 hover:border-red-600 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(0,0,0,0.8)] rounded-sm group cursor-pointer">
+                <div className="h-40 sm:h-44 bg-slate-800 mb-3 overflow-hidden rounded-sm relative">
                   <img 
                     src={item.img} 
                     alt={item.name} 
@@ -41,9 +41,9 @@ export default function NewArrivals() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <span className="text-[10px] font-mono bg-red-600/20 text-red-500 px-2 py-0.5 border border-red-600/40 inline-block">OFFICIALLY DOCUMENTED</span>
-                <h3 className="font-black text-sm text-white mt-2 group-hover:text-red-500 transition-colors line-clamp-1">{item.name}</h3>
-                <p className="text-sm text-red-500 font-black mt-1">{item.price}</p>
+                <span className="text-[9px] sm:text-[10px] font-mono bg-red-600/20 text-red-500 px-2 py-0.5 border border-red-600/40 inline-block">OFFICIALLY DOCUMENTED</span>
+                <h3 className="font-black text-xs sm:text-sm text-white mt-1.5 sm:mt-2 group-hover:text-red-500 transition-colors line-clamp-1">{item.name}</h3>
+                <p className="text-xs sm:text-sm text-red-500 font-black mt-1">{item.price}</p>
               </div>
             </AnimateOnScroll>
           ))}

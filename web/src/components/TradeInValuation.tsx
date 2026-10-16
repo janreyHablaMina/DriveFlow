@@ -15,7 +15,7 @@ export default function TestDriveBooking() {
   };
 
   return (
-    <section id="section-testdrive" className="px-6 lg:px-12 py-20 border-b border-white/10 bg-black relative overflow-hidden">
+    <section id="section-testdrive" className="px-4 sm:px-6 lg:px-12 py-12 sm:py-20 border-b border-white/10 bg-black relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-carbon opacity-30 pointer-events-none"></div>
       
       <div className="max-w-7xl mx-auto relative z-10">
@@ -43,69 +43,70 @@ export default function TestDriveBooking() {
             </div>
 
             {/* Right Side: Booking Form */}
-            <div className="bg-[#0e0e14] p-8 sm:p-12">
-              <div className="md:hidden mb-8">
-                <span className="text-xs font-black text-red-500 uppercase tracking-widest block mb-2">// VIP EXPERIENCE</span>
-                <h2 className="text-3xl font-black italic uppercase text-white">Schedule A Test Drive</h2>
+            <div className="bg-[#0e0e14] p-5 sm:p-8 lg:p-12">
+              <div className="md:hidden mb-6">
+                <span className="text-[11px] font-black text-red-500 uppercase tracking-widest block mb-1.5">// VIP EXPERIENCE</span>
+                <h2 className="text-2xl font-black italic uppercase text-white mb-2">Schedule A Test Drive</h2>
+                <p className="text-xs text-slate-400">Experience your next vehicle with a private guided drive.</p>
               </div>
 
               {isSubmitted ? (
-                <div className="h-full flex flex-col items-center justify-center text-center py-20">
-                  <div className="w-16 h-16 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle2 className="w-8 h-8 text-green-500" />
+                <div className="h-full flex flex-col items-center justify-center text-center py-12 sm:py-20">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center mb-5">
+                    <CheckCircle2 className="w-7 h-7 sm:w-8 sm:h-8 text-green-500" />
                   </div>
-                  <h3 className="text-2xl font-black uppercase text-white mb-2">Request Received</h3>
-                  <p className="text-slate-400 text-sm max-w-xs mx-auto">Our concierge team will contact you shortly to confirm your appointment time.</p>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase text-white mb-2">Request Received</h3>
+                  <p className="text-slate-400 text-xs sm:text-sm max-w-xs mx-auto">Our concierge team will contact you shortly to confirm your appointment time.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">First Name</label>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2">First Name</label>
                       <div className="relative">
                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                        <input required type="text" placeholder="John" className="w-full bg-black border border-white/10 text-sm text-white py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" />
+                        <input required type="text" placeholder="John" className="w-full bg-black border border-white/10 text-base sm:text-sm text-white py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Last Name</label>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2">Last Name</label>
                       <div className="relative">
                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                        <input required type="text" placeholder="Doe" className="w-full bg-black border border-white/10 text-sm text-white py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" />
+                        <input required type="text" placeholder="Doe" className="w-full bg-black border border-white/10 text-base sm:text-sm text-white py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Phone Number</label>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2">Phone Number</label>
                       <div className="relative">
                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                        <input required type="tel" placeholder="+63 917 000 0000" className="w-full bg-black border border-white/10 text-sm text-white py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" />
+                        <input required type="tel" placeholder="+63 917 000 0000" className="w-full bg-black border border-white/10 text-base sm:text-sm text-white py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Vehicle of Interest</label>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2">Vehicle of Interest</label>
                       <div className="relative">
                         <Car className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                        <input required type="text" placeholder="e.g. Ford Everest" className="w-full bg-black border border-white/10 text-sm text-white py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" />
+                        <input required type="text" placeholder="e.g. Ford Everest" className="w-full bg-black border border-white/10 text-base sm:text-sm text-white py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" />
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Preferred Date</label>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2">Preferred Date</label>
                       <div className="relative">
                         <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                        <input required type="date" className="w-full bg-black border border-white/10 text-sm text-slate-300 py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" style={{colorScheme: 'dark'}} />
+                        <input required type="date" className="w-full bg-black border border-white/10 text-base sm:text-sm text-slate-300 py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm" style={{colorScheme: 'dark'}} />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">Preferred Time</label>
+                      <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 sm:mb-2">Preferred Time</label>
                       <div className="relative">
                         <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                        <select required className="w-full bg-black border border-white/10 text-sm text-slate-300 py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm appearance-none cursor-pointer">
+                        <select required className="w-full bg-black border border-white/10 text-base sm:text-sm text-slate-300 py-3 pl-11 pr-4 outline-none focus:border-red-500 transition-colors rounded-sm appearance-none cursor-pointer">
                           <option value="">Select Time</option>
                           <option value="morning">Morning (9AM - 12PM)</option>
                           <option value="afternoon">Afternoon (1PM - 4PM)</option>
@@ -115,11 +116,11 @@ export default function TestDriveBooking() {
                     </div>
                   </div>
 
-                  <div className="pt-4">
-                    <button type="submit" className="button-shimmer w-full bg-racing-red hover:bg-white hover:text-black text-white font-black text-xs px-6 py-4 uppercase transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.3)] flex items-center justify-center gap-2 group/btn rounded-sm cursor-pointer">
+                  <div className="pt-2 sm:pt-4">
+                    <button type="submit" className="button-shimmer w-full bg-racing-red hover:bg-white hover:text-black active:bg-red-700 text-white font-black text-xs px-6 py-3.5 sm:py-4 uppercase transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.3)] flex items-center justify-center gap-2 group/btn rounded-sm cursor-pointer">
                       Confirm Appointment <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                     </button>
-                    <p className="text-center text-[10px] text-slate-500 mt-4 font-mono">
+                    <p className="text-center text-[10px] text-slate-500 mt-3 sm:mt-4 font-mono">
                       By booking, you agree to receive a confirmation call from our team.
                     </p>
                   </div>

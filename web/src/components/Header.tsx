@@ -21,15 +21,15 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-white/10 px-6 lg:px-12 shadow-lg">
+    <header className="sticky top-0 z-50 bg-[#0a0a0f]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 lg:px-12 shadow-lg">
       <div className="max-w-7xl mx-auto h-16 flex items-center justify-between">
         
         {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="bg-red-600 px-3 py-1 text-white font-extrabold tracking-tight text-lg rounded-sm group-hover:bg-red-500 transition shadow-sm">
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
+          <div className="bg-red-600 px-2.5 sm:px-3 py-1 text-white font-extrabold tracking-tight text-base sm:text-lg rounded-sm group-hover:bg-red-500 transition shadow-sm">
             DRIVEFLOW
           </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-slate-400 hidden sm:inline-block">
+          <span className="text-[11px] font-semibold tracking-widest uppercase text-slate-400 hidden xs:inline-block sm:inline-block">
             MOTORS <span className="text-red-500 font-light">MANILA</span>
           </span>
         </Link>
@@ -48,7 +48,7 @@ export default function Header() {
         </nav>
 
         {/* Desktop Right Actions: Phone + Book CTA */}
-        <div className="hidden sm:flex items-center gap-4">
+        <div className="hidden sm:flex items-center gap-3 lg:gap-4">
           <a
             href="tel:+63288772277"
             className="flex items-center gap-2 text-xs font-medium text-slate-300 hover:text-white transition"
@@ -56,7 +56,7 @@ export default function Header() {
             <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-red-500">
               <Phone className="w-3.5 h-3.5" />
             </div>
-            <div className="text-left font-mono">
+            <div className="text-left font-mono hidden md:block">
               <span className="text-[9px] text-slate-500 uppercase block tracking-wider leading-none">HOTLINE</span>
               <span className="font-bold text-slate-200 text-xs">(02) 8877-CARS</span>
             </div>
@@ -64,7 +64,7 @@ export default function Header() {
 
           <Link
             href="/#section-testdrive"
-            className="bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-4 py-2.5 rounded transition shadow-sm flex items-center gap-1.5"
+            className="bg-red-600 hover:bg-red-500 text-white font-semibold text-xs px-3.5 sm:px-4 py-2.5 rounded transition shadow-sm flex items-center gap-1.5 whitespace-nowrap"
           >
             <Calendar className="w-3.5 h-3.5" />
             <span>Book Test Drive</span>
@@ -74,24 +74,24 @@ export default function Header() {
         {/* Mobile Hamburger Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="xl:hidden p-2 text-slate-300 hover:text-white hover:bg-white/5 rounded transition border border-white/5"
+          className="xl:hidden w-11 h-11 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/5 active:bg-white/10 rounded transition border border-white/10"
           aria-label="Toggle navigation menu"
         >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {mobileMenuOpen ? <X className="w-5 h-5 text-red-500" /> : <Menu className="w-5 h-5" />}
         </button>
 
       </div>
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="xl:hidden border-t border-white/10 bg-[#0d0d14] px-6 py-5 space-y-4 shadow-2xl animate-in slide-in-from-top-2 duration-200">
-          <nav className="flex flex-col space-y-3">
+        <div className="xl:hidden border-t border-white/10 bg-[#0d0d14]/98 backdrop-blur-xl px-4 sm:px-6 py-5 space-y-4 shadow-2xl animate-in slide-in-from-top-2 duration-200 max-h-[calc(100vh-4rem)] overflow-y-auto">
+          <nav className="flex flex-col space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={handleLinkClick}
-                className="text-sm font-medium text-slate-300 hover:text-red-400 py-1 transition"
+                className="text-sm font-semibold text-slate-200 hover:text-red-400 active:bg-white/5 px-3 py-2.5 rounded transition"
               >
                 {link.label}
               </Link>
@@ -101,7 +101,7 @@ export default function Header() {
           <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
             <a
               href="tel:+63288772277"
-              className="flex items-center gap-2 text-xs text-slate-300 font-mono py-1"
+              className="flex items-center gap-2.5 text-xs text-slate-300 font-mono py-2 px-3 rounded bg-white/5 border border-white/5 hover:border-red-500/50"
             >
               <Phone className="w-4 h-4 text-red-500" />
               <span>Hotline: +63 (2) 8877-CARS</span>
@@ -110,9 +110,9 @@ export default function Header() {
             <Link
               href="/#section-testdrive"
               onClick={handleLinkClick}
-              className="w-full bg-red-600 hover:bg-red-500 text-white font-semibold text-xs py-3 rounded text-center transition flex items-center justify-center gap-2"
+              className="w-full bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-semibold text-xs py-3.5 rounded text-center transition flex items-center justify-center gap-2 shadow-lg"
             >
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-4 h-4" />
               <span>Book Test Drive</span>
             </Link>
           </div>

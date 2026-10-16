@@ -74,22 +74,19 @@ export default function Telemetry() {
   ];
 
   return (
-    <section className="px-6 lg:px-12 py-12 bg-black border-b border-white/10 relative overflow-hidden">
+    <section className="px-4 sm:px-6 lg:px-12 py-10 sm:py-12 bg-black border-b border-white/10 relative overflow-hidden">
       <div className="absolute inset-0 bg-carbon opacity-30 pointer-events-none"></div>
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 text-center relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-4 text-center relative z-10">
         {stats.map((stat, idx) => (
-          <div key={stat.label} className="flex-1 flex flex-col md:flex-row items-center w-full">
+          <div key={stat.label} className="flex flex-col items-center justify-center p-2">
             <AnimateOnScroll delay={idx * 80} direction="up" className="w-full">
-              <p className={`text-4xl lg:text-5xl font-black italic tracking-tight ${stat.highlight ? 'text-red-500' : 'text-white'}`}>
+              <p className={`text-3xl sm:text-4xl lg:text-5xl font-black italic tracking-tight ${stat.highlight ? 'text-red-500' : 'text-white'}`}>
                 <AnimatedCounter target={stat.target} suffix={stat.suffix} />
               </p>
-              <p className="text-[10px] font-semibold text-slate-400 uppercase mt-2 tracking-widest font-mono">
+              <p className="text-[9px] sm:text-[10px] font-semibold text-slate-400 uppercase mt-1.5 sm:mt-2 tracking-wider sm:tracking-widest font-mono">
                 {stat.label}
               </p>
             </AnimateOnScroll>
-            {idx < stats.length - 1 && (
-              <div className="hidden md:block w-px h-10 bg-white/10 mx-auto"></div>
-            )}
           </div>
         ))}
       </div>
