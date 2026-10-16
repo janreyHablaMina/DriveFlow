@@ -44,7 +44,7 @@ function BannerSlider({ vehicles }: { vehicles: Vehicle[] }) {
 
   return (
     <div 
-      className="relative w-full h-[360px] xs:h-[400px] sm:h-[450px] lg:h-[480px] overflow-hidden rounded-none md:rounded-lg border-y md:border border-white/10 shadow-2xl bg-black group"
+      className="relative w-full h-[380px] xs:h-[430px] sm:h-[480px] md:h-[500px] lg:h-[540px] overflow-hidden bg-black group"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -62,70 +62,72 @@ function BannerSlider({ vehicles }: { vehicles: Vehicle[] }) {
             className="w-full h-full object-cover object-center scale-100 group-hover:scale-105 transition-transform duration-1000 ease-out"
           />
           {/* Cinematic Vignette Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/95 via-black/60 md:via-black/40 to-transparent pointer-events-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/95 via-black/60 md:via-black/35 to-transparent pointer-events-none"></div>
         </div>
       ))}
 
-      {/* Slide Content Overlay */}
-      <div className="relative z-20 h-full flex flex-col justify-end md:justify-center p-5 sm:p-8 lg:p-12 max-w-2xl">
-        <div className="inline-flex items-center gap-2 bg-black/80 backdrop-blur-md border border-red-500/40 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono text-white mb-3 self-start">
-          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-          <span className="text-red-400 font-bold uppercase tracking-wider">SHOWROOM SPOTLIGHT</span>
-          <span className="text-slate-400">•</span>
-          <span className="text-slate-300">Ready For Delivery</span>
-        </div>
-
-        <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-black italic uppercase text-white tracking-tight leading-[0.95] drop-shadow-lg">
-          {currentCar.name}
-        </h2>
-
-        {/* Specs Pill */}
-        <p className="text-xs sm:text-sm text-slate-300 mt-2 font-mono flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span>{currentCar.engine}</span>
-          <span className="text-red-500">•</span>
-          <span>{currentCar.power.split('@')[0]}</span>
-          <span className="text-red-500">•</span>
-          <span>{currentCar.mileage}</span>
-        </p>
-
-        {/* Price & CTA */}
-        <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-4">
-          <div>
-            <span className="text-[10px] font-mono text-slate-400 block uppercase">Cash Outright Price</span>
-            <span className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              {currentCar.price}
-            </span>
+      {/* Slide Content Overlay - Contained to max-w-7xl for grid alignment */}
+      <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex flex-col justify-end md:justify-center pointer-events-none pb-12 md:pb-0">
+        <div className="max-w-2xl pointer-events-auto">
+          <div className="inline-flex items-center gap-2 bg-black/80 backdrop-blur-md border border-red-500/40 px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-mono text-white mb-3 self-start">
+            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+            <span className="text-red-400 font-bold uppercase tracking-wider">SHOWROOM SPOTLIGHT</span>
+            <span className="text-slate-400">•</span>
+            <span className="text-slate-300">Ready For Delivery</span>
           </div>
 
-          <Link
-            href={`/vehicles/${currentCar.id}`}
-            className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-3.5 rounded transition flex items-center gap-2 group/btn cursor-pointer shadow-lg ml-auto sm:ml-0"
-          >
-            <span>Explore This Vehicle</span>
-            <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-          </Link>
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-black italic uppercase text-white tracking-tight leading-[0.95] drop-shadow-lg">
+            {currentCar.name}
+          </h2>
+
+          {/* Specs Pill */}
+          <p className="text-xs sm:text-sm text-slate-300 mt-2.5 font-mono flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span>{currentCar.engine}</span>
+            <span className="text-red-500">•</span>
+            <span>{currentCar.power.split('@')[0]}</span>
+            <span className="text-red-500">•</span>
+            <span>{currentCar.mileage}</span>
+          </p>
+
+          {/* Price & CTA */}
+          <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-4">
+            <div>
+              <span className="text-[10px] font-mono text-slate-400 block uppercase">Cash Outright Price</span>
+              <span className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                {currentCar.price}
+              </span>
+            </div>
+
+            <Link
+              href={`/vehicles/${currentCar.id}`}
+              className="bg-red-600 hover:bg-red-500 text-white font-bold text-xs px-6 py-3.5 rounded transition flex items-center gap-2 group/btn cursor-pointer shadow-lg ml-auto sm:ml-0"
+            >
+              <span>Explore This Vehicle</span>
+              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </div>
       </div>
 
       {/* Prev / Next Chevrons */}
       <button
         onClick={() => setCurrentSlide((prev) => (prev - 1 + vehicles.length) % vehicles.length)}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center border border-white/20 transition cursor-pointer backdrop-blur-sm"
+        className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center border border-white/20 transition cursor-pointer backdrop-blur-sm"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="w-5 h-5" />
+        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
 
       <button
         onClick={() => setCurrentSlide((prev) => (prev + 1) % vehicles.length)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center border border-white/20 transition cursor-pointer backdrop-blur-sm"
+        className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/60 hover:bg-red-600 text-white flex items-center justify-center border border-white/20 transition cursor-pointer backdrop-blur-sm"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-4 h-4" />
+        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
 
       {/* Slide Indicator Dots */}
-      <div className="absolute bottom-4 right-4 sm:right-8 z-30 flex items-center gap-2 bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
+      <div className="absolute bottom-4 right-4 sm:right-12 z-30 flex items-center gap-2 bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
         {vehicles.map((car, idx) => (
           <button
             key={car.id}
@@ -242,8 +244,13 @@ function VehiclesContent() {
 
       <main className="flex-1 pb-16">
         
+        {/* Full-Width Edge-to-Edge Hero Banner Slider */}
+        <div className="w-full mb-8 border-b border-white/10">
+          <BannerSlider vehicles={spotlightVehicles} />
+        </div>
+
         {/* Clean Breadcrumb Strip */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 pt-6 pb-4 flex items-center justify-between text-xs font-mono text-slate-400">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 mb-6 flex items-center justify-between text-xs font-mono text-slate-400">
           <div className="flex items-center gap-2">
             <Link href="/" className="hover:text-red-400 transition">Home</Link>
             <span>/</span>
@@ -252,11 +259,6 @@ function VehiclesContent() {
           <span className="text-slate-400 hidden sm:inline">
             <strong className="text-white">{VEHICLES.length}</strong> Units Available in Showroom
           </span>
-        </div>
-
-        {/* Top Hero Banner Slider */}
-        <div className="max-w-7xl mx-auto px-0 md:px-6 lg:px-12 mb-8">
-          <BannerSlider vehicles={spotlightVehicles} />
         </div>
 
         {/* Lightweight, Breathable Filter & Search Bar */}
