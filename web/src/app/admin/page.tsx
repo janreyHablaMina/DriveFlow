@@ -350,6 +350,14 @@ export default function DealershipAdminDashboard() {
     showToast(`Official Receipt ${newTx.orNumber} issued for ₱${newTx.amount.toLocaleString()}`);
   };
 
+  const handleUpdateSaleStatus = (saleId: string, status: SaleRecord['status']) => {
+    setSales(
+      sales.map((s) => (s.id === saleId ? { ...s, status } : s))
+    );
+    logAction('Updated Contract Status', `Sale ID: ${saleId} -> ${status}`);
+    showToast(`Contract status updated to "${status}".`);
+  };
+
   // Handlers for Appointments
   const handleAddAppointment = (aptData: Omit<Appointment, 'id' | 'createdDate'>) => {
     const newApt: Appointment = {
@@ -576,6 +584,7 @@ export default function DealershipAdminDashboard() {
             <SalesTab
               sales={sales}
               onRecordPayment={handleRecordPayment}
+              onUpdateStatus={handleUpdateSaleStatus}
               currencySymbol={settings.currencySymbol}
             />
           )}
