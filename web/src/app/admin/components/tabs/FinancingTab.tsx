@@ -410,9 +410,17 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
                     {/* Applicant & App # */}
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-xs flex items-center justify-center shrink-0">
-                          {getInitials(app.applicantName)}
-                        </div>
+                        {app.avatar ? (
+                          <img
+                            src={app.avatar}
+                            alt={app.applicantName}
+                            className="w-8 h-8 rounded-none object-cover border border-slate-700 shrink-0"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-xs flex items-center justify-center shrink-0">
+                            {getInitials(app.applicantName)}
+                          </div>
+                        )}
                         <div>
                           <button
                             type="button"
@@ -548,9 +556,17 @@ export const FinancingTab: React.FC<FinancingTabProps> = ({
           <div className="bg-[#121624] border border-slate-700 rounded-none max-w-3xl w-full p-6 max-h-[92vh] overflow-y-auto space-y-5 text-xs">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-sm flex items-center justify-center shrink-0">
-                  {getInitials(selectedApp.applicantName)}
-                </div>
+                {selectedApp.avatar ? (
+                  <img
+                    src={selectedApp.avatar}
+                    alt={selectedApp.applicantName}
+                    className="w-10 h-10 rounded-none object-cover border border-slate-700 shrink-0"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-sm flex items-center justify-center shrink-0">
+                    {getInitials(selectedApp.applicantName)}
+                  </div>
+                )}
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-base font-bold text-white">{selectedApp.applicantName}</h3>

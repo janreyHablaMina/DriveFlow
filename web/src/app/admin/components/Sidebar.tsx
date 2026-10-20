@@ -7,7 +7,6 @@ import {
   Car,
   Users,
   FileSpreadsheet,
-  FileCheck,
   Receipt,
   Calendar,
   Target,
@@ -32,7 +31,6 @@ interface SidebarProps {
   setMobileOpen: (open: boolean) => void;
   badgeCounts: {
     applications: number;
-    documents: number;
     overduePayments: number;
     appointments: number;
     leads: number;
@@ -96,14 +94,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: FileSpreadsheet,
       badge: badgeCounts.applications,
       badgeColor: 'bg-red-500/25 text-red-300 border-red-500/40',
-      group: 'Finance & CRM',
-    },
-    {
-      id: 'documents',
-      label: 'Documents',
-      icon: FileCheck,
-      badge: badgeCounts.documents,
-      badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
       group: 'Finance & CRM',
     },
     {

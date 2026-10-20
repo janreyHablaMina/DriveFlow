@@ -62,6 +62,15 @@ export const SalesTab: React.FC<SalesTabProps> = ({
     });
   }, [sales, search, statusFilter, financingTypeFilter]);
 
+  const getInitials = (name: string) => {
+    const clean = name.replace(/^(Arch\.|Dr\.|Capt\.|Atty\.|Mr\.|Ms\.|Mrs\.|Engr\.)\s+/i, '');
+    const parts = clean.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+    }
+    return clean.slice(0, 2).toUpperCase();
+  };
+
   const handlePostPayment = (e: React.FormEvent) => {
     e.preventDefault();
     const targetSale = sales.find((s) => s.id === paySaleId) || sales[0];
@@ -179,9 +188,27 @@ export const SalesTab: React.FC<SalesTabProps> = ({
               {filteredSales.map((sale) => (
                 <tr key={sale.id} className="hover:bg-slate-800/40 transition">
                   <td className="py-3 px-4">
-                    <span className="font-bold text-white block">{sale.saleNumber}</span>
-                    <span className="text-[11px] text-slate-300">{sale.customerName}</span>
-                    <span className="text-[10px] font-mono text-slate-500">{sale.saleDate}</span>
+                    <div className="flex items-center gap-3">
+                      {sale.customerAvatar ? (
+                        <img
+                          src={sale.customerAvatar}
+                          alt={sale.customerName}
+                          className="w-8 h-8 rounded-none object-cover border border-slate-700 shrink-0"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-xs flex items-center justify-center shrink-0">
+                          {getInitials(sale.customerName)}
+                        </div>
+                      )}
+                      <div>
+                        <span className="font-bold text-white block">{sale.customerName}</span>
+                        <div className="text-[10px] font-mono text-slate-400 flex items-center gap-1.5 mt-0.5">
+                          <span className="text-red-400 font-semibold">{sale.saleNumber}</span>
+                          <span className="text-slate-600">•</span>
+                          <span>{sale.saleDate}</span>
+                        </div>
+                      </div>
+                    </div>
                   </td>
 
                   <td className="py-3 px-3">

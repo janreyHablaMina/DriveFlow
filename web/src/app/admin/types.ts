@@ -3,7 +3,6 @@ export type AdminTab =
   | 'inventory'
   | 'customers'
   | 'financing'
-  | 'documents'
   | 'sales'
   | 'appointments'
   | 'leads'
@@ -124,6 +123,7 @@ export interface FinancingApplication {
   appNumber: string;
   customerId: string;
   applicantName: string;
+  avatar?: string;
   phone: string;
   email: string;
   vehicleId: string;
@@ -231,6 +231,7 @@ export interface SaleRecord {
   saleNumber: string;
   customerId: string;
   customerName: string;
+  customerAvatar?: string;
   customerEmail: string;
   customerPhone: string;
   vehicleId: string;
@@ -248,6 +249,7 @@ export interface SaleRecord {
   monthlyAmortization: number;
   nextDueDate: string;
   salesRep: string;
+  salesRepAvatar?: string;
   branchId: string;
   status: 'Active / Current' | 'Payment Due Soon' | 'Overdue' | 'Fully Paid';
   amortizationSchedule: AmortizationRow[];
@@ -267,6 +269,7 @@ export type AppointmentType =
 export interface Appointment {
   id: string;
   customerName: string;
+  customerAvatar?: string;
   customerPhone: string;
   customerEmail: string;
   vehicleName: string;
@@ -274,6 +277,7 @@ export interface Appointment {
   date: string;
   timeSlot: string;
   assignedStaff: string;
+  assignedStaffAvatar?: string;
   branchId: string;
   status: AppointmentStatus;
   notes: string;

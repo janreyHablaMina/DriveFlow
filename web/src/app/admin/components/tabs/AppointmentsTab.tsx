@@ -74,6 +74,15 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
     };
   }, []);
 
+  const getInitials = (name: string) => {
+    const clean = name.replace(/^(Arch\.|Dr\.|Capt\.|Atty\.|Mr\.|Ms\.|Mrs\.|Engr\.)\s+/i, '');
+    const parts = clean.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+    }
+    return clean.slice(0, 2).toUpperCase();
+  };
+
   // Booking Modal
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
   const [formCustName, setFormCustName] = useState('');
@@ -253,8 +262,23 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
                   return (
                     <tr key={apt.id} className="hover:bg-slate-800/40 transition">
                       <td className="py-3 px-4">
-                        <span className="font-bold text-white block">{apt.customerName}</span>
-                        <span className="text-[10px] font-mono text-slate-400">{apt.customerPhone}</span>
+                        <div className="flex items-center gap-3">
+                          {apt.customerAvatar ? (
+                            <img
+                              src={apt.customerAvatar}
+                              alt={apt.customerName}
+                              className="w-8 h-8 rounded-none object-cover border border-slate-700 shrink-0"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-xs flex items-center justify-center shrink-0">
+                              {getInitials(apt.customerName)}
+                            </div>
+                          )}
+                          <div>
+                            <span className="font-bold text-white block">{apt.customerName}</span>
+                            <span className="text-[10px] font-mono text-slate-400">{apt.customerPhone}</span>
+                          </div>
+                        </div>
                       </td>
 
                       <td className="py-3 px-3">
@@ -274,7 +298,20 @@ export const AppointmentsTab: React.FC<AppointmentsTabProps> = ({
                       </td>
 
                       <td className="py-3 px-3 text-[11px] text-slate-200">
-                        {apt.assignedStaff}
+                        <div className="flex items-center gap-1.5">
+                          {apt.assignedStaffAvatar ? (
+                            <img
+                              src={apt.assignedStaffAvatar}
+                              alt={apt.assignedStaff}
+                              className="w-4 h-4 rounded-none object-cover border border-slate-700 shrink-0"
+                            />
+                          ) : (
+                            <div className="w-4 h-4 rounded-none bg-slate-800 border border-slate-700 text-[8px] font-mono flex items-center justify-center text-slate-400 shrink-0">
+                              {apt.assignedStaff[0]}
+                            </div>
+                          )}
+                          <span className="truncate max-w-[120px]">{apt.assignedStaff}</span>
+                        </div>
                       </td>
 
                       <td className="py-3 px-3">

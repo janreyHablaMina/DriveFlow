@@ -9,7 +9,6 @@ import {
   Customer,
   FinancingApplication,
   FinancingStatus,
-  DealershipDocument,
   SaleRecord,
   PaymentTransaction,
   Appointment,
@@ -22,7 +21,6 @@ import {
   INITIAL_VEHICLES,
   INITIAL_CUSTOMERS,
   INITIAL_APPLICATIONS,
-  INITIAL_DOCUMENTS,
   INITIAL_SALES,
   INITIAL_APPOINTMENTS,
   INITIAL_LEADS,
@@ -40,7 +38,6 @@ import { OverviewTab } from './components/tabs/OverviewTab';
 import { InventoryTab } from './components/tabs/InventoryTab';
 import { CustomersTab } from './components/tabs/CustomersTab';
 import { FinancingTab } from './components/tabs/FinancingTab';
-import { DocumentsTab } from './components/tabs/DocumentsTab';
 import { SalesTab } from './components/tabs/SalesTab';
 import { AppointmentsTab } from './components/tabs/AppointmentsTab';
 import { LeadsTab } from './components/tabs/LeadsTab';
@@ -68,7 +65,6 @@ export default function DealershipAdminDashboard() {
   const [vehicles, setVehicles] = useState<AdminVehicle[]>(INITIAL_VEHICLES);
   const [customers, setCustomers] = useState<Customer[]>(INITIAL_CUSTOMERS);
   const [applications, setApplications] = useState<FinancingApplication[]>(INITIAL_APPLICATIONS);
-  const [documents, setDocuments] = useState<DealershipDocument[]>(INITIAL_DOCUMENTS);
   const [sales, setSales] = useState<SaleRecord[]>(INITIAL_SALES);
   const [appointments, setAppointments] = useState<Appointment[]>(INITIAL_APPOINTMENTS);
   const [leads, setLeads] = useState<Lead[]>(INITIAL_LEADS);
@@ -98,11 +94,11 @@ export default function DealershipAdminDashboard() {
     },
     {
       id: 'notif-3',
-      title: 'Chattel Mortgage Verified',
-      description: 'Dr. Camille Alcantara-Sy BMW M3 chattel paperwork cleared by notary.',
+      title: 'Loan Terms Approved',
+      description: 'Dr. Camille Alcantara-Sy BMW M3 loan terms cleared by bank.',
       time: '3h ago',
       type: 'success' as const,
-      targetTab: 'documents' as AdminTab,
+      targetTab: 'financing' as AdminTab,
       read: false,
     },
     {
@@ -120,12 +116,11 @@ export default function DealershipAdminDashboard() {
   const badgeCounts = useMemo(() => {
     return {
       applications: applications.filter((a) => a.status === 'Submitted' || a.status === 'Under Review' || a.status === 'Assessment').length,
-      documents: documents.filter((d) => d.status === 'Pending Review').length,
       overduePayments: sales.filter((s) => s.status === 'Overdue').length,
       appointments: appointments.filter((a) => a.status === 'Pending').length,
       leads: leads.filter((l) => l.stage === 'New Lead').length,
     };
-  }, [applications, documents, sales, appointments, leads]);
+  }, [applications, sales, appointments, leads]);
 
   // Audit Logger Helper
   const logAction = (action: string, target: string) => {
@@ -329,44 +324,6 @@ export default function DealershipAdminDashboard() {
     showToast(`Loan application ${newApp.appNumber} submitted.`);
   };
 
-  // Handlers for Documents
-  const handleVerifyDocument = (id: string) => {
-    setDocuments(
-      documents.map((d) =>
-        d.id === id
-          ? {
-              ...d,
-              status: 'Verified',
-              reviewer: 'Janrey Mina',
-              reviewDate: new Date().toISOString().split('T')[0],
-            }
-          : d
-      )
-    );
-    const doc = documents.find((d) => d.id === id);
-    logAction('Verified Regulatory Document', `${doc?.fileName}`);
-    showToast(`Document ${doc?.fileName} verified.`);
-  };
-
-  const handleRejectDocument = (id: string, reason: string) => {
-    setDocuments(
-      documents.map((d) =>
-        d.id === id
-          ? {
-              ...d,
-              status: 'Rejected',
-              reviewer: 'Janrey Mina',
-              reviewDate: new Date().toISOString().split('T')[0],
-              rejectionReason: reason,
-            }
-          : d
-      )
-    );
-    const doc = documents.find((d) => d.id === id);
-    logAction('Rejected Document Deficiencies', `${doc?.fileName}`);
-    showToast(`Document rejected. Replacement requested.`);
-  };
-
   // Handlers for Sales & Payments
   const handleRecordPayment = (paymentData: Omit<PaymentTransaction, 'id'>, saleId: string) => {
     const newTx: PaymentTransaction = {
@@ -492,7 +449,6 @@ export default function DealershipAdminDashboard() {
     inventory: 'Vehicle Inventory',
     customers: 'Customers / CRM',
     financing: 'Financing Applications',
-    documents: 'Document Vault',
     sales: 'Sales & Payments',
     appointments: 'Appointments',
     leads: 'Leads & Inquiries',
@@ -612,26 +568,6 @@ export default function DealershipAdminDashboard() {
               onNewApplication={handleNewApplication}
               onUpdateStatus={handleUpdateApplicationStatus}
               onUpdateApplication={handleUpdateApplication}
-              currencySymbol={settings.currencySymbol}
-            />
-          )}
-
-          {activeTab === 'documents' && (
-            <DocumentsTab
-              documents={documents}
-              onVerifyDocument={handleVerifyDocument}
-              onRejectDocument={handleRejectDocument}
-              onUploadDocument={(newDoc) => {
-                setDocuments([
-                  {
-                    ...newDoc,
-                    id: `doc-${Date.now()}`,
-                    uploadedDate: new Date().toISOString().split('T')[0],
-                  },
-                  ...documents,
-                ]);
-                showToast('Uploaded document to vault.');
-              }}
               currencySymbol={settings.currencySymbol}
             />
           )}

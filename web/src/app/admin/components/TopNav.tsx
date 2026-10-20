@@ -268,9 +268,11 @@ export const TopNav: React.FC<TopNavProps> = ({
             onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
             className="flex items-center gap-2.5 p-1 sm:px-2.5 sm:py-1 rounded-none bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 transition cursor-pointer"
           >
-            <div className="w-7 h-7 rounded-none bg-red-600/20 text-red-400 border border-red-500/30 font-black text-xs flex items-center justify-center">
-              JM
-            </div>
+            <img
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+              alt="Janrey Mina"
+              className="w-7 h-7 rounded-none object-cover border border-slate-700 shrink-0"
+            />
             <div className="text-left hidden lg:block">
               <span className="block text-xs font-semibold text-white leading-tight">
                 Janrey Mina
@@ -284,12 +286,19 @@ export const TopNav: React.FC<TopNavProps> = ({
 
           {profileDropdownOpen && (
             <div className="absolute right-0 mt-2 w-64 bg-[#121624] border border-slate-700 rounded-none shadow-2xl py-2 z-50">
-              <div className="px-4 py-2.5 border-b border-slate-800">
-                <div className="font-bold text-xs text-white">Janrey Mina</div>
-                <div className="text-[11px] text-slate-400">janrey@apexmotors.ph</div>
-                <div className="mt-1 flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  Apex Motors Philippines (BGC HQ)
+              <div className="px-4 py-2.5 border-b border-slate-800 flex items-center gap-3">
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+                  alt="Janrey Mina"
+                  className="w-10 h-10 rounded-none object-cover border border-slate-700 shrink-0"
+                />
+                <div>
+                  <div className="font-bold text-xs text-white">Janrey Mina</div>
+                  <div className="text-[11px] text-slate-400">janrey@apexmotors.ph</div>
+                  <div className="mt-1 flex items-center gap-1.5 text-[10px] font-mono text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                    Apex Motors Philippines (BGC HQ)
+                  </div>
                 </div>
               </div>
 
