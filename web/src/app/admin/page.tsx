@@ -8,6 +8,7 @@ import {
   AdminVehicle,
   Customer,
   FinancingApplication,
+  FinancingStatus,
   DealershipDocument,
   SaleRecord,
   PaymentTransaction,
@@ -274,6 +275,39 @@ export default function DealershipAdminDashboard() {
       })
     );
     showToast(`Requested "${docName}" from applicant.`);
+  };
+
+  const handleUpdateApplicationStatus = (id: string, status: FinancingStatus) => {
+    setApplications(
+      applications.map((app) => {
+        if (app.id === id) {
+          const updatedAudit = [
+            ...app.auditTrail,
+            {
+              id: `aud-${Date.now()}`,
+              timestamp: new Date().toISOString().replace('T', ' ').slice(0, 16),
+              actor: `Janrey Mina (${currentRole})`,
+              action: `Status changed to: ${status}`,
+            },
+          ];
+          return {
+            ...app,
+            status,
+            auditTrail: updatedAudit,
+          };
+        }
+        return app;
+      })
+    );
+    const app = applications.find((a) => a.id === id);
+    logAction('Updated Financing Status', `${app?.appNumber} - Status: ${status}`);
+    showToast(`Application ${app?.appNumber} status updated to ${status}.`);
+  };
+
+  const handleUpdateApplication = (updatedApp: FinancingApplication) => {
+    setApplications(applications.map((a) => (a.id === updatedApp.id ? updatedApp : a)));
+    logAction('Updated Financing Application', `${updatedApp.appNumber} - ${updatedApp.applicantName}`);
+    showToast(`Application ${updatedApp.appNumber} updated successfully.`);
   };
 
   const handleNewApplication = (appData: Omit<FinancingApplication, 'id' | 'auditTrail' | 'submittedDate'>) => {
@@ -576,6 +610,8 @@ export default function DealershipAdminDashboard() {
               onRejectApplication={handleRejectApplication}
               onRequestDocs={handleRequestDocs}
               onNewApplication={handleNewApplication}
+              onUpdateStatus={handleUpdateApplicationStatus}
+              onUpdateApplication={handleUpdateApplication}
               currencySymbol={settings.currencySymbol}
             />
           )}
