@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Users,
   Search,
@@ -76,19 +77,39 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
   const [activeDossierTab, setActiveDossierTab] = useState<'overview' | 'financing' | 'appointments' | 'notes' | 'purchases'>('overview');
   const [newNoteText, setNewNoteText] = useState('');
 
-  // Dropdown actions state
-  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  // Close dropdown on click outside
+  // Dropdown portal state
+  const [dropdownMenu, setDropdownMenu] = useState<{
+    id: string;
+    top: number;
+    right: number;
+    cust: Customer;
+    dealType: 'Cash' | 'Financing';
+  } | null>(null);
+
+  // Close dropdown on click outside, scroll, or resize
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (!target.closest('.customer-action-menu')) {
-        setOpenDropdownId(null);
+      if (!target.closest('.customer-portal-dropdown') && !target.closest('.customer-action-trigger')) {
+        setDropdownMenu(null);
       }
     };
+    const handleClose = () => {
+      setDropdownMenu(null);
+    };
     document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    window.addEventListener('scroll', handleClose, true);
+    window.addEventListener('resize', handleClose);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      window.removeEventListener('scroll', handleClose, true);
+      window.removeEventListener('resize', handleClose);
+    };
   }, []);
 
   // Add customer modal state
@@ -479,8 +500,7 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
                   </td>
                 </tr>
               ) : (
-                paginatedCustomers.map((cust, idx) => {
-                  const isNearBottom = idx >= paginatedCustomers.length - 2 && paginatedCustomers.length > 2;
+                paginatedCustomers.map((cust) => {
                   const dealType = getCustomerDealType(cust);
                   const vehicleInfo = getCustomerVehicle(cust);
                   const financingChannel = getCustomerFinancingChannel(cust);
@@ -593,95 +613,34 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
 
                       {/* Actions Triple-dot Menu */}
                       <td className="py-3.5 px-4 text-right">
-                        <div className="customer-action-menu relative inline-block text-left">
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setOpenDropdownId(openDropdownId === cust.id ? null : cust.id);
-                            }}
-                            className={`p-1.5 rounded-none border transition cursor-pointer flex items-center justify-center ${
-                              openDropdownId === cust.id
-                                ? 'bg-slate-800 text-white border-slate-600'
-                                : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
-                            }`}
-                            title="Actions"
-                            aria-label="Customer Actions"
-                          >
-                            <MoreVertical className="w-4 h-4" />
-                          </button>
-
-                          {openDropdownId === cust.id && (
-                            <div
-                              className={`absolute right-0 w-48 bg-[#121624] border border-slate-700 shadow-2xl z-50 rounded-none py-1 text-xs text-left ${
-                                isNearBottom ? 'bottom-full mb-1' : 'top-full mt-1'
-                              }`}
-                            >
-                              <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                                Client Actions
-                              </div>
-
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSelectedCustomer(cust);
-                                  setActiveDossierTab('overview');
-                                  setOpenDropdownId(null);
-                                }}
-                                className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer font-medium"
-                              >
-                                <Eye className="w-3.5 h-3.5 text-red-500" />
-                                <span>View Full Dossier</span>
-                              </button>
-
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSelectedCustomer(cust);
-                                  setActiveDossierTab('notes');
-                                  setOpenDropdownId(null);
-                                }}
-                                className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer"
-                              >
-                                <Send className="w-3.5 h-3.5 text-sky-400" />
-                                <span>Add Interaction Note</span>
-                              </button>
-
-                              {dealType === 'Financing' && (
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setSelectedCustomer(cust);
-                                    setActiveDossierTab('financing');
-                                    setOpenDropdownId(null);
-                                  }}
-                                  className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer"
-                                >
-                                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
-                                  <span>View Financing ({getCustomerApplications(cust.id).length})</span>
-                                </button>
-                              )}
-
-                              <a
-                                href={`tel:${cust.phone}`}
-                                onClick={() => setOpenDropdownId(null)}
-                                className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-300 hover:bg-slate-800 hover:text-emerald-400 transition cursor-pointer border-t border-slate-800/80"
-                              >
-                                <Phone className="w-3.5 h-3.5" />
-                                <span>Call Phone</span>
-                              </a>
-
-                              <a
-                                href={`mailto:${cust.email}`}
-                                onClick={() => setOpenDropdownId(null)}
-                                className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-300 hover:bg-slate-800 hover:text-sky-400 transition cursor-pointer"
-                              >
-                                <Mail className="w-3.5 h-3.5" />
-                                <span>Send Email</span>
-                              </a>
-                            </div>
-                          )}
-                        </div>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (dropdownMenu?.id === cust.id) {
+                              setDropdownMenu(null);
+                            } else {
+                              const rect = e.currentTarget.getBoundingClientRect();
+                              const menuHeight = 230;
+                              const spaceBelow = window.innerHeight - rect.bottom;
+                              const openUpward = spaceBelow < menuHeight && rect.top > menuHeight;
+                              const top = openUpward
+                                ? Math.max(10, rect.top - menuHeight - 4)
+                                : Math.min(window.innerHeight - menuHeight - 10, rect.bottom + 4);
+                              const right = Math.max(10, window.innerWidth - rect.right);
+                              setDropdownMenu({ id: cust.id, top, right, cust, dealType });
+                            }
+                          }}
+                          className={`customer-action-trigger p-1.5 rounded-none border transition cursor-pointer inline-flex items-center justify-center ${
+                            dropdownMenu?.id === cust.id
+                              ? 'bg-slate-800 text-white border-slate-600'
+                              : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+                          }`}
+                          title="Actions"
+                          aria-label="Customer Actions"
+                        >
+                          <MoreVertical className="w-4 h-4" />
+                        </button>
                       </td>
                     </tr>
                   );
@@ -1170,6 +1129,83 @@ export const CustomersTab: React.FC<CustomersTabProps> = ({
             </div>
           </form>
         </div>
+      )}
+
+      {/* Floating Action Dropdown Menu via Portal - never cropped by table or footer */}
+      {mounted && dropdownMenu && createPortal(
+        <div
+          className="customer-portal-dropdown w-52 bg-[#0d111d] border border-slate-700 shadow-2xl rounded-none py-1 text-xs text-left"
+          style={{
+            position: 'fixed',
+            top: dropdownMenu.top,
+            right: dropdownMenu.right,
+            zIndex: 99999,
+          }}
+        >
+          <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+            Client Actions
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedCustomer(dropdownMenu.cust);
+              setActiveDossierTab('overview');
+              setDropdownMenu(null);
+            }}
+            className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer font-medium"
+          >
+            <Eye className="w-3.5 h-3.5 text-red-500" />
+            <span>View Full Dossier</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedCustomer(dropdownMenu.cust);
+              setActiveDossierTab('notes');
+              setDropdownMenu(null);
+            }}
+            className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer"
+          >
+            <Send className="w-3.5 h-3.5 text-sky-400" />
+            <span>Add Interaction Note</span>
+          </button>
+
+          {dropdownMenu.dealType === 'Financing' && (
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedCustomer(dropdownMenu.cust);
+                setActiveDossierTab('financing');
+                setDropdownMenu(null);
+              }}
+              className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer"
+            >
+              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-400" />
+              <span>View Financing ({getCustomerApplications(dropdownMenu.cust.id).length})</span>
+            </button>
+          )}
+
+          <a
+            href={`tel:${dropdownMenu.cust.phone}`}
+            onClick={() => setDropdownMenu(null)}
+            className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-300 hover:bg-slate-800 hover:text-emerald-400 transition cursor-pointer border-t border-slate-800/80"
+          >
+            <Phone className="w-3.5 h-3.5" />
+            <span>Call Phone</span>
+          </a>
+
+          <a
+            href={`mailto:${dropdownMenu.cust.email}`}
+            onClick={() => setDropdownMenu(null)}
+            className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-300 hover:bg-slate-800 hover:text-sky-400 transition cursor-pointer"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            <span>Send Email</span>
+          </a>
+        </div>,
+        document.body
       )}
     </div>
   );

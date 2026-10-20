@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Target,
   Search,
@@ -27,6 +28,12 @@ import {
   UserCheck,
   Car,
   FileSpreadsheet,
+  UserPlus,
+  PhoneCall,
+  Handshake,
+  Trophy,
+  XCircle,
+  GripVertical,
 } from 'lucide-react';
 import { Lead, LeadStage, StaffMember } from '../../types';
 
@@ -39,6 +46,67 @@ interface LeadsTabProps {
 }
 
 const STAGES: LeadStage[] = ['New Lead', 'Contacted', 'Interested', 'Negotiation', 'Converted', 'Lost'];
+
+const STAGE_CONFIG: Record<
+  LeadStage,
+  {
+    label: string;
+    description: string;
+    tagColor: string;
+    barColor: string;
+    dotColor: string;
+    icon: React.ComponentType<{ className?: string }>;
+  }
+> = {
+  'New Lead': {
+    label: 'New Lead',
+    description: 'Fresh digital & showroom inquiries',
+    tagColor: 'bg-red-500/10 text-red-400 border-red-500/30',
+    barColor: 'from-red-600 to-red-500',
+    dotColor: 'bg-red-500',
+    icon: UserPlus,
+  },
+  'Contacted': {
+    label: 'Contacted',
+    description: 'First response & discovery initiated',
+    tagColor: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+    barColor: 'from-amber-600 to-amber-500',
+    dotColor: 'bg-amber-500',
+    icon: PhoneCall,
+  },
+  'Interested': {
+    label: 'Interested',
+    description: 'Vehicle spec & test-drive booking',
+    tagColor: 'bg-sky-500/10 text-sky-400 border-sky-500/30',
+    barColor: 'from-sky-600 to-sky-500',
+    dotColor: 'bg-sky-400',
+    icon: Target,
+  },
+  'Negotiation': {
+    label: 'Negotiation',
+    description: 'Priced quote, financing & trade-in',
+    tagColor: 'bg-purple-500/10 text-purple-400 border-purple-500/30',
+    barColor: 'from-purple-600 to-purple-500',
+    dotColor: 'bg-purple-400',
+    icon: Handshake,
+  },
+  'Converted': {
+    label: 'Won / Converted',
+    description: 'Deposit banked & unit reserved',
+    tagColor: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
+    barColor: 'from-emerald-600 to-emerald-500',
+    dotColor: 'bg-emerald-400',
+    icon: Trophy,
+  },
+  'Lost': {
+    label: 'Lost / Closed',
+    description: 'Disqualified or cold inquiries',
+    tagColor: 'bg-slate-500/10 text-slate-400 border-slate-500/30',
+    barColor: 'from-slate-600 to-slate-500',
+    dotColor: 'bg-slate-500',
+    icon: XCircle,
+  },
+};
 
 export const LeadsTab: React.FC<LeadsTabProps> = ({
   leads,
@@ -61,26 +129,49 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // Actions dropdown state
-  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Actions dropdown portal state
+  const [dropdownMenu, setDropdownMenu] = useState<{
+    id: string;
+    top: number;
+    right: number;
+    lead: Lead;
+  } | null>(null);
 
   // Selected lead for detail/notes modal
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
-  // Close dropdown on click outside
+  // Close dropdown on click outside or window scroll/resize
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (!target.closest('.lead-action-menu')) {
-        setOpenDropdownId(null);
+      if (!target.closest('.lead-portal-dropdown') && !target.closest('.lead-action-trigger')) {
+        setDropdownMenu(null);
+      }
+      if (!target.closest('.lead-stage-menu')) {
+        setStageMenuLeadId(null);
       }
     };
+    const handleClose = () => {
+      setDropdownMenu(null);
+    };
     document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    window.addEventListener('scroll', handleClose, true);
+    window.addEventListener('resize', handleClose);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      window.removeEventListener('scroll', handleClose, true);
+      window.removeEventListener('resize', handleClose);
+    };
   }, []);
 
   // Add Lead Modal state
   const [isAddLeadModalOpen, setIsAddLeadModalOpen] = useState(false);
+  const [formStage, setFormStage] = useState<LeadStage>('New Lead');
   const [formName, setFormName] = useState('');
   const [formPhone, setFormPhone] = useState('');
   const [formEmail, setFormEmail] = useState('');
@@ -89,6 +180,16 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
   const [formSource, setFormSource] = useState<Lead['source']>('Website Calculator');
   const [formAgent, setFormAgent] = useState('Janrey Mina');
   const [formNotes, setFormNotes] = useState('');
+
+  // Drag and drop state for pipeline
+  const [draggingLeadId, setDraggingLeadId] = useState<string | null>(null);
+  const [dragOverStage, setDragOverStage] = useState<LeadStage | null>(null);
+  const [stageMenuLeadId, setStageMenuLeadId] = useState<string | null>(null);
+
+  const openAddLeadForStage = (stage: LeadStage) => {
+    setFormStage(stage);
+    setIsAddLeadModalOpen(true);
+  };
 
   // Helper for initials
   const getInitials = (name: string) => {
@@ -199,7 +300,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
       budget: Number(formBudget),
       source: formSource,
       assignedRep: formAgent,
-      stage: 'New Lead',
+      stage: formStage,
       branchId: 'main',
       notes: formNotes || 'Direct inquiry via DriveFlow portal.',
     });
@@ -210,12 +311,20 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
     setFormEmail('');
     setFormNotes('');
     setFormBudget(2500000);
+    setFormStage('New Lead');
   };
 
   const advanceStage = (leadId: string, currentStage: LeadStage) => {
     const currentIndex = STAGES.indexOf(currentStage);
     if (currentIndex < STAGES.length - 2) {
       onUpdateLeadStage(leadId, STAGES[currentIndex + 1]);
+    }
+  };
+
+  const regressStage = (leadId: string, currentStage: LeadStage) => {
+    const currentIndex = STAGES.indexOf(currentStage);
+    if (currentIndex > 0 && currentStage !== 'Lost') {
+      onUpdateLeadStage(leadId, STAGES[currentIndex - 1]);
     }
   };
 
@@ -464,9 +573,7 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                     </td>
                   </tr>
                 ) : (
-                  paginatedLeads.map((lead, idx) => {
-                    const isNearBottom = idx >= paginatedLeads.length - 2 && paginatedLeads.length > 2;
-
+                  paginatedLeads.map((lead) => {
                     return (
                       <tr key={lead.id} className="hover:bg-slate-800/40 transition">
                         {/* Prospect & Advisor */}
@@ -553,103 +660,34 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
 
                         {/* Actions Triple-dot Menu */}
                         <td className="py-3.5 px-4 text-right">
-                          <div className="lead-action-menu relative inline-block text-left">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setOpenDropdownId(openDropdownId === lead.id ? null : lead.id);
-                              }}
-                              className={`p-1.5 rounded-none border transition cursor-pointer flex items-center justify-center ${
-                                openDropdownId === lead.id
-                                  ? 'bg-slate-800 text-white border-slate-600'
-                                  : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
-                              }`}
-                              title="Actions"
-                              aria-label="Lead Actions"
-                            >
-                              <MoreVertical className="w-4 h-4" />
-                            </button>
-
-                            {openDropdownId === lead.id && (
-                              <div
-                                className={`absolute right-0 w-48 bg-[#121624] border border-slate-700 shadow-2xl z-50 rounded-none py-1 text-xs text-left ${
-                                  isNearBottom ? 'bottom-full mb-1' : 'top-full mt-1'
-                                }`}
-                              >
-                                <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
-                                  Lead Actions
-                                </div>
-
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setSelectedLead(lead);
-                                    setOpenDropdownId(null);
-                                  }}
-                                  className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer font-medium"
-                                >
-                                  <FileSpreadsheet className="w-3.5 h-3.5 text-sky-400" />
-                                  <span>View Inquiry Notes</span>
-                                </button>
-
-                                {lead.stage !== 'Converted' && lead.stage !== 'Lost' && (
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      advanceStage(lead.id, lead.stage);
-                                      setOpenDropdownId(null);
-                                    }}
-                                    className="w-full text-left px-3 py-2 flex items-center gap-2 text-emerald-400 hover:bg-slate-800 transition cursor-pointer font-medium"
-                                  >
-                                    <ChevronRight className="w-3.5 h-3.5" />
-                                    <span>Advance Stage</span>
-                                  </button>
-                                )}
-
-                                <div className="px-3 py-1 border-t border-slate-800 text-[9px] font-mono text-slate-500 uppercase tracking-wider">
-                                  Set Stage
-                                </div>
-                                <div className="grid grid-cols-2 gap-1 px-2 py-1">
-                                  {STAGES.map((s) => (
-                                    <button
-                                      key={s}
-                                      type="button"
-                                      onClick={() => {
-                                        onUpdateLeadStage(lead.id, s);
-                                        setOpenDropdownId(null);
-                                      }}
-                                      className={`px-1.5 py-1 text-[10px] font-mono rounded-none text-left truncate transition ${
-                                        lead.stage === s
-                                          ? 'bg-slate-800 text-white font-bold'
-                                          : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-                                      }`}
-                                    >
-                                      {s}
-                                    </button>
-                                  ))}
-                                </div>
-
-                                <a
-                                  href={`tel:${lead.phone}`}
-                                  onClick={() => setOpenDropdownId(null)}
-                                  className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-300 hover:bg-slate-800 hover:text-emerald-400 transition cursor-pointer border-t border-slate-800/80"
-                                >
-                                  <Phone className="w-3.5 h-3.5" />
-                                  <span>Call Phone</span>
-                                </a>
-
-                                <a
-                                  href={`mailto:${lead.email}`}
-                                  onClick={() => setOpenDropdownId(null)}
-                                  className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-300 hover:bg-slate-800 hover:text-sky-400 transition cursor-pointer"
-                                >
-                                  <Mail className="w-3.5 h-3.5" />
-                                  <span>Send Email</span>
-                                </a>
-                              </div>
-                            )}
-                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (dropdownMenu?.id === lead.id) {
+                                setDropdownMenu(null);
+                              } else {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                const menuHeight = 275;
+                                const spaceBelow = window.innerHeight - rect.bottom;
+                                const openUpward = spaceBelow < menuHeight && rect.top > menuHeight;
+                                const top = openUpward
+                                  ? Math.max(10, rect.top - menuHeight - 4)
+                                  : Math.min(window.innerHeight - menuHeight - 10, rect.bottom + 4);
+                                const right = Math.max(10, window.innerWidth - rect.right);
+                                setDropdownMenu({ id: lead.id, top, right, lead });
+                              }
+                            }}
+                            className={`lead-action-trigger p-1.5 rounded-none border transition cursor-pointer inline-flex items-center justify-center ${
+                              dropdownMenu?.id === lead.id
+                                ? 'bg-slate-800 text-white border-slate-600'
+                                : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800'
+                            }`}
+                            title="Actions"
+                            aria-label="Lead Actions"
+                          >
+                            <MoreVertical className="w-4 h-4" />
+                          </button>
                         </td>
                       </tr>
                     );
@@ -705,117 +743,222 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
           </div>
         </div>
       ) : (
-        /* KANBAN BOARD VIEW */
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3.5 overflow-x-auto pb-4">
+        /* REDESIGNED KANBAN PIPELINE BOARD VIEW */
+        <div className="flex gap-4 overflow-x-auto pb-6 pt-1 items-start scrollbar-thin">
           {STAGES.map((stage) => {
+            const config = STAGE_CONFIG[stage];
+            const StageIcon = config.icon;
             const stageLeads = filteredLeads.filter((l) => l.stage === stage);
             const stageBudgetSum = stageLeads.reduce((acc, l) => acc + (l.budget || 0), 0);
+            const isDropTarget = dragOverStage === stage;
 
             return (
               <div
                 key={stage}
-                className="bg-[#121624] border border-slate-800 rounded-none p-3 flex flex-col justify-between min-h-[500px]"
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setDragOverStage(stage);
+                }}
+                onDragLeave={() => {
+                  if (dragOverStage === stage) setDragOverStage(null);
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  const droppedId = e.dataTransfer.getData('text/plain') || draggingLeadId;
+                  if (droppedId) {
+                    onUpdateLeadStage(droppedId, stage);
+                  }
+                  setDraggingLeadId(null);
+                  setDragOverStage(null);
+                }}
+                className={`w-[320px] min-w-[320px] shrink-0 bg-[#0f1422] border rounded-none flex flex-col transition duration-200 ${
+                  isDropTarget
+                    ? 'border-red-500/80 bg-red-950/20 ring-1 ring-red-500/40'
+                    : 'border-slate-800 hover:border-slate-700'
+                }`}
               >
-                <div>
-                  {/* Column Header */}
-                  <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
-                    <div className="flex items-center gap-1.5">
-                      <span
-                        className={`w-2 h-2 rounded-none ${
-                          stage === 'Converted'
-                            ? 'bg-emerald-400'
-                            : stage === 'Lost'
-                            ? 'bg-slate-500'
-                            : stage === 'Negotiation'
-                            ? 'bg-purple-400'
-                            : stage === 'New Lead'
-                            ? 'bg-red-500'
-                            : 'bg-amber-400'
-                        }`}
-                      />
-                      <span className="font-bold text-xs text-white">{stage}</span>
+                {/* Top Colored Stage Accent Bar */}
+                <div className={`h-1 w-full bg-gradient-to-r ${config.barColor}`} />
+
+                {/* Column Header */}
+                <div className="p-3.5 border-b border-slate-800/80 bg-[#121624]">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className={`w-7 h-7 rounded-none flex items-center justify-center border ${config.tagColor}`}>
+                        <StageIcon className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold text-xs text-white truncate">{config.label}</span>
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 bg-slate-800 border border-slate-700 text-slate-300">
+                            {stageLeads.length}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-[10px] font-mono text-slate-400 bg-slate-900 px-1.5 py-0.5 rounded-none">
-                      {stageLeads.length}
-                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => openAddLeadForStage(stage)}
+                      className="p-1 text-slate-400 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700 rounded-none transition cursor-pointer"
+                      title={`Add lead to ${stage}`}
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
                   </div>
 
-                  {/* Subtotal header */}
-                  {stageBudgetSum > 0 && (
-                    <div className="text-[10px] font-mono text-slate-500 mb-2.5">
-                      Subtotal: <strong className="text-slate-300">{currencySymbol}{(stageBudgetSum / 1000000).toFixed(1)}M</strong>
-                    </div>
-                  )}
+                  <p className="text-[10px] text-slate-500 mt-1 line-clamp-1">{config.description}</p>
 
-                  {/* Cards Container */}
-                  <div className="space-y-2.5">
-                    {stageLeads.map((lead) => (
-                      <div
-                        key={lead.id}
-                        className="p-3 rounded-none bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition space-y-2 text-xs"
+                  <div className="flex items-center justify-between text-[10px] font-mono mt-2 pt-2 border-t border-slate-800/60">
+                    <span className="text-slate-500">Pipeline Value:</span>
+                    <strong className="text-emerald-400 font-bold">
+                      {currencySymbol}{(stageBudgetSum / 1000000).toFixed(1)}M
+                    </strong>
+                  </div>
+                </div>
+
+                {/* Card List Container */}
+                <div className="p-3 space-y-3 min-h-[460px] flex-1">
+                  {stageLeads.length === 0 ? (
+                    <div className="h-44 border border-dashed border-slate-800/80 rounded-none flex flex-col items-center justify-center text-center p-4 text-slate-500">
+                      <p className="text-[11px] font-mono">No leads in {stage}</p>
+                      <button
+                        type="button"
+                        onClick={() => openAddLeadForStage(stage)}
+                        className="mt-2 text-[10px] text-red-400 hover:text-red-300 font-mono underline cursor-pointer"
                       >
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="flex items-center gap-2 min-w-0">
-                            {lead.avatar ? (
-                              <img
-                                src={lead.avatar}
-                                alt={lead.name}
-                                className="w-6 h-6 rounded-none object-cover border border-slate-700 shrink-0"
-                              />
-                            ) : (
-                              <div className="w-6 h-6 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-[9px] flex items-center justify-center shrink-0">
-                                {getInitials(lead.name)}
+                        + Add inquiry
+                      </button>
+                    </div>
+                  ) : (
+                    stageLeads.map((lead) => {
+                      const isDragging = draggingLeadId === lead.id;
+
+                      return (
+                        <div
+                          key={lead.id}
+                          draggable
+                          onDragStart={(e) => {
+                            e.dataTransfer.setData('text/plain', lead.id);
+                            setDraggingLeadId(lead.id);
+                          }}
+                          onDragEnd={() => {
+                            setDraggingLeadId(null);
+                            setDragOverStage(null);
+                          }}
+                          className={`group p-3 bg-[#131826] border rounded-none transition cursor-grab active:cursor-grabbing space-y-2.5 ${
+                            isDragging
+                              ? 'opacity-40 border-dashed border-red-500'
+                              : 'border-slate-800/90 hover:border-slate-600 shadow-sm hover:shadow-md'
+                          }`}
+                        >
+                          {/* Card Header: Avatar, Name, Source, Grip */}
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              {lead.avatar ? (
+                                <img
+                                  src={lead.avatar}
+                                  alt={lead.name}
+                                  className="w-7 h-7 rounded-none object-cover border border-slate-700 shrink-0"
+                                />
+                              ) : (
+                                <div className="w-7 h-7 rounded-none bg-slate-900 border border-slate-700 text-slate-200 font-bold font-mono text-[10px] flex items-center justify-center shrink-0">
+                                  {getInitials(lead.name)}
+                                </div>
+                              )}
+                              <div className="min-w-0">
+                                <button
+                                  type="button"
+                                  onClick={() => setSelectedLead(lead)}
+                                  className="font-bold text-white text-xs hover:text-red-400 transition text-left cursor-pointer truncate block"
+                                >
+                                  {lead.name}
+                                </button>
+                                <span className={`text-[9px] font-mono px-1 py-0.2 rounded-none border inline-block mt-0.5 ${getSourceBadge(lead.source)}`}>
+                                  {lead.source}
+                                </span>
                               </div>
+                            </div>
+                            <GripVertical className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 shrink-0 mt-0.5" />
+                          </div>
+
+                          {/* Interested Vehicle */}
+                          <div className="p-2 bg-slate-900/80 border border-slate-800/70 rounded-none flex items-start gap-1.5">
+                            <Car className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" />
+                            <span className="text-[11px] font-semibold text-slate-200 line-clamp-1" title={lead.interestedVehicle}>
+                              {lead.interestedVehicle}
+                            </span>
+                          </div>
+
+                          {/* Budget & Advisor Row */}
+                          <div className="flex items-center justify-between text-[10px] font-mono pt-1 border-t border-slate-800/60">
+                            <div>
+                              <span className="text-slate-500">Valuation: </span>
+                              <strong className="text-emerald-400 font-bold">
+                                {currencySymbol}{lead.budget.toLocaleString()}
+                              </strong>
+                            </div>
+
+                            <div className="flex items-center gap-1.5" title={`Assisted by: ${lead.assignedRep}`}>
+                              {getAdvisorAvatar(lead.assignedRep, lead.advisorAvatar) ? (
+                                <img
+                                  src={getAdvisorAvatar(lead.assignedRep, lead.advisorAvatar)}
+                                  alt={lead.assignedRep}
+                                  className="w-3.5 h-3.5 rounded-none object-cover border border-slate-700 shrink-0"
+                                />
+                              ) : (
+                                <UserCheck className="w-3 h-3 text-red-500 shrink-0" />
+                              )}
+                              <span className="text-slate-400 truncate max-w-[80px]">
+                                {lead.assignedRep.split(' ')[0]}
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Staff Interaction Quote */}
+                          {lead.notes && (
+                            <p className="text-[10px] text-slate-400 italic line-clamp-2 bg-slate-900/40 p-1.5 border border-slate-800/40">
+                              &quot;{lead.notes}&quot;
+                            </p>
+                          )}
+
+                          {/* Bottom Action Strip: Prev, Notes, Next */}
+                          <div className="flex items-center gap-1 pt-1 border-t border-slate-800/60">
+                            {stage !== 'New Lead' && stage !== 'Lost' && (
+                              <button
+                                type="button"
+                                onClick={() => regressStage(lead.id, lead.stage)}
+                                className="p-1 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 rounded-none text-[10px] transition cursor-pointer"
+                                title="Move back one stage"
+                              >
+                                <ChevronLeft className="w-3 h-3" />
+                              </button>
                             )}
+
                             <button
                               type="button"
                               onClick={() => setSelectedLead(lead)}
-                              className="font-bold text-white text-xs hover:text-red-400 transition text-left cursor-pointer truncate"
+                              className="flex-1 py-1 px-2 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 rounded-none text-[10px] font-mono transition cursor-pointer text-center truncate"
                             >
-                              {lead.name}
+                              Dossier Notes
                             </button>
-                          </div>
-                          <span className={`text-[9px] font-mono px-1 py-0.2 rounded-none border shrink-0 ${getSourceBadge(lead.source)}`}>
-                            {lead.source}
-                          </span>
-                        </div>
 
-                        <div className="text-[11px] text-slate-200 font-medium line-clamp-1">
-                          {lead.interestedVehicle}
-                        </div>
-
-                        <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-1 border-t border-slate-800/60">
-                          <span>Budget: <strong className="text-emerald-400">{currencySymbol}{(lead.budget / 1000000).toFixed(1)}M</strong></span>
-                          <div className="flex items-center gap-1.5" title={`Assigned Advisor: ${lead.assignedRep}`}>
-                            {getAdvisorAvatar(lead.assignedRep, lead.advisorAvatar) && (
-                              <img
-                                src={getAdvisorAvatar(lead.assignedRep, lead.advisorAvatar)}
-                                alt={lead.assignedRep}
-                                className="w-3.5 h-3.5 rounded-none object-cover border border-slate-700 shrink-0"
-                              />
+                            {stage !== 'Converted' && stage !== 'Lost' && (
+                              <button
+                                type="button"
+                                onClick={() => advanceStage(lead.id, lead.stage)}
+                                className="py-1 px-2 bg-slate-900 hover:bg-[#e10600] text-slate-300 hover:text-white border border-slate-800 rounded-none text-[10px] font-semibold flex items-center gap-1 transition cursor-pointer"
+                                title="Advance to next stage"
+                              >
+                                <span>Advance</span>
+                                <ChevronRight className="w-3 h-3" />
+                              </button>
                             )}
-                            <span className="text-slate-300 font-medium">{lead.assignedRep.split(' ')[0]}</span>
                           </div>
                         </div>
-
-                        <p className="text-[10px] text-slate-400 italic line-clamp-2">
-                          &quot;{lead.notes}&quot;
-                        </p>
-
-                        {/* Advance Stage button */}
-                        {stage !== 'Converted' && stage !== 'Lost' && (
-                          <button
-                            type="button"
-                            onClick={() => advanceStage(lead.id, lead.stage)}
-                            className="w-full mt-1.5 py-1 rounded-none bg-slate-800 hover:bg-[#e10600] hover:text-white text-slate-300 text-[10px] font-semibold flex items-center justify-center gap-1 transition cursor-pointer"
-                          >
-                            <span>Move Forward</span>
-                            <ChevronRight className="w-3 h-3" />
-                          </button>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                      );
+                    })
+                  )}
                 </div>
               </div>
             );
@@ -1021,6 +1164,20 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
+                  <label className="text-slate-400 block mb-1">Pipeline Stage</label>
+                  <select
+                    value={formStage}
+                    onChange={(e) => setFormStage(e.target.value as LeadStage)}
+                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white focus:outline-hidden focus:border-red-500"
+                  >
+                    {STAGES.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
                   <label className="text-slate-400 block mb-1">Lead Source</label>
                   <select
                     value={formSource}
@@ -1034,20 +1191,21 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
                     <option value="Google Search">Google Search</option>
                   </select>
                 </div>
-                <div>
-                  <label className="text-slate-400 block mb-1">Assigned Agent</label>
-                  <select
-                    value={formAgent}
-                    onChange={(e) => setFormAgent(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white focus:outline-hidden focus:border-red-500"
-                  >
-                    {staff.map((s) => (
-                      <option key={s.id} value={s.name}>
-                        {s.name} ({s.role})
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              </div>
+
+              <div>
+                <label className="text-slate-400 block mb-1">Assigned Agent</label>
+                <select
+                  value={formAgent}
+                  onChange={(e) => setFormAgent(e.target.value)}
+                  className="w-full bg-slate-900 border border-slate-700 rounded-none p-2 text-white focus:outline-hidden focus:border-red-500"
+                >
+                  {staff.map((s) => (
+                    <option key={s.id} value={s.name}>
+                      {s.name} ({s.role})
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
@@ -1078,6 +1236,91 @@ export const LeadsTab: React.FC<LeadsTabProps> = ({
             </div>
           </form>
         </div>
+      )}
+
+      {/* Floating Action Dropdown Menu via Portal - never cropped by table overflow or pagination footer */}
+      {mounted && dropdownMenu && createPortal(
+        <div
+          className="lead-portal-dropdown w-52 bg-[#0d111d] border border-slate-700 shadow-2xl rounded-none py-1 text-xs text-left"
+          style={{
+            position: 'fixed',
+            top: dropdownMenu.top,
+            right: dropdownMenu.right,
+            zIndex: 99999,
+          }}
+        >
+          <div className="px-3 py-1.5 border-b border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+            Lead Actions
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedLead(dropdownMenu.lead);
+              setDropdownMenu(null);
+            }}
+            className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-200 hover:bg-slate-800 hover:text-white transition cursor-pointer font-medium"
+          >
+            <User className="w-3.5 h-3.5 text-red-500" />
+            <span>View Inquiry Notes</span>
+          </button>
+
+          {dropdownMenu.lead.stage !== 'Converted' && dropdownMenu.lead.stage !== 'Lost' && (
+            <button
+              type="button"
+              onClick={() => {
+                advanceStage(dropdownMenu.lead.id, dropdownMenu.lead.stage);
+                setDropdownMenu(null);
+              }}
+              className="w-full text-left px-3 py-2 flex items-center gap-2 text-emerald-400 hover:bg-slate-800 transition cursor-pointer font-medium"
+            >
+              <ChevronRight className="w-3.5 h-3.5" />
+              <span>Advance Stage</span>
+            </button>
+          )}
+
+          <div className="px-3 py-1 border-t border-slate-800 text-[9px] font-mono text-slate-500 uppercase tracking-wider">
+            Set Stage
+          </div>
+          <div className="grid grid-cols-2 gap-1 px-2 py-1">
+            {STAGES.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => {
+                  onUpdateLeadStage(dropdownMenu.lead.id, s);
+                  setDropdownMenu(null);
+                }}
+                className={`px-1.5 py-1 text-[10px] font-mono rounded-none text-left truncate transition cursor-pointer ${
+                  dropdownMenu.lead.stage === s
+                    ? 'bg-slate-800 text-white font-bold'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+
+          <a
+            href={`tel:${dropdownMenu.lead.phone}`}
+            onClick={() => setDropdownMenu(null)}
+            className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-300 hover:bg-slate-800 hover:text-emerald-400 transition cursor-pointer border-t border-slate-800/80"
+          >
+            <Phone className="w-3.5 h-3.5" />
+            <span>Call Phone</span>
+          </a>
+
+          <a
+            href={`mailto:${dropdownMenu.lead.email}`}
+            onClick={() => setDropdownMenu(null)}
+            className="w-full text-left px-3 py-2 flex items-center gap-2 text-slate-300 hover:bg-slate-800 hover:text-sky-400 transition cursor-pointer"
+          >
+            <Mail className="w-3.5 h-3.5" />
+            <span>Send Email</span>
+          </a>
+        </div>,
+        document.body
       )}
     </div>
   );
