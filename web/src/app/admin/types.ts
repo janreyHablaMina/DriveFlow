@@ -8,7 +8,6 @@ export type AdminTab =
   | 'leads'
   | 'staff'
   | 'reports'
-  | 'website'
   | 'settings';
 
 export type UserRole =

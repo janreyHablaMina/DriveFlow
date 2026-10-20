@@ -43,7 +43,6 @@ import { AppointmentsTab } from './components/tabs/AppointmentsTab';
 import { LeadsTab } from './components/tabs/LeadsTab';
 import { StaffTab } from './components/tabs/StaffTab';
 import { ReportsTab } from './components/tabs/ReportsTab';
-import { WebsiteTab } from './components/tabs/WebsiteTab';
 import { SettingsTab } from './components/tabs/SettingsTab';
 import { CheckCircle2, ChevronRight, Home } from 'lucide-react';
 
@@ -462,7 +461,6 @@ export default function DealershipAdminDashboard() {
     leads: 'Leads & Inquiries',
     staff: 'Staff & Permissions',
     reports: 'Reports & Analytics',
-    website: 'Website & CMS',
     settings: 'Dealership Settings',
   };
 
@@ -625,27 +623,6 @@ export default function DealershipAdminDashboard() {
               leads={leads}
               staff={staff}
               currencySymbol={settings.currencySymbol}
-            />
-          )}
-
-          {activeTab === 'website' && (
-            <WebsiteTab
-              activeThemeId={settings.activeThemeId}
-              onApplyTheme={(themeId) => {
-                setSettings({ ...settings, activeThemeId: themeId });
-                logAction('Updated Public Website Theme', `Theme: ${themeId}`);
-              }}
-              vehicles={vehicles}
-              onToggleVehiclePublic={(id) => {
-                setVehicles(
-                  vehicles.map((v) => (v.id === id ? { ...v, isPublicListing: !v.isPublicListing } : v))
-                );
-              }}
-              onToggleVehicleFeatured={(id) => {
-                setVehicles(
-                  vehicles.map((v) => (v.id === id ? { ...v, isFeatured: !v.isFeatured } : v))
-                );
-              }}
             />
           )}
 

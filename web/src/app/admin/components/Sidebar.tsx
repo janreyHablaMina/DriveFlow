@@ -12,7 +12,6 @@ import {
   Target,
   ShieldCheck,
   BarChart3,
-  Globe,
   Settings,
   ChevronLeft,
   ChevronRight,
@@ -114,12 +113,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: 'reports',
       label: 'Reports & Analytics',
       icon: BarChart3,
-      group: 'Growth & Platform',
-    },
-    {
-      id: 'website',
-      label: 'Website & Promotions',
-      icon: Globe,
       group: 'Growth & Platform',
     },
     {
