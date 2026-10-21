@@ -185,7 +185,7 @@ export default function NordicHome() {
     <div className="min-h-screen bg-[#f8f7f4] text-slate-900 selection:bg-slate-900 selection:text-white">
       {/* ===================== 01. FULL-BLEED ARCHITECTURAL SLIDER HERO ===================== */}
       <section
-        className="relative w-full min-h-[580px] sm:min-h-[640px] lg:min-h-[700px] flex flex-col justify-between overflow-hidden bg-slate-950 border-b border-stone-200"
+        className="relative w-full min-h-[600px] sm:min-h-[660px] lg:min-h-[720px] flex flex-col justify-between overflow-hidden bg-slate-950 border-b border-stone-200 px-4 sm:px-6 lg:px-12"
         onMouseEnter={() => setIsHeroPaused(true)}
         onMouseLeave={() => setIsHeroPaused(false)}
       >
@@ -210,96 +210,45 @@ export default function NordicHome() {
           </div>
         ))}
 
-        {/* Foreground Content Container */}
-        <div className="relative z-20 flex-1 flex flex-col justify-between max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-20">
-          {/* Top / Center Editorial Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end my-auto">
-            {/* Left Column: Architectural Typography & Search (7 Cols) */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-[11px] font-mono uppercase tracking-widest text-white">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                <span>
-                  2026 Curated Collection • Spotlight 0{heroIndex + 1} / 0{spotlightCars.length}
-                </span>
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.04] drop-shadow-sm">
-                Automotive Architecture,{' '}
-                <span className="font-light italic text-stone-300">Curated for Distinction.</span>
-              </h1>
-
-              <p className="text-sm sm:text-base text-stone-200 leading-relaxed max-w-xl">
-                An editorial approach to pre-owned luxury and executive motorcars. Every vehicle in our Bonifacio Global City and Makati salons is 200-point certified with verified provenance.
-              </p>
-
-              {/* Floating Editorial Search Bar */}
-              <div className="bg-white/95 backdrop-blur-md p-2 rounded-2xl border border-white/40 shadow-2xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2 max-w-xl">
-                <div className="flex items-center gap-2.5 pl-3 flex-1">
-                  <Search className="w-4 h-4 text-stone-400 shrink-0" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search Porsche, Land Cruiser, BMW, Civic..."
-                    className="w-full text-xs sm:text-sm text-slate-900 placeholder-stone-400 bg-transparent focus:outline-hidden py-2"
-                  />
-                </div>
-                <Link
-                  href={searchQuery ? `/vehicles?q=${encodeURIComponent(searchQuery)}` : '/vehicles'}
-                  className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2 shrink-0"
-                >
-                  <span>Explore Collection</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+        {/* Foreground Content Container - Aligned exactly with max-w-7xl mx-auto */}
+        <div className="relative z-20 flex-1 flex flex-col justify-between max-w-7xl w-full mx-auto pt-10 pb-8 sm:pt-14 sm:pb-10 lg:pt-16 lg:pb-12">
+          {/* Editorial Content */}
+          <div className="max-w-2xl lg:max-w-3xl space-y-6 my-auto">
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-[11px] font-mono uppercase tracking-widest text-white">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>
+                2026 Curated Collection • Spotlight 0{heroIndex + 1} / 0{spotlightCars.length}
+              </span>
             </div>
 
-            {/* Right Column: Active Slide Spotlight Dossier Card (5 Cols) */}
-            <div className="lg:col-span-5">
-              <div className="bg-white/95 backdrop-blur-xl rounded-3xl border border-white/40 p-5 sm:p-6 shadow-2xl text-slate-900 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono uppercase tracking-widest font-bold px-3 py-1 rounded-full bg-slate-900 text-white">
-                    {activeHeroCar.badge}
-                  </span>
-                  <span className="text-xs font-mono text-stone-500">
-                    {activeHeroCar.year} • {activeHeroCar.mileage}
-                  </span>
-                </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.04] drop-shadow-sm">
+              Automotive Architecture,{' '}
+              <span className="font-light italic text-stone-300">Curated for Distinction.</span>
+            </h1>
 
-                <div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-stone-500">
-                    {activeHeroCar.categoryLabel} • {activeHeroCar.fuel}
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5 leading-snug">
-                    {activeHeroCar.name}
-                  </h2>
-                  <p className="text-xs text-stone-600 mt-1">
-                    {activeHeroCar.engine} • {activeHeroCar.transmission}
-                  </p>
-                </div>
+            <p className="text-sm sm:text-base text-stone-200 leading-relaxed max-w-xl">
+              An editorial approach to pre-owned luxury and executive motorcars. Every vehicle in our Bonifacio Global City and Makati salons is 200-point certified with verified provenance.
+            </p>
 
-                <div className="pt-3 border-t border-stone-200 flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] font-mono uppercase text-stone-500 block">
-                      Cash Outright Price
-                    </span>
-                    <span className="text-2xl font-black text-slate-900 font-mono">
-                      {activeHeroCar.price}
-                    </span>
-                    <span className="text-[11px] text-stone-500 font-mono ml-2">
-                      ({activeHeroCar.monthly})
-                    </span>
-                  </div>
-
-                  <Link
-                    href={`/vehicles/${activeHeroCar.id}`}
-                    className="px-5 py-2.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
-                  >
-                    <span>Open Dossier</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
+            {/* Floating Editorial Search Bar */}
+            <div className="bg-white/95 backdrop-blur-md p-2 rounded-2xl border border-white/40 shadow-2xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2 max-w-xl">
+              <div className="flex items-center gap-2.5 pl-3 flex-1">
+                <Search className="w-4 h-4 text-stone-400 shrink-0" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search Porsche, Land Cruiser, BMW, Civic..."
+                  className="w-full text-xs sm:text-sm text-slate-900 placeholder-stone-400 bg-transparent focus:outline-hidden py-2"
+                />
               </div>
+              <Link
+                href={searchQuery ? `/vehicles?q=${encodeURIComponent(searchQuery)}` : '/vehicles'}
+                className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2 shrink-0"
+              >
+                <span>Explore Collection</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
 
@@ -323,6 +272,15 @@ export default function NordicHome() {
 
             {/* Slider Dots & Prev/Next Arrows */}
             <div className="flex items-center justify-between sm:justify-end gap-4">
+              <Link
+                href={`/vehicles/${activeHeroCar.id}`}
+                className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white text-[11px] font-mono border border-white/20 transition backdrop-blur-md"
+              >
+                <span className="text-stone-300">Spotlight:</span>
+                <span className="font-semibold">{activeHeroCar.name}</span>
+                <ArrowUpRight className="w-3 h-3 text-stone-300" />
+              </Link>
+
               <div className="flex items-center gap-2">
                 {spotlightCars.map((car, idx) => (
                   <button

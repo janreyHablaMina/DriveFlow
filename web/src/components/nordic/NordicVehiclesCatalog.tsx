@@ -97,7 +97,7 @@ export default function NordicVehiclesCatalog() {
     <div className="min-h-screen bg-[#f8f7f4] text-slate-900">
       {/* Top Full-Bleed Slider Image Banner */}
       <section
-        className="relative w-full h-[380px] sm:h-[440px] lg:h-[500px] overflow-hidden bg-slate-950 border-b border-stone-300"
+        className="relative w-full h-[380px] sm:h-[440px] lg:h-[500px] overflow-hidden bg-slate-950 border-b border-stone-300 px-4 sm:px-6 lg:px-12"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -121,8 +121,8 @@ export default function NordicVehiclesCatalog() {
           </div>
         ))}
 
-        {/* Foreground Content Overlay */}
-        <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex flex-col justify-between py-8 sm:py-12">
+        {/* Foreground Content Overlay - Aligned exactly with max-w-7xl mx-auto */}
+        <div className="relative z-20 h-full max-w-7xl mx-auto flex flex-col justify-between py-8 sm:py-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-white self-start">
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
             <span>
