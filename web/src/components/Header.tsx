@@ -24,28 +24,9 @@ export default function Header() {
   if (activeTheme === 'nordic-minimalist') {
     return (
       <header className="sticky top-0 z-50 bg-[#f8f7f4]/95 backdrop-blur-md border-b border-stone-200/90 text-slate-900 transition-colors duration-300">
-        {/* Top Architectural Ribbon */}
-        <div className="bg-slate-900 text-stone-200 text-[10px] tracking-[0.2em] uppercase py-1.5 px-4 sm:px-6 lg:px-12">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <span>Scandinavian Automotive Gallery • Bonifacio Global City & Makati</span>
-            <div className="hidden sm:flex items-center gap-4">
-              <span>200-Point Certified</span>
-              <span>•</span>
-              <button
-                type="button"
-                onClick={() => setIsThemeModalOpen(true)}
-                className="text-amber-300 hover:text-white underline underline-offset-2 cursor-pointer flex items-center gap-1"
-              >
-                <Palette className="w-3 h-3" />
-                <span>Theme: Nordic Editorial</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
         {/* Main Navigation Bar */}
         <div className="px-4 sm:px-6 lg:px-12">
-          <div className="max-w-7xl mx-auto h-20 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto h-16 sm:h-20 flex items-center justify-between">
             {/* Editorial Brand Mark */}
             <Link href="/" className="flex items-center gap-3 group">
               <div className="w-9 h-9 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-sm tracking-tighter group-hover:bg-slate-700 transition">
