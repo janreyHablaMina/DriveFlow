@@ -8,7 +8,6 @@ import {
   TrendingUp,
   Car,
   PieChart as PieChartIcon,
-  LineChart as LineChartIcon,
   Layers,
 } from 'lucide-react';
 import { AdminVehicle, FinancingApplication, SaleRecord, Lead, StaffMember } from '../../types';
@@ -31,7 +30,6 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
   currencySymbol,
 }) => {
   const [dateRange, setDateRange] = useState('q4-2026');
-  const [chartView, setChartView] = useState<'line' | 'bar'>('line');
   const [exportToast, setExportToast] = useState<string | null>(null);
 
   // Interactive Hover States
@@ -126,44 +124,16 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
     },
   ];
 
-  // SVG Line Chart Coordinate Calculations
+  // SVG Bar Chart Coordinate Calculations
   const chartWidth = 720;
   const chartHeight = 220;
   const padLeft = 45;
-  const padRight = 25;
-  const padTop = 20;
-  const padBottom = 35;
+  const padRight = 20;
+  const padTop = 25;
+  const padBottom = 30;
   const plotW = chartWidth - padLeft - padRight;
   const plotH = chartHeight - padTop - padBottom;
   const maxVal = 30; // 30M scale
-
-  const getCoords = (dataIndex: number, value: number) => {
-    const x = padLeft + (dataIndex / (monthlyData.length - 1)) * plotW;
-    const y = padTop + plotH - (value / maxVal) * plotH;
-    return { x, y };
-  };
-
-  const bookedPoints = monthlyData.map((d, i) => getCoords(i, d.booked));
-  const collectionsPoints = monthlyData.map((d, i) => getCoords(i, d.collections));
-
-  // Build SVG Path Strings (Smooth Spline)
-  const createSplinePath = (pts: Array<{ x: number; y: number }>) => {
-    if (pts.length === 0) return '';
-    let d = `M ${pts[0].x} ${pts[0].y}`;
-    for (let i = 0; i < pts.length - 1; i++) {
-      const p0 = pts[i];
-      const p1 = pts[i + 1];
-      const cx = (p0.x + p1.x) / 2;
-      d += ` C ${cx} ${p0.y}, ${cx} ${p1.y}, ${p1.x} ${p1.y}`;
-    }
-    return d;
-  };
-
-  const bookedLineD = createSplinePath(bookedPoints);
-  const collectionsLineD = createSplinePath(collectionsPoints);
-
-  const bookedAreaD = `${bookedLineD} L ${bookedPoints[bookedPoints.length - 1].x} ${padTop + plotH} L ${bookedPoints[0].x} ${padTop + plotH} Z`;
-  const collectionsAreaD = `${collectionsLineD} L ${collectionsPoints[collectionsPoints.length - 1].x} ${padTop + plotH} L ${collectionsPoints[0].x} ${padTop + plotH} Z`;
 
   // Donut Arc Helper: Circumference = 2 * PI * R
   const donutR = 64;
@@ -189,7 +159,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
             </span>
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Visual line curves, bar graphs, and partner pie distribution.
+            Visual bar graphs and financing partner pie distribution.
           </p>
         </div>
 
@@ -278,265 +248,162 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
         </div>
       </div>
 
-      {/* GRAPH 1: Interactive Line & Bar Trajectory Graph */}
+      {/* GRAPH 1: Dealership Revenue & Cashflow Bar Graph */}
       <div className="p-5 rounded-none bg-[#121624] border border-slate-800 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <h3 className="text-sm font-bold text-white tracking-wide flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-red-500" />
-              <span>Dealership Revenue & Cashflow Trajectory</span>
+              <BarChart3 className="w-4 h-4 text-red-500" />
+              <span>Dealership Revenue & Cashflow Performance</span>
               <span className="text-[10px] font-mono text-slate-400 font-normal">
-                (6-Month Performance)
+                (6-Month Bar Graph)
               </span>
             </h3>
             <p className="text-[11px] text-slate-400">
-              Interactive spline curve and multi-bar graph tracking booked contracts vs cash collections
+              Comparative volume of booked contracts versus actual downpayment and cash collections
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* View Switcher: Line vs Bar */}
-            <div className="flex items-center bg-slate-900 border border-slate-700 p-0.5 rounded-none">
-              <button
-                type="button"
-                onClick={() => setChartView('line')}
-                className={`px-2.5 py-1 text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition ${
-                  chartView === 'line'
-                    ? 'bg-[#e10600] text-white shadow-xs'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                <LineChartIcon className="w-3.5 h-3.5" />
-                Line Graph
-              </button>
-              <button
-                type="button"
-                onClick={() => setChartView('bar')}
-                className={`px-2.5 py-1 text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition ${
-                  chartView === 'bar'
-                    ? 'bg-[#e10600] text-white shadow-xs'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                <BarChart3 className="w-3.5 h-3.5" />
-                Bar Graph
-              </button>
-            </div>
-
-            {/* Legend */}
-            <div className="hidden sm:flex items-center gap-3 text-[11px] font-mono">
-              <span className="flex items-center gap-1.5 text-slate-300">
-                <span className="w-2.5 h-2.5 bg-red-600 rounded-none inline-block shadow-sm shadow-red-500/50" />
-                Booked Contracts
-              </span>
-              <span className="flex items-center gap-1.5 text-slate-300">
-                <span className="w-2.5 h-2.5 bg-emerald-500 rounded-none inline-block shadow-sm shadow-emerald-500/50" />
-                Cash Collected
-              </span>
-            </div>
+          <div className="flex items-center gap-4 text-[11px] font-mono">
+            <span className="flex items-center gap-1.5 text-slate-300">
+              <span className="w-2.5 h-2.5 bg-[#e10600] rounded-none inline-block shadow-sm shadow-red-500/50" />
+              Booked Contracts
+            </span>
+            <span className="flex items-center gap-1.5 text-slate-300">
+              <span className="w-2.5 h-2.5 bg-emerald-500 rounded-none inline-block shadow-sm shadow-emerald-500/50" />
+              Cash Collected
+            </span>
           </div>
         </div>
 
         {/* Visual Graph View Area */}
         <div className="relative bg-slate-950/80 border border-slate-800/90 p-4 rounded-none overflow-hidden">
-          {chartView === 'line' ? (
-            /* =================== SVG LINE GRAPH =================== */
-            <div className="w-full overflow-x-auto">
-              <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full min-w-[550px] h-56 select-none">
-                <defs>
-                  {/* Red Area Gradient */}
-                  <linearGradient id="redAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#e10600" stopOpacity="0.45" />
-                    <stop offset="100%" stopColor="#e10600" stopOpacity="0.0" />
-                  </linearGradient>
-
-                  {/* Emerald Area Gradient */}
-                  <linearGradient id="emeraldAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#10b981" stopOpacity="0.35" />
-                    <stop offset="100%" stopColor="#10b981" stopOpacity="0.0" />
-                  </linearGradient>
-                </defs>
-
-                {/* Y-Axis Horizontal Gridlines */}
-                {[0, 10, 20, 30].map((val) => {
-                  const y = padTop + plotH - (val / maxVal) * plotH;
-                  return (
-                    <g key={val}>
-                      <line
-                        x1={padLeft}
-                        y1={y}
-                        x2={chartWidth - padRight}
-                        y2={y}
-                        stroke="#1e293b"
-                        strokeDasharray={val === 0 ? undefined : '4 4'}
-                        strokeWidth="1"
-                      />
-                      <text
-                        x={padLeft - 8}
-                        y={y + 4}
-                        fill="#64748b"
-                        fontSize="10"
-                        fontFamily="monospace"
-                        textAnchor="end"
-                      >
-                        ₱{val}M
-                      </text>
-                    </g>
-                  );
-                })}
-
-                {/* Area Fills */}
-                <path d={bookedAreaD} fill="url(#redAreaGrad)" />
-                <path d={collectionsAreaD} fill="url(#emeraldAreaGrad)" />
-
-                {/* Spline Lines */}
-                <path
-                  d={bookedLineD}
-                  fill="none"
-                  stroke="#e10600"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  className="filter drop-shadow-[0_2px_8px_rgba(225,6,0,0.6)]"
-                />
-                <path
-                  d={collectionsLineD}
-                  fill="none"
-                  stroke="#10b981"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  className="filter drop-shadow-[0_2px_8px_rgba(16,185,129,0.5)]"
-                />
-
-                {/* Interactive Points & X-Axis Month Labels */}
-                {monthlyData.map((d, i) => {
-                  const bp = bookedPoints[i];
-                  const cp = collectionsPoints[i];
-                  const isHovered = hoveredMonthIndex === i;
-
-                  return (
-                    <g
-                      key={d.month}
-                      className="cursor-pointer group"
-                      onMouseEnter={() => setHoveredMonthIndex(i)}
-                      onMouseLeave={() => setHoveredMonthIndex(null)}
+          <div className="w-full overflow-x-auto">
+            <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full min-w-[550px] h-56 select-none">
+              {/* Y-Axis Horizontal Gridlines */}
+              {[0, 10, 20, 30].map((val) => {
+                const y = padTop + plotH - (val / maxVal) * plotH;
+                return (
+                  <g key={val}>
+                    <line
+                      x1={padLeft}
+                      y1={y}
+                      x2={chartWidth - padRight}
+                      y2={y}
+                      stroke="#1e293b"
+                      strokeDasharray={val === 0 ? undefined : '4 4'}
+                      strokeWidth="1"
+                    />
+                    <text
+                      x={padLeft - 8}
+                      y={y + 4}
+                      fill="#64748b"
+                      fontSize="10"
+                      fontFamily="monospace"
+                      textAnchor="end"
                     >
-                      {/* Vertical Hover Guide */}
-                      {isHovered && (
-                        <line
-                          x1={bp.x}
-                          y1={padTop}
-                          x2={bp.x}
-                          y2={padTop + plotH}
-                          stroke="#e10600"
-                          strokeDasharray="2 2"
-                          strokeWidth="1"
-                        />
-                      )}
+                      ₱{val}M
+                    </text>
+                  </g>
+                );
+              })}
 
-                      {/* X-Axis Label */}
-                      <text
-                        x={bp.x}
-                        y={chartHeight - 10}
-                        fill={isHovered ? '#ffffff' : '#94a3b8'}
-                        fontWeight={isHovered ? 'bold' : 'normal'}
-                        fontSize="11"
-                        fontFamily="monospace"
-                        textAnchor="middle"
-                      >
-                        {d.short}
-                      </text>
+              {/* Monthly Group Bars */}
+              {monthlyData.map((d, i) => {
+                const colW = plotW / monthlyData.length;
+                const groupCenterX = padLeft + (i + 0.5) * colW;
+                const barW = 16;
+                const gap = 4;
+                const bookedH = (d.booked / maxVal) * plotH;
+                const bookedY = padTop + plotH - bookedH;
+                const collectionsH = (d.collections / maxVal) * plotH;
+                const collectionsY = padTop + plotH - collectionsH;
+                const isHovered = hoveredMonthIndex === i;
 
-                      {/* Booked Circle */}
-                      <circle
-                        cx={bp.x}
-                        cy={bp.y}
-                        r={isHovered ? 6 : 4}
-                        fill="#090b10"
-                        stroke="#e10600"
-                        strokeWidth={isHovered ? 3 : 2}
-                        className="transition-all duration-150"
+                return (
+                  <g
+                    key={d.month}
+                    className="cursor-pointer group"
+                    onMouseEnter={() => setHoveredMonthIndex(i)}
+                    onMouseLeave={() => setHoveredMonthIndex(null)}
+                  >
+                    {/* Hover Column Background */}
+                    {isHovered && (
+                      <rect
+                        x={groupCenterX - colW / 2 + 6}
+                        y={padTop}
+                        width={colW - 12}
+                        height={plotH}
+                        fill="#ffffff"
+                        opacity="0.04"
                       />
+                    )}
 
-                      {/* Collections Circle */}
-                      <circle
-                        cx={cp.x}
-                        cy={cp.y}
-                        r={isHovered ? 6 : 4}
-                        fill="#090b10"
-                        stroke="#10b981"
-                        strokeWidth={isHovered ? 3 : 2}
-                        className="transition-all duration-150"
-                      />
-                    </g>
-                  );
-                })}
-              </svg>
-            </div>
-          ) : (
-            /* =================== SVG BAR GRAPH =================== */
-            <div className="w-full overflow-x-auto">
-              <div className="min-w-[550px] h-56 flex items-end justify-between px-6 pb-6 pt-4 gap-4">
-                {monthlyData.map((d, i) => {
-                  const isHovered = hoveredMonthIndex === i;
-                  const bookedH = Math.min(100, Math.round((d.booked / maxVal) * 100));
-                  const collectedH = Math.min(100, Math.round((d.collections / maxVal) * 100));
+                    {/* Booked Bar (Red) */}
+                    <rect
+                      x={groupCenterX - barW - gap / 2}
+                      y={bookedY}
+                      width={barW}
+                      height={bookedH}
+                      fill={isHovered ? '#ff2a24' : '#e10600'}
+                      className="transition-all duration-200"
+                    />
 
-                  return (
-                    <div
-                      key={d.month}
-                      onMouseEnter={() => setHoveredMonthIndex(i)}
-                      onMouseLeave={() => setHoveredMonthIndex(null)}
-                      className={`flex-1 flex flex-col items-center justify-end h-full group cursor-pointer transition ${
-                        isHovered ? 'opacity-100 scale-102' : 'opacity-90 hover:opacity-100'
-                      }`}
+                    {/* Collections Bar (Emerald) */}
+                    <rect
+                      x={groupCenterX + gap / 2}
+                      y={collectionsY}
+                      width={barW}
+                      height={collectionsH}
+                      fill={isHovered ? '#34d399' : '#10b981'}
+                      className="transition-all duration-200"
+                    />
+
+                    {/* Values above bars on hover */}
+                    {isHovered && (
+                      <>
+                        <text
+                          x={groupCenterX - barW / 2 - gap / 2}
+                          y={bookedY - 6}
+                          fill="#ff6b66"
+                          fontSize="10"
+                          fontFamily="monospace"
+                          fontWeight="bold"
+                          textAnchor="middle"
+                        >
+                          ₱{d.booked}M
+                        </text>
+                        <text
+                          x={groupCenterX + barW / 2 + gap / 2}
+                          y={collectionsY - 6}
+                          fill="#34d399"
+                          fontSize="10"
+                          fontFamily="monospace"
+                          fontWeight="bold"
+                          textAnchor="middle"
+                        >
+                          ₱{d.collections}M
+                        </text>
+                      </>
+                    )}
+
+                    {/* X-Axis Month Label */}
+                    <text
+                      x={groupCenterX}
+                      y={chartHeight - 10}
+                      fill={isHovered ? '#ffffff' : '#94a3b8'}
+                      fontWeight={isHovered ? 'bold' : 'normal'}
+                      fontSize="11"
+                      fontFamily="monospace"
+                      textAnchor="middle"
                     >
-                      {/* Bar Group */}
-                      <div className="w-full flex items-end justify-center gap-1.5 h-[150px] pb-1 border-b border-slate-800">
-                        {/* Booked Bar */}
-                        <div
-                          style={{ height: `${bookedH}%` }}
-                          className={`w-1/2 max-w-[28px] rounded-none transition-all duration-300 relative group-hover:brightness-110 ${
-                            isHovered
-                              ? 'bg-red-500 shadow-md shadow-red-500/40'
-                              : 'bg-red-600/90'
-                          }`}
-                        >
-                          {isHovered && (
-                            <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono font-bold text-white bg-slate-900 border border-red-500 px-1 py-0.2 whitespace-nowrap">
-                              ₱{d.booked}M
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Collections Bar */}
-                        <div
-                          style={{ height: `${collectedH}%` }}
-                          className={`w-1/2 max-w-[28px] rounded-none transition-all duration-300 relative group-hover:brightness-110 ${
-                            isHovered
-                              ? 'bg-emerald-400 shadow-md shadow-emerald-500/40'
-                              : 'bg-emerald-500/90'
-                          }`}
-                        >
-                          {isHovered && (
-                            <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono font-bold text-emerald-400 bg-slate-900 border border-emerald-500 px-1 py-0.2 whitespace-nowrap">
-                              ₱{d.collections}M
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* X-Axis Month */}
-                      <span className={`text-[11px] font-mono mt-2 transition ${
-                        isHovered ? 'text-white font-bold' : 'text-slate-400'
-                      }`}>
-                        {d.short}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
+                      {d.short}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
 
           {/* Interactive Inspection Card below chart */}
           {hoveredMonthIndex !== null && (
@@ -544,7 +411,7 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                 <span className="font-bold text-white font-sans">
-                  {monthlyData[hoveredMonthIndex].month} Summary:
+                  {monthlyData[hoveredMonthIndex].month} Performance:
                 </span>
                 <span className="text-slate-400">
                   ({monthlyData[hoveredMonthIndex].units} Units Delivered)
