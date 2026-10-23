@@ -21,6 +21,8 @@ import {
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { VEHICLES, Vehicle } from '@/data/vehicles';
+import NordicVehiclesCatalog from '@/components/nordic/NordicVehiclesCatalog';
+import { useShowroomTheme } from '@/context/ThemeContext';
 
 // Featured Spotlight Vehicles for the Top Hero Banner Slider
 const SPOTLIGHT_IDS = ['bmw-2023', 'everest-2024', 'mercedes-2022', 'lexus-2021'];
@@ -672,6 +674,24 @@ function VehiclesContent() {
 }
 
 export default function VehiclesPage() {
+  const { activeTheme } = useShowroomTheme();
+
+  if (activeTheme === 'nordic-minimalist') {
+    return (
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-[#f8f7f4] flex items-center justify-center text-slate-900 font-mono text-xs">
+            Loading Curated Collection...
+          </div>
+        }
+      >
+        <Header />
+        <NordicVehiclesCatalog />
+        <Footer />
+      </Suspense>
+    );
+  }
+
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-[#09090e] flex items-center justify-center text-white font-mono text-xs">

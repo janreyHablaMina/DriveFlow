@@ -11,8 +11,11 @@ import {
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { VEHICLES } from '@/data/vehicles';
+import NordicVehicleDetail from '@/components/nordic/NordicVehicleDetail';
+import { useShowroomTheme } from '@/context/ThemeContext';
 
 export default function VehicleDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { activeTheme } = useShowroomTheme();
   const resolvedParams = use(params);
   const vehicle = VEHICLES.find((v) => v.id === resolvedParams.id);
 
@@ -25,6 +28,16 @@ export default function VehicleDetailPage({ params }: { params: Promise<{ id: st
   const [loanTermMonths, setLoanTermMonths] = useState(36);
   const [inquirySubmitted, setInquirySubmitted] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+
+  if (activeTheme === 'nordic-minimalist') {
+    return (
+      <>
+        <Header />
+        <NordicVehicleDetail vehicle={vehicle} />
+        <Footer />
+      </>
+    );
+  }
 
   // Dynamic loan calculator (simple & realistic)
   const downPaymentAmount = Math.round(vehicle.priceNumeric * (downPaymentPercent / 100));

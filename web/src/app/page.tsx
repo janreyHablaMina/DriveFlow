@@ -1,3 +1,5 @@
+'use client';
+
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import SearchFilter from '@/components/SearchFilter';
@@ -14,8 +16,22 @@ import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import Location from '@/components/Location';
 import Footer from '@/components/Footer';
+import NordicHome from '@/components/nordic/NordicHome';
+import { useShowroomTheme } from '@/context/ThemeContext';
 
 export default function Home() {
+  const { activeTheme } = useShowroomTheme();
+
+  if (activeTheme === 'nordic-minimalist') {
+    return (
+      <>
+        <Header />
+        <NordicHome />
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
