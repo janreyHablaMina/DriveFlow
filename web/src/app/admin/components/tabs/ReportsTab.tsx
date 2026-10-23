@@ -124,15 +124,6 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
     },
   ];
 
-  // SVG Bar Chart Coordinate Calculations
-  const chartWidth = 720;
-  const chartHeight = 220;
-  const padLeft = 45;
-  const padRight = 20;
-  const padTop = 25;
-  const padBottom = 30;
-  const plotW = chartWidth - padLeft - padRight;
-  const plotH = chartHeight - padTop - padBottom;
   const maxVal = 30; // 30M scale
 
   // Donut Arc Helper: Circumference = 2 * PI * R
@@ -277,137 +268,101 @@ export const ReportsTab: React.FC<ReportsTabProps> = ({
         </div>
 
         {/* Visual Graph View Area */}
-        <div className="relative bg-slate-950/80 border border-slate-800/90 p-4 rounded-none overflow-hidden">
-          <div className="w-full overflow-x-auto">
-            <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full min-w-[550px] h-56 select-none">
-              {/* Y-Axis Horizontal Gridlines */}
-              {[0, 10, 20, 30].map((val) => {
-                const y = padTop + plotH - (val / maxVal) * plotH;
-                return (
-                  <g key={val}>
-                    <line
-                      x1={padLeft}
-                      y1={y}
-                      x2={chartWidth - padRight}
-                      y2={y}
-                      stroke="#1e293b"
-                      strokeDasharray={val === 0 ? undefined : '4 4'}
-                      strokeWidth="1"
-                    />
-                    <text
-                      x={padLeft - 8}
-                      y={y + 4}
-                      fill="#64748b"
-                      fontSize="10"
-                      fontFamily="monospace"
-                      textAnchor="end"
-                    >
-                      ₱{val}M
-                    </text>
-                  </g>
-                );
-              })}
+        <div className="relative bg-slate-950/80 border border-slate-800/90 p-5 rounded-none overflow-hidden">
+          <div className="relative w-full h-64 flex flex-col justify-between">
+            {/* Horizontal Gridlines spanning 100% full width */}
+            <div className="absolute inset-0 left-12 right-0 bottom-8 top-3 pointer-events-none flex flex-col justify-between">
+              {[30, 20, 10, 0].map((val) => (
+                <div key={val} className="w-full flex items-center relative">
+                  <span className="absolute -left-12 text-[10px] font-mono text-slate-500 w-10 text-right">
+                    ₱{val}M
+                  </span>
+                  <div
+                    className={`w-full border-b ${
+                      val === 0 ? 'border-slate-800' : 'border-slate-800/60 border-dashed'
+                    }`}
+                  />
+                </div>
+              ))}
+            </div>
 
-              {/* Monthly Group Bars */}
+            {/* Bars Column Container - 100% full width spanning across all available space */}
+            <div className="w-full h-full pl-12 pb-8 pt-3 flex items-end justify-between gap-3 sm:gap-6 z-10">
               {monthlyData.map((d, i) => {
-                const colW = plotW / monthlyData.length;
-                const groupCenterX = padLeft + (i + 0.5) * colW;
-                const barW = 16;
-                const gap = 4;
-                const bookedH = (d.booked / maxVal) * plotH;
-                const bookedY = padTop + plotH - bookedH;
-                const collectionsH = (d.collections / maxVal) * plotH;
-                const collectionsY = padTop + plotH - collectionsH;
                 const isHovered = hoveredMonthIndex === i;
+                const bookedH = Math.min(100, (d.booked / maxVal) * 100);
+                const collectionsH = Math.min(100, (d.collections / maxVal) * 100);
 
                 return (
-                  <g
+                  <div
                     key={d.month}
-                    className="cursor-pointer group"
+                    className="relative flex-1 h-full flex flex-col items-center justify-end group cursor-pointer"
                     onMouseEnter={() => setHoveredMonthIndex(i)}
                     onMouseLeave={() => setHoveredMonthIndex(null)}
                   >
                     {/* Hover Column Background */}
-                    {isHovered && (
-                      <rect
-                        x={groupCenterX - colW / 2 + 6}
-                        y={padTop}
-                        width={colW - 12}
-                        height={plotH}
-                        fill="#ffffff"
-                        opacity="0.04"
-                      />
-                    )}
-
-                    {/* Booked Bar (Red) */}
-                    <rect
-                      x={groupCenterX - barW - gap / 2}
-                      y={bookedY}
-                      width={barW}
-                      height={bookedH}
-                      fill={isHovered ? '#ff2a24' : '#e10600'}
-                      className="transition-all duration-200"
+                    <div
+                      className={`absolute inset-0 -top-2 rounded-none transition-colors duration-150 pointer-events-none ${
+                        isHovered ? 'bg-white/[0.04]' : 'group-hover:bg-white/[0.02]'
+                      }`}
                     />
 
-                    {/* Collections Bar (Emerald) */}
-                    <rect
-                      x={groupCenterX + gap / 2}
-                      y={collectionsY}
-                      width={barW}
-                      height={collectionsH}
-                      fill={isHovered ? '#34d399' : '#10b981'}
-                      className="transition-all duration-200"
-                    />
+                    {/* Bars Container */}
+                    <div className="w-full flex items-end justify-center gap-1.5 sm:gap-2.5 h-full relative">
+                      {/* Booked Bar */}
+                      <div
+                        style={{ height: `${bookedH}%` }}
+                        className={`w-1/2 max-w-[28px] sm:max-w-[42px] md:max-w-[56px] rounded-none transition-all duration-200 relative ${
+                          isHovered
+                            ? 'bg-[#ff2a24] shadow-lg shadow-red-500/50'
+                            : 'bg-[#e10600] group-hover:brightness-110'
+                        }`}
+                      >
+                        {/* Hover Value Badge */}
+                        {isHovered && (
+                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono font-bold text-white bg-slate-900 border border-red-500 px-1.5 py-0.5 whitespace-nowrap z-20">
+                            ₱{d.booked}M
+                          </span>
+                        )}
+                      </div>
 
-                    {/* Values above bars on hover */}
-                    {isHovered && (
-                      <>
-                        <text
-                          x={groupCenterX - barW / 2 - gap / 2}
-                          y={bookedY - 6}
-                          fill="#ff6b66"
-                          fontSize="10"
-                          fontFamily="monospace"
-                          fontWeight="bold"
-                          textAnchor="middle"
-                        >
-                          ₱{d.booked}M
-                        </text>
-                        <text
-                          x={groupCenterX + barW / 2 + gap / 2}
-                          y={collectionsY - 6}
-                          fill="#34d399"
-                          fontSize="10"
-                          fontFamily="monospace"
-                          fontWeight="bold"
-                          textAnchor="middle"
-                        >
-                          ₱{d.collections}M
-                        </text>
-                      </>
-                    )}
+                      {/* Collections Bar */}
+                      <div
+                        style={{ height: `${collectionsH}%` }}
+                        className={`w-1/2 max-w-[28px] sm:max-w-[42px] md:max-w-[56px] rounded-none transition-all duration-200 relative ${
+                          isHovered
+                            ? 'bg-[#34d399] shadow-lg shadow-emerald-500/50'
+                            : 'bg-[#10b981] group-hover:brightness-110'
+                        }`}
+                      >
+                        {/* Hover Value Badge */}
+                        {isHovered && (
+                          <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-mono font-bold text-emerald-400 bg-slate-900 border border-emerald-500 px-1.5 py-0.5 whitespace-nowrap z-20">
+                            ₱{d.collections}M
+                          </span>
+                        )}
+                      </div>
+                    </div>
 
-                    {/* X-Axis Month Label */}
-                    <text
-                      x={groupCenterX}
-                      y={chartHeight - 10}
-                      fill={isHovered ? '#ffffff' : '#94a3b8'}
-                      fontWeight={isHovered ? 'bold' : 'normal'}
-                      fontSize="11"
-                      fontFamily="monospace"
-                      textAnchor="middle"
-                    >
-                      {d.short}
-                    </text>
-                  </g>
+                    {/* Month Label */}
+                    <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                      <span
+                        className={`text-[11px] font-mono transition-colors ${
+                          isHovered ? 'text-white font-bold' : 'text-slate-400'
+                        }`}
+                      >
+                        {d.short}
+                      </span>
+                    </div>
+                  </div>
                 );
               })}
-            </svg>
+            </div>
           </div>
 
           {/* Interactive Inspection Card below chart */}
           {hoveredMonthIndex !== null && (
-            <div className="mt-3 p-3 bg-slate-900 border border-slate-700/80 rounded-none flex flex-wrap items-center justify-between text-xs font-mono animate-in fade-in">
+            <div className="mt-4 p-3 bg-slate-900 border border-slate-700/80 rounded-none flex flex-wrap items-center justify-between text-xs font-mono animate-in fade-in">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                 <span className="font-bold text-white font-sans">
