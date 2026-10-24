@@ -213,7 +213,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
             setPaySaleId(sales[0]?.id || '');
             setIsRecordPayOpen(true);
           }}
-          className="px-3.5 py-2 rounded-none bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm"
+          className="px-3.5 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white text-xs font-semibold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-sm shadow-red-950/40"
         >
           <Plus className="w-4 h-4" />
           Record Client Payment
@@ -542,7 +542,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                     setPaySaleId(selectedSale.id);
                     setIsRecordPayOpen(true);
                   }}
-                  className="text-xs text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-xs text-red-400 hover:text-red-300 hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   Post New Payment
@@ -647,7 +647,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                   setPaySaleId(selectedSale.id);
                   setIsRecordPayOpen(true);
                 }}
-                className="px-4 py-2 rounded-none bg-emerald-600 hover:bg-emerald-500 text-white font-semibold flex items-center gap-1.5 transition cursor-pointer"
+                className="px-4 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-sm shadow-red-950/40"
               >
                 <Plus className="w-4 h-4" />
                 Record Payment
@@ -771,7 +771,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 rounded-none bg-emerald-600 hover:bg-emerald-500 text-white font-bold cursor-pointer"
+                className="px-4 py-2 rounded-none bg-[#e10600] hover:bg-[#c00500] text-white font-bold cursor-pointer shadow-sm shadow-red-950/40"
               >
                 Generate OR & Post
               </button>
@@ -923,7 +923,7 @@ export const SalesTab: React.FC<SalesTabProps> = ({
                 setIsRecordPayOpen(true);
                 setDropdownMenu(null);
               }}
-              className="w-full text-left px-3 py-2 flex items-center gap-2 text-emerald-400 hover:bg-slate-800 transition cursor-pointer"
+              className="w-full text-left px-3 py-2 flex items-center gap-2 text-red-400 hover:bg-slate-800 transition cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <div>
