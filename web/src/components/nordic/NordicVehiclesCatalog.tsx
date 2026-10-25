@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -11,10 +11,13 @@ import {
   LayoutGrid,
   List,
   RotateCcw,
-  ShieldCheck,
   Sparkles,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { VEHICLES } from '@/data/vehicles';
+
+const SPOTLIGHT_IDS = ['bmw-2023', 'everest-2024', 'mercedes-2022', 'lexus-2021'];
 
 export default function NordicVehiclesCatalog() {
   const searchParams = useSearchParams();
@@ -27,6 +30,24 @@ export default function NordicVehiclesCatalog() {
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+
+  // Top Full-Bleed Slider State
+  const spotlightVehicles = useMemo(
+    () => VEHICLES.filter((v) => SPOTLIGHT_IDS.includes(v.id)),
+    []
+  );
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused || spotlightVehicles.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % spotlightVehicles.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPaused, spotlightVehicles.length]);
+
+  const activeBannerCar = spotlightVehicles[currentSlide] || VEHICLES[0];
 
   const filteredVehicles = useMemo(() => {
     const result = VEHICLES.filter((car) => {
@@ -74,53 +95,153 @@ export default function NordicVehiclesCatalog() {
 
   return (
     <div className="min-h-screen bg-[#f8f7f4] text-slate-900">
-      {/* Top Editorial Banner */}
-      <section className="px-4 sm:px-6 lg:px-12 py-12 bg-[#f1efe9] border-b border-stone-300/80">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.2em] text-stone-500">
-              <Sparkles className="w-3.5 h-3.5 text-slate-900" />
-              <span>CURATED ARCHIVE • MANILA SALON</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-950">
-              The Motorcar Collection
-            </h1>
-            <p className="text-xs sm:text-sm text-stone-600 max-w-xl">
-              Every automobile listed below is physically present at our Bonifacio Global City or Circuit Makati studio, complete with 200-point diagnostic documentation.
-            </p>
+      {/* Top Full-Bleed Slider Image Banner */}
+      <section
+        className="relative w-full h-[380px] sm:h-[440px] lg:h-[500px] overflow-hidden bg-slate-950 border-b border-stone-300"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
+        {/* Sliding Background Images */}
+        {spotlightVehicles.map((car, idx) => (
+          <div
+            key={car.id}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
+          >
+            <img
+              src={car.images[0]}
+              alt={car.name}
+              className={`w-full h-full object-cover object-center transition-transform duration-[4000ms] ease-out ${
+                idx === currentSlide ? 'scale-105' : 'scale-100'
+              }`}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/55 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-slate-950/20" />
+          </div>
+        ))}
+
+        {/* Foreground Content Overlay */}
+        <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex flex-col justify-between py-8 sm:py-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.2em] text-white self-start">
+            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <span>
+              CURATED ARCHIVE • SPOTLIGHT 0{currentSlide + 1} / 0{spotlightVehicles.length}
+            </span>
           </div>
 
-          {/* View Switcher & Count */}
-          <div className="flex items-center gap-3 self-start md:self-end">
-            <span className="text-xs font-mono text-stone-600 bg-white px-3.5 py-2 rounded-full border border-stone-300">
-              Showing <strong className="text-slate-900">{filteredVehicles.length}</strong> of {VEHICLES.length} Units
-            </span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-2.5 max-w-2xl">
+              <span className="text-xs font-mono uppercase tracking-widest text-stone-300 block">
+                {activeBannerCar.categoryLabel} • {activeBannerCar.mileage}
+              </span>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+                {activeBannerCar.name}
+              </h1>
+              <p className="text-xs sm:text-sm text-stone-200 font-mono">
+                {activeBannerCar.engine} • {activeBannerCar.power.split('@')[0]} • {activeBannerCar.transmission}
+              </p>
 
-            <div className="flex items-center bg-white border border-stone-300 rounded-full p-1">
-              <button
-                type="button"
-                onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded-full transition cursor-pointer ${
-                  viewMode === 'grid'
-                    ? 'bg-slate-900 text-white'
-                    : 'text-stone-500 hover:text-slate-900'
-                }`}
-                title="Gallery Grid"
-              >
-                <LayoutGrid className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded-full transition cursor-pointer ${
-                  viewMode === 'list'
-                    ? 'bg-slate-900 text-white'
-                    : 'text-stone-500 hover:text-slate-900'
-                }`}
-                title="Editorial Dossier Rows"
-              >
-                <List className="w-4 h-4" />
-              </button>
+              <div className="pt-2 flex flex-wrap items-center gap-4">
+                <div className="bg-white/95 backdrop-blur-md text-slate-900 px-4 py-2 rounded-xl">
+                  <span className="text-[9px] font-mono uppercase text-stone-500 block">
+                    Cash Outright Price
+                  </span>
+                  <span className="text-lg sm:text-xl font-black font-mono">
+                    {activeBannerCar.price}
+                  </span>
+                </div>
+
+                <Link
+                  href={`/vehicles/${activeBannerCar.id}`}
+                  className="px-6 py-3.5 rounded-full bg-white hover:bg-stone-200 text-slate-900 text-xs font-bold flex items-center gap-2 transition shadow-lg"
+                >
+                  <span>Inspect Motorcar Dossier</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Slide Controls & View Switcher */}
+            <div className="flex flex-col sm:flex-row md:flex-col items-start sm:items-center md:items-end justify-between gap-4">
+              {/* Prev / Next & Dots */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5">
+                  {spotlightVehicles.map((car, idx) => (
+                    <button
+                      key={car.id}
+                      type="button"
+                      onClick={() => setCurrentSlide(idx)}
+                      className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                        idx === currentSlide
+                          ? 'w-7 bg-white'
+                          : 'w-2 bg-white/40 hover:bg-white/70'
+                      }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCurrentSlide(
+                        (prev) => (prev - 1 + spotlightVehicles.length) % spotlightVehicles.length
+                      )
+                    }
+                    className="w-9 h-9 rounded-full bg-white/15 hover:bg-white hover:text-slate-900 text-white backdrop-blur-md border border-white/25 flex items-center justify-center transition cursor-pointer"
+                    aria-label="Previous slide"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCurrentSlide((prev) => (prev + 1) % spotlightVehicles.length)
+                    }
+                    className="w-9 h-9 rounded-full bg-white/15 hover:bg-white hover:text-slate-900 text-white backdrop-blur-md border border-white/25 flex items-center justify-center transition cursor-pointer"
+                    aria-label="Next slide"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Count & View Mode Switcher */}
+              <div className="flex items-center gap-2.5">
+                <span className="text-xs font-mono text-stone-700 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/40 shadow-sm">
+                  Showing <strong className="text-slate-900">{filteredVehicles.length}</strong> of{' '}
+                  {VEHICLES.length} Units
+                </span>
+
+                <div className="flex items-center bg-white/95 backdrop-blur-md border border-white/40 rounded-full p-1 shadow-sm">
+                  <button
+                    type="button"
+                    onClick={() => setViewMode('grid')}
+                    className={`p-1.5 rounded-full transition cursor-pointer ${
+                      viewMode === 'grid'
+                        ? 'bg-slate-900 text-white'
+                        : 'text-stone-500 hover:text-slate-900'
+                    }`}
+                    title="Gallery Grid"
+                  >
+                    <LayoutGrid className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewMode('list')}
+                    className={`p-1.5 rounded-full transition cursor-pointer ${
+                      viewMode === 'list'
+                        ? 'bg-slate-900 text-white'
+                        : 'text-stone-500 hover:text-slate-900'
+                    }`}
+                    title="Editorial Dossier Rows"
+                  >
+                    <List className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

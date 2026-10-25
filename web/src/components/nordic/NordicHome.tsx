@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -25,7 +25,16 @@ export default function NordicHome() {
   // 1. Hero Spotlight Switcher
   const spotlightCars = useMemo(() => VEHICLES.slice(0, 4), []);
   const [heroIndex, setHeroIndex] = useState(0);
+  const [isHeroPaused, setIsHeroPaused] = useState(false);
   const activeHeroCar = spotlightCars[heroIndex] || VEHICLES[0];
+
+  useEffect(() => {
+    if (isHeroPaused || spotlightCars.length <= 1) return;
+    const timer = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % spotlightCars.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isHeroPaused, spotlightCars.length]);
 
   // 2. Curated Collection Filter
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -174,145 +183,181 @@ export default function NordicHome() {
 
   return (
     <div className="min-h-screen bg-[#f8f7f4] text-slate-900 selection:bg-slate-900 selection:text-white">
-      {/* ===================== 01. ASYMMETRIC EDITORIAL MAGAZINE HERO ===================== */}
-      <section className="px-4 sm:px-6 lg:px-12 pt-8 pb-16 lg:py-20 border-b border-stone-200/90">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Left Column: Architectural Typography & Search (6 Cols) */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-stone-200/80 border border-stone-300 text-[11px] font-mono uppercase tracking-widest text-slate-800">
-              <Sparkles className="w-3.5 h-3.5 text-slate-900" />
-              <span>2026 Curated Collection • Manila</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-950 leading-[1.04]">
-              Automotive Architecture,{' '}
-              <span className="font-light italic text-stone-500">Curated for Distinction.</span>
-            </h1>
-
-            <p className="text-sm sm:text-base text-stone-600 leading-relaxed max-w-xl">
-              An editorial approach to pre-owned luxury and executive motorcars. Every vehicle in our Bonifacio Global City and Makati salons is 200-point certified with verified provenance.
-            </p>
-
-            {/* Quick Editorial Search Bar */}
-            <div className="bg-white p-2 rounded-2xl border border-stone-300/90 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-2 max-w-xl">
-              <div className="flex items-center gap-2.5 pl-3 flex-1">
-                <Search className="w-4 h-4 text-stone-400 shrink-0" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search Porsche, Land Cruiser, BMW, Civic..."
-                  className="w-full text-xs sm:text-sm text-slate-900 placeholder-stone-400 bg-transparent focus:outline-hidden py-2"
-                />
-              </div>
-              <Link
-                href={searchQuery ? `/vehicles?q=${encodeURIComponent(searchQuery)}` : '/vehicles'}
-                className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2 shrink-0"
-              >
-                <span>Explore Collection</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            {/* Key Provenance Metrics */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-stone-200 max-w-lg">
-              <div>
-                <div className="text-2xl font-black text-slate-900 font-mono">200+</div>
-                <div className="text-[11px] text-stone-500 mt-0.5">Diagnostic Checkpoints</div>
-              </div>
-              <div>
-                <div className="text-2xl font-black text-slate-900 font-mono">100%</div>
-                <div className="text-[11px] text-stone-500 mt-0.5">Flood-Free & HPG Cleared</div>
-              </div>
-              <div>
-                <div className="text-2xl font-black text-slate-900 font-mono">24h</div>
-                <div className="text-[11px] text-stone-500 mt-0.5">Priority Bank Underwriting</div>
-              </div>
-            </div>
+      {/* ===================== 01. FULL-BLEED ARCHITECTURAL SLIDER HERO ===================== */}
+      <section
+        className="relative w-full min-h-[580px] sm:min-h-[640px] lg:min-h-[700px] flex flex-col justify-between overflow-hidden bg-slate-950 border-b border-stone-200"
+        onMouseEnter={() => setIsHeroPaused(true)}
+        onMouseLeave={() => setIsHeroPaused(false)}
+      >
+        {/* Full-Bleed Sliding Background Images */}
+        {spotlightCars.map((car, idx) => (
+          <div
+            key={car.id}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              idx === heroIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
+          >
+            <img
+              src={car.images[0]}
+              alt={car.name}
+              className={`w-full h-full object-cover object-center transition-transform duration-[4000ms] ease-out ${
+                idx === heroIndex ? 'scale-105' : 'scale-100'
+              }`}
+            />
+            {/* Editorial Vignette & Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/60 to-slate-950/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/30" />
           </div>
+        ))}
 
-          {/* Right Column: Interactive Gallery Showcase Frame (6 Cols) */}
-          <div className="lg:col-span-6">
-            <div className="bg-white rounded-3xl border border-stone-200/90 p-4 sm:p-5 shadow-xl shadow-stone-900/5 space-y-4">
-              {/* Top Frame Header */}
-              <div className="flex items-center justify-between text-xs px-1">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600" />
-                  <span className="font-mono uppercase tracking-wider text-[11px] text-stone-500">
-                    ATELIER SPOTLIGHT 0{heroIndex + 1} / 0{spotlightCars.length}
+        {/* Foreground Content Container */}
+        <div className="relative z-20 flex-1 flex flex-col justify-between max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-16 lg:py-20">
+          {/* Top / Center Editorial Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end my-auto">
+            {/* Left Column: Architectural Typography & Search (7 Cols) */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-[11px] font-mono uppercase tracking-widest text-white">
+                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                <span>
+                  2026 Curated Collection • Spotlight 0{heroIndex + 1} / 0{spotlightCars.length}
+                </span>
+              </div>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.04] drop-shadow-sm">
+                Automotive Architecture,{' '}
+                <span className="font-light italic text-stone-300">Curated for Distinction.</span>
+              </h1>
+
+              <p className="text-sm sm:text-base text-stone-200 leading-relaxed max-w-xl">
+                An editorial approach to pre-owned luxury and executive motorcars. Every vehicle in our Bonifacio Global City and Makati salons is 200-point certified with verified provenance.
+              </p>
+
+              {/* Floating Editorial Search Bar */}
+              <div className="bg-white/95 backdrop-blur-md p-2 rounded-2xl border border-white/40 shadow-2xl flex flex-col sm:flex-row items-stretch sm:items-center gap-2 max-w-xl">
+                <div className="flex items-center gap-2.5 pl-3 flex-1">
+                  <Search className="w-4 h-4 text-stone-400 shrink-0" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search Porsche, Land Cruiser, BMW, Civic..."
+                    className="w-full text-xs sm:text-sm text-slate-900 placeholder-stone-400 bg-transparent focus:outline-hidden py-2"
+                  />
+                </div>
+                <Link
+                  href={searchQuery ? `/vehicles?q=${encodeURIComponent(searchQuery)}` : '/vehicles'}
+                  className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-6 py-3 rounded-xl transition flex items-center justify-center gap-2 shrink-0"
+                >
+                  <span>Explore Collection</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Active Slide Spotlight Dossier Card (5 Cols) */}
+            <div className="lg:col-span-5">
+              <div className="bg-white/95 backdrop-blur-xl rounded-3xl border border-white/40 p-5 sm:p-6 shadow-2xl text-slate-900 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono uppercase tracking-widest font-bold px-3 py-1 rounded-full bg-slate-900 text-white">
+                    {activeHeroCar.badge}
+                  </span>
+                  <span className="text-xs font-mono text-stone-500">
+                    {activeHeroCar.year} • {activeHeroCar.mileage}
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setHeroIndex((prev) => (prev - 1 + spotlightCars.length) % spotlightCars.length)
-                    }
-                    className="w-8 h-8 rounded-full border border-stone-200 hover:border-slate-900 flex items-center justify-center text-slate-700 transition cursor-pointer"
-                    aria-label="Previous spotlight vehicle"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setHeroIndex((prev) => (prev + 1) % spotlightCars.length)}
-                    className="w-8 h-8 rounded-full border border-stone-200 hover:border-slate-900 flex items-center justify-center text-slate-700 transition cursor-pointer"
-                    aria-label="Next spotlight vehicle"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
 
-              {/* Main Vehicle Image */}
-              <Link
-                href={`/vehicles/${activeHeroCar.id}`}
-                className="block relative h-[280px] sm:h-[340px] rounded-2xl overflow-hidden bg-stone-100 group"
-              >
-                <img
-                  src={activeHeroCar.images[0]}
-                  alt={activeHeroCar.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md text-slate-900 text-[10px] font-mono uppercase font-bold px-3 py-1 rounded-full border border-stone-200">
-                  {activeHeroCar.badge}
-                </div>
-                <div className="absolute bottom-3 right-3 bg-slate-900/90 backdrop-blur-md text-white text-[11px] font-mono px-3 py-1 rounded-full">
-                  {activeHeroCar.mileage}
-                </div>
-              </Link>
-
-              {/* Bottom Dossier Summary */}
-              <div className="pt-1 px-1 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <span className="text-[10px] font-mono uppercase tracking-widest text-stone-500">
                     {activeHeroCar.categoryLabel} • {activeHeroCar.fuel}
                   </span>
-                  <h2 className="text-lg sm:text-xl font-bold text-slate-900 mt-0.5">
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5 leading-snug">
                     {activeHeroCar.name}
                   </h2>
-                  <p className="text-xs text-stone-500 mt-0.5">
+                  <p className="text-xs text-stone-600 mt-1">
                     {activeHeroCar.engine} • {activeHeroCar.transmission}
                   </p>
                 </div>
 
-                <div className="flex sm:flex-col items-center sm:items-end justify-between border-t sm:border-t-0 pt-3 sm:pt-0 border-stone-100">
-                  <div className="text-left sm:text-right">
-                    <span className="text-xl font-black text-slate-900 font-mono block">
+                <div className="pt-3 border-t border-stone-200 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] font-mono uppercase text-stone-500 block">
+                      Cash Outright Price
+                    </span>
+                    <span className="text-2xl font-black text-slate-900 font-mono">
                       {activeHeroCar.price}
                     </span>
-                    <span className="text-[11px] text-stone-500 font-mono">
-                      Est. {activeHeroCar.monthly}
+                    <span className="text-[11px] text-stone-500 font-mono ml-2">
+                      ({activeHeroCar.monthly})
                     </span>
                   </div>
+
                   <Link
                     href={`/vehicles/${activeHeroCar.id}`}
-                    className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-slate-900 hover:underline underline-offset-4"
+                    className="px-5 py-2.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1.5 transition shrink-0"
                   >
                     <span>Open Dossier</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Slider Bar: Provenance Metrics + Slide Controls */}
+          <div className="pt-8 mt-8 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            {/* Key Provenance Metrics */}
+            <div className="grid grid-cols-3 gap-6 sm:gap-10 text-white">
+              <div>
+                <div className="text-xl sm:text-2xl font-black font-mono">200+</div>
+                <div className="text-[11px] text-stone-300">Diagnostic Checkpoints</div>
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-black font-mono">100%</div>
+                <div className="text-[11px] text-stone-300">Flood-Free & HPG Cleared</div>
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-black font-mono">24h</div>
+                <div className="text-[11px] text-stone-300">Priority Bank Underwriting</div>
+              </div>
+            </div>
+
+            {/* Slider Dots & Prev/Next Arrows */}
+            <div className="flex items-center justify-between sm:justify-end gap-4">
+              <div className="flex items-center gap-2">
+                {spotlightCars.map((car, idx) => (
+                  <button
+                    key={car.id}
+                    type="button"
+                    onClick={() => setHeroIndex(idx)}
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                      idx === heroIndex
+                        ? 'w-8 bg-white'
+                        : 'w-2 bg-white/40 hover:bg-white/70'
+                    }`}
+                    aria-label={`Slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setHeroIndex((prev) => (prev - 1 + spotlightCars.length) % spotlightCars.length)
+                  }
+                  className="w-10 h-10 rounded-full bg-white/15 hover:bg-white hover:text-slate-900 text-white backdrop-blur-md border border-white/25 flex items-center justify-center transition cursor-pointer"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setHeroIndex((prev) => (prev + 1) % spotlightCars.length)}
+                  className="w-10 h-10 rounded-full bg-white/15 hover:bg-white hover:text-slate-900 text-white backdrop-blur-md border border-white/25 flex items-center justify-center transition cursor-pointer"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>
